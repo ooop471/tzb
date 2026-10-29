@@ -1,0 +1,538 @@
+--- a/src/lite_motion_planner/src/tzb_catch.cpp
++++ b/src/lite_motion_planner/src/tzb_catch.cpp
+@@ -977,10 +977,16 @@
+     for (const auto& joint_name : arm_group.joint_names) {
+       const auto it = std::find(msg.name.begin(), msg.name.end(), joint_name);
+       if (it == msg.name.end()) {
++        RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
++          "[GRASP][feedback][REJECT] missing_joint=%s topic=%s",
++          joint_name.c_str(), arm_state_topic_.c_str());
+         return;
+       }
+       const auto index = static_cast<size_t>(std::distance(msg.name.begin(), it));
+       if (index >= msg.position.size() || !std::isfinite(msg.position[index])) {
++        RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
++          "[GRASP][feedback][REJECT] invalid_position joint=%s topic=%s",
++          joint_name.c_str(), arm_state_topic_.c_str());
+         return;
+       }
+       positions.push_back(msg.position[index]);
+@@ -1017,6 +1023,9 @@
+     }
+ 
+     if (!isValidPoseEstimatorTarget(msg)) {
++      RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
++        "[GRASP][target][REJECT] nonfinite_position_or_invalid_quaternion frame=%s",
++        msg.header.frame_id.c_str());
+       std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
+       resetPoseEstimatorContinuityLocked();
+       return;
+@@ -1033,9 +1042,9 @@
+             pose_estimator_continuous_max_gap_sec_) {
+         pose_estimator_stream_active_ = true;
+         pose_estimator_stream_start_time_ = now;
+-        RCLCPP_INFO(
+-          this->get_logger(),
+-          "Pose estimator target stream started; waiting %.2f s continuous publish before locking target.",
++        RCLCPP_INFO_THROTTLE(
++          this->get_logger(), *this->get_clock(), 5000,
++          "[GRASP][target][WAIT_CONTINUITY] stream started/restarted; required=%.2fs (repeated starts indicate gaps).",
+           pose_estimator_continuous_required_sec_);
+       }
+       pose_estimator_last_msg_time_ = now;
+@@ -1050,7 +1059,7 @@
+       have_pose_estimator_target_ = true;
+       RCLCPP_INFO(
+         this->get_logger(),
+-        "Pose estimator target locked after %.3f s continuous publish; later poses will be ignored.",
++        "[GRASP][target][LOCKED] continuous=%.3fs; later poses ignored until next acquisition.",
+         continuous_sec);
+     }
+     pose_estimator_cv_.notify_all();
+@@ -1068,7 +1077,7 @@
+     resetPoseEstimatorCaptureLocked();
+     have_frozen_pose_estimator_reference_ = false;
+     pose_estimator_capture_enabled_ = true;
+-    RCLCPP_INFO(
++    RCLCPP_DEBUG(
+       this->get_logger(),
+       "Pose estimator capture enabled; reference frame will be frozen after reading the physical arm state: %s",
+       pose_estimator_reference_frame_.empty() ? "<message_header>" : pose_estimator_reference_frame_.c_str());
+@@ -1171,7 +1180,7 @@
+     if (!has_target()) {
+       RCLCPP_INFO(
+         this->get_logger(),
+-        "Waiting for pose estimator target on [%s] for up to %.2f s after %.2f s continuous publish.",
++        "[GRASP][target][WAIT] topic=%s timeout=%.2fs continuous_required=%.2fs (timeout<=0 means indefinite).",
+         pose_estimator_target_topic_.c_str(),
+         pose_estimator_wait_timeout_sec_,
+         pose_estimator_continuous_required_sec_);
+@@ -1183,7 +1192,7 @@
+           has_target)) {
+         RCLCPP_ERROR(
+           this->get_logger(),
+-          "No locked pose estimator target received on [%s] within %.2f s.",
++          "[GRASP][target][TIMEOUT] no locked target topic=%s timeout=%.2fs.",
+           pose_estimator_target_topic_.c_str(),
+           pose_estimator_wait_timeout_sec_);
+         return false;
+@@ -1261,7 +1270,7 @@
+       }
+       RCLCPP_INFO(
+         this->get_logger(),
+-        "Pose estimator target transform: source_frame=[%s] source_xyz=(%.4f, %.4f, %.4f) -> prepared_frame=[%s] -> %s_xyz=(%.4f, %.4f, %.4f).",
++        "[GRASP][transform][OK] source_frame=%s source_xyz=(%.4f, %.4f, %.4f) -> prepared_frame=%s -> %s_xyz=(%.4f, %.4f, %.4f).",
+         sensed_pose.header.frame_id.c_str(),
+         sensed_pose.pose.position.x,
+         sensed_pose.pose.position.y,
+@@ -1290,7 +1299,7 @@
+       }
+       out.pose.orientation = quaternionMsgFromRpy(
+         target_rpy.x(), target_rpy.y(), target_rpy.z());
+-      RCLCPP_INFO(
++      RCLCPP_DEBUG(
+         this->get_logger(),
+         "Resolved target RPY in [%s]: visual=(%.4f, %.4f, %.4f) rad, final=(%.4f, %.4f, %.4f) rad, forced_axes=(roll:%s pitch:%s yaw:%s).",
+         planning_frame_.c_str(),
+@@ -1306,11 +1315,13 @@
+     }
+     RCLCPP_INFO(
+       this->get_logger(),
+-      "Resolved direct-grasp TCP target in [%s]: xyz=(%.4f, %.4f, %.4f).",
++      "[GRASP][target][READY] TCP frame=%s xyz=(%.4f, %.4f, %.4f) quat_xyzw=(%.5f, %.5f, %.5f, %.5f).",
+       planning_frame_.c_str(),
+       out.pose.position.x,
+       out.pose.position.y,
+-      out.pose.position.z);
++      out.pose.position.z,
++      out.pose.orientation.x, out.pose.orientation.y,
++      out.pose.orientation.z, out.pose.orientation.w);
+     return true;
+   }
+ 
+@@ -1398,7 +1409,7 @@
+     gripper_state_ = closing ? gripper_close_positions_ : gripper_open_positions_;
+     RCLCPP_INFO(
+       this->get_logger(),
+-      "Stage [%s] gripper command sent: serial_int8=%d (%s); no physical-arrival check.",
++      "[GRASP][gripper][SENT] step=%s serial_int8=%d (%s); physical_confirmation=unavailable.",
+       stage_name.c_str(),
+       static_cast<int>(command_msg.data),
+       closing ? "closed" : "open");
+@@ -1409,12 +1420,15 @@
+   bool waitForService(
+     const typename rclcpp::Client<ServiceT>::SharedPtr& client,
+     const std::string& service_name) {
++    RCLCPP_INFO(this->get_logger(), "[GRASP][service][WAIT] name=%s timeout=%.2fs",
++      service_name.c_str(), service_wait_sec_);
+     if (client->wait_for_service(std::chrono::duration<double>(service_wait_sec_))) {
++      RCLCPP_INFO(this->get_logger(), "[GRASP][service][READY] name=%s", service_name.c_str());
+       return true;
+     }
+     RCLCPP_ERROR(
+       this->get_logger(),
+-      "Service [%s] not available within %.2f s",
++      "[GRASP][service][UNAVAILABLE] name=%s timeout=%.2fs",
+       service_name.c_str(),
+       service_wait_sec_);
+     return false;
+@@ -1425,12 +1439,14 @@
+     const typename rclcpp::Client<ServiceT>::SharedPtr& client,
+     const std::shared_ptr<typename ServiceT::Request>& request,
+     const std::string& service_name) {
++    RCLCPP_DEBUG(this->get_logger(), "[GRASP][service][CALL] name=%s timeout=%.2fs",
++      service_name.c_str(), response_wait_sec_);
+     auto future = client->async_send_request(request);
+     if (future.wait_for(std::chrono::duration<double>(response_wait_sec_)) !=
+         std::future_status::ready) {
+       RCLCPP_ERROR(
+         this->get_logger(),
+-        "Timed out waiting for service [%s] response after %.2f s",
++        "[GRASP][service][TIMEOUT] name=%s response_wait=%.2fs",
+         service_name.c_str(),
+         response_wait_sec_);
+       return nullptr;
+@@ -1442,6 +1458,8 @@
+     const std::string& object_id,
+     const std::string& mesh_resource,
+     const geometry_msgs::msg::PoseStamped& object_pose) {
++    RCLCPP_INFO(this->get_logger(), "[GRASP][scene][BEGIN] service=add_scene_object object=%s",
++      object_id.c_str());
+     auto req = std::make_shared<lite_motion_msgs::srv::AddSceneObject::Request>();
+     req->object_id = object_id;
+     req->mesh_resource = mesh_resource;
+@@ -1459,7 +1477,7 @@
+         resp ? resp->message.c_str() : "no response");
+       return false;
+     }
+-    RCLCPP_INFO(this->get_logger(), "Scene object [%s] loaded from [%s]", object_id.c_str(), mesh_resource.c_str());
++    RCLCPP_DEBUG(this->get_logger(), "Scene object [%s] loaded from [%s]", object_id.c_str(), mesh_resource.c_str());
+     sleepAfterAction(post_action_wait_sec_);
+     return true;
+   }
+@@ -1553,7 +1571,7 @@
+     }
+     RCLCPP_INFO(
+       this->get_logger(),
+-      "Stage [%s] applied collision allowance: objects=%zu links=%zu allowed_penetration=%.4f m",
++      "[GRASP][scene][READY] step=%s objects=%zu links=%zu allowed_penetration=%.4fm",
+       stage_name.c_str(),
+       object_ids.size(),
+       link_names.size(),
+@@ -1935,6 +1953,8 @@
+     const trajectory_msgs::msg::JointTrajectory& trajectory,
+     const std::string& stage_name) {
+     if (!arm_command_pub_ || trajectory.points.empty()) {
++      RCLCPP_WARN(this->get_logger(), "[GRASP][command][SKIP] step=%s publisher=%s points=%zu",
++        stage_name.c_str(), arm_command_pub_ ? "enabled" : "disabled", trajectory.points.size());
+       return true;
+     }
+ 
+@@ -1948,7 +1968,7 @@
+ 
+     RCLCPP_INFO(
+       this->get_logger(),
+-      "Stage [%s] publishing arm command samples: hz=%.2f speed_scale=%.3f duration=%.3f s",
++      "[GRASP][command][BEGIN] step=%s hz=%.2f speed_scale=%.3f duration=%.3fs",
+       stage_name.c_str(),
+       arm_command_publish_hz_,
+       arm_command_speed_scale_,
+@@ -1980,12 +2000,17 @@
+     }
+ 
+     publishArmCommand(trajectory.joint_names, final_positions);
++    RCLCPP_INFO(this->get_logger(), "[GRASP][command][END] step=%s status=%s subscribers=%zu (publish is not hardware acknowledgement)",
++      stage_name.c_str(), stop_requested_.load() ? "STOP_REQUESTED" : "SENT",
++      arm_command_pub_->get_subscription_count());
+     return !stop_requested_.load();
+   }
+ 
+   bool executeArmJointPlan(
+     const std::vector<double>& target_joints,
+     const std::string& stage_name) {
++    RCLCPP_INFO(this->get_logger(), "[GRASP][plan][BEGIN] step=%s goal=joint service=plan_arm_motion",
++      stage_name.c_str());
+     const auto planning_start_joints =
+       clampArmJointsToLimits(arm_state_, stage_name, "start");
+     const auto planning_target_joints =
+@@ -2034,7 +2059,7 @@
+     if (!resp || !resp->success) {
+       RCLCPP_ERROR(
+         this->get_logger(),
+-        "Arm joint planning failed at stage [%s]: %s",
++        "[GRASP][plan][FAIL] step=%s reason=%s; arm_command_not_sent",
+         stage_name.c_str(),
+         resp ? resp->message.c_str() : "no response");
+       return false;
+@@ -2043,6 +2068,8 @@
+       RCLCPP_ERROR(this->get_logger(), "Arm joint planning returned empty trajectory at stage [%s]", stage_name.c_str());
+       return false;
+     }
++    RCLCPP_INFO(this->get_logger(), "[GRASP][plan][OK] step=%s points=%zu",
++      stage_name.c_str(), resp->trajectory.points.size());
+     recordReplaySegment(stage_name, resp->trajectory);
+     const auto final_arm_state = resp->trajectory.points.back().positions;
+     const double target_err = maxJointError(final_arm_state, planning_target_joints);
+@@ -2062,6 +2089,8 @@
+         return false;
+       }
+     } else {
++      RCLCPP_WARN(this->get_logger(), "[GRASP][command][SKIP] step=%s arm_command_publisher=disabled; waiting only",
++        stage_name.c_str());
+       sleepAfterAction(effectiveExecutionWaitSec(resp->trajectory));
+     }
+     if (!waitForArmAtTarget(final_arm_state, stage_name, command_started)) {
+@@ -2163,6 +2192,9 @@
+     const geometry_msgs::msg::PoseStamped& target_pose,
+     bool use_cartesian_path,
+     const std::string& stage_name) {
++    RCLCPP_INFO(this->get_logger(),
++      "[GRASP][plan][BEGIN] step=%s goal=pose service=plan_arm_motion response_timeout=%.2fs",
++      stage_name.c_str(), response_wait_sec_);
+     const auto candidate_targets = adaptive_rpy_ ?
+       buildAdaptiveRpyTargets(target_pose) :
+       std::vector<geometry_msgs::msg::PoseStamped>{target_pose};
+@@ -2236,7 +2268,7 @@
+         if (!adaptive_rpy_) {
+           RCLCPP_ERROR(
+             this->get_logger(),
+-            "Arm pose planning failed at stage [%s]: %s",
++            "[GRASP][plan][FAIL] step=%s reason=%s; arm_command_not_sent",
+             stage_name.c_str(), reason.c_str());
+           return false;
+         }
+@@ -2270,6 +2302,8 @@
+         candidate_targets.size(),
+         stage_name.c_str());
+     }
++    RCLCPP_INFO(this->get_logger(), "[GRASP][plan][OK] step=%s points=%zu",
++      stage_name.c_str(), selected_trajectory.points.size());
+     recordReplaySegment(stage_name, selected_trajectory);
+     const auto final_arm_state = selected_trajectory.points.back().positions;
+     logArmJointState(stage_name + "_planned_final", final_arm_state);
+@@ -2279,6 +2313,8 @@
+         return false;
+       }
+     } else {
++      RCLCPP_WARN(this->get_logger(), "[GRASP][command][SKIP] step=%s arm_command_publisher=disabled; waiting only",
++        stage_name.c_str());
+       sleepAfterAction(effectiveExecutionWaitSec(selected_trajectory));
+     }
+     if (!waitForArmAtTarget(final_arm_state, stage_name, command_started)) {
+@@ -2342,6 +2378,10 @@
+     const std::vector<double>& target,
+     const std::string& stage_name,
+     const std::chrono::steady_clock::time_point& command_started) {
++    RCLCPP_INFO(this->get_logger(),
++      "[GRASP][feedback][WAIT] step=%s enabled=%s topic=%s timeout=%.2fs tolerance=%.4frad stable=%.2fs",
++      stage_name.c_str(), arm_feedback_enabled_ ? "true" : "false", arm_state_topic_.c_str(),
++      arm_motion_feedback_timeout_sec_, arm_motion_goal_tolerance_rad_, arm_motion_stable_duration_sec_);
+     if (target.empty()) {
+       return false;
+     }
+@@ -2384,7 +2424,7 @@
+           arm_state_ = latest_measured_arm_positions_;
+           RCLCPP_INFO(
+             this->get_logger(),
+-            "Stage [%s] physical arm reached target: max_error=%.5f rad, stable=%.2f s.",
++            "[GRASP][feedback][REACHED] step=%s max_error=%.5frad stable=%.2fs.",
+             stage_name.c_str(),
+             last_error,
+             arm_motion_stable_duration_sec_);
+@@ -2447,6 +2487,9 @@
+   }
+ 
+   bool runSequenceOnce() {
++    RCLCPP_INFO(this->get_logger(), "[GRASP][task][BEGIN] target_source=%s arm_command=%s",
++      use_yaml_e3_target_ ? "yaml" : pose_estimator_target_topic_.c_str(),
++      arm_command_enabled_ ? "enabled" : "disabled");
+     replay_segments_.clear();
+     if (e3_collision_object_enabled_) {
+       removeObject(e3_object_id_, false);
+@@ -2541,7 +2584,7 @@
+ 
+         RCLCPP_WARN(
+           this->get_logger(),
+-          "Arm rejected the current pose estimator target; returning to pose acquisition and waiting for a new continuous target.");
++          "[GRASP][task][RETRY] step=move_tcp_to_target failed; see preceding plan/command/feedback error; next=target_acquisition (existing retry loop has no attempt limit).");
+         if (e3_collision_object_enabled_) {
+           removeObject(e3_object_id_, false);
+         }
+@@ -2615,11 +2658,12 @@
+ 
+   bool waitForTaskStart() {
+     if (!task_start_gate_enabled_) {
++      RCLCPP_INFO(this->get_logger(), "[GRASP][trigger][ACCEPTED] start_gate=disabled");
+       return true;
+     }
+     RCLCPP_INFO(
+       this->get_logger(),
+-      "Autostart disabled; waiting for navigation goal status 1 on [%s] or a task trigger on [%s].",
++      "[GRASP][trigger][WAIT] navigation_topic=%s or start_topic=%s value=1 (check navigation listener setting).",
+       navigation_goal_status_topic_.c_str(),
+       task_start_topic_.c_str());
+     std::unique_lock<std::mutex> lock(task_trigger_mutex_);
+@@ -2630,6 +2674,7 @@
+       return false;
+     }
+     task_trigger_pending_ = false;
++    RCLCPP_INFO(this->get_logger(), "[GRASP][trigger][ACCEPTED] pending_trigger consumed");
+     return true;
+   }
+ 
+@@ -2756,6 +2801,8 @@
+   }
+ 
+   void publishTaskResult(bool success) {
++    RCLCPP_INFO(this->get_logger(), "[GRASP][task][END] result=%s result_publisher=%s",
++      success ? "SUCCESS" : "FAIL", task_result_pub_ ? "enabled" : "disabled");
+     if (!task_result_pub_) {
+       return;
+     }
+@@ -2948,7 +2995,7 @@
+     appendTcpTrajectoryMarkers(arr, id);
+     ref_marker_pub_->publish(arr);
+     if (!stage_name.empty()) {
+-      RCLCPP_INFO(this->get_logger(), "Published tzb_catch reference markers at stage [%s].", stage_name.c_str());
++      RCLCPP_DEBUG(this->get_logger(), "Published tzb_catch reference markers at stage [%s].", stage_name.c_str());
+     }
+   }
+ 
+--- a/src/lite_motion_planner/src/planning_node.cpp
++++ b/src/lite_motion_planner/src/planning_node.cpp
+@@ -2365,7 +2365,7 @@
+     response->message = request->mesh_resource.empty() ?
+       "scene object added with primitive collision" :
+       ("scene object added with mesh collision: " + request->mesh_resource);
+-    RCLCPP_INFO(
++    RCLCPP_DEBUG(
+       this->get_logger(),
+       "Scene object [%s] inserted into Pinocchio GeometryModel via addGeometryObject(), collision_geometry=%s, resource=[%s]",
+       request->object_id.c_str(),
+@@ -2507,13 +2507,13 @@
+         request->link_names,
+         request->allowed_penetration);
+       if (request->allowed_penetration < 0.0) {
+-        RCLCPP_INFO(
++        RCLCPP_DEBUG(
+           this->get_logger(),
+           "Runtime scene collision ignore enabled: object=[%s], links=%zu",
+           object_id.c_str(),
+           request->link_names.size());
+       } else {
+-        RCLCPP_INFO(
++        RCLCPP_DEBUG(
+           this->get_logger(),
+           "Runtime relaxed scene collision allowance: object=[%s], links=%zu, allowed_penetration=%.4f m",
+           object_id.c_str(),
+@@ -2663,7 +2663,7 @@
+     }
+   }
+ 
+-  RCLCPP_INFO_THROTTLE(
++  RCLCPP_DEBUG_THROTTLE(
+     this->get_logger(),
+     *this->get_clock(),
+     1000,
+@@ -2741,7 +2741,7 @@
+       }
+     }
+ 
+-    RCLCPP_INFO(
++    RCLCPP_DEBUG(
+       this->get_logger(),
+       "Using end-effector frame [%s] for group [%s]",
+       ee_frame.c_str(),
+@@ -2913,7 +2913,7 @@
+       use_request_solver_settings && request->request_use_sdls;
+ 
+     if (use_request_solver_settings) {
+-      RCLCPP_INFO(
++      RCLCPP_DEBUG(
+         this->get_logger(),
+         "Per-request solver settings: ik_iter=%d pos_tol=%.4f rot_tol=%.4f cart_wp_tol=(pos=%.4f,rot=%.4f) damping=%.2e alpha=%.3f step=%.3f seeds=%d adaptive_sdls=%s nullspace=%.3f singular_thresh=%.4f branch_jump=(max=%.3f,norm=%.3f) timeout=%.2f path_step=%.3f cartesian_segment_limit=%.4f global_collision_allowance=%.4f ompl_attempts=%d max_ik_goals=%d nullspace_recovery=%s(ns_attempts=%d,ns_iter=%d,ns_pos_tol=%.4f,ns_rp_tol=%.4f,ns_yaw=[%.4f,%.4f],ns_ref=%s,ns_ref_gain=%.3f,settle_only=%s)",
+         ik_max_iterations,
+--- a/src/pose_estimator/pose_estimator/pose_estimation_node.py
++++ b/src/pose_estimator/pose_estimator/pose_estimation_node.py
+@@ -644,6 +644,10 @@
+         roi_timeout_sec = float(self._p.get('roi_timeout_sec', 0.50))
+         roi_stale = (det_recv_mono <= 0.0) or ((now_mono - det_recv_mono) > roi_timeout_sec)
+         if bbox is None or roi_stale:
++            self.get_logger().warn(
++                f"[GRASP][detection][WAIT] topic={self._p['detection_topic']} "
++                f"bbox_present={bbox is not None} stale={roi_stale} timeout={roi_timeout_sec:.2f}s",
++                throttle_duration_sec=5.0)
+             if roi_stale:
+                 self._reset_tracking_state(
+                     f"YOLO ROI 超时 {now_mono - det_recv_mono:.3f}s > {roi_timeout_sec:.3f}s，已丢弃追踪位姿；下次有效 ROI 重新粗定位",
+@@ -663,7 +667,7 @@
+         elapsed = (time.monotonic() - t0) * 1000
+         if not self._p['timing_log_enable']:
+             mode = "TRACK" if self._tracking else "GLOBAL"
+-            self.get_logger().info(
++            self.get_logger().debug(
+                 f"[{mode}] 总耗时 {elapsed:.0f} ms",
+                 throttle_duration_sec=0.5)
+ 
+@@ -800,7 +804,7 @@
+         diag_throttle = max(0.0, float(p['timing_log_throttle_sec']))
+         if p['timing_log_enable'] and (not hasattr(self, '_last_roi_diag_mono') or now_mono - self._last_roi_diag_mono >= diag_throttle):
+             self._last_roi_diag_mono = now_mono
+-            self.get_logger().info(f"[ROI DIAG] projected_points={len(scene_np)}")
++            self.get_logger().debug(f"[ROI DIAG] projected_points={len(scene_np)}")
+ 
+         if len(scene_np) < p['min_scene_points']:
+             self.get_logger().warn(
+@@ -824,7 +828,7 @@
+         now_mono = time.monotonic()
+         if p['timing_log_enable'] and (not hasattr(self, '_last_preproc_diag_mono') or now_mono - self._last_preproc_diag_mono >= diag_throttle):
+             self._last_preproc_diag_mono = now_mono
+-            self.get_logger().info(
++            self.get_logger().debug(
+                 f"[PREPROC DIAG] scene voxel={p['scene_voxel_size']:.4f}m: "
+                 f"{len(scene_np)} -> {n_pts} points")
+         t_stages['preproc'] = (time.monotonic() - t2) * 1000
+@@ -906,7 +910,7 @@
+                 f"{diag['candidate']['median']:.4f}m")
+ 
+         median_txt = f"{median:.4f}m" if np.isfinite(median) else "inf"
+-        self.get_logger().info(
++        self.get_logger().debug(
+             f"[TIMING {mode}] total={t.get('total', 0):.0f}ms | "
+             f"crop={t.get('crop', 0):.0f} "
+             f"preproc={t.get('preproc', 0):.0f} "
+@@ -1002,7 +1006,7 @@
+ 
+         # Only this accepted RANSAC pose is shown in blue and enters ICP.
+         self._last_coarse_transform = initial.copy()
+-        self.get_logger().info(
++        self.get_logger().debug(
+             f"粗配准进入 Point-to-Point ICP: "
+             f"scene_coverage={initial_metrics['coverage']:.3f} "
+             f"scene_median={initial_metrics['median']:.4f}m "
+@@ -1212,6 +1216,11 @@
+ 
+     def _publish_pose(self, header, trans, quat, frame_id):
+         self._publish_pose_msg(header, trans, quat, frame_id, self.pub_pose)
++        self.get_logger().info(
++            f"[GRASP][perception][PUBLISHED] topic={self._p['object_pose_topic']} "
++            f"frame={frame_id} xyz=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "
++            f"stamp={header.stamp.sec}.{header.stamp.nanosec:09d}",
++            throttle_duration_sec=5.0)
+ 
+     def _publish_tf(self, header, trans, quat, frame_id):
+         t = TransformStamped()
+--- a/src/yolo_node/yolo_node/yolo_detector.py
++++ b/src/yolo_node/yolo_node/yolo_detector.py
+@@ -558,7 +558,8 @@
+                 if self.high_conf_start_time_sec is None:
+                     self.high_conf_start_time_sec = now_sec
+                     self.get_logger().info(
+-                        f'High confidence detected (max={max_confidence:.3f}), start hold timer...'
++                        f'[GRASP][detection][WAIT_HOLD] max_conf={max_confidence:.3f}',
++                        throttle_duration_sec=5.0
+                     )
+ 
+                 hold_elapsed = now_sec - self.high_conf_start_time_sec
+@@ -568,13 +569,15 @@
+                         self.publish_gate_open = True
+                         self.get_logger().info(
+                             f'Publish gate opened: confidence>{self.publish_conf_threshold} '
+-                            f'held for {hold_elapsed:.3f}s. Publishing enabled.'
++                            f'held for {hold_elapsed:.3f}s. Publishing enabled.',
++                            throttle_duration_sec=5.0
+                         )
+             else:
+                 if self.high_conf_start_time_sec is not None or self.publish_gate_open:
+                     self.get_logger().info(
+                         f'Publish gate reset (max_conf={max_confidence:.3f} <= '
+-                        f'{self.publish_conf_threshold}). Publishing paused.'
++                        f'{self.publish_conf_threshold}). Publishing paused.',
++                        throttle_duration_sec=5.0
+                     )
+                 self.high_conf_start_time_sec = None
+                 self.publish_gate_open = False
+@@ -644,9 +647,10 @@
+             return
+         self._last_timing_log_mono = now
+         self.get_logger().info(
+-            f"[YOLO TIMING] total={total_ms:.0f}ms | queue={queue_delay_ms:.0f} "
++            f"[GRASP][detection][STATUS] total={total_ms:.0f}ms | queue={queue_delay_ms:.0f} "
+             f"convert={convert_ms:.0f} infer={infer_ms:.0f} post={post_ms:.0f}ms | "
+-            f"det={num_detections} max_conf={max_confidence:.2f} publish={should_publish}")
++            f"det={num_detections} max_conf={max_confidence:.2f} publish={should_publish}",
++            throttle_duration_sec=5.0)
+ 
+     def destroy_node(self):
+         self._worker_running = False
+--- a/src/pose_estimator/launch/camera_switch.launch.py
++++ b/src/pose_estimator/launch/camera_switch.launch.py
+@@ -69,6 +69,8 @@
+             'orbbec_camera',
+             'gemini_330_series.launch.py',
+             {
++                # SDK frame-rate INFO repeats continuously; retain WARN/ERROR.
++                'log_level': 'warn',
+                 'camera_name': camera_name,
+                 'enable_color': 'true',
+                 'enable_depth': 'true',

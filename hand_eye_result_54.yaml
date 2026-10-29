@@ -1,0 +1,424 @@
+version: 1
+generated: '2026-10-28T22:35:26+08:00'
+method: PARK
+refined: true
+frames:
+  base: base_link
+  ee: tcp_link
+  camera: camera_color_optical_frame
+board:
+  type: chessboard
+  squares_x: 8
+  squares_y: 11
+  square_length: 0.03
+  marker_length: 0.0225
+  dictionary: DICT_5X5_100
+  legacy_pattern: false
+samples:
+  total: 54
+  used:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  - 32
+  - 33
+  - 34
+  - 35
+  - 36
+  - 37
+  - 38
+  - 39
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  - 45
+  - 46
+  - 47
+  - 48
+  - 49
+  - 50
+  - 51
+  - 52
+  - 53
+  rejected: []
+T_ee_camera:
+  description: p_ee = T_ee_camera @ p_camera_optical
+  matrix:
+  - - -0.14102687310817397
+    - 0.30544079447941813
+    - -0.9417097971929105
+    - 0.19972446579742806
+  - - -0.9829628192323621
+    - 0.07005995810360888
+    - 0.1699285093128487
+    - 0.009306722943789755
+  - - 0.11787924782631304
+    - 0.9496302034678037
+    - 0.2903566076286198
+    - -0.3554912077072699
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  xyz:
+  - 0.19972446579742806
+  - 0.009306722943789755
+  - -0.3554912077072699
+  quat_xyzw:
+  - -0.35304268904751346
+  - 0.47977344225768764
+  - 0.5833788483123948
+  - -0.5521298969952756
+  rpy_deg:
+  - 72.99859197382095
+  - -6.769723698415099
+  - -98.16457963219536
+T_ee_camera_link:
+  description: p_ee = T_ee_camera_link @ p_camera_link (ROS body axes)
+  matrix:
+  - - -0.9417097971929105
+    - 0.14102687310817397
+    - -0.30544079447941813
+    - 0.19972446579742806
+  - - 0.1699285093128487
+    - 0.9829628192323621
+    - -0.07005995810360888
+    - 0.009306722943789755
+  - - 0.2903566076286198
+    - -0.11787924782631304
+    - -0.9496302034678037
+    - -0.3554912077072699
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  xyz:
+  - 0.19972446579742806
+  - 0.009306722943789755
+  - -0.3554912077072699
+  quat_xyzw:
+  - 0.07898985226364669
+  - 0.9841624383064358
+  - -0.04774090094652744
+  - -0.15134630700123464
+  rpy_deg:
+  - -172.92397125963788
+  - -16.879306803355874
+  - 169.7712324550999
+T_base_target:
+  description: mean board pose in the base frame (should be constant)
+  matrix:
+  - - -0.9561180132752054
+    - -0.2109144871243088
+    - 0.2033554125460257
+    - 0.8324352386964774
+  - - -0.2094627059168356
+    - 0.9773898084238901
+    - 0.028888357847215797
+    - 0.007381928575397323
+  - - -0.2048504808895302
+    - -0.0149746956630618
+    - -0.9786787210158026
+    - -0.027799440768088726
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  xyz:
+  - 0.8324352386964774
+  - 0.007381928575397323
+  - -0.027799440768088726
+  quat_xyzw:
+  - -0.10626723309269327
+  - 0.9889624035719076
+  - 0.003517237392923384
+  - 0.10319044787779823
+  rpy_deg:
+  - -179.12338963226216
+  - 11.820746484514213
+  - -167.64307727693122
+T_base_camera:
+  description: camera pose in the base frame for the first used sample
+  matrix:
+  - - 0.1296639401662188
+    - -0.7286585308247414
+    - 0.672490898136845
+    - 0.17635534787801596
+  - - -0.9841275157646158
+    - -0.011697231793609174
+    - 0.1770768406182249
+    - 0.02450633242263891
+  - - -0.12116226861336354
+    - -0.6847772778244732
+    - -0.7186096189446445
+    - 0.49663281337594634
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+  xyz:
+  - 0.17635534787801596
+  - 0.02450633242263891
+  - 0.49663281337594634
+  quat_xyzw:
+  - 0.6819037305412826
+  - -0.6279427615206693
+  - 0.20212846947099375
+  - -0.31597353110188087
+  rpy_deg:
+  - -136.38099832930456
+  - 6.959185139072586
+  - -82.49421462773087
+residuals:
+  rotation_rms_deg: 7.515065836866241
+  rotation_max_deg: 19.130857919425857
+  translation_rms_mm: 46.07392073760197
+  translation_max_mm: 124.48269640739205
+  per_sample:
+  - index: 0
+    label: '0'
+    rotation_deg: 7.726924197692628
+    translation_mm: 9.592850651816603
+  - index: 1
+    label: '1'
+    rotation_deg: 6.102112443680222
+    translation_mm: 35.67226263174126
+  - index: 2
+    label: '2'
+    rotation_deg: 13.455796310864898
+    translation_mm: 59.3423922452292
+  - index: 3
+    label: '3'
+    rotation_deg: 10.001907269303588
+    translation_mm: 76.46500498095529
+  - index: 4
+    label: '4'
+    rotation_deg: 11.433123047875357
+    translation_mm: 95.7516930765721
+  - index: 5
+    label: '5'
+    rotation_deg: 4.762547177120219
+    translation_mm: 25.737501768251352
+  - index: 6
+    label: '6'
+    rotation_deg: 3.4825406956956
+    translation_mm: 19.268528538248333
+  - index: 7
+    label: '7'
+    rotation_deg: 2.348393001063303
+    translation_mm: 17.37635887521052
+  - index: 8
+    label: '8'
+    rotation_deg: 2.3977619205438616
+    translation_mm: 19.643164228469242
+  - index: 9
+    label: '9'
+    rotation_deg: 7.193738090193948
+    translation_mm: 98.74778769330395
+  - index: 10
+    label: '10'
+    rotation_deg: 8.103260196664031
+    translation_mm: 73.66209749798807
+  - index: 11
+    label: '11'
+    rotation_deg: 5.902325776637248
+    translation_mm: 93.18307179734974
+  - index: 12
+    label: '12'
+    rotation_deg: 6.926133692732616
+    translation_mm: 90.72631918031419
+  - index: 13
+    label: '13'
+    rotation_deg: 8.087078224461624
+    translation_mm: 84.68782667995593
+  - index: 14
+    label: '14'
+    rotation_deg: 12.331590811350026
+    translation_mm: 101.41669522090218
+  - index: 15
+    label: '15'
+    rotation_deg: 13.492068773953902
+    translation_mm: 24.78026781237499
+  - index: 16
+    label: '16'
+    rotation_deg: 10.370157468650833
+    translation_mm: 14.801412677805729
+  - index: 17
+    label: '17'
+    rotation_deg: 10.247137284871407
+    translation_mm: 26.778517164041045
+  - index: 18
+    label: '18'
+    rotation_deg: 4.250652401684969
+    translation_mm: 39.21089260012466
+  - index: 19
+    label: '19'
+    rotation_deg: 2.250969058228531
+    translation_mm: 15.54510615316605
+  - index: 20
+    label: '20'
+    rotation_deg: 5.969665531730217
+    translation_mm: 22.395591550520027
+  - index: 21
+    label: '21'
+    rotation_deg: 2.671152103508946
+    translation_mm: 41.91057610327841
+  - index: 22
+    label: '22'
+    rotation_deg: 9.375876192733246
+    translation_mm: 21.059364612274706
+  - index: 23
+    label: '23'
+    rotation_deg: 3.1223246540664262
+    translation_mm: 52.38878818186601
+  - index: 24
+    label: '24'
+    rotation_deg: 10.864589719789857
+    translation_mm: 51.453883111554816
+  - index: 25
+    label: '25'
+    rotation_deg: 14.632502534000066
+    translation_mm: 77.153511639898
+  - index: 26
+    label: '26'
+    rotation_deg: 17.899872561668108
+    translation_mm: 124.48269640739205
+  - index: 27
+    label: '27'
+    rotation_deg: 3.052994005181131
+    translation_mm: 54.832557978355126
+  - index: 28
+    label: '28'
+    rotation_deg: 19.130857919425857
+    translation_mm: 25.938926210176355
+  - index: 29
+    label: '29'
+    rotation_deg: 0.6162223150479509
+    translation_mm: 22.511464976812434
+  - index: 30
+    label: '30'
+    rotation_deg: 2.1539078933102123
+    translation_mm: 7.655521167328388
+  - index: 31
+    label: '31'
+    rotation_deg: 4.063418361833033
+    translation_mm: 9.568339659980804
+  - index: 32
+    label: '32'
+    rotation_deg: 6.371860834743172
+    translation_mm: 21.830316560001563
+  - index: 33
+    label: '33'
+    rotation_deg: 6.507361277913379
+    translation_mm: 34.204212214826285
+  - index: 34
+    label: '34'
+    rotation_deg: 7.540248075741393
+    translation_mm: 13.41203931900994
+  - index: 35
+    label: '35'
+    rotation_deg: 4.830970846707541
+    translation_mm: 11.758347450100974
+  - index: 36
+    label: '36'
+    rotation_deg: 2.373043584715931
+    translation_mm: 11.64459341885975
+  - index: 37
+    label: '37'
+    rotation_deg: 2.9031567395510303
+    translation_mm: 14.5801254941362
+  - index: 38
+    label: '38'
+    rotation_deg: 3.251129375789008
+    translation_mm: 14.437080631820628
+  - index: 39
+    label: '39'
+    rotation_deg: 2.6194718850346894
+    translation_mm: 7.719303217368041
+  - index: 40
+    label: '40'
+    rotation_deg: 3.195744216850949
+    translation_mm: 11.27526950048257
+  - index: 41
+    label: '41'
+    rotation_deg: 2.543089637142112
+    translation_mm: 7.970608671843286
+  - index: 42
+    label: '42'
+    rotation_deg: 3.4724692469384313
+    translation_mm: 13.002442336644494
+  - index: 43
+    label: '43'
+    rotation_deg: 2.1414370505209366
+    translation_mm: 10.393015465567721
+  - index: 44
+    label: '44'
+    rotation_deg: 2.477963756869119
+    translation_mm: 9.746598840103633
+  - index: 45
+    label: '45'
+    rotation_deg: 5.600607705630366
+    translation_mm: 19.665908349700867
+  - index: 46
+    label: '46'
+    rotation_deg: 7.612732331388832
+    translation_mm: 24.140987975539645
+  - index: 47
+    label: '47'
+    rotation_deg: 5.070566137296617
+    translation_mm: 10.979660176936639
+  - index: 48
+    label: '48'
+    rotation_deg: 7.236156841049396
+    translation_mm: 22.5707209037952
+  - index: 49
+    label: '49'
+    rotation_deg: 3.8333215496580006
+    translation_mm: 10.045558042465945
+  - index: 50
+    label: '50'
+    rotation_deg: 2.4745194341512535
+    translation_mm: 11.502057707843436
+  - index: 51
+    label: '51'
+    rotation_deg: 4.00892832747979
+    translation_mm: 19.82357669668109
+  - index: 52
+    label: '52'
+    rotation_deg: 2.7746489912925583
+    translation_mm: 16.45943173343877
+  - index: 53
+    label: '53'
+    rotation_deg: 4.8561535849874815
+    translation_mm: 24.730153847213636

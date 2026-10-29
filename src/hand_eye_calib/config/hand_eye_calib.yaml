@@ -1,0 +1,30 @@
+hand_eye_calib:
+  ros__parameters:
+    # Camera streams (aligned colour image + intrinsics).
+    image_topic: /camera/color/image_raw
+    camera_info_topic: /camera/color/camera_info
+
+    # Robot frames: the end-effector pose is read from TF as base_frame -> ee_frame.
+    base_frame: base_link
+    ee_frame: tcp_link
+
+    # Calibration board: 9x12 squares of 30 mm -> 8x11 inner corners.
+    # For charuco, squares_* are the number of squares and marker_length is the
+    # ArUco marker edge. For a chessboard, squares_* are the number of inner
+    # corners (columns, rows).
+    board_type: chessboard        # chessboard | charuco
+    dictionary: DICT_5X5_100       # charuco only
+    squares_x: 8
+    squares_y: 11
+    square_length: 0.03            # metres
+    marker_length: 0.0225          # metres, charuco only
+    min_corners: 6                 # minimum detected corners per capture (charuco)
+    legacy_pattern: false          # true for ChArUco boards printed before OpenCV 4.6
+
+    # Captures live in a scratch directory and are wiped on every node start.
+    # Empty string -> /tmp/hand_eye_calib (override with HAND_EYE_SESSION_ROOT).
+    session_root: ""
+
+    # Reject a capture that repeats the previous end-effector pose.
+    min_pose_delta_deg: 5.0
+    min_pose_delta_m: 0.01

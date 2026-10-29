@@ -239,7 +239,7 @@ class ModelData:
         self.raw_extent = self.raw_max - self.raw_min
         self.centroid = np.asarray(raw.get_center())
         raw.translate(-self.centroid)
-
+        self.centroid = np.asarray(raw.get_axis_aligned_bounding_box().get_center())
         # The 10k model is already at the intended density. Keep every point.
         self.cloud = raw
         _estimate_normals(
@@ -644,6 +644,10 @@ class PoseEstimationNode(Node):
         roi_timeout_sec = float(self._p.get('roi_timeout_sec', 0.50))
         roi_stale = (det_recv_mono <= 0.0) or ((now_mono - det_recv_mono) > roi_timeout_sec)
         if bbox is None or roi_stale:
+            self.get_logger().warn(
+                f"[GRASP][detection][WAIT] topic={self._p['detection_topic']} "
+                f"bbox_present={bbox is not None} stale={roi_stale} timeout={roi_timeout_sec:.2f}s",
+                throttle_duration_sec=5.0)
             if roi_stale:
                 self._reset_tracking_state(
                     f"YOLO ROI 超时 {now_mono - det_recv_mono:.3f}s > {roi_timeout_sec:.3f}s，已丢弃追踪位姿；下次有效 ROI 重新粗定位",
@@ -663,7 +667,7 @@ class PoseEstimationNode(Node):
         elapsed = (time.monotonic() - t0) * 1000
         if not self._p['timing_log_enable']:
             mode = "TRACK" if self._tracking else "GLOBAL"
-            self.get_logger().info(
+            self.get_logger().debug(
                 f"[{mode}] 总耗时 {elapsed:.0f} ms",
                 throttle_duration_sec=0.5)
 
@@ -800,7 +804,7 @@ class PoseEstimationNode(Node):
         diag_throttle = max(0.0, float(p['timing_log_throttle_sec']))
         if p['timing_log_enable'] and (not hasattr(self, '_last_roi_diag_mono') or now_mono - self._last_roi_diag_mono >= diag_throttle):
             self._last_roi_diag_mono = now_mono
-            self.get_logger().info(f"[ROI DIAG] projected_points={len(scene_np)}")
+            self.get_logger().debug(f"[ROI DIAG] projected_points={len(scene_np)}")
 
         if len(scene_np) < p['min_scene_points']:
             self.get_logger().warn(
@@ -824,7 +828,7 @@ class PoseEstimationNode(Node):
         now_mono = time.monotonic()
         if p['timing_log_enable'] and (not hasattr(self, '_last_preproc_diag_mono') or now_mono - self._last_preproc_diag_mono >= diag_throttle):
             self._last_preproc_diag_mono = now_mono
-            self.get_logger().info(
+            self.get_logger().debug(
                 f"[PREPROC DIAG] scene voxel={p['scene_voxel_size']:.4f}m: "
                 f"{len(scene_np)} -> {n_pts} points")
         t_stages['preproc'] = (time.monotonic() - t2) * 1000
@@ -906,7 +910,7 @@ class PoseEstimationNode(Node):
                 f"{diag['candidate']['median']:.4f}m")
 
         median_txt = f"{median:.4f}m" if np.isfinite(median) else "inf"
-        self.get_logger().info(
+        self.get_logger().debug(
             f"[TIMING {mode}] total={t.get('total', 0):.0f}ms | "
             f"crop={t.get('crop', 0):.0f} "
             f"preproc={t.get('preproc', 0):.0f} "
@@ -1002,7 +1006,7 @@ class PoseEstimationNode(Node):
 
         # Only this accepted RANSAC pose is shown in blue and enters ICP.
         self._last_coarse_transform = initial.copy()
-        self.get_logger().info(
+        self.get_logger().debug(
             f"粗配准进入 Point-to-Point ICP: "
             f"scene_coverage={initial_metrics['coverage']:.3f} "
             f"scene_median={initial_metrics['median']:.4f}m "
@@ -1212,6 +1216,11 @@ class PoseEstimationNode(Node):
 
     def _publish_pose(self, header, trans, quat, frame_id):
         self._publish_pose_msg(header, trans, quat, frame_id, self.pub_pose)
+        self.get_logger().info(
+            f"[GRASP][perception][PUBLISHED] topic={self._p['object_pose_topic']} "
+            f"frame={frame_id} xyz=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "
+            f"stamp={header.stamp.sec}.{header.stamp.nanosec:09d}",
+            throttle_duration_sec=5.0)
 
     def _publish_tf(self, header, trans, quat, frame_id):
         t = TransformStamped()

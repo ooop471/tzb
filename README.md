@@ -69,7 +69,9 @@ Orbbec 相机
 | 订阅 | `/tzb_catch/start` | `std_msgs/Int8` | 值为 `1` 时启动抓取任务 |
 | 发布 | `/tzb_catch/arm_joint_command` | `sensor_msgs/JointState` | 六个机械臂关节目标角，单位为 rad |
 | 发布 | `/tzb_catch/gripper_command` | `std_msgs/Int8` | `1`：闭合；`-1`：张开 |
-| 发布 | `/tzb_catch/result` | `std_msgs/Int8` | `1`：任务成功；`-1`：任务失败 |
+| 发布 | `/tzb_catch/result` | `std_msgs/Int8`  自动查询 TF。因此配置矩阵的方向必须正确。
+
+**先核对正在使用的矩阵。**运行 ros2 param get /tzb_catch tzb.pose_estimator_refer| `1`：任务成功；`-1`：任务失败 |
 | 发布 | `/joint_trajectory_controller/joint_trajectory` | `trajectory_msgs/JointTrajectory` | 规划后的关节轨迹 |
 | 发布 | `/joint_states` | `sensor_msgs/JointState` | RViz 模型关节状态 |
 | 发布 | `/tzb_catch/e3_marker` | `visualization_msgs/Marker` | 目标物体模型 |

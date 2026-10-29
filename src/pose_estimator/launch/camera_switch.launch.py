@@ -69,6 +69,8 @@ def _launch_selected_camera(context):
             'orbbec_camera',
             'gemini_330_series.launch.py',
             {
+                # SDK frame-rate INFO repeats continuously; retain WARN/ERROR.
+                'log_level': 'warn',
                 'camera_name': camera_name,
                 'enable_color': 'true',
                 'enable_depth': 'true',

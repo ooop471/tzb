@@ -21,11 +21,11 @@
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="v0_joint" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="Claw_left_link" link2="J3_link" reason="Never"/>
-    <disable_collisions link1="Claw_left_link" link2="J4_link" reason="Never"/>
-    <disable_collisions link1="Claw_left_link" link2="J5_link" reason="Never"/>
-    <disable_collisions link1="Claw_left_link" link2="J6_link" reason="Adjacent"/>
-    <disable_collisions link1="Claw_left_link" link2="claw_right_link" reason="User"/>
+    <disable_collisions link1="Claw_left_Link" link2="J3_link" reason="Never"/>
+    <disable_collisions link1="Claw_left_Link" link2="J4_link" reason="Never"/>
+    <disable_collisions link1="Claw_left_Link" link2="J5_link" reason="Never"/>
+    <disable_collisions link1="Claw_left_Link" link2="J6_link" reason="Adjacent"/>
+    <disable_collisions link1="Claw_left_Link" link2="claw_right_Link" reason="User"/>
     <disable_collisions link1="J1_link" link2="J2_link" reason="Adjacent"/>
     <disable_collisions link1="J1_link" link2="J3_link" reason="Never"/>
     <disable_collisions link1="J1_link" link2="J4_link" reason="Never"/>
@@ -40,15 +40,34 @@
     <disable_collisions link1="J3_link" link2="J5_link" reason="Never"/>
     <disable_collisions link1="J3_link" link2="J6_link" reason="Never"/>
     <disable_collisions link1="J3_link" link2="camera_link" reason="Adjacent"/>
-    <disable_collisions link1="J3_link" link2="claw_right_link" reason="Never"/>
+    <disable_collisions link1="J3_link" link2="claw_right_Link" reason="Never"/>
     <disable_collisions link1="J4_link" link2="J5_link" reason="Adjacent"/>
     <disable_collisions link1="J4_link" link2="J6_link" reason="Never"/>
     <disable_collisions link1="J4_link" link2="camera_link" reason="Never"/>
-    <disable_collisions link1="J4_link" link2="claw_right_link" reason="Never"/>
+    <disable_collisions link1="J4_link" link2="claw_right_Link" reason="Never"/>
     <disable_collisions link1="J5_link" link2="J6_link" reason="Adjacent"/>
     <disable_collisions link1="J5_link" link2="camera_link" reason="Never"/>
-    <disable_collisions link1="J5_link" link2="claw_right_link" reason="Never"/>
+    <disable_collisions link1="J5_link" link2="claw_right_Link" reason="Never"/>
     <disable_collisions link1="J6_link" link2="camera_link" reason="Never"/>
-    <disable_collisions link1="J6_link" link2="claw_right_link" reason="Adjacent"/>
-    <disable_collisions link1="camera_link" link2="claw_right_link" reason="Never"/>
+    <disable_collisions link1="J6_link" link2="claw_right_Link" reason="Adjacent"/>
+    <disable_collisions link1="camera_link" link2="claw_right_Link" reason="Never"/>
+    <!-- tube_urdf chassis: adjacent suspension/wheel pairs -->
+    <disable_collisions link1="left_chaiss_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_m_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_b_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_f_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_zchaissis_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_chaiss_Link_" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_m_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_b_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_f_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_zchaissis_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_f_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_f_Link" link2="base_link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_m_Link" link2="left_chaiss_Link" reason="Adjacent"/>
+    <disable_collisions link1="left_wheel_b_Link" link2="left_chaiss_Link" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_m_Link" link2="right_chaiss_Link_" reason="Adjacent"/>
+    <disable_collisions link1="right_wheel_b_Link" link2="right_chaiss_Link_" reason="Adjacent"/>
+    <disable_collisions link1="left_zchaissis_Link" link2="left_wheel_f_Link" reason="Adjacent"/>
+    <disable_collisions link1="right_zchaissis_Link" link2="right_wheel_f_Link" reason="Adjacent"/>
 </robot>

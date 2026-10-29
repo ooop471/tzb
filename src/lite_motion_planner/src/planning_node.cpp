@@ -2365,7 +2365,7 @@ void PlanningNode::handleAddSceneObject(
     response->message = request->mesh_resource.empty() ?
       "scene object added with primitive collision" :
       ("scene object added with mesh collision: " + request->mesh_resource);
-    RCLCPP_INFO(
+    RCLCPP_DEBUG(
       this->get_logger(),
       "Scene object [%s] inserted into Pinocchio GeometryModel via addGeometryObject(), collision_geometry=%s, resource=[%s]",
       request->object_id.c_str(),
@@ -2507,13 +2507,13 @@ void PlanningNode::handleSetSceneCollisionAllowance(
         request->link_names,
         request->allowed_penetration);
       if (request->allowed_penetration < 0.0) {
-        RCLCPP_INFO(
+        RCLCPP_DEBUG(
           this->get_logger(),
           "Runtime scene collision ignore enabled: object=[%s], links=%zu",
           object_id.c_str(),
           request->link_names.size());
       } else {
-        RCLCPP_INFO(
+        RCLCPP_DEBUG(
           this->get_logger(),
           "Runtime relaxed scene collision allowance: object=[%s], links=%zu, allowed_penetration=%.4f m",
           object_id.c_str(),
@@ -2663,7 +2663,7 @@ void PlanningNode::playbackTimerTick() {
     }
   }
 
-  RCLCPP_INFO_THROTTLE(
+  RCLCPP_DEBUG_THROTTLE(
     this->get_logger(),
     *this->get_clock(),
     1000,
@@ -2741,7 +2741,7 @@ void PlanningNode::handlePlanRequest(
       }
     }
 
-    RCLCPP_INFO(
+    RCLCPP_DEBUG(
       this->get_logger(),
       "Using end-effector frame [%s] for group [%s]",
       ee_frame.c_str(),
@@ -2913,7 +2913,7 @@ void PlanningNode::handlePlanRequest(
       use_request_solver_settings && request->request_use_sdls;
 
     if (use_request_solver_settings) {
-      RCLCPP_INFO(
+      RCLCPP_DEBUG(
         this->get_logger(),
         "Per-request solver settings: ik_iter=%d pos_tol=%.4f rot_tol=%.4f cart_wp_tol=(pos=%.4f,rot=%.4f) damping=%.2e alpha=%.3f step=%.3f seeds=%d adaptive_sdls=%s nullspace=%.3f singular_thresh=%.4f branch_jump=(max=%.3f,norm=%.3f) timeout=%.2f path_step=%.3f cartesian_segment_limit=%.4f global_collision_allowance=%.4f ompl_attempts=%d max_ik_goals=%d nullspace_recovery=%s(ns_attempts=%d,ns_iter=%d,ns_pos_tol=%.4f,ns_rp_tol=%.4f,ns_yaw=[%.4f,%.4f],ns_ref=%s,ns_ref_gain=%.3f,settle_only=%s)",
         ik_max_iterations,

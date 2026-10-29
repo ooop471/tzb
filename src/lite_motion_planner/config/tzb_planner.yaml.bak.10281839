@@ -1,0 +1,384 @@
+/**:
+  ros__parameters:
+    urdf_path: "/home/tzb/tzb_ws/src/tzb_description/urdf/tzb_description.urdf"
+    srdf_path: "/home/tzb/tzb_ws/src/lite_motion_planner/config/tzb_description.srdf"
+    mesh_package_dirs:
+      - "/home/tzb/tzb_ws/src/tzb_description"
+
+    planning_frame: "base_link"
+    default_group: "arm"
+    default_ee_frame: "tcp_link"
+
+    planning_timeout: 2.0
+    ompl_max_plan_attempts: 4
+    ik_max_iterations: 600
+    ik_pos_tolerance: 0.008
+    ik_rot_tolerance: 0.08
+    ik_damping: 1.0e-5
+    ik_alpha: 0.5
+    ik_max_step_norm: 0.35
+    ik_max_seed_count: 48
+    collision_check_resolution: 0.02
+    trajectory_collision_check_step: 0.05
+    control_period: 0.01
+
+    enable_visualization: true
+    enable_moveit_visualization: true
+    launch_visualization_rviz: true
+    launch_robot_state_publisher: true
+    publish_joint_states_for_visualization: true
+    enable_joint_state_playback: true
+    joint_state_playback_loop: false
+    joint_state_playback_speed_scale: 0.7
+    publish_moveit_display_trajectory: true
+    publish_moveit_planning_scene: true
+    publish_moveit_monitored_planning_scene: true
+    publish_collision_markers: true
+    publish_robot_collision_markers: false
+    publish_collision_labels: true
+    # E3 is published by tzb_catch; keep the planning-scene E3 publisher off.
+    publish_e3_marker: false
+    visualization_joint_states_topic: "/joint_states"
+    moveit_display_trajectory_topic: "/display_planned_path"
+    moveit_planning_scene_topic: "/planning_scene"
+    moveit_monitored_planning_scene_topic: "/monitored_planning_scene"
+
+    # tzb_description-specific end-effector collision names.
+    relaxed_scene_collision_object_id: "E3"
+    relaxed_scene_collision_object_ids: [""]
+    relaxed_scene_collision_links: ["tcp_link", "J6_link", "Claw_left_Link", "claw_right_Link"]
+    relaxed_scene_collision_allowed_penetration: 0.005
+    gripper_scene_collision_object_ids: [""]
+    gripper_scene_collision_links: ["Claw_left_Link", "claw_right_Link"]
+    gripper_scene_collision_allowed_penetration: 0.0
+    gripper_self_collision_links: ["Claw_left_Link", "claw_right_Link"]
+    gripper_self_collision_allowed_penetration: 0.0
+    self_collision_allowed_penetration: 0.0
+    # Keep the robot base in collision checking for obstacle avoidance.
+    globally_ignored_robot_collision_links: [""]
+
+    tzb.arm_group: "arm"
+    tzb.tcp_frame: "tcp_link"
+    tzb.e3_mesh_resource: "package://lite_motion_planner/config/E3.STL"
+    tzb.mesh_scale: [0.001, 0.001, 0.001]
+    tzb.e3_marker_topic: "/tzb_catch/e3_marker"
+    tzb.publish_e3_marker: true
+
+    # Target source. false uses pose_estimator; true uses the YAML TCP target below.
+    tzb.use_yaml_e3_target: false
+
+    # When use_yaml_e3_target=true, XYZ and RPY are interpreted directly in this frame.
+    tzb.e3_target_frame: "base_link"
+    tzb.e3_target_xyz: [0.3, 0.8, 0.2]
+    tzb.e3_target_rpy: [0.0, 0.0, 0.0]
+    tzb.pose_estimator_target_topic: "/pose_estimator/object_pose"
+    tzb.pose_estimator_reference_frame: "camera_link"
+    tzb.apply_reference_transform_to_frozen_frame: true
+    tzb.pose_estimator_wait_timeout_sec: 15.0
+    tzb.pose_estimator_continuous_required_sec: 1.0
+    tzb.pose_estimator_continuous_max_gap_sec: 0.25
+    tzb.pose_estimator_reference_transform_matrix: [
+      1.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0,
+      0.0, 0.0, 0.0, 1.0
+    ]
+
+    tzb.pose_estimator_axis_conversion_matrix: [
+      1.0, 0.0, 0.0,
+      0.0, 1.0, 0.0,
+      0.0, 0.0, 1.0
+    ]
+
+    # Each enabled axis uses its forced value; disabled axes use visual/YAML RPY.
+    tzb.force_target_roll: true
+    tzb.force_target_pitch: true
+    tzb.force_target_yaw: true
+    tzb.target_rpy_unit: "rad"
+    tzb.forced_target_roll: -3.14
+    tzb.forced_target_pitch: 0.0
+    tzb.forced_target_yaw: 0.0
+    # Mutually exclusive fallback modes for the final TCP target.
+    # adaptive_rpy keeps XYZ fixed and searches around the transformed visual RPY.
+    tzb.adaptive_rpy: false
+    # position_only_target keeps XYZ constrained and completely relaxes orientation.
+    tzb.position_only_target: false
+    tzb.adaptive_rpy_step_deg: 360.0
+    tzb.adaptive_rpy_max_deg: 360.0
+    tzb.adaptive_rpy_max_candidates: 64
+
+    # Named joint presets use the arm group order shown below.
+    # [J1_joint, J2_joint, J3_joint, J4_joint, J5_joint, J6_joint]
+    tzb.joint_positions_unit: "rad"
+    # These presets belong to the active tzb_description model. Array index 0 maps
+    # to J1_joint (there is no J0 joint), followed by J2_joint through J6_joint.
+    tzb.ini_joint_positions: [0.0, 1.0, -2.61, 0.0, 0.0, 0.0]
+    tzb.place_joint_positions: [3.14, -0.25, -0.91, 0.0, 1.57, 0.0]
+    tzb.observe_joint_positions: [0.0, 0.0, -2.0, 0.0, 1.57, 0.0]
+    tzb.sentry_joint_positions: [0.0, 1.13, -2.18, 0.0, 1.57, 0.0]
+
+    # Serial feedback is used both for the initial state and physical arrival checks.
+    tzb.arm_state_topic: "/serial/arm_joint_state"
+    tzb.arm_feedback_enabled: true
+    tzb.arm_state_wait_timeout_sec: 0.5
+    tzb.arm_state_max_age_sec: 0.5
+    # Starts after the last velocity-limited command sample has been sent.
+    tzb.arm_motion_feedback_timeout_sec: 20.0
+    # Physical arrival tolerance; 0.05 rad is about 2.9 degrees.
+    tzb.arm_motion_goal_tolerance_rad: 0.10
+    tzb.arm_motion_stable_duration_sec: 0.25
+    # Every arm stage must be physically reached and stable before continuing.
+    tzb.require_arm_feedback_for_completion: true
+
+
+    # Only the actuated claw joint is commanded; claw_right_joint follows via mimic.
+    tzb.gripper_joint_names: ["Claw_left_joint"]
+    tzb.gripper_home_positions: [0.0]
+    tzb.gripper_open_positions: [0.5236]
+    tzb.gripper_close_positions: [0.0]
+    # Hardware gripper command: Int8 1=closed, -1=open; serial driver repeats the current state.
+    tzb.gripper_command_topic: "/tzb_catch/gripper_command"
+    # The target remains collision-active; only the gripper assembly below is exempted.
+    tzb.e3_collision_object_enabled: true
+    tzb.grasp_collision_links: ["tcp_link", "J6_link", "Claw_left_Link", "claw_right_Link"]
+    tzb.grasp_collision_allowed_penetration: -1.0
+
+    tzb.joint_planning_timeout: 2.0
+    tzb.path_check_step: 0.05
+    tzb.service_wait_sec: 1.0
+    tzb.response_wait_sec: 15.0
+    tzb.post_action_wait_sec: 0.05
+    tzb.joint_goal_tolerance_rad: 0.01
+
+    # Upper-computer sampling limiter. The serial driver applies the same hard limit.
+    tzb.arm_command_enabled: true
+    tzb.arm_command_topic: "/tzb_catch/arm_joint_command"
+    tzb.arm_command_publish_hz: 100.0
+    tzb.arm_command_speed_scale: 1.0
+    tzb.arm_command_goal_tolerance_rad: 0.005
+    tzb.max_arm_command_velocity_rad_s: [1.2, 1.2, 1.2, 1.8, 1.8, 2.2]
+
+    tzb.sequence_loop: false
+    tzb.loop_pause_sec: 0.5
+    tzb.replay_after_complete: false
+    tzb.replay_loop: false
+    tzb.freeze_camera_pointcloud_enabled: false
+    tzb.reference_marker_republish_hz: 5.0
+    # Persistent TCP polylines on /tzb_catch/reference_frames for RViz diagnosis.
+    tzb.publish_tcp_trajectory: true
+    tzb.tcp_trajectory_line_width_m: 0.006
+    tzb.tcp_trajectory_min_distance_m: 0.002
+    tzb.tcp_trajectory_max_points: 10000
+
+    # Wait for the first navigation goal: 0=keep waiting, 1=run one arm task.
+    # A new task requires the status to return to 0 before the next 1.
+    tzb.autostart: true
+    # true: wait for /navigation_goal_status 0 -> 1 before starting;
+    # false: do not subscribe to the navigation status and start the arm task immediately.
+    tzb.listen_navigation_goal_status: false
+    tzb.start_topic: "/tzb_catch/start"
+    tzb.navigation_goal_status_topic: "/navigation_goal_status"
+    tzb.result_topic: "/tzb_catch/result"
+
+    # Sentry mode replaces the legacy navigation-go[INFO] [node-4]: process started with pid [7736]
+[INFO] [planning_node-5]: process started with pid [7738]
+[INFO] [robot_state_publisher-6]: process started with pid [7740]
+[INFO] [rviz2-7]: process started with pid [7742]
+[INFO] [tzb_catch-8]: process started with pid [7744]
+[rviz2-7] qt.qpa.xcb: could not connect to display 
+[rviz2-7] qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+[rviz2-7] This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+[rviz2-7] 
+[rviz2-7] Available platform plugins are: eglfs, linuxfb, minimal, minimalegl, offscreen, vnc, xcb.
+[rviz2-7] 
+[node-4] [INFO] [1793182949.680384970] [IoContext::IoContext]: Thread(s) Created: 2
+[robot_state_publisher-6] [WARN] [1793182949.680920372] [kdl_parser]: The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+[robot_state_publisher-6] [INFO] [1793182949.680996582] [robot_state_publisher]: got segment Claw_left_Link
+[robot_state_publisher-6] [INFO] [1793182949.681039218] [robot_state_publisher]: got segment J1_link
+[robot_state_publisher-6] [INFO] [1793182949.681044543] [robot_state_publisher]: got segment J2_link
+[robot_state_publisher-6] [INFO] [1793182949.681048461] [robot_state_publisher]: got segment J3_link
+[robot_state_publisher-6] [INFO] [1793182949.681051022] [robot_state_publisher]: got segment J4_link
+[robot_state_publisher-6] [INFO] [1793182949.681053120] [robot_state_publisher]: got segment J5_link
+[robot_state_publisher-6] [INFO] [1793182949.681055143] [robot_state_publisher]: got segment J6_link
+[robot_state_publisher-6] [INFO] [1793182949.681057257] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-6] [INFO] [1793182949.681059235] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-6] [INFO] [1793182949.681062306] [robot_state_publisher]: got segment claw_right_Link
+[robot_state_publisher-6] [INFO] [1793182949.681066381] [robot_state_publisher]: got segment left_chaiss_Link
+[robot_state_publisher-6] [INFO] [1793182949.681068679] [robot_state_publisher]: got segment left_wheel_b_Link
+[robot_state_publisher-6] [INFO] [1793182949.681070679] [robot_state_publisher]: got segment left_wheel_f_Link
+[robot_state_publisher-6] [INFO] [1793182949.681072503] [robot_state_publisher]: got segment left_wheel_m_Link
+[robot_state_publisher-6] [INFO] [1793182949.681075380] [robot_state_publisher]: got segment left_zchaissis_Link
+[robot_state_publisher-6] [INFO] [1793182949.681078449] [robot_state_publisher]: got segment right_chaiss_Link_
+[robot_state_publisher-6] [INFO] [1793182949.681082119] [robot_state_publisher]: got segment right_wheel_b_Link
+[robot_state_publisher-6] [INFO] [1793182949.681084371] [robot_state_publisher]: got segment right_wheel_f_Link
+[robot_state_publisher-6] [INFO] [1793182949.681086421] [robot_state_publisher]: got segment right_wheel_m_Link
+[robot_state_publisher-6] [INFO] [1793182949.681088371] [robot_state_publisher]: got segment right_zchaissis_Link
+[robot_state_publisher-6] [INFO] [1793182949.681090384] [robot_state_publisher]: got segment tcp_link
+[node-4] [INFO] [1793182949.682501426] [serial_driver]: Started serial driver: arm_serial=true arm_extension=true arm_angle_unit=rad arm_hz=100.00 speed_scale=1.000 packet_size=46
+[tzb_catch-8] [INFO] [1793182949.687927282] [tzb_catch]: tzb_catch configured: arm_group=arm tcp_frame=tcp_link target_source=/pose_estimator/object_pose continuous_required=1.00s arm_state=/serial/arm_joint_state initial_wait=0.50s arrival_wait=20.00s navigation_status_listener=disabled sentry_mode=disabled force_rpy=(roll:true pitch:true yaw:true)
+[tzb_catch-8] [INFO] [1793182949.688036937] [tzb_catch]: Stage [configured_ini_joint_positions] arm joints: J1_joint=0 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-8] [INFO] [1793182949.688046456] [tzb_catch]: Stage [configured_place_joint_positions] arm joints: J1_joint=3.14 J2_joint=-0.25 J3_joint=-0.91 J4_joint=0 J5_joint=1.57 J6_joint=0
+[tzb_catch-8] [INFO] [1793182949.688052499] [tzb_catch]: Stage [configured_observe_joint_positions] arm joints: J1_joint=0 J2_joint=0 J3_joint=-2 J4_joint=0 J5_joint=1.57 J6_joint=0
+[node-4] [INFO] [1793182949.692749618] [serial_driver]: Sending gripper_command to lower controller: 1 (closed), arm_sequence=0, log_interval=5.00 s.
+[node-4] [INFO] [1793182949.693165513] [serial_driver]: Raw lower-arm feedback before angle conversion: sequence=2710 unit=rad J1=-0.218979 J2=-2.404166 J3=0.985590 J4=-2.733785 J5=0.553017 J6=-2.591986
+[planning_node-5] [INFO] [1793182949.737801480] [planning_node]: Globally ignored robot collision links: 1
+[planning_node-5] [INFO] [1793182949.737973577] [planning_node]: Robot collision model initialized: geometries=20, active_collision_pairs=189
+[planning_node-5] [INFO] [1793182949.738000501] [planning_node]: Self-collision penetration allowance: 0.0000 m
+[planning_node-5] [INFO] [1793182949.747538327] [planning_node]: Collision marker publisher active: topic=/lite_motion_planner/collision_markers republish_hz=2.00
+[python3-2] [INFO] [1793182949.948384035] [yolo_node]: High confidence detected (max=0.465), start hold timer...
+[python3-2] [INFO] [1793182949.948593051] [yolo_node]: Publish gate opened: confidence>0.1 held for 0.000s. Publishing enabled.
+[python3-2] [INFO] [1793182949.948830646] [yolo_node]: [YOLO TIMING] total=262ms | queue=0 convert=1 infer=260 post=1ms | det=1 max_conf=0.47 publish=True
+[component_container-1] [INFO] [1793182950.177039895] [camera.camera]: current interleave_ae_mode_: laser
+[component_container-1] [INFO] [1793182950.177906958] [camera.camera]: Enable enable_interleave_depth_frame to false
+[component_container-1] [INFO] [1793182950.177924681] [camera.camera]: Initialize device cost: 1043 ms
+[tzb_catch-8] [INFO] [1793182950.188647419] [tzb_catch]: Published tzb_catch reference markers at stage [initial].
+[tzb_catch-8] [INFO] [1793182950.190181174] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.00575097 J2_joint=1.06402 J3_joint=-2.60952 J4_joint=0.0245152 J5_joint=1.24182 J6_joint=-2.59199
+[tzb_catch-8] [INFO] [1793182950.190744120] [tzb_catch]: Published tzb_catch reference markers at stage [physical_initial_arm_state].
+[planning_node-5] [INFO] [1793182950.191045137] [planning_node]: Using end-effector frame [tcp_link] for group [arm]
+[planning_node-5] [INFO] [1793182950.191118938] [planning_node]: Per-request solver settings: ik_iter=600 pos_tol=0.0080 rot_tol=0.0800 cart_wp_tol=(pos=0.0015,rot=0.0200) damping=1.00e-05 alpha=0.500 step=0.350 seeds=48 adaptive_sdls=off nullspace=0.200 singular_thresh=0.0400 branch_jump=(max=0.750,norm=1.200) timeout=2.00 path_step=0.050 cartesian_segment_limit=0.0000 global_collision_allowance=0.0000 ompl_attempts=4 max_ik_goals=0 nullspace_recovery=off(ns_attempts=8,ns_iter=45,ns_pos_tol=0.0100,ns_rp_tol=0.1000,ns_yaw=[0.0000,0.0000],ns_ref=off,ns_ref_gain=0.000,settle_only=off)
+[planning_node-5] [WARN] [1793182950.191535802] [planning_node]: Plan request start state already in collision: self [J1_link vs Claw_left_Link] self collisionpair
+[planning_node-5] [WARN] [1793182950.195316517] [planning_node]: Motion planner failed for group [arm]: start_state_in_collision_or_invalid: self [J1_link vs Claw_left_Link] self collision pair
+[planning_node-5] Start state: 0.00575097    1.06402   -2.60952  0.0245152    1.24182   -2.59199
+[planning_node-5] Goal state:      0     1 -2.61     0     0     0
+[tzb_catch-8] [ERROR] [1793182950.195493536] [tzb_catch]: Arm joint planning failed at stage [move_arm_to_ini_joint_positions]: start_state_in_collision_or_invalid: self [J1_link vs Claw_left_Link] self collision pair
+[tzb_catch-8] [INFO] [1793182950.195700938] [tzb_catch]: Published tzb_catch reference markers at stage [tcp_trajectory_complete].
+[pose_estimation_node-3] [INFO] [1793182950.206631867] [pose_estimation_node]: 加载模型: /home/tzb/tzb_ws/src/pose_estimator/config/half_block.pcd
+[pose_estimation_node-3] [INFO] [1793182950.284803884] [pose_estimation_node]: 模型加载完毕: raw=7500 used=7500 extent=[0.05 0.05 0.05] centroid=[0.008  0.00840.0083] unit_scale=0.001
+[pose_estimation_node-3] [INFO] [1793182950.295267342] [pose_estimation_node]: 检测消息类型: yolo_node
+[pose_estimation_node-3] [INFO] [1793182950.301119823] [pose_estimation_node]: 节点已启动, 等待数据... 订阅点云: /camera/depth/color/points | 订阅检测: /yolo/detections | 订阅CamInfo: /camera/color/camera_info | 发布位姿: /pose_estimator/object_pose | 可视化发布: ROI=True Marker=True Coarse=True (every_n=3)
+[pose_estimation_node-3] [INFO] [1793182950.323210011] [pose_estimation_node]: ✓ CameraInfo: 640×480, fx=366.6 fy=366.9 cx=318.7 cy=241.0, frame=camera_color_optical_frame
+[pose_estimation_node-3] [INFO] [1793182950.379988504] [pose_estimation_node]: ✓ 点云 frame='camera_color_optical_frame', size=640×480, point_step=20
+[pose_estimation_node-3] [INFO] [1793182950.710147492] [pose_estimation_node]: 
+[pose_estimation_node-3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-3]   ★ 首帧诊断
+[pose_estimation_node-3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-3]   点云: 640×480 = 307200 点
+[pose_estimation_node-3]   点云 frame: 'camera_color_optical_frame'
+[pose_estimation_node-3]   YOLO 图像: 640×480
+[pose_estimation_node-3]   彩色内参: fx=366.6 fy=366.9 cx=318.7 cy=241.0
+[pose_estimation_node-3]   YOLO bbox: (297,360)-(328,399)
+[pose_estimation_node-3]   粗裁剪: 307200 → 13209 点
+[pose_estimation_node-3]   精裁剪: 13209 → 1354 点
+[pose_estimation_node-3] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-3] [INFO] [1793182950.710478873] [pose_estimation_node]: [ROI DIAG] projected_points=1354
+[pose_estimation_node-3] [INFO] [1793182950.711099157] [pose_estimation_node]: [PREPROC DIAG] scene voxel=0.0020m: 1354 -> 1322 points
+[ERROR] [rviz2-7]: process has died [pid 7742, exit code -6, cmd '/opt/ros/humble/lib/rviz2/rviz2 -d /home/tzb/tzb_ws/install/lite_motion_planner/share/lite_motion_planner/config/lite_motion_debug_safe.rviz --ros-args -r __node:=rviz2 --params-file /tmp/launch_params_2ba39u83 --params-file /tmp/launch_params_xo4naoqn'].
+[pose_estimation_node-3] [WARN] [1793182950.776644037] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.151/0.230 median=0.0117/0.0150m
+[pose_estimation_node-3] [INFO] [1793182950.777007677] [pose_estimation_node]: [TIMING GLOBAL] total=68ms | crop=1 preproc=1 register=66 global_coarse=65 icp=0ms | COARSE corr=3939 coverage=0.151 median=0.0117m feature=5ms ransac=48ms | det_score=0.57 det-cloud=501ms det-to-pose=189ms | pts=1322 scene_coverage=0.151 scene_median=0.0117m
+[pose_estimation_node-3] [WARN] [1793182951.809565776] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.030/0.230 median=0.0223/0.0150m
+[pose_estimation_node-3] [INFO] [1793182952.120577841] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.236 scene_median=0.0098m corr=4558
+[pose_estimation_node-3] [WARN] [1793182952.144644877] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.223/0.450 median=0.0082/0.0050m
+[pose_estimation_node-3] [WARN] [1793182952.844042641] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.159/0.230 median=0.0195/0.0150m
+[pose_estimation_node-3] [INFO] [1793182953.476588086] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.305 scene_median=0.0090m corr=3769
+[pose_estimation_node-3] [WARN] [1793182953.508671811] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.293/0.450 median=0.0080/0.0050m
+[pose_estimation_node-3] [WARN] [1793182953.848493699] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.158/0.230 median=0.0137/0.0150m
+[node-4] [INFO] [1793182954.702592138] [serial_driver]: Sending gripper_command to lower controller: 1 (closed), arm_sequence=501, log_interval=5.00 s.
+[node-4] [INFO] [1793182954.702871190] [serial_driver]: Raw lower-arm feedback before angle conversion: sequence=3211 unit=rad J1=-0.218979 J2=-2.404166 J3=0.985590 J4=-2.733785 J5=0.553017 J6=-2.591986
+[pose_estimation_node-3] [WARN] [1793182954.850244667] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.159/0.230 median=0.0084/0.0150m
+[python3-2] [INFO] [1793182954.966107981] [yolo_node]: [YOLO TIMING] total=352ms | queue=15 convert=0 infer=351 post=0ms | det=1 max_conf=0.41 publish=True
+[pose_estimation_node-3] [INFO] [1793182955.302096457] [pose_estimation_node]: 
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   ★ 启动诊断 (5秒内接收统计)
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   点云   [/camera/depth/color/points]: ✓ 81 帧
+[pose_estimation_node-3]   检测   [/yolo/detections]: ✓ 14 帧
+[pose_estimation_node-3]   CamInfo [/camera/color/camera_info]: ✓ 143 帧
+[pose_estimation_node-3]   内参:   ✓ 已获取
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3] [INFO] [1793182955.718432054] [pose_estimation_node]: [ROI DIAG] projected_points=1317
+[pose_estimation_node-3] [INFO] [1793182955.719159978] [pose_estimation_node]: [PREPROC DIAG] scene voxel=0.0020m: 1317 -> 1299 points
+[pose_estimation_node-3] [INFO] [1793182955.786085037] [pose_estimation_node]: [TIMING GLOBAL] total=71ms | crop=3 preproc=1 register=67 global_coarse=66 icp=0ms | COARSE corr=3296 coverage=0.109 median=0.0187m feature=6ms ransac=55ms | det_score=0.45 det-cloud=401ms det-to-pose=37ms | pts=1299 scene_coverage=0.109 scene_median=0.0187m
+[pose_estimation_node-3] [WARN] [1793182955.853382285] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.167/0.230 median=0.0103/0.0150m
+[pose_estimation_node-3] [INFO] [1793182956.010708868] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.250 scene_median=0.0068m corr=6648
+[pose_estimation_node-3] [WARN] [1793182956.030140901] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.427/0.450 median=0.0040/0.0050m
+[pose_estimation_node-3] [WARN] [1793182956.946430900] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.124/0.230 median=0.0249/0.0150m
+[pose_estimation_node-3] [WARN] [1793182957.985623020] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.223/0.230 median=0.0088/0.0150m
+[pose_estimation_node-3] [INFO] [1793182958.730978077] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.233 scene_median=0.0115m corr=4710
+[pose_estimation_node-3] [WARN] [1793182958.754212473] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.311/0.450 median=0.0091/0.0050m
+[pose_estimation_node-3] [WARN] [1793182958.995000671] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.122/0.230 median=0.0128/0.0150m
+[node-4] [INFO] [1793182959.712581070] [serial_driver]: Sending gripper_command to lower controller: 1 (closed), arm_sequence=1002, log_interval=5.00 s.
+[node-4] [INFO] [1793182959.712805794] [serial_driver]: Raw lower-arm feedback before angle conversion: sequence=3712 unit=rad J1=-0.218979 J2=-2.404166 J3=0.985590 J4=-2.733785 J5=0.553017 J6=-2.591986
+[pose_estimation_node-3] [WARN] [1793182960.062478163] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.055/0.230 median=0.0608/0.0150m
+[python3-2] [INFO] [1793182960.077053828] [yolo_node]: [YOLO TIMING] total=363ms | queue=12 convert=0 infer=363 post=0ms | det=1 max_conf=0.52 publish=True
+[pose_estimation_node-3] [INFO] [1793182960.724231892] [pose_estimation_node]: [ROI DIAG] projected_points=1537
+[pose_estimation_node-3] [INFO] [1793182960.726680284] [pose_estimation_node]: [PREPROC DIAG] scene voxel=0.0020m: 1537 -> 1517 points
+[pose_estimation_node-3] [INFO] [1793182960.897001934] [pose_estimation_node]: [TIMING GLOBAL] total=73ms | crop=1 preproc=0 register=71 global_coarse=71 icp=0ms | COARSE corr=4136 coverage=0.131 median=0.0218m feature=7ms ransac=57ms | det_score=0.43 det-cloud=401ms det-to-pose=31ms | pts=1538 scene_coverage=0.131 scene_median=0.0218m
+[pose_estimation_node-3] [WARN] [1793182961.119928031] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.079/0.230 median=0.0151/0.0150m
+[pose_estimation_node-3] [WARN] [1793182962.151933239] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.073/0.230 median=0.0224/0.0150m
+[pose_estimation_node-3] [INFO] [1793182962.447007064] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.240 scene_median=0.0100m corr=5881
+[pose_estimation_node-3] [WARN] [1793182962.479948987] [pose_estimation_node]: ICP 回退粗姿态/上一帧姿态: trust region; delta=4mm/33.1deg, coverage=0.240->0.370, median=0.0100->0.0048m
+[pose_estimation_node-3] [WARN] [1793182962.480400046] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.240/0.450 median=0.0100/0.0050m
+[pose_estimation_node-3] [WARN] [1793182963.161843228] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.080/0.230 median=0.0219/0.0150m
+[pose_estimation_node-3] [WARN] [1793182964.247635293] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.094/0.230 median=0.0321/0.0150m
+[node-4] [INFO] [1793182964.712712618] [serial_driver]: Sending gripper_command to lower controller: 1 (closed), arm_sequence=1502, log_interval=5.00 s.
+[node-4] [INFO] [1793182964.713075616] [serial_driver]: Raw lower-arm feedback before angle conversion: sequence=4212 unit=rad J1=-0.218979 J2=-2.404166 J3=0.985590 J4=-2.733785 J5=0.553017 J6=-2.591986
+[pose_estimation_node-3] [WARN] [1793182965.296674453] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.067/0.230 median=0.0233/0.0150m
+[python3-2] [INFO] [1793182965.354889065] [yolo_node]: [YOLO TIMING] total=385ms | queue=28 convert=0 infer=385 post=0ms | det=1 max_conf=0.47 publish=True
+[pose_estimation_node-3] [INFO] [1793182965.728806070] [pose_estimation_node]: [ROI DIAG] projected_points=1579
+[pose_estimation_node-3] [INFO] [1793182965.729480719] [pose_estimation_node]: [PREPROC DIAG] scene voxel=0.0020m: 1579 -> 1553 points
+[pose_estimation_node-3] [INFO] [1793182965.871766098] [pose_estimation_node]: 粗配准进入 Point-to-Point ICP: scene_coverage=0.327 scene_median=0.0049m corr=6714
+[pose_estimation_node-3] [WARN] [1793182965.890233816] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.419/0.450 median=0.0040/0.0050m
+[pose_estimation_node-3] [INFO] [1793182965.899184316] [pose_estimation_node]: [TIMING GLOBAL] total=105ms | crop=1 preproc=0 register=95 global_coarse=76 icp=18ms | COARSE corr=6714 coverage=0.327 median=0.0049m feature=8ms ransac=61ms | ICP use delta=4mm/6.7deg coverage=0.327->0.419 median=0.0049->0.0040m | det_score=0.52 det-cloud=467ms det-to-pose=40ms | pts=1770 scene_coverage=0.419 scene_median=0.0040m
+[pose_estimation_node-3] [WARN] [1793182966.331326426] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.112/0.230 median=0.0213/0.0150m
+[pose_estimation_node-3] [WARN] [1793182967.380398241] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.000/0.230 median=0.7876/0.0150m
+[pose_estimation_node-3] [WARN] [1793182968.431232296] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.000/0.230 median=0.7923/0.0150m
+^C[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[component_container-1] Received signal: 2
+[INFO] [robot_state_publisher-6]: process has finished cleanly [pid 7740]
+[INFO] [node-4]: process has finished cleanly [pid 7736]
+[INFO] [tzb_catch-8]: process has finished cleanly [pid 7744]
+[INFO] [planning_node-5]: process has finished cleanly [pid 7738]
+[ERROR] [pose_estimation_node-3]: process has died [pid 7621, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node--ros-args -r __node:=pose_estimation_node --params-file /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/params.yaml'].
+[ERROR] [python3-2]: process has died [pid 7540, exit code 1, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_0xnjqg0u'].
+[robot_state_publisher-6] [INFO] [1793182968.964088499] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[tzb_catch-8] [INFO] [1793182968.964089003] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[node-4] [INFO] [1793182968.964087327] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planning_node-5] [INFO] [1793182968.964151464] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[python3-2] [ERROR] [1793182968.970241882] [yolo_node]: Error processing image: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-2] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-2] [ERROR] [1793182968.970880232] [yolo_node]: Traceback (most recent call last):
+[python3-2]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 586, in _process_image
+[python3-2]     self.detection_publisher.publish(detection_array_msg)
+[python3-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+[python3-2]     self.__publisher.publish(msg)
+[python3-2] rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-2] 
+[python3-2] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-2] Traceback (most recent call last):
+[python3-2]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 675, in <module>
+[python3-2]     main()
+[python3-2]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 671, in main
+[python3-2]     rclpy.shutdown()
+[python3-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[python3-2]     _shutdown(context=context)
+[python3-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[python3-2]     return context.shutdown()
+[python3-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[python3-2]     self.__context.shutdown()
+[python3-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[pose_estimation_node-3] [ModelData] points=7500 centroid=[0.00804956 0.00843504 0.00834317]
+[pose_estimation_node-3]   raw=7500 extent=[0.05       0.05       0.04998446] min=[0. 0. 0.] max=[0.05       0.05       0.04998446]
+[pose_estimation_node-3]   unit_scale=0.001 extent_before_scale=[50.         50.         49.98445892]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] Traceback (most recent call last):
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node", line 33, in <module>
+[pose_estimation_node-3]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'pose_estimation_node')())
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1328, in main
+[pose_estimation_node-3]     rclpy.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[pose_estimation_node-3]     _shutdown(context=context)
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[pose_estimation_node-3]     return context.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[pose_estimation_node-3]     self.__context.shutdown()
+[pose_estimation_node-3] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[ERROR] [component_container-1]: process[component_container-1] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [component_container-1]: sending signal 'SIGTERM' to process[component_container-1]
+[ERROR] [component_container-1]: process has died [pid 7514, exit code -15, cmd '/opt/ros/humble/lib/rclcpp_components/component_container --ros-args -r __node:=camera_container -r __ns:=/camera -r /camera/depth/image_raw:=/camera/depth/image_rect_raw -r /camera/depth_registered/points:=/camera/depth/color/points'].al-status gate with arm2nav.
+    # arm2nav publishes perception/navigation state at 10 Hz. Navigation sends
+    # arm_trigger on /arm2nav/command; tzb_catch acknowledges on /arm2nav/from_arm.
+    tzb.sentry_mode: false
+    tzb.sentry_execution_limit: 1
+    tzb.arm2nav_state_topic: "/arm2nav"
+    tzb.arm2nav_arm_state_topic: "/arm2nav/from_arm"
+    tzb.sentry_trigger_pulse_sec: 0.2

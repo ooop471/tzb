@@ -558,7 +558,8 @@ class YoloDetectorNode(Node):
                 if self.high_conf_start_time_sec is None:
                     self.high_conf_start_time_sec = now_sec
                     self.get_logger().info(
-                        f'High confidence detected (max={max_confidence:.3f}), start hold timer...'
+                        f'[GRASP][detection][WAIT_HOLD] max_conf={max_confidence:.3f}',
+                        throttle_duration_sec=5.0
                     )
 
                 hold_elapsed = now_sec - self.high_conf_start_time_sec
@@ -568,13 +569,15 @@ class YoloDetectorNode(Node):
                         self.publish_gate_open = True
                         self.get_logger().info(
                             f'Publish gate opened: confidence>{self.publish_conf_threshold} '
-                            f'held for {hold_elapsed:.3f}s. Publishing enabled.'
+                            f'held for {hold_elapsed:.3f}s. Publishing enabled.',
+                            throttle_duration_sec=5.0
                         )
             else:
                 if self.high_conf_start_time_sec is not None or self.publish_gate_open:
                     self.get_logger().info(
                         f'Publish gate reset (max_conf={max_confidence:.3f} <= '
-                        f'{self.publish_conf_threshold}). Publishing paused.'
+                        f'{self.publish_conf_threshold}). Publishing paused.',
+                        throttle_duration_sec=5.0
                     )
                 self.high_conf_start_time_sec = None
                 self.publish_gate_open = False
@@ -644,9 +647,10 @@ class YoloDetectorNode(Node):
             return
         self._last_timing_log_mono = now
         self.get_logger().info(
-            f"[YOLO TIMING] total={total_ms:.0f}ms | queue={queue_delay_ms:.0f} "
+            f"[GRASP][detection][STATUS] total={total_ms:.0f}ms | queue={queue_delay_ms:.0f} "
             f"convert={convert_ms:.0f} infer={infer_ms:.0f} post={post_ms:.0f}ms | "
-            f"det={num_detections} max_conf={max_confidence:.2f} publish={should_publish}")
+            f"det={num_detections} max_conf={max_confidence:.2f} publish={should_publish}",
+            throttle_duration_sec=5.0)
 
     def destroy_node(self):
         self._worker_running = False

@@ -30,15 +30,15 @@ pose_estimation_node:
     ransac_n: 3
     ransac_max_iter: 50000
     ransac_dist_thresh: 0.008
-    ransac_mutual_filter: false
+    ransac_mutual_filter: False
     ransac_confidence: 0.999
     ransac_edge_length_ratio: 0.85
 
     # Scene-side quality: for every ROI point, query its nearest transformed
     # model point. Coverage uses scene_coverage_dist_thresh.
     scene_coverage_dist_thresh: 0.003
-    coarse_min_scene_coverage: 0.25
-    coarse_max_scene_median: 0.012
+    coarse_min_scene_coverage: 0.23
+    coarse_max_scene_median: 0.015
     icp_min_scene_coverage: 0.45
     icp_max_scene_median: 0.005
     tracking_min_scene_coverage: 0.35
@@ -73,8 +73,8 @@ pose_estimation_node:
 
     # ROI crop and detector gating.
     bbox_expand_ratio: 0.10
-    bbox_expand_ratio_long: 0.02
-    bbox_expand_ratio_width: 0.02
+    bbox_expand_ratio_long: 0.15
+    bbox_expand_ratio_width: 0.10
     rough_crop_pad_ratio: 0.35
     min_scene_points: 250
     det_min_score: 0.05

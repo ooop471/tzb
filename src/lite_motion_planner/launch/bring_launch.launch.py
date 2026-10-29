@@ -86,7 +86,7 @@ def generate_launch_description():
     rviz_config_arg = DeclareLaunchArgument('rviz_config', default_value=rviz_config_file)
 
     camera_launch = IncludeLaunchDescription(
-        _pkg_launch('pose_estimator', 'camera_switch.launch.py'),
+        _pkg_launch('pose_estimator','camera_switch.launch.py'),
         launch_arguments={
             'camera_config_file': LaunchConfiguration('camera_config_file'),
         }.items(),

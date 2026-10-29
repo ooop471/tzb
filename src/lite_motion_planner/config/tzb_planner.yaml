@@ -46,16 +46,16 @@
     # tzb_description-specific end-effector collision names.
     relaxed_scene_collision_object_id: "E3"
     relaxed_scene_collision_object_ids: [""]
-    relaxed_scene_collision_links: ["tcp_link", "J6_link", "Claw_left_link", "claw_right_link"]
+    relaxed_scene_collision_links: ["tcp_link", "J6_link", "Claw_left_Link", "claw_right_Link"]
     relaxed_scene_collision_allowed_penetration: 0.005
     gripper_scene_collision_object_ids: [""]
-    gripper_scene_collision_links: ["Claw_left_link", "claw_right_link"]
+    gripper_scene_collision_links: ["Claw_left_Link", "claw_right_Link"]
     gripper_scene_collision_allowed_penetration: 0.0
-    gripper_self_collision_links: ["Claw_left_link", "claw_right_link"]
+    gripper_self_collision_links: ["Claw_left_Link", "claw_right_Link"]
     gripper_self_collision_allowed_penetration: 0.0
     self_collision_allowed_penetration: 0.0
     # Keep the robot base in collision checking for obstacle avoidance.
-    globally_ignored_robot_collision_links: [""]
+    globally_ignored_robot_collision_links: ["base_link"]
 
     tzb.arm_group: "arm"
     tzb.tcp_frame: "tcp_link"
@@ -69,7 +69,7 @@
 
     # When use_yaml_e3_target=true, XYZ and RPY are interpreted directly in this frame.
     tzb.e3_target_frame: "base_link"
-    tzb.e3_target_xyz: [0.3, 0.80, 0.20]
+    tzb.e3_target_xyz: [0.3, 0.8, 0.2]
     tzb.e3_target_rpy: [0.0, 0.0, 0.0]
     tzb.pose_estimator_target_topic: "/pose_estimator/object_pose"
     tzb.pose_estimator_reference_frame: "camera_link"
@@ -83,6 +83,7 @@
       0.0, 0.0, 1.0, 0.0,
       0.0, 0.0, 0.0, 1.0
     ]
+
     tzb.pose_estimator_axis_conversion_matrix: [
       1.0, 0.0, 0.0,
       0.0, 1.0, 0.0,
@@ -113,7 +114,7 @@
     # to J1_joint (there is no J0 joint), followed by J2_joint through J6_joint.
     tzb.ini_joint_positions: [0.0, 1.0, -2.61, 0.0, 0.0, 0.0]
     tzb.place_joint_positions: [3.14, -0.25, -0.91, 0.0, 1.57, 0.0]
-    tzb.observe_joint_positions: [0.0, 0.0, -2.00, 0.0, 1.57, 0.0]
+    tzb.observe_joint_positions: [0.0, 0.0, -2.0, 0.0, 1.57, 0.0]
     tzb.sentry_joint_positions: [0.0, 1.13, -2.18, 0.0, 1.57, 0.0]
 
     # Serial feedback is used both for the initial state and physical arrival checks.
@@ -122,9 +123,9 @@
     tzb.arm_state_wait_timeout_sec: 0.5
     tzb.arm_state_max_age_sec: 0.5
     # Starts after the last velocity-limited command sample has been sent.
-    tzb.arm_motion_feedback_timeout_sec: 10.0
+    tzb.arm_motion_feedback_timeout_sec: 20.0
     # Physical arrival tolerance; 0.05 rad is about 2.9 degrees.
-    tzb.arm_motion_goal_tolerance_rad: 0.05
+    tzb.arm_motion_goal_tolerance_rad: 0.10
     tzb.arm_motion_stable_duration_sec: 0.25
     # Every arm stage must be physically reached and stable before continuing.
     tzb.require_arm_feedback_for_completion: true
@@ -133,13 +134,13 @@
     # Only the actuated claw joint is commanded; claw_right_joint follows via mimic.
     tzb.gripper_joint_names: ["Claw_left_joint"]
     tzb.gripper_home_positions: [0.0]
-    tzb.gripper_open_positions: [-0.5236]
+    tzb.gripper_open_positions: [0.5236]
     tzb.gripper_close_positions: [0.0]
     # Hardware gripper command: Int8 1=closed, -1=open; serial driver repeats the current state.
     tzb.gripper_command_topic: "/tzb_catch/gripper_command"
     # The target remains collision-active; only the gripper assembly below is exempted.
     tzb.e3_collision_object_enabled: true
-    tzb.grasp_collision_links: ["tcp_link", "J6_link", "Claw_left_link", "claw_right_link"]
+    tzb.grasp_collision_links: ["tcp_link", "J6_link", "Claw_left_Link", "claw_right_Link"]
     tzb.grasp_collision_allowed_penetration: -1.0
 
     tzb.joint_planning_timeout: 2.0
