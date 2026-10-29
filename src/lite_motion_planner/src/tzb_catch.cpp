@@ -207,7 +207,9 @@ public:
       this->declare_parameter<double>("tzb.pose_estimator_wait_timeout_sec", 3.0));
     pose_estimator_continuous_required_sec_ = std::max(
       0.0,
-      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 2.0));
+      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 3.0));
+    target_lock_max_spread_m_ = this->declare_parameter<double>(
+      "tzb.target_lock_max_spread_m", 0.01);
     pose_estimator_continuous_max_gap_sec_ = std::max(
       1e-3,
       this->declare_parameter<double>("tzb.pose_estimator_continuous_max_gap_sec", 0.75));
@@ -443,6 +445,8 @@ public:
     arm_motion_goal_tolerance_rad_ = std::max(
       1e-6,
       this->declare_parameter<double>("tzb.arm_motion_goal_tolerance_rad", 0.03));
+    j6_arrival_tolerance_rad_ =
+      this->declare_parameter<double>("tzb.j6_arrival_tolerance_rad", -1.0);
     arm_motion_stable_duration_sec_ = std::max(
       0.0,
       this->declare_parameter<double>("tzb.arm_motion_stable_duration_sec", 0.25));
@@ -1058,12 +1062,18 @@ private:
             pose_estimator_continuous_max_gap_sec_) {
         pose_estimator_stream_active_ = true;
         pose_estimator_stream_start_time_ = now;
+        pose_lock_window_.clear();
+        pose_lock_retry_count_ = 0;
         RCLCPP_INFO_THROTTLE(
           this->get_logger(), *this->get_clock(), 5000,
           "[GRASP][target][WAIT_CONTINUITY] stream started/restarted; required=%.2fs (repeated starts indicate gaps).",
           pose_estimator_continuous_required_sec_);
       }
       pose_estimator_last_msg_time_ = now;
+      pose_lock_window_.push_back(msg);
+      if (pose_lock_window_.size() > 240) {
+        pose_lock_window_.erase(pose_lock_window_.begin());
+      }
 
       const double continuous_sec =
         std::chrono::duration<double>(now - pose_estimator_stream_start_time_).count();
@@ -1071,7 +1081,64 @@ private:
         return;
       }
 
-      latest_pose_estimator_target_ = msg;
+      geometry_msgs::msg::PoseStamped locked = msg;
+      if (!pose_lock_window_.empty()) {
+        std::vector<double> xs, ys, zs;
+        xs.reserve(pose_lock_window_.size());
+        ys.reserve(pose_lock_window_.size());
+        zs.reserve(pose_lock_window_.size());
+        for (const auto & sample : pose_lock_window_) {
+          xs.push_back(sample.pose.position.x);
+          ys.push_back(sample.pose.position.y);
+          zs.push_back(sample.pose.position.z);
+        }
+        auto median_of = [](std::vector<double> & values) {
+            std::sort(values.begin(), values.end());
+            return values[values.size() / 2];
+          };
+        locked.pose.position.x = median_of(xs);
+        locked.pose.position.y = median_of(ys);
+        locked.pose.position.z = median_of(zs);
+        const double mx = locked.pose.position.x;
+        const double my = locked.pose.position.y;
+        const double mz = locked.pose.position.z;
+        double best_dist = std::numeric_limits<double>::infinity();
+        for (const auto & sample : pose_lock_window_) {
+          const double dx = sample.pose.position.x - mx;
+          const double dy = sample.pose.position.y - my;
+          const double dz = sample.pose.position.z - mz;
+          const double dist = dx * dx + dy * dy + dz * dz;
+          if (dist < best_dist) {
+            best_dist = dist;
+            locked.pose.orientation = sample.pose.orientation;
+          }
+        }
+        double max_dev = 0.0;
+        for (const auto & sample : pose_lock_window_) {
+          const double dx = sample.pose.position.x - mx;
+          const double dy = sample.pose.position.y - my;
+          const double dz = sample.pose.position.z - mz;
+          max_dev = std::max(max_dev, std::sqrt(dx * dx + dy * dy + dz * dz));
+        }
+        RCLCPP_INFO(
+          this->get_logger(),
+          "[GRASP][target][AVERAGED] samples=%zu median_xyz=(%.4f, %.4f, %.4f) max_dev=%.4fm",
+          pose_lock_window_.size(),
+          locked.pose.position.x, locked.pose.position.y, locked.pose.position.z,
+          max_dev);
+        if (target_lock_max_spread_m_ > 0.0 &&
+            max_dev > target_lock_max_spread_m_ && pose_lock_retry_count_ < 5) {
+          ++pose_lock_retry_count_;
+          RCLCPP_WARN(
+            this->get_logger(),
+            "[GRASP][target][UNSTABLE] max_dev=%.4fm > %.4fm; re-acquiring (%d/5).",
+            max_dev, target_lock_max_spread_m_, pose_lock_retry_count_);
+          pose_lock_window_.clear();
+          pose_estimator_stream_start_time_ = now;
+          return;
+        }
+      }
+      latest_pose_estimator_target_ = locked;
       have_pose_estimator_target_ = true;
       RCLCPP_INFO(
         this->get_logger(),
@@ -1086,6 +1153,8 @@ private:
     pose_estimator_stream_active_ = false;
     pose_estimator_capture_enabled_ = false;
     latest_pose_estimator_target_ = geometry_msgs::msg::PoseStamped();
+    pose_lock_window_.clear();
+    pose_lock_retry_count_ = 0;
   }
 
   bool enablePoseEstimatorCaptureAtCurrentReferencePose() {
@@ -1221,7 +1290,19 @@ private:
     return true;
   }
 
-  void applyTargetCorrection(geometry_msgs::msg::PoseStamped& pose) const {
+  void applyTargetCorrection(geometry_msgs::msg::PoseStamped& pose) {
+    std::vector<double> corr_rpy{0.0, 0.0, 0.0};
+    std::vector<double> corr_xyz{0.0, 0.0, 0.0};
+    double corr_min_z = -1.0;
+    this->get_parameter("tzb.target_correction_rpy_deg", corr_rpy);
+    this->get_parameter("tzb.target_correction_xyz", corr_xyz);
+    this->get_parameter("tzb.target_min_z", corr_min_z);
+    if (corr_rpy.size() != 3 || corr_xyz.size() != 3) {
+      return;
+    }
+    target_correction_rpy_deg_ << corr_rpy[0], corr_rpy[1], corr_rpy[2];
+    target_correction_xyz_ << corr_xyz[0], corr_xyz[1], corr_xyz[2];
+    target_min_z_ = corr_min_z;
     const double r = target_correction_rpy_deg_(0) * M_PI / 180.0;
     const double p = target_correction_rpy_deg_(1) * M_PI / 180.0;
     const double y = target_correction_rpy_deg_(2) * M_PI / 180.0;
@@ -1663,6 +1744,28 @@ private:
     RCLCPP_INFO(this->get_logger(), "%s", oss.str().c_str());
   }
 
+  double jointToleranceRad(const std::string& joint_name) const {
+    if (j6_arrival_tolerance_rad_ > 0.0 &&
+        (joint_name == "J6_joint" || joint_name == "J6_Link" || joint_name == "J6_link")) {
+      return j6_arrival_tolerance_rad_;
+    }
+    return arm_motion_goal_tolerance_rad_;
+  }
+
+  double maxNormalizedJointError(
+    const std::vector<double>& measured,
+    const std::vector<double>& target) const {
+    const auto& group = robot_model_->getPlanningGroup(arm_group_);
+    const size_t n = std::min({measured.size(), target.size(), group.joint_names.size()});
+    double worst = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+      const double err = std::abs(std::remainder(measured[i] - target[i], 2.0 * kPi));
+      const double tol = std::max(1e-6, jointToleranceRad(group.joint_names[i]));
+      worst = std::max(worst, err / tol);
+    }
+    return worst;
+  }
+
   std::string formatArmJointErrors(
     const std::vector<double>& measured,
     const std::vector<double>& target) const {
@@ -1679,7 +1782,7 @@ private:
           << ", error=" << error
           << ", raw_error=" << raw_error
           << ", abs=" << abs_error
-          << (abs_error > arm_motion_goal_tolerance_rad_ ? ", BAD}" : ", ok}");
+          << (abs_error > jointToleranceRad(group.joint_names[i]) ? ", BAD}" : ", ok}");
     }
     if (measured.size() != target.size()) {
       oss << " size_mismatch{target=" << target.size()
@@ -2453,8 +2556,10 @@ private:
       }
       last_measured_positions = latest_measured_arm_positions_;
       last_error = maxJointError(latest_measured_arm_positions_, target);
+      const double normalized_error =
+        maxNormalizedJointError(latest_measured_arm_positions_, target);
       const auto feedback_time = latest_arm_state_time_;
-      if (last_error <= arm_motion_goal_tolerance_rad_) {
+      if (normalized_error <= 1.0) {
         if (!stable) {
           stable = true;
           stable_since = feedback_time;
@@ -3361,6 +3466,7 @@ private:
   double arm_state_max_age_sec_{0.5};
   double arm_motion_feedback_timeout_sec_{30.0};
   double arm_motion_goal_tolerance_rad_{0.05};
+  double j6_arrival_tolerance_rad_{-1.0};
   double arm_motion_stable_duration_sec_{0.25};
   bool require_arm_feedback_for_completion_{true};
   std::vector<double> arm_state_;
@@ -3391,6 +3497,9 @@ private:
   std::mutex pose_estimator_mutex_;
   std::condition_variable pose_estimator_cv_;
   geometry_msgs::msg::PoseStamped latest_pose_estimator_target_;
+  std::vector<geometry_msgs::msg::PoseStamped> pose_lock_window_;
+  double target_lock_max_spread_m_{0.01};
+  int pose_lock_retry_count_{0};
   bool have_pose_estimator_target_{false};
   bool pose_estimator_capture_enabled_{false};
   bool pose_estimator_stream_active_{false};

@@ -402,6 +402,9 @@ class PoseEstimationNode(Node):
         decl('target_class', '')
         decl('object_pose_topic', '/pose_estimator/object_pose')
         decl('pose_yaw', 0.0)
+        decl('use_detected_yaw', False)
+        decl('roi_median_position', False)
+        decl('object_pose_offset_xyz', [0.0, 0.06, 0.0])
         decl('camera_info_topic', '/camera/color/camera_info')
         decl('camera_frame', '')
         decl('scene_voxel_size', 0.002)
@@ -463,7 +466,7 @@ class PoseEstimationNode(Node):
 
         names = [
             'model_path', 'pointcloud_topic', 'detection_topic', 'target_class',
-            'object_pose_topic', 'pose_yaw',
+            'object_pose_topic', 'pose_yaw', 'object_pose_offset_xyz',
             'camera_info_topic', 'camera_frame',
             'scene_voxel_size', 'normal_radius', 'normal_max_nn', 'feature_radius',
             'feature_max_nn', 'model_auto_unit_scale',
@@ -861,6 +864,18 @@ class PoseEstimationNode(Node):
         quat = rot.as_quat()    # [x,y,z,w]
         publish_quat = self._quat_with_configured_yaw(quat)
         trans = np.array(T[:3, 3], dtype=np.float64)
+        try:
+            use_roi_median = bool(self.get_parameter('roi_median_position').value)
+        except Exception:
+            use_roi_median = False
+        if use_roi_median and scene is not None and len(scene.points) >= 30:
+            pts = np.asarray(scene.points, dtype=np.float64)
+            med = np.median(pts, axis=0)
+            self.get_logger().info(
+                f"[GRASP][perception][POSITION] icp=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "
+                f"roi_median=({med[0]:.4f},{med[1]:.4f},{med[2]:.4f})",
+                throttle_duration_sec=2.0)
+            trans = med
 
         # ============================================================
         #  4. 发布
@@ -1197,11 +1212,25 @@ class PoseEstimationNode(Node):
     #  Publishing
     # ----------------------------------------------------------------
     def _quat_with_configured_yaw(self, quat):
+        try:
+            use_detected = bool(self.get_parameter('use_detected_yaw').value)
+        except Exception:
+            use_detected = False
+        if use_detected:
+            return quat
         rpy = R.from_quat(quat).as_euler('xyz', degrees=False)
         rpy[2] = float(self._p.get('pose_yaw', 0.0))
         return R.from_euler('xyz', rpy, degrees=False).as_quat()
 
     def _publish_pose_msg(self, header, trans, quat, frame_id, publisher):
+        try:
+            offset = np.asarray(
+                self.get_parameter('object_pose_offset_xyz').value, dtype=float)
+        except Exception:
+            offset = np.zeros(3)
+        if offset.shape == (3,) and np.any(np.abs(offset) > 1e-9):
+            trans = np.asarray(trans, dtype=float) + \
+                R.from_quat(quat).as_matrix() @ offset
         msg = PoseStamped()
         msg.header.stamp = header.stamp
         msg.header.frame_id = frame_id
