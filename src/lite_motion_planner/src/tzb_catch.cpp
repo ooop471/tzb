@@ -215,10 +215,10 @@ public:
       "tzb.pose_estimator_reference_frame", "");
     pose_estimator_reference_transform_ = declareMat4Param(
       "tzb.pose_estimator_reference_transform_matrix",
-      {1.0, 0.0, 0.0, 0.0,
-       0.0, 1.0, 0.0, 0.0,
-       0.0, 0.0, 1.0, 0.0,
-       0.0, 0.0, 0.0, 1.0});
+      { +0.90914413, +0.39610653, -0.12867234, +0.00946086,
+      -0.41463532, +0.88989262, -0.19018065, +0.16555497,
+      +0.03917276, +0.22625372, +0.97328041, -0.02941475,
+       0.00000000,  0.00000000,  0.00000000,  1.00000000});
     freeze_camera_pointcloud_enabled_ =
       this->declare_parameter<bool>("tzb.freeze_camera_pointcloud_enabled", true);
     camera_pointcloud_topic_ = this->declare_parameter<std::string>(
@@ -239,6 +239,22 @@ public:
       {1.0, 0.0, 0.0,
        0.0, 1.0, 0.0,
        0.0, 0.0, 1.0});
+    {
+      const auto corr_rpy = this->declare_parameter<std::vector<double>>(
+        "tzb.target_correction_rpy_deg", std::vector<double>{0.0, 0.0, 0.0});
+      const auto corr_xyz = this->declare_parameter<std::vector<double>>(
+        "tzb.target_correction_xyz", std::vector<double>{0.0, 0.0, 0.0});
+      if (corr_rpy.size() == 3 && corr_xyz.size() == 3) {
+        for (int i = 0; i < 3; ++i) {
+          target_correction_rpy_deg_(i) = corr_rpy[i];
+          target_correction_xyz_(i) = corr_xyz[i];
+        }
+      } else {
+        RCLCPP_WARN(this->get_logger(),
+          "tzb.target_correction_rpy_deg / tzb.target_correction_xyz need 3 values; ignoring");
+      }
+      target_min_z_ = this->declare_parameter<double>("tzb.target_min_z", -1.0);
+    }
     gripper_joint_names_ = this->declare_parameter<std::vector<std::string>>(
       "tzb.gripper_joint_names",
       std::vector<std::string>{"Claw_left_joint"});
@@ -1205,6 +1221,27 @@ private:
     return true;
   }
 
+  void applyTargetCorrection(geometry_msgs::msg::PoseStamped& pose) const {
+    const double r = target_correction_rpy_deg_(0) * M_PI / 180.0;
+    const double p = target_correction_rpy_deg_(1) * M_PI / 180.0;
+    const double y = target_correction_rpy_deg_(2) * M_PI / 180.0;
+    const double cr = std::cos(r), sr = std::sin(r);
+    const double cp = std::cos(p), sp = std::sin(p);
+    const double cy = std::cos(y), sy = std::sin(y);
+    Eigen::Matrix3d R;
+    R << cy * cp, cy * sp * sr - sy * cr, cy * sp * cr + sy * sr,
+         sy * cp, sy * sp * sr + cy * cr, sy * sp * cr - cy * sr,
+         -sp,     cp * sr,                cp * cr;
+    Eigen::Vector3d v(pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
+    v = R * v + target_correction_xyz_;
+    if (v.z() < target_min_z_) {
+      v.z() = target_min_z_;
+    }
+    pose.pose.position.x = v.x();
+    pose.pose.position.y = v.y();
+    pose.pose.position.z = v.z();
+  }
+
   bool lockedPoseEstimatorTargetInPlanningFrame(geometry_msgs::msg::PoseStamped& out) {
     geometry_msgs::msg::PoseStamped sensed_pose;
     {
@@ -1229,6 +1266,7 @@ private:
         e.what());
       return false;
     }
+
     return true;
   }
 
@@ -1268,6 +1306,8 @@ private:
           e.what());
         return false;
       }
+
+      applyTargetCorrection(out);
       RCLCPP_INFO(
         this->get_logger(),
         "[GRASP][transform][OK] source_frame=%s source_xyz=(%.4f, %.4f, %.4f) -> prepared_frame=%s -> %s_xyz=(%.4f, %.4f, %.4f).",
@@ -3245,6 +3285,9 @@ private:
   bool shadow_camera_pose_error_logged_{false};
   std::chrono::steady_clock::time_point last_frozen_pointcloud_log_time_{};
   Eigen::Matrix3d pose_estimator_axis_conversion_{Eigen::Matrix3d::Identity()};
+  Eigen::Vector3d target_correction_rpy_deg_{0.0, 0.0, 0.0};
+  Eigen::Vector3d target_correction_xyz_{0.0, 0.0, 0.0};
+  double target_min_z_{-1.0};
   std::vector<std::string> gripper_joint_names_;
   std::vector<double> gripper_home_positions_;
   std::vector<double> gripper_open_positions_;
