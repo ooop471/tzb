@@ -65,7 +65,7 @@ pose_estimation_node:
     max_tracking_translation_jump: 0.020
     max_tracking_rotation_jump_deg: 30.0
     axisymmetric_ignore_yaw_jump: true
-    roi_timeout_sec: 1.0
+    roi_timeout_sec: 1.5
 
     # RViz: downsampled ROI, blue accepted RANSAC input, green final/tracking.
     publish_roi_cloud: true
@@ -76,8 +76,9 @@ pose_estimation_node:
 
     # ROI crop and detector gating.
     bbox_expand_ratio: 0.10
-    bbox_expand_ratio_long: 0.15
-    bbox_expand_ratio_width: 0.10
+    # Per-side padding relative to the detected bbox: total size 1.40 x 1.30.
+    bbox_expand_ratio_long: 0.20
+    bbox_expand_ratio_width: 0.15
     rough_crop_pad_ratio: 0.35
     min_scene_points: 250
     det_min_score: 0.05

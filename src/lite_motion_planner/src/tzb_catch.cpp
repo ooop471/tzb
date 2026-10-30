@@ -207,7 +207,7 @@ public:
       this->declare_parameter<double>("tzb.pose_estimator_wait_timeout_sec", 3.0));
     pose_estimator_continuous_required_sec_ = std::max(
       0.0,
-      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 3.0));
+      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 2.0));
     target_lock_max_spread_m_ = this->declare_parameter<double>(
       "tzb.target_lock_max_spread_m", 0.01);
     pose_estimator_continuous_max_gap_sec_ = std::max(
@@ -256,6 +256,10 @@ public:
           "tzb.target_correction_rpy_deg / tzb.target_correction_xyz need 3 values; ignoring");
       }
       target_min_z_ = this->declare_parameter<double>("tzb.target_min_z", -1.0);
+    target_left_y_threshold_ = this->declare_parameter<double>(
+      "tzb.target_left_y_threshold", -1.0);
+    target_left_y_offset_ = this->declare_parameter<double>(
+      "tzb.target_left_y_offset", 0.0);
     }
     gripper_joint_names_ = this->declare_parameter<std::vector<std::string>>(
       "tzb.gripper_joint_names",
@@ -1321,6 +1325,10 @@ private:
     pose.pose.position.x = v.x();
     pose.pose.position.y = v.y();
     pose.pose.position.z = v.z();
+    if (target_left_y_threshold_ > 0.0 &&
+        pose.pose.position.y > target_left_y_threshold_) {
+      pose.pose.position.y += target_left_y_offset_;
+    }
   }
 
   bool lockedPoseEstimatorTargetInPlanningFrame(geometry_msgs::msg::PoseStamped& out) {
@@ -3393,6 +3401,8 @@ private:
   Eigen::Vector3d target_correction_rpy_deg_{0.0, 0.0, 0.0};
   Eigen::Vector3d target_correction_xyz_{0.0, 0.0, 0.0};
   double target_min_z_{-1.0};
+  double target_left_y_threshold_{-1.0};
+  double target_left_y_offset_{0.0};
   std::vector<std::string> gripper_joint_names_;
   std::vector<double> gripper_home_positions_;
   std::vector<double> gripper_open_positions_;
