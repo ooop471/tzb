@@ -205,6 +205,10 @@ public:
     pose_estimator_wait_timeout_sec_ = std::max(
       0.0,
       this->declare_parameter<double>("tzb.pose_estimator_wait_timeout_sec", 3.0));
+    // 单次抓取任务里"目标获取"的最大次数；<=0 表示不限制（旧行为）。
+    max_target_attempts_ = std::max(
+      0,
+      static_cast<int>(this->declare_parameter<int>("tzb.max_target_attempts", 5)));
     pose_estimator_continuous_required_sec_ = std::max(
       0.0,
       this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 2.0));
@@ -2689,7 +2693,16 @@ private:
       // for every retry, so a candidate is only accepted after the estimator
       // has been publishing it continuously for the configured duration.
       bool grasp_target_reached = false;
+      int target_attempt = 0;
       while (!stop_requested_.load()) {
+        if (max_target_attempts_ > 0 && target_attempt >= max_target_attempts_) {
+          RCLCPP_ERROR(
+            this->get_logger(),
+            "[GRASP][task][ABORT] target acquisition exhausted %d attempts; giving up this task.",
+            max_target_attempts_);
+          break;
+        }
+        ++target_attempt;
         if (!enablePoseEstimatorCaptureAtCurrentReferencePose()) {
           return false;
         }
@@ -3383,6 +3396,7 @@ private:
   double forced_target_yaw_{0.0};
   std::string pose_estimator_target_topic_{"/pose_estimator/object_pose"};
   double pose_estimator_wait_timeout_sec_{3.0};
+  int max_target_attempts_{5};
   double pose_estimator_continuous_required_sec_{2.0};
   double pose_estimator_continuous_max_gap_sec_{0.75};
   std::string pose_estimator_reference_frame_;

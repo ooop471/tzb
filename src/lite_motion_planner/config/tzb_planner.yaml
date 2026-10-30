@@ -81,7 +81,9 @@
     tzb.pose_estimator_target_topic: "/pose_estimator/object_pose"
     tzb.pose_estimator_reference_frame: "camera_link"
     tzb.apply_reference_transform_to_frozen_frame: true
-    tzb.pose_estimator_wait_timeout_sec: 15.0
+    tzb.pose_estimator_wait_timeout_sec: 25.0
+    # 单次抓取任务里目标获取的最大尝试次数（<=0 表示不限制）
+    tzb.max_target_attempts: 5
     tzb.pose_estimator_continuous_required_sec: 2.0
     tzb.pose_estimator_continuous_max_gap_sec: 0.25
     tzb.pose_estimator_reference_transform_matrix: [
