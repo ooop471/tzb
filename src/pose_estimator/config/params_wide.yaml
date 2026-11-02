@@ -1,0 +1,88 @@
+/**:
+  ros__parameters:
+    # ============================================================
+    #  宽口径位姿估计参数（远距离用）
+    #
+    #  和 params.yaml 的区别：
+    #    - 输出话题改成 /pose_estimator/object_pose_wide
+    #    - 点数/覆盖率/中位误差等门槛全部放宽，能在 1.2~1.5 m 出位姿
+    #    - 关闭可视化，RANSAC 迭代减半，降低 CPU 占用
+    #
+    #  抓取仍然使用 params.yaml 那一套（严格、精确），互不影响。
+    # ============================================================
+
+    model_path: "/home/tzb/tzb_ws/src/pose_estimator/config/half_block.pcd"
+
+    # Topics
+    pointcloud_topic: "/camera/depth/color/points"
+    detection_topic: "/yolo/detections"
+    target_class: ""
+    object_pose_topic: "/pose_estimator/object_pose_wide"
+    pose_yaw: 0.0
+    use_detected_yaw: false
+    roi_median_position: true
+    object_pose_offset_xyz: [0.0, 0.0, 0.0]
+    camera_info_topic: "/camera/color/camera_info"
+    camera_frame: ""
+
+    scene_voxel_size: 0.002
+    normal_radius: 0.006
+    normal_max_nn: 50
+    feature_radius: 0.015
+    feature_max_nn: 100
+    model_auto_unit_scale: true
+
+    # 放宽：内点阈值 8mm -> 12mm，迭代减半省 CPU
+    global_ransac_enable: true
+    global_ransac_retry_interval_sec: 0.05
+    ransac_n: 3
+    ransac_max_iter: 20000
+    ransac_dist_thresh: 0.012
+    ransac_mutual_filter: False
+    ransac_confidence: 0.999
+    ransac_edge_length_ratio: 0.85
+
+    # 放宽的质量门槛（近距离时仍然会很准）
+    scene_coverage_dist_thresh: 0.003
+    coarse_min_scene_coverage: 0.15
+    coarse_max_scene_median: 0.022
+    icp_min_scene_coverage: 0.35
+    icp_max_scene_median: 0.008
+    tracking_min_scene_coverage: 0.25
+    tracking_max_scene_median: 0.010
+
+    icp_dist_thresh: 0.010
+    icp_max_iter: 60
+    icp_relative_fitness: 5.0e-5
+    icp_relative_rmse: 5.0e-5
+    global_icp_max_translation: 0.040
+    global_icp_max_axis_deg: 35.0
+    icp_max_scene_coverage_drop: 0.03
+    icp_max_scene_median_increase: 0.002
+
+    tracking_icp_dist_thresh: 0.006
+    tracking_icp_max_iter: 30
+    max_tracking_translation_jump: 0.030
+    max_tracking_rotation_jump_deg: 40.0
+    axisymmetric_ignore_yaw_jump: true
+    roi_timeout_sec: 2.0
+
+    # 关可视化，省 CPU
+    publish_roi_cloud: false
+    publish_model_marker: false
+    publish_coarse_pose: false
+    publish_coarse_marker: false
+    viz_publish_every_n: 3
+
+    # 放宽：ROI 最少点数 250 -> 110，裁剪留更多余量
+    bbox_expand_ratio: 0.10
+    bbox_expand_ratio_long: 0.15
+    bbox_expand_ratio_width: 0.10
+    rough_crop_pad_ratio: 0.45
+    min_scene_points: 110
+    det_min_score: 0.05
+    bbox_smoothing_enable: true
+    bbox_ema_alpha: 0.65
+
+    timing_log_enable: true
+    timing_log_throttle_sec: 5.0

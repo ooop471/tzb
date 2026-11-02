@@ -17,7 +17,7 @@ from rclpy.executors import MultiThreadedExecutor
 from sensor_msgs.msg import PointCloud2, PointField, CameraInfo
 from geometry_msgs.msg import PoseStamped, TransformStamped, Point
 from visualization_msgs.msg import Marker
-from std_msgs.msg import ColorRGBA
+from std_msgs.msg import ColorRGBA, String
 from std_srvs.srv import Trigger
 import tf2_ros
 from ament_index_python.packages import get_package_share_directory
@@ -46,7 +46,9 @@ from scipy.spatial.transform import Rotation as R
 import time
 import threading
 import copy
+import json
 from scipy.spatial import cKDTree
+from pose_estimator.navigation_observations import NavigationCloudHistory
 
 # ---------- 检测消息兼容层 ----------
 try:
@@ -363,6 +365,17 @@ class PoseEstimationNode(Node):
         # /yolo/annotated_image             Image          YOLO 检测标注图
         # ────────────────────────────────────────────────────────
         self.pub_pose = self.create_publisher(PoseStamped, p['object_pose_topic'], 10)
+        # Navigation observations are separate from the validated grasp output.
+        self._navigation_observations = self.declare_parameter('navigation_observations', False).value
+        self._navigation_confidence = float(self.declare_parameter('navigation_confidence', 0.1).value)
+        self._navigation_max_sync = float(self.declare_parameter('navigation_max_sync', 0.15).value)
+        self._navigation_cloud_history = NavigationCloudHistory(
+            float(self.declare_parameter('navigation_cloud_history_sec', 0.75).value),
+            self._navigation_max_sync)
+        self._navigation_last_processed_detection = 0.0
+        self.pub_navigation_center = self.create_publisher(PoseStamped, '/perception/object_center', 10)
+        self.pub_navigation_hint = self.create_publisher(PoseStamped, '/perception/target_hint', 10)
+        self.pub_navigation_status = self.create_publisher(String, '/perception/navigation_status', 10)
         self.pub_roi = self.create_publisher(PointCloud2, '~/roi_cloud', 1)
         self.pub_marker = self.create_publisher(Marker, '~/model_marker', marker_qos)
         self.pub_coarse_marker = self.create_publisher(Marker, '~/coarse_model_marker', marker_qos)
@@ -606,6 +619,8 @@ class PoseEstimationNode(Node):
             self._frame_count += 1
             frame_seq = self._frame_count
             self._latest_cloud_item = (msg, frame_seq)
+            if self._navigation_observations:
+                self._navigation_cloud_history.add(msg, stamp_to_sec(msg.header.stamp))
 
         # 已有线程在处理时, 这里只更新 latest, 直接返回
         if not self._cloud_process_lock.acquire(blocking=False):
@@ -658,6 +673,20 @@ class PoseEstimationNode(Node):
                 with self._lock:
                     self._latest_det_bbox = None
             return
+
+        if self._navigation_observations:
+            # Inference takes ~220 ms on this rover. Pair the delayed RGB result
+            # with buffered depth from that exposure, rather than the newest
+            # cloud. Process each detection once; repeated old boxes add no evidence.
+            if det_stamp_sec <= self._navigation_last_processed_detection:
+                return
+            with self._cloud_item_lock:
+                matched = self._navigation_cloud_history.match(det_stamp_sec)
+            if matched is None:
+                self._publish_navigation_status('waiting_for_matching_cloud', msg, det_score, det_stamp_sec)
+                return
+            msg = matched
+            self._navigation_last_processed_detection = det_stamp_sec
 
         t0 = time.monotonic()
         try:
@@ -753,6 +782,16 @@ class PoseEstimationNode(Node):
     # ----------------------------------------------------------------
     #  核心处理管线
     # ----------------------------------------------------------------
+    def _publish_navigation_status(self, stage, msg, score, detection_stamp, **details):
+        if not self._navigation_observations:
+            return
+        cloud_stamp = stamp_to_sec(msg.header.stamp)
+        data = dict(stage=stage, stamp=self.get_clock().now().nanoseconds / 1e9,
+                    cloud_stamp=cloud_stamp, detection_stamp=detection_stamp,
+                    sync_error_sec=abs(cloud_stamp-detection_stamp), confidence=score,
+                    confidence_threshold=self._navigation_confidence, **details)
+        self.pub_navigation_status.publish(String(data=json.dumps(data)))
+
     def _process(self, msg: PointCloud2, bbox, det_score=0.0, det_stamp_sec=0.0, det_recv_mono=0.0):
         p = self._p
         frame_id = self._get_frame_id()
@@ -810,6 +849,8 @@ class PoseEstimationNode(Node):
             self.get_logger().debug(f"[ROI DIAG] projected_points={len(scene_np)}")
 
         if len(scene_np) < p['min_scene_points']:
+            self._publish_navigation_status('insufficient_roi', msg, det_score, det_stamp_sec,
+                                            points=len(scene_np), required=p['min_scene_points'])
             self.get_logger().warn(
                 f"ROI 点数 {len(scene_np)} 不足, 跳过",
                 throttle_duration_sec=2.0)
@@ -837,6 +878,8 @@ class PoseEstimationNode(Node):
         t_stages['preproc'] = (time.monotonic() - t2) * 1000
 
         if n_pts < p['min_scene_points']:
+            self._publish_navigation_status('insufficient_downsampled_roi', msg, det_score, det_stamp_sec,
+                                            points=n_pts, required=p['min_scene_points'])
             self.get_logger().warn(
                 f"预处理后点数 {n_pts} 不足, 跳过",
                 throttle_duration_sec=2.0)
@@ -846,6 +889,11 @@ class PoseEstimationNode(Node):
         #  3. 粗配准 / 精配准 / 追踪
         # ============================================================
         t3 = time.monotonic()
+        navigation_valid = (self._navigation_observations and det_score >= self._navigation_confidence
+                            and det_stamp_sec > 0 and abs(cloud_stamp_sec-det_stamp_sec) <= self._navigation_max_sync)
+        if navigation_valid:
+            self._publish_pose_msg(msg.header, np.median(np.asarray(scene.points), axis=0),
+                                   [0., 0., 0., 1.], msg.header.frame_id, self.pub_navigation_hint)
         T, coverage, median = self._register(scene)
         t_stages['register'] = (time.monotonic() - t3) * 1000
         t_stages.update(getattr(self, '_last_reg_timing', {}))
@@ -855,6 +903,8 @@ class PoseEstimationNode(Node):
             self._publish_coarse_result(msg.header, self._last_coarse_transform, frame_id)
 
         if T is None:
+            self._publish_navigation_status('registration_rejected', msg, det_score, det_stamp_sec,
+                                            hint_published=bool(navigation_valid), center_published=False)
             t_stages['total'] = (time.monotonic() - t_total0) * 1000
             self._log_timing(t_stages, det_score, n_pts, coverage, median)
             return
@@ -864,6 +914,13 @@ class PoseEstimationNode(Node):
         quat = rot.as_quat()    # [x,y,z,w]
         publish_quat = self._quat_with_configured_yaw(quat)
         trans = np.array(T[:3, 3], dtype=np.float64)
+        if navigation_valid:
+            # ModelData.centroid is the AABB center in the recentered template frame.
+            center = T[:3, :3] @ self.model.centroid + T[:3, 3]
+            self._publish_pose_msg(msg.header, center, quat, msg.header.frame_id, self.pub_navigation_center)
+        self._publish_navigation_status('center_published' if navigation_valid else 'navigation_gated',
+                                        msg, det_score, det_stamp_sec,
+                                        hint_published=bool(navigation_valid), center_published=bool(navigation_valid))
         try:
             use_roi_median = bool(self.get_parameter('roi_median_position').value)
         except Exception:

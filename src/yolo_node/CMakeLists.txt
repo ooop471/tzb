@@ -37,6 +37,9 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(DIRECTORY ../best_openvino_model/blue_block_320_openvino_model
+  DESTINATION share/${PROJECT_NAME}/models)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()

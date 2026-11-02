@@ -30,6 +30,16 @@ find_package(coal REQUIRED)
 find_package(tinyxml2_vendor REQUIRED)
 find_package(ompl CONFIG REQUIRED)
 
+# Ubuntu 22.04's OMPL 1.5 exports variables rather than an imported target.
+if(NOT TARGET ompl::ompl)
+  add_library(ompl::ompl INTERFACE IMPORTED)
+  set_target_properties(ompl::ompl PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES "${OMPL_INCLUDE_DIRS}"
+    INTERFACE_LINK_DIRECTORIES "${OMPL_LIBRARY_DIRS}"
+    INTERFACE_LINK_LIBRARIES "${OMPL_LIBRARIES}"
+  )
+endif()
+
 # tinyxml2: first try config package, then module package.
 find_package(TinyXML2 QUIET)
 if(NOT TinyXML2_FOUND)
@@ -37,6 +47,7 @@ if(NOT TinyXML2_FOUND)
 endif()
 
 find_package(ruckig REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 include_directories(include)
 
@@ -123,6 +134,7 @@ endif()
 
 add_executable(tzb_catch src/tzb_catch.cpp)
 target_link_libraries(tzb_catch ${PROJECT_NAME}_core)
+target_link_libraries(tzb_catch nlohmann_json::nlohmann_json)
 list(APPEND ${PROJECT_NAME}_executables tzb_catch)
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/haomu_flow_console.cpp")
@@ -182,5 +194,13 @@ install(TARGETS ${PROJECT_NAME}_core ${${PROJECT_NAME}_executables}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  add_test(NAME test_mission_arm
+    COMMAND /usr/bin/python3 ${CMAKE_CURRENT_SOURCE_DIR}/test/test_mission_control.py
+      $<TARGET_FILE:tzb_catch> ${CMAKE_CURRENT_SOURCE_DIR})
+  set_tests_properties(test_mission_arm PROPERTIES TIMEOUT 55 RUN_SERIAL TRUE
+    ENVIRONMENT "ROS_DOMAIN_ID=223;ROS_LOCALHOST_ONLY=1;ROS_LOG_DIR=/tmp/rover_arm_mission_tests")
+endif()
 
 ament_package()

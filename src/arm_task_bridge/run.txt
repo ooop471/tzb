@@ -1,0 +1,24 @@
+source /opt/ros/humble/setup.bash
+source ~/tzb_ws/install/setup.bash
+ros2 launch lite_motion_planner bring_launch.launch.py
+ros2 launch lite_motion_planner bring_launch.launch.py \
+  autostart:=false listen_navigation_goal_status:=true use_rviz:=false
+
+source /opt/ros/humble/setup.bash
+source ~/tzb_ws/install/setup.bash
+ros2 run tzb_target_bridge target_bridge.py
+
+
+source /opt/ros/humble/setup.bash
+source ~/tzb_ws/install/setup.bash
+ros2 run arm_task_bridge arm_task_bridge --ros-args \
+  -p require_odometry:=false -p enable_trigger:=true
+
+source /opt/ros/humble/setup.bash
+source ~/tzb_ws/install/setup.bash
+ros2 topic echo /mission/target_in_base     # 物体在底盘下的位置
+ros2 topic echo /arm_task/state             # 判断结果
+
+ros2 topic echo /arm_task/state          # READY → GRASPING → SUCCESS/FAILED
+ros2 topic echo /arm_task/result --once  # 1 成功 / -1 放弃
+ros2 topic echo /tzb_catch/result --once # 机械臂原始回报

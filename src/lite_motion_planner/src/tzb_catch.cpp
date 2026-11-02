@@ -17,6 +17,8 @@
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 #include <std_msgs/msg/int8.hpp>
+#include <std_msgs/msg/string.hpp>
+#include <nlohmann/json.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <trajectory_msgs/msg/joint_trajectory.hpp>
 #include <visualization_msgs/msg/marker_array.hpp>
@@ -42,6 +44,8 @@
 #include <sstream>
 #include <thread>
 #include <vector>
+#include <deque>
+#include <optional>
 
 namespace lite_motion_planner {
 namespace {
@@ -227,6 +231,8 @@ public:
        0.00000000,  0.00000000,  0.00000000,  1.00000000});
     freeze_camera_pointcloud_enabled_ =
       this->declare_parameter<bool>("tzb.freeze_camera_pointcloud_enabled", true);
+    publish_frozen_camera_tf_ =
+      this->declare_parameter<bool>("tzb.publish_frozen_camera_tf", true);
     camera_pointcloud_topic_ = this->declare_parameter<std::string>(
       "tzb.camera_pointcloud_topic", "/camera/depth/color/points");
     frozen_camera_pointcloud_topic_ = this->declare_parameter<std::string>(
@@ -427,6 +433,8 @@ public:
     }
     initial_arm_positions_ = this->declare_parameter<std::vector<double>>(
       "tzb.ini_joint_positions", std::vector<double>(arm_group.joint_names.size(), 0.0));
+    pre_initial_arm_positions_ = this->declare_parameter<std::vector<double>>(
+      "tzb.pre_ini_joint_positions", initial_arm_positions_);
     place_arm_positions_ = this->declare_parameter<std::vector<double>>(
       "tzb.place_joint_positions", initial_arm_positions_);
     observe_joint_positions_ = this->declare_parameter<std::vector<double>>(
@@ -464,6 +472,9 @@ public:
     if (initial_arm_positions_.size() != arm_group.joint_names.size()) {
       throw std::runtime_error("tzb.ini_joint_positions size does not match tzb arm group dof");
     }
+    if (pre_initial_arm_positions_.size() != arm_group.joint_names.size()) {
+      throw std::runtime_error("tzb.pre_ini_joint_positions size does not match tzb arm group dof");
+    }
     if (place_arm_positions_.size() != arm_group.joint_names.size()) {
       throw std::runtime_error("tzb.place_joint_positions size does not match tzb arm group dof");
     }
@@ -475,6 +486,7 @@ public:
     }
     if (isDegreeUnit(joint_positions_unit_)) {
       degreesToRadiansInPlace(initial_arm_positions_);
+      degreesToRadiansInPlace(pre_initial_arm_positions_);
       degreesToRadiansInPlace(place_arm_positions_);
       degreesToRadiansInPlace(observe_joint_positions_);
       degreesToRadiansInPlace(sentry_joint_positions_);
@@ -500,7 +512,17 @@ public:
       "tzb.navigation_goal_status_topic", "/navigation_goal_status");
     task_result_topic_ = this->declare_parameter<std::string>(
       "tzb.result_topic", "/tzb_catch/result");
-    task_start_gate_enabled_ = !task_autostart_ && listen_navigation_goal_status_ && !sentry_mode_;
+    mission_controlled_ = this->declare_parameter<bool>("tzb.mission_controlled", false);
+    mission_feedback_grace_ = this->declare_parameter<double>("tzb.mission_feedback_grace_sec", 2.0);
+    if(!std::isfinite(mission_feedback_grace_) || mission_feedback_grace_<=0)
+      throw std::runtime_error("mission_feedback_grace_sec must be positive");
+    navigation_sensor_frame_ = this->declare_parameter<std::string>(
+      "tzb.navigation_sensor_frame", "camera_color_optical_frame");
+    task_start_gate_enabled_ = !mission_controlled_ && !task_autostart_ && listen_navigation_goal_status_ && !sentry_mode_;
+    if (mission_controlled_ && (!arm_feedback_enabled_ || !require_arm_feedback_for_completion_ ||
+        sentry_mode_ || use_yaml_e3_target_ || replay_after_complete_ || sequence_loop_)) {
+      throw std::runtime_error("Mission mode requires physical feedback, visual targets and non-looping, non-sentry execution");
+    }
 
     plan_client_ = this->create_client<lite_motion_msgs::srv::PlanArmMotion>("plan_arm_motion");
     add_object_client_ = this->create_client<lite_motion_msgs::srv::AddSceneObject>("add_scene_object");
@@ -601,8 +623,17 @@ public:
           onPoseEstimatorTarget(*msg);
         });
     }
-    if (freeze_camera_pointcloud_enabled_) {
+    // TF 广播和点云转发解耦：只广播 TF 很便宜（10 Hz 一条变换），
+    // 转发整幅点云很贵，所以允许只开 TF。
+    if (freeze_camera_pointcloud_enabled_ || publish_frozen_camera_tf_) {
       frozen_camera_tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+      frozen_camera_tf_timer_ = this->create_wall_timer(
+        std::chrono::milliseconds(100),
+        [this]() {
+          publishFrozenCameraFrame();
+        });
+    }
+    if (freeze_camera_pointcloud_enabled_) {
       rclcpp::QoS frozen_cloud_qos(2);
       frozen_cloud_qos.reliable().durability_volatile();
       frozen_camera_pointcloud_pub_ =
@@ -615,11 +646,6 @@ public:
           [this](sensor_msgs::msg::PointCloud2::SharedPtr msg) {
             onCameraPointCloud(*msg);
           });
-      frozen_camera_tf_timer_ = this->create_wall_timer(
-        std::chrono::milliseconds(100),
-        [this]() {
-          publishFrozenCameraFrame();
-        });
     }
 
     if (enable_visualization_) {
@@ -656,8 +682,22 @@ public:
       force_target_pitch_ ? "true" : "false",
       force_target_yaw_ ? "true" : "false");
     logArmJointState("configured_ini_joint_positions", initial_arm_positions_);
+    logArmJointState("configured_pre_ini_joint_positions", pre_initial_arm_positions_);
     logArmJointState("configured_place_joint_positions", place_arm_positions_);
     logArmJointState("configured_observe_joint_positions", observe_joint_positions_);
+
+    if (mission_controlled_) {
+      mission_state_pub_ = create_publisher<std_msgs::msg::String>("/arm_task/state", 10);
+      mission_command_sub_ = create_subscription<std_msgs::msg::String>("/arm_task/command", 10,
+        [this](std_msgs::msg::String::ConstSharedPtr m) { onMissionCommand(m->data); });
+      navigation_center_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("/mission/target_center", 10);
+      navigation_hint_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("/mission/target_hint", 10);
+      navigation_center_sub_ = create_subscription<geometry_msgs::msg::PoseStamped>("/perception/object_center", 10,
+        [this](geometry_msgs::msg::PoseStamped::ConstSharedPtr m) { navigationTarget(*m, true); });
+      navigation_hint_sub_ = create_subscription<geometry_msgs::msg::PoseStamped>("/perception/target_hint", 10,
+        [this](geometry_msgs::msg::PoseStamped::ConstSharedPtr m) { navigationTarget(*m, false); });
+      mission_state_timer_ = create_wall_timer(std::chrono::milliseconds(100), [this]() { publishMissionState(); });
+    }
 
     start_timer_ = this->create_wall_timer(
       std::chrono::milliseconds(500),
@@ -676,12 +716,149 @@ public:
     arm_state_cv_.notify_all();
     task_trigger_cv_.notify_all();
     sentry_cv_.notify_all();
+    mission_cv_.notify_all();
     if (worker_.joinable()) {
       worker_.join();
     }
   }
 
 private:
+  void onMissionCommand(const std::string &data) {
+    try {
+      const auto j = nlohmann::json::parse(data);
+      const auto session = j.at("session").get<std::string>();
+      const auto id = j.at("task_id").get<uint64_t>();
+      const auto op = j.at("command").get<std::string>();
+      const double age = now().seconds()-j.at("stamp").get<double>();
+      if (session.empty() || !std::isfinite(age) || age < -0.15 || age > 0.5 ||
+          (op != "prepare" && op != "grasp")) return;
+      std::vector<double> expected;
+      if (op == "grasp") {
+        expected = j.at("expected_center").get<std::vector<double>>();
+        if (expected.size()!=3 || !std::all_of(expected.begin(),expected.end(),[](double v) { return std::isfinite(v); })) return;
+      }
+      std::lock_guard<std::mutex> lock(mission_mutex_);
+      if (mission_phase_=="BUSY" || mission_pending_) return;
+      if (session!=mission_session_ && op!="prepare") return;
+      if (session==mission_session_ && id<=mission_task_id_) return;
+      if (op=="grasp" && mission_phase_!="READY") return;
+      mission_session_=session; mission_task_id_=id; mission_operation_=op;
+      mission_expected_center_=expected; mission_pending_=true; mission_success_=false; mission_phase_="BUSY";
+      mission_cv_.notify_all();
+    } catch (const std::exception &e) {
+      RCLCPP_WARN_THROTTLE(get_logger(),*get_clock(),2000,"Invalid mission arm command: %s",e.what());
+    }
+  }
+
+  void publishMissionState() {
+    nlohmann::json j;
+    {
+      std::lock_guard<std::mutex> lock(mission_mutex_);
+      j={{"session",mission_session_},{"task_id",mission_task_id_},{"phase",mission_phase_},
+        {"success",mission_success_},{"stamp",now().seconds()}};
+    }
+    const auto &ready_positions=pre_initial_arm_positions_;
+    bool safe=j["phase"]=="READY";
+    {
+      std::lock_guard<std::mutex> lock(arm_state_mutex_);
+      safe = safe && have_complete_arm_state_ && latest_measured_arm_positions_.size()==ready_positions.size() &&
+        std::chrono::duration<double>(std::chrono::steady_clock::now()-latest_arm_state_time_).count()<=std::max(arm_state_max_age_sec_,mission_feedback_grace_);
+      // Use the same per-joint tolerances and equivalent-angle handling as
+      // waitForArmAtTarget; in particular, J6 has its own calibrated tolerance.
+      if(safe) safe=maxNormalizedJointError(latest_measured_arm_positions_,ready_positions)<=1.0;
+    }
+    j["safe_to_drive"]=safe;
+    j["ready_pose"]="pre_ini";
+    std_msgs::msg::String m; m.data=j.dump(); mission_state_pub_->publish(m);
+  }
+
+  void runMissionSequence() {
+    while (!stop_requested_.load()) {
+      std::string operation;
+      {
+        std::unique_lock<std::mutex> lock(mission_mutex_);
+        mission_cv_.wait(lock,[this]() { return stop_requested_.load() || mission_pending_; });
+        if(stop_requested_.load()) return;
+        mission_pending_=false; operation=mission_operation_;
+      }
+      bool success=false;
+      try {
+        const bool services=waitForService<lite_motion_msgs::srv::PlanArmMotion>(plan_client_,"plan_arm_motion") &&
+          (!e3_collision_object_enabled_ ||
+           (waitForService<lite_motion_msgs::srv::AddSceneObject>(add_object_client_,"add_scene_object") &&
+            waitForService<lite_motion_msgs::srv::RemoveSceneObject>(remove_object_client_,"remove_scene_object") &&
+            waitForService<lite_motion_msgs::srv::SetSceneCollisionAllowance>(set_scene_collision_allowance_client_,"set_scene_collision_allowance")));
+        if(services) {
+          if(operation=="prepare") {
+            success=readInitialArmJointPositions(arm_state_) &&
+              executeArmJointPlan(pre_initial_arm_positions_,"mission_prepare_exploration_pose");
+          } else success=runSequenceOnce();
+        }
+      } catch(const std::exception &e) {
+        RCLCPP_ERROR(get_logger(),"Mission arm operation failed: %s",e.what());
+      }
+      bool recovered=false;
+      if(!success && operation=="grasp" && !stop_requested_.load()) {
+        try {
+          recovered=readInitialArmJointPositions(arm_state_) &&
+            executeArmJointPlan(pre_initial_arm_positions_,"mission_recover_exploration_pose_after_failed_grasp");
+        } catch(const std::exception &e) {
+          RCLCPP_ERROR(get_logger(),"Arm recovery failed: %s",e.what());
+        }
+      }
+      record_tcp_trajectory_.store(false);
+      {
+        std::lock_guard<std::mutex> lock(mission_mutex_);
+        mission_success_=success; mission_phase_=(success || recovered) ? "READY" : "ERROR";
+      }
+    }
+  }
+
+  // Geometry uses physical joint feedback at the cloud timestamp, never commanded joints
+  // or the frozen camera frame. Empirical grasp-target corrections are not applied here.
+  void navigationTarget(const geometry_msgs::msg::PoseStamped &in, bool precise) {
+    const double t=rclcpp::Time(in.header.stamp).seconds();
+    const double age=now().seconds()-t;
+    if(in.header.frame_id!=navigation_sensor_frame_ || !std::isfinite(age) || age < -0.15 || age>0.6) return;
+    std::vector<double> joints;
+    {
+      std::lock_guard<std::mutex> lock(arm_state_mutex_);
+      double error=0.10;
+      for(const auto &sample: mission_joint_history_) if(std::abs(sample.first-t)<error) {
+        error=std::abs(sample.first-t); joints=sample.second;
+      }
+      if(joints.empty() || std::chrono::duration<double>(std::chrono::steady_clock::now()-latest_arm_state_time_).count()>arm_state_max_age_sec_) return;
+    }
+    try {
+      auto q=robot_model_->groupToFull(arm_group_,Eigen::Map<Eigen::VectorXd>(joints.data(),joints.size()),robot_model_->neutralConfiguration());
+      pinocchio::Data measured(robot_model_->model());
+      pinocchio::forwardKinematics(robot_model_->model(),measured,q);
+      pinocchio::updateFramePlacements(robot_model_->model(),measured);
+      const auto camera=measured.oMf[robot_model_->getFrameIdChecked(pose_estimator_reference_frame_)];
+      const auto prepared=preparePoseEstimatorTarget(in);
+      geometry_msgs::msg::PoseStamped out;
+      out.header=in.header; out.header.frame_id=planning_frame_;
+      out.pose=poseMsgFromSE3(camera*poseMsgToSE3(prepared.pose));
+      if(!std::isfinite(out.pose.position.x)||!std::isfinite(out.pose.position.y)||!std::isfinite(out.pose.position.z)) return;
+      if(precise) {
+        mission_centers_.push_back({t,Eigen::Vector3d(out.pose.position.x,out.pose.position.y,out.pose.position.z)});
+        while(mission_centers_.size()>30) mission_centers_.pop_front();
+        navigation_center_pub_->publish(out);
+        // DDS does not order separate topics. A raw grasp pose may arrive before
+        // its matching center; defer that frame until its identity can be checked.
+        for(auto it=mission_pending_poses_.begin();it!=mission_pending_poses_.end();++it)
+          if(std::abs(rclcpp::Time(it->header.stamp).seconds()-t)<0.001) {
+            const auto pending=*it;
+            mission_pending_poses_.erase(it);
+            onPoseEstimatorTarget(pending);
+            break;
+          }
+      } else navigation_hint_pub_->publish(out);
+    } catch(const std::exception &e) {
+      RCLCPP_WARN_THROTTLE(get_logger(),*get_clock(),3000,"Navigation target transform rejected: %s",e.what());
+    }
+  }
+
   std::array<double, 3> declareVec3Param(
     const std::string& name,
     const std::array<double, 3>& default_value) {
@@ -1023,6 +1200,13 @@ private:
     {
       std::lock_guard<std::mutex> lock(arm_state_mutex_);
       latest_measured_arm_positions_ = positions;
+      if(mission_controlled_) {
+        const double t=rclcpp::Time(msg.header.stamp).seconds();
+        if(t>0 && (mission_joint_history_.empty() || t>mission_joint_history_.back().first)) {
+          mission_joint_history_.push_back({t,positions});
+          while(!mission_joint_history_.empty() && t-mission_joint_history_.front().first>3.0) mission_joint_history_.pop_front();
+        }
+      }
       latest_arm_state_time_ = std::chrono::steady_clock::now();
       have_complete_arm_state_ = true;
       ++arm_state_sequence_;
@@ -1042,6 +1226,33 @@ private:
   }
 
   void onPoseEstimatorTarget(const geometry_msgs::msg::PoseStamped& msg) {
+    if(mission_controlled_) {
+      std::vector<double> expected;
+      {
+        std::lock_guard<std::mutex> lock(mission_mutex_);
+        if(mission_phase_!="BUSY" || mission_operation_!="grasp") return;
+        expected=mission_expected_center_;
+      }
+      bool same=false, known=false;
+      const double t=rclcpp::Time(msg.header.stamp).seconds();
+      if(expected.size()==3) for(const auto &center:mission_centers_) {
+        if(std::abs(center.first-t)<0.001) {
+          known=true;
+          if((center.second-Eigen::Vector3d(expected[0],expected[1],expected[2])).norm()<0.10) same=true;
+        }
+      }
+      if(!same) {
+        if(!known && now().seconds()-t>=-0.15 && now().seconds()-t<=0.6) {
+          mission_pending_poses_.push_back(msg);
+          while(mission_pending_poses_.size()>30) mission_pending_poses_.pop_front();
+        }
+        if(known) {
+          std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
+          resetPoseEstimatorContinuityLocked();
+        }
+        return;
+      }
+    }
     const auto now = std::chrono::steady_clock::now();
     {
       std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
@@ -2809,16 +3020,16 @@ private:
     publishGripperCommand("open_gripper_at_place_joint_positions", -1);
 
     if (!executeArmJointPlan(
-          observe_joint_positions_, "move_arm_to_observe_after_place")) {
+          pre_initial_arm_positions_, "move_arm_to_pre_ini_after_place")) {
       RCLCPP_ERROR(
         this->get_logger(),
-        "Failed to return to observe_joint_positions after opening the gripper.");
+        "Failed to return to pre_ini_joint_positions after opening the gripper.");
       return false;
     }
 
     RCLCPP_INFO(
       this->get_logger(),
-      "tzb_catch sequence completed: target reached, gripper closed, arm moved to tzb.place_joint_positions, gripper opened, and arm returned to tzb.observe_joint_positions.");
+      "tzb_catch sequence completed: target reached, gripper closed, arm moved to tzb.place_joint_positions, gripper opened, and arm returned to tzb.pre_ini_joint_positions.");
     return true;
   }
 
@@ -2983,6 +3194,7 @@ private:
   }
 
   void runSequence() {
+    if (mission_controlled_) { runMissionSequence(); return; }
     if (!waitForService<lite_motion_msgs::srv::PlanArmMotion>(
           plan_client_, "plan_arm_motion") ||
         (e3_collision_object_enabled_ &&
@@ -3402,6 +3614,7 @@ private:
   std::string pose_estimator_reference_frame_;
   Eigen::Matrix4d pose_estimator_reference_transform_{Eigen::Matrix4d::Identity()};
   bool freeze_camera_pointcloud_enabled_{true};
+  bool publish_frozen_camera_tf_{true};
   std::string camera_pointcloud_topic_{"/camera/depth/color/points"};
   std::string frozen_camera_pointcloud_topic_{"/tzb_catch/frozen_observe_camera_points"};
   std::string frozen_camera_frame_id_{"tzb_observe_camera_link"};
@@ -3481,6 +3694,7 @@ private:
   double arm_command_goal_tolerance_rad_{0.005};
   bool arm_command_publish_during_replay_{false};
   std::vector<double> initial_arm_positions_;
+  std::vector<double> pre_initial_arm_positions_;
   std::vector<double> place_arm_positions_;
   std::vector<double> observe_joint_positions_;
   std::vector<double> max_arm_command_velocity_rad_s_;
@@ -3502,6 +3716,21 @@ private:
   std::chrono::steady_clock::time_point latest_arm_state_time_{};
   uint64_t arm_state_sequence_{0};
   bool task_autostart_{false};
+  bool mission_controlled_{false}, mission_pending_{false}, mission_success_{false};
+  double mission_feedback_grace_{2.0};
+  std::string mission_session_, mission_phase_{"WAITING"}, mission_operation_, navigation_sensor_frame_;
+  uint64_t mission_task_id_{0};
+  std::vector<double> mission_expected_center_;
+  std::mutex mission_mutex_;
+  std::condition_variable mission_cv_;
+  std::deque<std::pair<double,std::vector<double>>> mission_joint_history_;
+  std::deque<std::pair<double,Eigen::Vector3d>> mission_centers_;
+  std::deque<geometry_msgs::msg::PoseStamped> mission_pending_poses_;
+  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr mission_state_pub_;
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr mission_command_sub_;
+  rclcpp::TimerBase::SharedPtr mission_state_timer_;
+  rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr navigation_center_pub_, navigation_hint_pub_;
+  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr navigation_center_sub_, navigation_hint_sub_;
   bool listen_navigation_goal_status_{true};
   bool task_start_gate_enabled_{false};
   std::string task_start_topic_{"/tzb_catch/start"};

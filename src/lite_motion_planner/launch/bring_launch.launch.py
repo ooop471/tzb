@@ -96,8 +96,8 @@ def generate_launch_description():
         _pkg_launch('yolo_node', 'yolo_node.launch.py'),
         launch_arguments={
             'NUC': LaunchConfiguration('NUC'),
-            'model_path': '/home/tzb/tzb_ws/src/best_openvino_model/white_block_320_openvino_model',
-            'target_class': 'white block',
+            'model_path': '/home/tzb/tzb_ws/src/best_openvino_model/blue_block_320_openvino_model',
+            'target_class': 'blue block',
         }.items(),
     )
 
