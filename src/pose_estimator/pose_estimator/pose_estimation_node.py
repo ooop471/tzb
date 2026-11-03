@@ -417,6 +417,9 @@ class PoseEstimationNode(Node):
         decl('pose_yaw', 0.0)
         decl('use_detected_yaw', True)
         decl('roi_median_position', False)
+        # 抓取位置来源: 'roi_median' = ROI 点云中位数(旧行为);
+        # 'model_center' = 模型 AABB 中心在相机系下(与可见面无关, 可复现)。
+        decl('grasp_position_source', 'roi_median')
         decl('object_pose_offset_xyz', [0.0, 0.0, 0.0])
         decl('camera_info_topic', '/camera/color/camera_info')
         decl('camera_frame', '')
@@ -921,17 +924,32 @@ class PoseEstimationNode(Node):
         self._publish_navigation_status('center_published' if navigation_valid else 'navigation_gated',
                                         msg, det_score, det_stamp_sec,
                                         hint_published=bool(navigation_valid), center_published=bool(navigation_valid))
+        # 模型 AABB 中心: 与"哪些面被看到"无关的几何中心, 换位置/换视角都可复现。
+        model_center = rot_matrix @ self.model.centroid + trans
         try:
             use_roi_median = bool(self.get_parameter('roi_median_position').value)
         except Exception:
             use_roi_median = False
+        try:
+            position_source = str(self.get_parameter('grasp_position_source').value)
+        except Exception:
+            position_source = 'roi_median'
+        med = None
         if use_roi_median and scene is not None and len(scene.points) >= 30:
-            pts = np.asarray(scene.points, dtype=np.float64)
-            med = np.median(pts, axis=0)
+            med = np.median(np.asarray(scene.points, dtype=np.float64), axis=0)
+        if med is not None or position_source == 'model_center':
+            med_txt = ('nan' if med is None else
+                       f"({med[0]:.4f},{med[1]:.4f},{med[2]:.4f})")
             self.get_logger().info(
-                f"[GRASP][perception][POSITION] icp=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "
-                f"roi_median=({med[0]:.4f},{med[1]:.4f},{med[2]:.4f})",
+                f"[GRASP][perception][POSITION] source={position_source} "
+                f"icp=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "
+                f"roi_median={med_txt} "
+                f"model_center=({model_center[0]:.4f},{model_center[1]:.4f},{model_center[2]:.4f}) "
+                f"d_center_minus_median_mm={1000.0 * (float(np.linalg.norm(model_center - med)) if med is not None else float('nan')):.1f}",
                 throttle_duration_sec=2.0)
+        if position_source == 'model_center':
+            trans = model_center
+        elif med is not None:
             trans = med
 
         # ============================================================

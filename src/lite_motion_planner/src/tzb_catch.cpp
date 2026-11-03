@@ -243,6 +243,10 @@ public:
       this->declare_parameter<bool>("tzb.apply_reference_transform_to_frozen_frame", true);
     transform_frozen_pointcloud_to_reference_frame_ =
       this->declare_parameter<bool>("tzb.transform_frozen_pointcloud_to_reference_frame", true);
+    // 冻结相机帧用"规划出的观测关节角"而不是"实测关节角"来算:
+    // 实测角每次都差 0~0.1 rad, 会让同一个物体在 base 系里的坐标每次差几厘米。
+    freeze_reference_from_planned_observe_ =
+      this->declare_parameter<bool>("tzb.freeze_reference_from_planned_observe", true);
     frozen_camera_pointcloud_log_throttle_sec_ = std::max(
       0.1,
       this->declare_parameter<double>("tzb.frozen_camera_pointcloud_log_throttle_sec", 2.0));
@@ -352,6 +356,10 @@ public:
       this->declare_parameter<double>("tzb.cartesian_waypoint_rot_tolerance", 0.05));
 
     post_action_wait_sec_ = this->declare_parameter<double>("tzb.post_action_wait_sec", 0.05);
+    // 夹爪只有 2 态指令(1=闭/-1=开)、串口协议里没有夹爪位置反馈,
+    // 所以闭合指令之后必须等夹爪走完再抬臂, 否则会"一边合一边走"。
+    gripper_settle_sec_ = std::max(
+      0.0, this->declare_parameter<double>("tzb.gripper_settle_sec", 1.0));
     service_wait_sec_ = this->declare_parameter<double>("tzb.service_wait_sec", 30.0);
     const double configured_response_wait_sec =
       this->declare_parameter<double>("tzb.response_wait_sec", 30.0);
@@ -1388,21 +1396,54 @@ private:
     return true;
   }
 
+  pinocchio::SE3 framePoseAtArmJoints(
+    const std::string& frame_name, const std::vector<double>& arm_joints) {
+    Eigen::VectorXd q_full = robot_model_->neutralConfiguration();
+    const Eigen::VectorXd q_arm = Eigen::Map<const Eigen::VectorXd>(
+      arm_joints.data(), static_cast<Eigen::Index>(arm_joints.size()));
+    q_full = robot_model_->groupToFull(arm_group_, q_arm, q_full);
+    pinocchio::Data local_data(robot_model_->model());
+    pinocchio::forwardKinematics(robot_model_->model(), local_data, q_full);
+    pinocchio::updateFramePlacements(robot_model_->model(), local_data);
+    return local_data.oMf[robot_model_->getFrameIdChecked(frame_name)];
+  }
+
   bool freezePoseEstimatorReferenceAtCurrentArmState() {
     if (pose_estimator_reference_frame_.empty()) {
       return true;
     }
     try {
-      const auto reference_pose = currentFramePose(pose_estimator_reference_frame_);
+      const bool use_planned =
+        freeze_reference_from_planned_observe_ && !observed_reference_joints_.empty();
+      const auto reference_pose = use_planned
+        ? framePoseAtArmJoints(pose_estimator_reference_frame_, observed_reference_joints_)
+        : currentFramePose(pose_estimator_reference_frame_);
       {
         std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
         frozen_pose_estimator_reference_in_planning_ = reference_pose;
         have_frozen_pose_estimator_reference_ = true;
       }
-      RCLCPP_INFO(
-        this->get_logger(),
-        "Pose estimator reference frame [%s] frozen from the measured arm state.",
-        pose_estimator_reference_frame_.c_str());
+      if (use_planned) {
+        double delta_mm = 0.0;
+        double delta_tilt_deg = 0.0;
+        try {
+          const auto measured_pose = currentFramePose(pose_estimator_reference_frame_);
+          delta_mm = 1000.0 * (reference_pose.translation() - measured_pose.translation()).norm();
+          const Eigen::Matrix3d dR = measured_pose.rotation().transpose() * reference_pose.rotation();
+          delta_tilt_deg = std::abs(Eigen::AngleAxisd(dR).angle()) * 180.0 / M_PI;
+        } catch (const std::exception&) {
+        }
+        RCLCPP_INFO(
+          this->get_logger(),
+          "Pose estimator reference frame [%s] frozen from the PLANNED observe joints "
+          "(measured-vs-planned delta=%.1f mm %.2f deg).",
+          pose_estimator_reference_frame_.c_str(), delta_mm, delta_tilt_deg);
+      } else {
+        RCLCPP_INFO(
+          this->get_logger(),
+          "Pose estimator reference frame [%s] frozen from the measured arm state.",
+          pose_estimator_reference_frame_.c_str());
+      }
       return true;
     } catch (const std::exception& e) {
       RCLCPP_ERROR(
@@ -2440,6 +2481,10 @@ private:
     const auto final_arm_state = resp->trajectory.points.back().positions;
     const double target_err = maxJointError(final_arm_state, planning_target_joints);
     logArmJointState(stage_name + "_planned_final", final_arm_state);
+    if (stage_name == "move_arm_to_observe_before_perception") {
+      // 记下"规划出来的"观测位, 冻结相机帧时用它, 保证每次运行可复现。
+      observed_reference_joints_ = final_arm_state;
+    }
     if (target_err > joint_goal_tolerance_rad_) {
       RCLCPP_ERROR(
         this->get_logger(),
@@ -2869,6 +2914,7 @@ private:
       resetPoseEstimatorCaptureLocked();
       have_frozen_pose_estimator_reference_ = false;
     }
+    observed_reference_joints_.clear();
 
     if (!readInitialArmJointPositions(arm_state_)) {
       return false;
@@ -2998,6 +3044,13 @@ private:
       }
     }
     publishGripperCommand("close_gripper_at_target", 1);
+    if (gripper_settle_sec_ > 0.0) {
+      RCLCPP_INFO(
+        this->get_logger(),
+        "[GRASP][gripper][SETTLE] waiting %.2fs for the jaws to close before moving the arm.",
+        gripper_settle_sec_);
+      sleepAfterAction(gripper_settle_sec_);
+    }
     if (!executeArmJointPlan(place_arm_positions_, "move_arm_to_place_joint_positions")) {
       RCLCPP_WARN(
         this->get_logger(),
@@ -3620,6 +3673,8 @@ private:
   std::string frozen_camera_frame_id_{"tzb_observe_camera_link"};
   bool apply_reference_transform_to_frozen_frame_{true};
   bool transform_frozen_pointcloud_to_reference_frame_{true};
+  bool freeze_reference_from_planned_observe_{true};
+  std::vector<double> observed_reference_joints_;
   double frozen_camera_pointcloud_log_throttle_sec_{2.0};
   bool pointcloud_transform_error_logged_{false};
   bool shadow_camera_pose_error_logged_{false};
@@ -3659,6 +3714,7 @@ private:
   double cartesian_waypoint_pos_tolerance_{0.002};
   double cartesian_waypoint_rot_tolerance_{0.05};
   double post_action_wait_sec_{0.05};
+  double gripper_settle_sec_{1.0};
   double service_wait_sec_{30.0};
   double response_wait_sec_{30.0};
   std::string e3_marker_topic_{"/tzb_catch/e3_marker"};
