@@ -168,7 +168,7 @@ class YoloDetectorNode(Node):
 
         self.declare_parameter('detection_topic', 'yolo/detections')
         self.declare_parameter('annotated_image_topic', 'yolo/annotated_image')
-        self.declare_parameter('left_or_right', 0)
+        self.declare_parameter('left_or_right', 1)
         self.declare_parameter('target_class', 'blue_block')
         self.declare_parameter('timing_log_enable', True)
         self.declare_parameter('timing_log_throttle_sec', 0.5)

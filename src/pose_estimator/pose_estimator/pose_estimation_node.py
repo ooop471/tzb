@@ -415,7 +415,7 @@ class PoseEstimationNode(Node):
         decl('target_class', '')
         decl('object_pose_topic', '/pose_estimator/object_pose')
         decl('pose_yaw', 0.0)
-        decl('use_detected_yaw', False)
+        decl('use_detected_yaw', True)
         decl('roi_median_position', False)
         decl('object_pose_offset_xyz', [0.0, 0.0, 0.0])
         decl('camera_info_topic', '/camera/color/camera_info')

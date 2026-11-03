@@ -1,0 +1,63 @@
+# Best-effort subscribers also accept reliable publishers, including mixed topics.
+/camera/color/image_raw:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/camera/color/camera_info:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/camera/depth/image_rect_raw:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/camera/depth/camera_info:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/camera/depth/color/points:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/yolo/annotated_image:
+  reliability: best_effort
+  history: keep_last
+  depth: 5
+/serial/arm_joint_state:
+  reliability: best_effort
+  history: keep_last
+  depth: 100
+/tzb_catch/arm_joint_command:
+  reliability: best_effort
+  history: keep_last
+  depth: 100
+/tf_static:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 100
+/tzb_catch/gripper_command:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 10
+/tzb_catch/reference_frames:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 1
+/tzb_catch/e3_marker:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 1
+/pose_estimation_node/model_marker:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 1
+/pose_estimation_node/coarse_model_marker:
+  reliability: reliable
+  durability: transient_local
+  history: keep_last
+  depth: 1

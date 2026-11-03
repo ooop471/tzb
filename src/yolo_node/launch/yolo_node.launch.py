@@ -90,7 +90,7 @@ def generate_launch_description():
 
     left_or_right_arg = DeclareLaunchArgument(
         'left_or_right',
-        default_value='0',
+        default_value='1',
         description='For the two largest target boxes: 0 selects left box, 1 selects right box'
     )
 
