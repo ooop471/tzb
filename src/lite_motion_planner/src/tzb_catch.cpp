@@ -274,6 +274,9 @@ public:
       "tzb.target_left_y_threshold", -1.0);
     target_left_y_offset_ = this->declare_parameter<double>(
       "tzb.target_left_y_offset", 0.0);
+    // 只转姿态、不动位置的角度微调(deg, 绕 base_link z)。
+    grasp_yaw_offset_deg_ = this->declare_parameter<double>(
+      "tzb.grasp_yaw_offset_deg", 0.0);
     }
     gripper_joint_names_ = this->declare_parameter<std::vector<std::string>>(
       "tzb.gripper_joint_names",
@@ -443,6 +446,15 @@ public:
       "tzb.ini_joint_positions", std::vector<double>(arm_group.joint_names.size(), 0.0));
     pre_initial_arm_positions_ = this->declare_parameter<std::vector<double>>(
       "tzb.pre_ini_joint_positions", initial_arm_positions_);
+    // Compact carry pose used between the wall-side grasp and the rear place.
+    // The base joint is held while folding here, then rotated while the arm is
+    // folded, so the 180 deg turn no longer sweeps at full extension.
+    carry_tuck_joint_positions_ = this->declare_parameter<std::vector<double>>(
+      "tzb.carry_tuck_joint_positions",
+      std::vector<double>{0.0, 0.7, -2.2, 0.0, 1.3, 0.0});
+    staged_yaw_enabled_ = this->declare_parameter<bool>("tzb.staged_yaw_enabled", true);
+    staged_yaw_min_rad_ = std::max(
+      0.0, this->declare_parameter<double>("tzb.staged_yaw_min_rad", 0.5));
     place_arm_positions_ = this->declare_parameter<std::vector<double>>(
       "tzb.place_joint_positions", initial_arm_positions_);
     observe_joint_positions_ = this->declare_parameter<std::vector<double>>(
@@ -483,6 +495,9 @@ public:
     if (pre_initial_arm_positions_.size() != arm_group.joint_names.size()) {
       throw std::runtime_error("tzb.pre_ini_joint_positions size does not match tzb arm group dof");
     }
+    if (carry_tuck_joint_positions_.size() != arm_group.joint_names.size()) {
+      throw std::runtime_error("tzb.carry_tuck_joint_positions size does not match tzb arm group dof");
+    }
     if (place_arm_positions_.size() != arm_group.joint_names.size()) {
       throw std::runtime_error("tzb.place_joint_positions size does not match tzb arm group dof");
     }
@@ -495,6 +510,7 @@ public:
     if (isDegreeUnit(joint_positions_unit_)) {
       degreesToRadiansInPlace(initial_arm_positions_);
       degreesToRadiansInPlace(pre_initial_arm_positions_);
+      degreesToRadiansInPlace(carry_tuck_joint_positions_);
       degreesToRadiansInPlace(place_arm_positions_);
       degreesToRadiansInPlace(observe_joint_positions_);
       degreesToRadiansInPlace(sentry_joint_positions_);
@@ -799,7 +815,7 @@ private:
         if(services) {
           if(operation=="prepare") {
             success=readInitialArmJointPositions(arm_state_) &&
-              executeArmJointPlan(pre_initial_arm_positions_,"mission_prepare_exploration_pose");
+              executeArmStagedYawPlan(pre_initial_arm_positions_,"mission_prepare_exploration_pose");
           } else success=runSequenceOnce();
         }
       } catch(const std::exception &e) {
@@ -809,7 +825,7 @@ private:
       if(!success && operation=="grasp" && !stop_requested_.load()) {
         try {
           recovered=readInitialArmJointPositions(arm_state_) &&
-            executeArmJointPlan(pre_initial_arm_positions_,"mission_recover_exploration_pose_after_failed_grasp");
+            executeArmStagedYawPlan(pre_initial_arm_positions_,"mission_recover_exploration_pose_after_failed_grasp");
         } catch(const std::exception &e) {
           RCLCPP_ERROR(get_logger(),"Arm recovery failed: %s",e.what());
         }
@@ -1585,6 +1601,16 @@ private:
         pose.pose.position.y > target_left_y_threshold_) {
       pose.pose.position.y += target_left_y_offset_;
     }
+    // 这个修正是 base 系的一次刚体变换 v' = R*v + t, 姿态必须跟着转,
+    // 否则位置对了、夹爪却固定差 R 的那个角(实测 ~25deg)。
+    // 与 target_bridge.py 的 out_R = corr_R @ robot_R 保持一致。
+    Eigen::Quaterniond corrected_q = quaternionEigenFromMsg(pose.pose.orientation);
+    corrected_q = Eigen::Quaterniond(R) * corrected_q;
+    corrected_q.normalize();
+    pose.pose.orientation.x = corrected_q.x();
+    pose.pose.orientation.y = corrected_q.y();
+    pose.pose.orientation.z = corrected_q.z();
+    pose.pose.orientation.w = corrected_q.w();
   }
 
   bool lockedPoseEstimatorTargetInPlanningFrame(geometry_msgs::msg::PoseStamped& out) {
@@ -1670,8 +1696,13 @@ private:
     const bool any_forced_target_rpy =
       force_target_roll_ || force_target_pitch_ || force_target_yaw_;
     if (any_forced_target_rpy) {
-      const Eigen::Vector3d visual_target_rpy =
-        quaternionEigenFromMsg(out.pose.orientation).toRotationMatrix().eulerAngles(0, 1, 2);
+      // 注意约定: quaternionMsgFromRpy 用 R = Rz(yaw)*Ry(pitch)*Rx(roll),
+      // 所以取角必须用 eulerAngles(2,1,0)（返回 yaw,pitch,roll）。
+      // 原来用 eulerAngles(0,1,2) 是 R = Rx*Ry*Rz 的约定, 与重组不一致,
+      // 俯视抓取下会把 yaw 的符号翻掉(物体转 θ, 夹爪却转到 -θ)。
+      const Eigen::Vector3d zyx_rpy =
+        quaternionEigenFromMsg(out.pose.orientation).toRotationMatrix().eulerAngles(2, 1, 0);
+      const Eigen::Vector3d visual_target_rpy(zyx_rpy.z(), zyx_rpy.y(), zyx_rpy.x());
       Eigen::Vector3d target_rpy = visual_target_rpy;
       if (force_target_roll_) {
         target_rpy.x() = forced_target_roll_;
@@ -1697,6 +1728,22 @@ private:
         force_target_roll_ ? "roll" : "visual",
         force_target_pitch_ ? "pitch" : "visual",
         force_target_yaw_ ? "yaw" : "visual");
+    }
+    // 只调姿态、不动位置的 yaw 微调钮（绕 base_link z 轴，正=俯视逆时针）。
+    // 用于吃掉坐标系补偿之后剩下的那点常量角度偏差。
+    if (std::abs(grasp_yaw_offset_deg_) > 1e-9) {
+      const Eigen::AngleAxisd yaw_offset(
+        grasp_yaw_offset_deg_ * M_PI / 180.0, Eigen::Vector3d::UnitZ());
+      Eigen::Quaterniond q = yaw_offset * quaternionEigenFromMsg(out.pose.orientation);
+      q.normalize();
+      out.pose.orientation.x = q.x();
+      out.pose.orientation.y = q.y();
+      out.pose.orientation.z = q.z();
+      out.pose.orientation.w = q.w();
+      RCLCPP_DEBUG(
+        this->get_logger(),
+        "Applied grasp yaw offset %.2f deg in [%s].",
+        grasp_yaw_offset_deg_, planning_frame_.c_str());
     }
     RCLCPP_INFO(
       this->get_logger(),
@@ -2515,6 +2562,61 @@ private:
     return true;
   }
 
+  // A single joint-space goal from the wall-side grasp pose to the rear place
+  // pose turns the base joint by about half a revolution. The base joint is the
+  // slowest one, so a direct plan keeps the arm extended (~0.47 m) while it
+  // sweeps the whole arc, which clips side walls when the rover parks next to
+  // one. Move through the compact carry pose instead: fold with the base joint
+  // held, rotate the base joint while folded, then extend at the destination.
+  // Any failed stage falls back to the original direct plan.
+  bool executeArmStagedYawPlan(
+    const std::vector<double>& target_joints,
+    const std::string& stage_name) {
+    const auto direct_plan = [&]() {
+        return executeArmJointPlan(target_joints, stage_name);
+      };
+    if (!staged_yaw_enabled_ ||
+      target_joints.size() != arm_state_.size() ||
+      carry_tuck_joint_positions_.size() != arm_state_.size()) {
+      return direct_plan();
+    }
+    const double yaw_delta = std::abs(target_joints.front() - arm_state_.front());
+    if (yaw_delta < staged_yaw_min_rad_) {
+      return direct_plan();
+    }
+
+    std::vector<double> tuck_start = carry_tuck_joint_positions_;
+    std::vector<double> tuck_goal = carry_tuck_joint_positions_;
+    tuck_start.front() = arm_state_.front();
+    tuck_goal.front() = target_joints.front();
+    RCLCPP_INFO(
+      this->get_logger(),
+      "[GRASP][retract][STAGED] step=%s yaw_delta=%.3frad from=%.3f to=%.3f; tuck -> rotate_folded -> extend",
+      stage_name.c_str(), yaw_delta, arm_state_.front(), target_joints.front());
+    if (!executeArmJointPlan(tuck_start, stage_name + "_tuck")) {
+      RCLCPP_WARN(
+        this->get_logger(),
+        "[GRASP][retract][FALLBACK] step=%s stage=tuck; using the direct joint plan.",
+        stage_name.c_str());
+      return direct_plan();
+    }
+    if (!executeArmJointPlan(tuck_goal, stage_name + "_rotate_folded")) {
+      RCLCPP_WARN(
+        this->get_logger(),
+        "[GRASP][retract][FALLBACK] step=%s stage=rotate_folded; using the direct joint plan.",
+        stage_name.c_str());
+      return direct_plan();
+    }
+    if (!executeArmJointPlan(target_joints, stage_name + "_extend")) {
+      RCLCPP_WARN(
+        this->get_logger(),
+        "[GRASP][retract][FALLBACK] step=%s stage=extend; using the direct joint plan.",
+        stage_name.c_str());
+      return direct_plan();
+    }
+    return true;
+  }
+
   std::vector<geometry_msgs::msg::PoseStamped> buildAdaptiveRpyTargets(
     const geometry_msgs::msg::PoseStamped& target_pose) const {
     std::vector<double> offset_levels{0.0};
@@ -2609,8 +2711,9 @@ private:
     const auto candidate_targets = adaptive_rpy_ ?
       buildAdaptiveRpyTargets(target_pose) :
       std::vector<geometry_msgs::msg::PoseStamped>{target_pose};
-    const Eigen::Vector3d original_rpy =
-      quaternionEigenFromMsg(target_pose.pose.orientation).toRotationMatrix().eulerAngles(0, 1, 2);
+    const Eigen::Vector3d original_zyx =
+      quaternionEigenFromMsg(target_pose.pose.orientation).toRotationMatrix().eulerAngles(2, 1, 0);
+    const Eigen::Vector3d original_rpy(original_zyx.z(), original_zyx.y(), original_zyx.x());
     if (adaptive_rpy_) {
       RCLCPP_INFO(
         this->get_logger(),
@@ -3051,7 +3154,7 @@ private:
         gripper_settle_sec_);
       sleepAfterAction(gripper_settle_sec_);
     }
-    if (!executeArmJointPlan(place_arm_positions_, "move_arm_to_place_joint_positions")) {
+    if (!executeArmStagedYawPlan(place_arm_positions_, "move_arm_to_place_joint_positions")) {
       RCLCPP_WARN(
         this->get_logger(),
         "Failed to reach place_joint_positions; returning to ini_joint_positions before retrying place.");
@@ -3062,7 +3165,7 @@ private:
           "Could not recover to ini_joint_positions after place planning failed; keeping gripper closed.");
         return false;
       }
-      if (!executeArmJointPlan(
+      if (!executeArmStagedYawPlan(
             place_arm_positions_, "retry_move_arm_to_place_joint_positions")) {
         RCLCPP_ERROR(
           this->get_logger(),
@@ -3072,7 +3175,7 @@ private:
     }
     publishGripperCommand("open_gripper_at_place_joint_positions", -1);
 
-    if (!executeArmJointPlan(
+    if (!executeArmStagedYawPlan(
           pre_initial_arm_positions_, "move_arm_to_pre_ini_after_place")) {
       RCLCPP_ERROR(
         this->get_logger(),
@@ -3685,6 +3788,7 @@ private:
   double target_min_z_{-1.0};
   double target_left_y_threshold_{-1.0};
   double target_left_y_offset_{0.0};
+  double grasp_yaw_offset_deg_{0.0};
   std::vector<std::string> gripper_joint_names_;
   std::vector<double> gripper_home_positions_;
   std::vector<double> gripper_open_positions_;
@@ -3751,6 +3855,9 @@ private:
   bool arm_command_publish_during_replay_{false};
   std::vector<double> initial_arm_positions_;
   std::vector<double> pre_initial_arm_positions_;
+  std::vector<double> carry_tuck_joint_positions_;
+  bool staged_yaw_enabled_{true};
+  double staged_yaw_min_rad_{0.5};
   std::vector<double> place_arm_positions_;
   std::vector<double> observe_joint_positions_;
   std::vector<double> max_arm_command_velocity_rad_s_;

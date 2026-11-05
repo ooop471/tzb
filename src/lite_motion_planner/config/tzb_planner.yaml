@@ -2,7 +2,9 @@
   ros__parameters:
     # Empirical base-frame grasp target correction (see tools/grasp_pipeline_debug.md)
     tzb.target_correction_rpy_deg: [0.0, 0.0, -25.4]
-    tzb.target_correction_xyz: [0.3698, 0.075, 0.0122]
+    tzb.target_correction_xyz: [0.3738, 0.08, 0.0212]
+    # 只转姿态、不动位置的角度微调(deg), 正值=俯视逆时针
+    tzb.grasp_yaw_offset_deg: 25.0
     tzb.target_min_z: -0.25
     tzb.target_left_y_threshold: 0.05
     tzb.target_left_y_offset: 0.035
@@ -123,6 +125,17 @@
     tzb.observe_joint_positions: [0.0, 0.0, -2.0, 0.0, 1.57, 0.0]
     tzb.sentry_joint_positions: [0.0, 1.13, -2.18, 0.0, 1.57, 0.0]
     tzb.pre_ini_joint_positions: [0.0, 1.0, -2.61, 0.0, 1.3, 0.0]
+    # Compact carry pose between the wall-side grasp and the rear place pose.
+    # J1 is held while folding here, then rotated while the arm stays folded, so
+    # the 180 deg turn does not sweep at full extension into a side wall.
+    # The MID360 lidar sits ~0.16 m in front of the arm base, so the carry pose
+    # also has to lift the grasped object above it: TCP lands at (0.15, 0, 0.80)
+    # in base_link and the object spans z 0.73..0.87 (was 0.09..0.24 at the old
+    # low tuck, which dragged the object across the lidar and dropped it).
+    tzb.carry_tuck_joint_positions: [0.0, 0.55, -1.4, 0.0, -0.5, 0.0]
+    tzb.staged_yaw_enabled: true
+    # Only stage plans whose J1 change is at least this large (rad).
+    tzb.staged_yaw_min_rad: 0.5
 
     # Serial feedback is used both for the initial state and physical arrival checks.
     tzb.arm_state_topic: "/serial/arm_joint_state"
