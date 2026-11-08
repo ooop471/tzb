@@ -40,10 +40,15 @@ ament_target_dependencies(${PROJECT_NAME}
   rm_serial_msgs
 )
 
-rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN rm::serial::DriverNode
-  EXECUTABLE node
-)
+# The component stays registered for composition; the standalone `node`
+# executable uses an explicit main (src/node_main.cpp) so that SIGINT/SIGTERM
+# honour the tzb_catch shutdown lease instead of rclcpp's default handler.
+rclcpp_components_register_nodes(${PROJECT_NAME} "rm::serial::DriverNode")
+
+add_executable(node src/node_main.cpp)
+target_link_libraries(node ${PROJECT_NAME})
+ament_target_dependencies(node rclcpp std_msgs)
+install(TARGETS node DESTINATION lib/${PROJECT_NAME})
 
 install(
   TARGETS ${PROJECT_NAME}

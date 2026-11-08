@@ -1,4 +1,5 @@
 #include "lite_motion_planner/planning_node.hpp"
+#include "lite_motion_planner/shutdown_hold_gate.hpp"
 
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometric_shapes/geometric_shapes/mesh_operations.h>
@@ -4371,12 +4372,22 @@ void PlanningNode::handlePlanRequest(
 }  // namespace lite_motion_planner
 
 int main(int argc, char** argv) {
-  rclcpp::init(argc, argv);
+  // SIGINT/SIGTERM are routed through ShutdownHoldGate: while tzb_catch
+  // publishes a fresh shutdown lease the planner keeps serving plan requests so
+  // the arm can be homed before this process exits.
+  rclcpp::init(argc, argv, rclcpp::InitOptions(), rclcpp::SignalHandlerOptions::None);
+  ShutdownHoldGate::installSignalHandlers();
 
-  auto node = std::make_shared<lite_motion_planner::PlanningNode>();
-  rclcpp::executors::MultiThreadedExecutor executor;
-  executor.add_node(node);
-  executor.spin();
+  {
+    auto node = std::make_shared<lite_motion_planner::PlanningNode>();
+    if (rclcpp::ok()) {
+      ShutdownHoldGate gate(*node);
+      rclcpp::executors::MultiThreadedExecutor executor;
+      executor.add_node(node);
+      executor.spin();
+      executor.remove_node(node);
+    }
+  }
 
   rclcpp::shutdown();
   return 0;

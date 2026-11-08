@@ -1,13 +1,24 @@
 /**:
   ros__parameters:
     # Empirical base-frame grasp target correction (see tools/grasp_pipeline_debug.md)
-    tzb.target_correction_rpy_deg: [0.0, 0.0, -25.4]
-    tzb.target_correction_xyz: [0.3738, 0.08, 0.0212]
+    tzb.target_correction_rpy_deg: [0.0, 0.0, 0.0]  # 11-07 board hand-eye (was [0, 0, -25.4])
+    tzb.target_correction_xyz: [-0.010, 0.012, 0.0]  # 11-07 18:00 y from 3 hover checks; x empirical: grasp at x+0.012 closed on the block FRONT edge (block perception at observe ~2 cm far, under investigation)
+    tzb.camera_frame_from_measured_joints: true  # camera pose from MEASURED joints at lock (J1 stops ~0.03 off plan)
     # 只转姿态、不动位置的角度微调(deg), 正值=俯视逆时针
-    tzb.grasp_yaw_offset_deg: 25.0
+    # 25.0 was tuned for the old ZYX-yaw method; with symmetricFaceYaw the corrected face yaw is already
+    # in base_link (G rotation included). Real grasps: tool yaw ~0 mod 90 grasped cleanly (bag 11-02),
+    # +25 deg rotated/pushed the block (11-06 #7, #8).
+    tzb.grasp_yaw_offset_deg: 0.0
+    # Ground-resting target height in base_link (TCP z at a good floor grasp: bag 11-02 -0.165, real run 11-06 #5 -0.172).
+    tzb.grasp_ground_z: -0.170
+    tzb.grasp_ground_z_max_deviation: 0.08
+    tzb.target_yaw_symmetry_deg: 90.0
+    # tool x-axis yaw is ~180 deg at J6=0 (observe pose FK): pick the cube-equivalent yaw near radial+180 so J6 stays near 0
+    # (radial reference gave J6 2.4-2.9 rad; real J6 stopped at 2.57 on 11-06 21:40).
+    tzb.target_yaw_reference_offset_deg: 180.0
     tzb.target_min_z: -0.25
     tzb.target_left_y_threshold: 0.05
-    tzb.target_left_y_offset: 0.035
+    tzb.target_left_y_offset: 0.0  # 11-07 board hand-eye (was 0.035)
     urdf_path: "/home/tzb/tzb_ws/src/tzb_description/urdf/tzb_description.urdf"
     srdf_path: "/home/tzb/tzb_ws/src/lite_motion_planner/config/tzb_description.srdf"
     mesh_package_dirs:
@@ -20,8 +31,8 @@
     planning_timeout: 2.0
     ompl_max_plan_attempts: 4
     ik_max_iterations: 600
-    ik_pos_tolerance: 0.008
-    ik_rot_tolerance: 0.08
+    ik_pos_tolerance: 0.002  # 11-07: was 0.008 -> grasp IK stopped 5.6 mm short of the target
+    ik_rot_tolerance: 0.03  # 11-07: was 0.08
     ik_damping: 1.0e-5
     ik_alpha: 0.5
     ik_max_step_norm: 0.35
@@ -85,11 +96,11 @@
     tzb.pose_estimator_wait_timeout_sec: 15.0
     tzb.pose_estimator_continuous_required_sec: 1.0
     tzb.pose_estimator_continuous_max_gap_sec: 0.25
-    tzb.pose_estimator_reference_transform_matrix: [
-       +0.90914413, +0.39610653, -0.12867234, +0.00946086,
-      -0.41463532, +0.88989262, -0.19018065, +0.16555497,
-      +0.03917276, +0.22625372, +0.97328041, -0.02941475,
-       0.00000000,  0.00000000,  0.00000000,  1.00000000
+    tzb.pose_estimator_reference_transform_matrix: [  # 11-07 board hand-eye refit with J2/J5 zero correction (fit_z25.json, 2.0 px)
+      +0.999608, +0.006241, -0.027284, +0.022188,
+      -0.020709, +0.820694, -0.570993, +0.058083,
+      +0.018828, +0.571334, +0.820502, -0.007200,
+      +0.000000, +0.000000, +0.000000, +1.000000
     ]
 
     tzb.pose_estimator_axis_conversion_matrix: [
@@ -151,6 +162,58 @@
     tzb.arm_motion_stable_duration_sec: 0.25
     # Every arm stage must be physically reached and stable before continuing.
     tzb.require_arm_feedback_for_completion: true
+    # Precise pre-grasp arrival (grasp-approach stage only; 2026-11-06 real grasps
+    # #5-#7: the gripper closed while J6 was still turning ~1 rad/s and the lower
+    # controller had settled 0.04-0.08 rad off the command -> TCP 2-3 cm / 7-10 deg
+    # off). After the normal arrival the stage waits until every joint has stopped
+    # (all joints' measured speed below grasp_arrival_max_speed_rad_s over
+    # grasp_arrival_stable_sec), measures the residual and re-commands
+    # target + residual (integral style, per-joint clamp grasp_residual_max_rad,
+    # never beyond the joint limits) through the velocity-limited command path,
+    # up to grasp_residual_iterations times. The jaws close only after
+    # [GRASP][arrival][OK]; on [GRASP][arrival][FAIL] the attempt is aborted
+    # without closing (mission: recovery to pre_ini). false = old behaviour.
+    tzb.grasp_precise_arrival_enabled: true
+    tzb.grasp_arrival_tolerance_rad: 0.015
+    tzb.grasp_arrival_tolerance_j6_rad: 0.09
+    tzb.grasp_arrival_stable_sec: 0.5
+    tzb.grasp_arrival_max_speed_rad_s: 0.02
+    tzb.grasp_arrival_timeout_sec: 8.0
+    tzb.grasp_residual_gain: 1.0
+    tzb.grasp_residual_max_rad: 0.10
+    # J1 needs ~0.05-0.07 rad command lead to overcome its stiction (11-06 22:05: 0.03 could not move it)
+    tzb.grasp_residual_lead_max_rad: 0.08
+    tzb.grasp_residual_iterations: 3
+    # > 0: approach via a hover pose this far straight above the grasp pose
+    # (same orientation), precise-arrive there, then descend. 0 = direct approach.
+    tzb.grasp_hover_height_m: 0.08
+    # If no joint has left the feedback noise band this long after a command
+    # with >= 0.05 rad travel, log [GRASP][feedback][NO_MOTION][EARLY] once
+    # (remote controller 遥控器 off / arm enable / arm power: the lower
+    # controller executes nothing but feedback keeps streaming). The stage
+    # still waits for the normal arm_motion_feedback_timeout_sec; a stage that
+    # times out with no joint moved at all is reported as
+    # no_motion(check_remote_or_power). <= 0 disables the early warning.
+    tzb.no_motion_warning_sec: 2.0
+
+    # Graceful shutdown: on the first SIGINT/SIGTERM/SIGHUP tzb_catch aborts the
+    # in-flight step (holding the last streamed command) and homes the arm to
+    # pre_ini_joint_positions with physical-arrival confirmation. No motion if
+    # this process never commanded the arm (SKIPPED never_commanded, exit 0).
+    # Exit code 0 only when the homing is confirmed by measured joints.
+    # A second SIGINT/SIGTERM/SIGHUP within 2 s is ignored; a later one, or
+    # SIGQUIT, stops the arm where it is (measured pose, exit 3).
+    tzb.home_on_shutdown: true
+    # Budget for the whole shutdown motion (homing, or place -> release ->
+    # pre_ini with an object). Must stay <= 40 s: launch sigterm_timeout is 55 s.
+    tzb.shutdown_home_timeout_sec: 35.0
+    # Object in the gripper at shutdown/cancel: "place" finishes place -> open
+    # -> pre_ini (the normal completion steps); "hold" stops where the arm is
+    # (SKIPPED object_in_gripper, exit 2).
+    tzb.shutdown_with_object: "place"
+    # planning_node / serial driver keep running after SIGINT while
+    # /tzb_catch/shutdown_hold is fresh, at most this long.
+    tzb.shutdown_hold_timeout_sec: 45.0
 
 
     # Only the actuated claw joint is commanded; claw_right_joint follows via mimic.

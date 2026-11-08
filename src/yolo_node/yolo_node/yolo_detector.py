@@ -76,7 +76,14 @@ import shutil
 import traceback
 import threading
 import time
+import json
 from collections import defaultdict, deque
+from std_msgs.msg import String
+
+try:
+    import yolo_logic as _logic           # installed next to this script (lib/yolo_node/)
+except ImportError:                        # pragma: no cover - source-tree / package layout
+    from yolo_node import yolo_logic as _logic
 
 
 def _as_bool(value) -> bool:
@@ -86,6 +93,39 @@ def _as_bool(value) -> bool:
         return bool(value)
     return str(value).strip().lower() in ("1", "true", "yes", "on")
 
+
+_TELEMETRY_PATCH = (False, 'not attempted')   # (applied, detail); reported in /yolo/status and logged once
+
+
+def _disable_openvino_telemetry() -> None:
+    """Process-local opt-out of OpenVINO's GA4 telemetry (no global consent file is written).
+
+    GA4Backend.send() forks a multiprocessing.Process that does a blocking HTTPS urlopen.  The fork inherits
+    rclpy's SIGTERM handler (flag only), so the library's own terminate() after 3 s is ignored and the child
+    stays stuck in connect() on a robot without internet; at interpreter exit multiprocessing then join()s it
+    forever -> the node ignores SIGINT until launch SIGKILLs it (see issue1 RESULTS.md).
+    """
+    global _TELEMETRY_PATCH
+    _TELEMETRY_PATCH = _logic.disable_openvino_telemetry()
+
+
+def _reap_helper_processes() -> None:
+    """Kill leftover multiprocessing children so interpreter exit can never block on them."""
+    try:
+        import multiprocessing
+        kids = multiprocessing.active_children()
+        for c in kids:
+            try:
+                c.kill()        # SIGKILL: forked children inherit rclpy's SIGTERM handler and ignore SIGTERM
+            except Exception:
+                pass
+        for c in kids:
+            c.join(timeout=1.0)
+    except Exception:
+        pass
+
+
+_disable_openvino_telemetry()
 
 # Ultralytics for YOLO model
 from ultralytics import YOLO
@@ -169,7 +209,12 @@ class YoloDetectorNode(Node):
         self.declare_parameter('detection_topic', 'yolo/detections')
         self.declare_parameter('annotated_image_topic', 'yolo/annotated_image')
         self.declare_parameter('left_or_right', 1)
-        self.declare_parameter('target_class', 'blue_block')
+        self.declare_parameter('multi_target_selection', 'confidence')  # or legacy 'area_left_right'
+        # Must match the default model's metadata names ({0: 'blue block'}); matching is normalised
+        # (case, '_' / '-' / whitespace) so 'blue_block' and 'blue block' are equivalent.
+        self.declare_parameter('target_class', 'blue block')
+        self.declare_parameter('status_topic', 'yolo/status')
+        self.declare_parameter('status_period_sec', 1.0)
         self.declare_parameter('timing_log_enable', True)
         self.declare_parameter('timing_log_throttle_sec', 0.5)
         self.declare_parameter('image_queue_depth', 2)
@@ -193,7 +238,12 @@ class YoloDetectorNode(Node):
         detection_topic = self.get_parameter('detection_topic').value
         annotated_image_topic = self.get_parameter('annotated_image_topic').value
         self.left_or_right = int(self.get_parameter('left_or_right').value)
+        self.multi_target_selection = str(self.get_parameter('multi_target_selection').value)
         self.target_class = str(self.get_parameter('target_class').value)
+        status_topic = str(self.get_parameter('status_topic').value)
+        self.status_period_sec = max(0.1, float(self.get_parameter('status_period_sec').value))
+        self._target_norm = _logic.normalize_class_name(self.target_class)
+        self._target_class_valid = False      # decided after the model (and its names) is loaded
         self.timing_log_enable = bool(self.get_parameter('timing_log_enable').value)
         self.timing_log_throttle_sec = float(self.get_parameter('timing_log_throttle_sec').value)
         self.image_queue_depth = max(1, int(self.get_parameter('image_queue_depth').value))
@@ -217,6 +267,17 @@ class YoloDetectorNode(Node):
         self.high_conf_start_time_sec: float | None = None
         self.publish_gate_open = False
         
+        # ---- status topic: created BEFORE the model is loaded so a stuck / failed load is observable ----
+        self._init_status_state(model_path)
+        self.status_publisher = self.create_publisher(
+            String, status_topic,
+            QoSProfile(reliability=ReliabilityPolicy.RELIABLE, history=HistoryPolicy.KEEP_LAST, depth=10))
+        self._publish_status(force=True)                      # LOADING_MODEL
+        self._status_stop = threading.Event()
+        self._status_thread = threading.Thread(
+            target=self._status_loop, name='yolo_status_publisher', daemon=True)
+        self._status_thread.start()
+
         # 仅加载 OpenVINO 模型
         self.get_logger().info(f'Loading YOLO model from: {model_path}')
         try:
@@ -225,8 +286,35 @@ class YoloDetectorNode(Node):
             self.get_logger().info(f"Ultralytics version: {ultralytics.__version__}")
         except Exception:
             pass
-        self.model = self._load_model(model_path, device)
+        try:
+            self.model = self._load_model(model_path, device)
+        except BaseException as exc:
+            # publish MODEL_FAILED, then re-raise so the process still fails loudly.
+            with self._stat_lock:
+                self._model_failed = True
+                self._last_error = f'model load failed: {type(exc).__name__}: {exc}'[:400]
+            for _ in range(2):
+                try:
+                    self._publish_status(force=True)
+                except Exception:
+                    pass
+                time.sleep(0.3)
+            self._status_stop.set()
+            raise
         self.get_logger().info('YOLO model loaded successfully!')
+        with self._stat_lock:
+            self._model_names = _logic.names_as_dict(getattr(self.model, 'names', None))
+        valid, ids, matched = _logic.resolve_target_class(self.target_class, self._model_names)
+        self._target_class_valid = valid
+        if valid:
+            self.get_logger().info(
+                f"target_class '{self.target_class}' matches model class ids {ids} {matched}")
+        else:
+            msg = (f"target_class '{self.target_class}' (normalised '{self._target_norm}') matches NO model class; "
+                   f"model names={self._model_names}. Nothing will be published on the detection topic.")
+            with self._stat_lock:
+                self._last_error = msg[:400]
+            self.get_logger().error(msg)
         
         # 延迟导入自定义消息 (编译后才能导入)
         from yolo_node.msg import Detection, DetectionArray
@@ -271,7 +359,7 @@ class YoloDetectorNode(Node):
         )
         self.get_logger().info(
             f'target selection mode: target_class={self.target_class} '
-            f'left_or_right={self.left_or_right} (0=left, 1=right)'
+            f'left_or_right={self.left_or_right} (0=left, 1=right) multi_target_selection={self.multi_target_selection}'
         )
         
         self.get_logger().info('YOLO Detector Node initialized successfully!')
@@ -286,7 +374,126 @@ class YoloDetectorNode(Node):
             name='yolo_inference_worker',
             daemon=True,
         )
+        with self._stat_lock:
+            self._model_ready = True
         self._worker_thread.start()
+        self._publish_status(force=True)     # WAITING_IMAGE
+
+    # ------------------------------------------------------------------ status topic
+    def _init_status_state(self, model_path):
+        self._stat_lock = threading.Lock()
+        self._status_pub_lock = threading.Lock()
+        self._status_model_path = str(model_path)
+        self._model_failed = False
+        self._model_ready = False
+        self._model_names = {}
+        self._images_received = 0
+        self._first_image_mono = None
+        self._last_image_mono = None
+        self._last_inference_done_mono = None
+        self._wait_since_mono = None       # recv time of the frame sitting in the slot (None = slot empty)
+        self._busy_since_mono = None       # when the worker picked up the frame it is processing now
+        self._inferences = 0
+        self._inference_errors = 0
+        self._convert_errors = 0
+        self._worker_loop_errors = 0
+        self._last_error = ''
+        self._last_outcome = 'none'
+        self._raw_last = 0
+        self._target_last = 0
+        self._max_target_conf_last = 0.0
+        self._published_last = False
+        self._published = 0
+        self._last_state = None
+        self._worker_thread = None
+        self._telemetry_patch_applied, self._telemetry_patch_detail = _TELEMETRY_PATCH
+        if not self._telemetry_patch_applied:
+            # once per process (node is created once): the shutdown hang protection is degraded
+            self.get_logger().warn(
+                'OpenVINO telemetry opt-out patch NOT applied (' + self._telemetry_patch_detail +
+                '); exit relies on child reaping only. Supported opt-out: opt_in_out --opt_out')
+
+    def _compute_status(self) -> dict:
+        now = time.monotonic()
+        with self._stat_lock:
+            last_img = self._last_image_mono
+            done = self._last_inference_done_mono
+            # stall = the oldest unfinished work (frame waiting in the slot, or frame being processed) is old
+            unfinished = [t for t in (self._wait_since_mono, self._busy_since_mono) if t is not None]
+            lag = (now - min(unfinished)) if unfinished else 0.0
+            img_age = (now - last_img) if last_img is not None else None
+            state = _logic.classify_state(
+                model_failed=self._model_failed, model_ready=self._model_ready,
+                images_received=self._images_received, last_image_age_s=img_age,
+                inference_lag_s=lag, last_outcome=self._last_outcome,
+                raw_detections_last=self._raw_last, target_detections_last=self._target_last,
+                published_last=self._published_last)
+            return {
+                'state': state,
+                'stamp': round(self.get_clock().now().nanoseconds / 1e9, 3),
+                'model_path': self._status_model_path,
+                'model_names': {str(k): v for k, v in self._model_names.items()},
+                'target_class': self.target_class,
+                'target_class_valid': bool(self._target_class_valid),
+                'images_received': self._images_received,
+                'last_image_age_s': None if img_age is None else round(img_age, 2),
+                'inferences': self._inferences,
+                'last_inference_age_s': None if done is None else round(now - done, 2),
+                'inference_errors': self._inference_errors,
+                'convert_errors': self._convert_errors,
+                'worker_loop_errors': self._worker_loop_errors,
+                'telemetry_patch_applied': bool(self._telemetry_patch_applied),
+                'telemetry_patch_detail': self._telemetry_patch_detail,
+                'worker_alive': bool(self._worker_thread is not None and self._worker_thread.is_alive()),
+                'last_error': self._last_error,
+                'raw_detections_last': self._raw_last,
+                'target_detections_last': self._target_last,
+                'max_target_conf_last': round(self._max_target_conf_last, 4),
+                'publish_conf_threshold': self.publish_conf_threshold,
+                'gate_open': bool(self.publish_gate_open),
+                'published': self._published,
+            }
+
+    def _publish_status(self, force: bool = False):
+        """Publish on state transition (always) and when force=True (1 Hz thread / explicit)."""
+        d = self._compute_status()
+        with self._status_pub_lock:
+            changed = d['state'] != self._last_state
+            if not (force or changed):
+                return
+            if changed:
+                old, self._last_state = self._last_state, d['state']
+                self.get_logger().info(f'[GRASP][detection][STATE] {old} -> {d["state"]}')
+            self.status_publisher.publish(String(data=json.dumps(d, ensure_ascii=False)))
+
+    def _status_loop(self):
+        while not self._status_stop.wait(self.status_period_sec):
+            try:
+                self._publish_status(force=True)
+            except Exception:
+                pass        # context may be shutting down
+
+    def _record_failure(self, kind: str, exc: BaseException):
+        with self._stat_lock:
+            if kind == 'convert':
+                self._convert_errors += 1
+                self._last_outcome = 'convert_error'
+            else:
+                self._inference_errors += 1
+                self._last_outcome = 'inference_error'
+            self._last_error = f'{kind}: {type(exc).__name__}: {exc}'[:400]
+
+    def _record_success(self, raw_n, target_n, max_target_conf, published):
+        with self._stat_lock:
+            self._inferences += 1
+            self._last_inference_done_mono = time.monotonic()
+            self._last_outcome = 'ok'
+            self._raw_last = raw_n
+            self._target_last = target_n
+            self._max_target_conf_last = max_target_conf
+            self._published_last = bool(published)
+            if published:
+                self._published += 1
     
 
     def _apply_compute_profile(self):
@@ -338,13 +545,23 @@ class YoloDetectorNode(Node):
 
         其余类别保持不变；若 haomu 数量不足 2，则保持原有结果。
         """
-        # haomu_detections = [det for det in detections if det.class_name == 'haomu']
-        haomu_detections = [det for det in detections if det.class_name == self.target_class]
+        # 用归一化类名匹配（大小写、'_' '-' 空格等价）
+        haomu_detections = [det for det in detections
+                            if _logic.is_target_class(det.class_name, self._target_norm)]
 
         if len(haomu_detections) < 2:
             if len(haomu_detections) == 1:
                 self._stable_haomu_area(haomu_detections[0], 0)
             return detections
+
+        if self.multi_target_selection != 'area_left_right':
+            keep = haomu_detections[_logic.pick_target_index(
+                [(float(d.confidence), d.x, d.y, d.width, d.height) for d in haomu_detections],
+                self.multi_target_selection)]
+            filtered = [det for det in detections
+                        if not _logic.is_target_class(det.class_name, self._target_norm)]
+            filtered.append(keep)
+            return filtered
 
         by_x = sorted(haomu_detections, key=lambda det: float(det.x) + 0.5 * float(det.width))
         stable_area = {}
@@ -363,7 +580,8 @@ class YoloDetectorNode(Node):
             key=lambda det: float(det.x) + 0.5 * float(det.width),
         )[-1 if choose_right else 0]
 
-        filtered = [det for det in detections if det.class_name != self.target_class]
+        filtered = [det for det in detections
+                    if not _logic.is_target_class(det.class_name, self._target_norm)]
         filtered.append(selected_haomu)
         return filtered
 
@@ -457,24 +675,51 @@ class YoloDetectorNode(Node):
         """
         图像回调函数 - 仅缓存最新图像，实际推理在后台线程执行
         """
+        now = time.monotonic()
+        with self._stat_lock:
+            self._images_received += 1
+            self._last_image_mono = now
+            if self._first_image_mono is None:
+                self._first_image_mono = now
+            if self._wait_since_mono is None:
+                self._wait_since_mono = now
         with self._image_cv:
-            self._latest_image_item = (msg, time.monotonic())
+            self._latest_image_item = (msg, now)
             self._image_cv.notify()
 
     def _inference_worker(self):
         while self._worker_running:
-            with self._image_cv:
-                while self._worker_running and self._latest_image_item is None:
-                    self._image_cv.wait(timeout=0.1)
-                if not self._worker_running:
-                    return
-                item = self._latest_image_item
-                self._latest_image_item = None
+            try:
+                with self._image_cv:
+                    while self._worker_running and self._latest_image_item is None:
+                        self._image_cv.wait(timeout=0.1)
+                    if not self._worker_running:
+                        return
+                    item = self._latest_image_item
+                    self._latest_image_item = None
+                    with self._stat_lock:
+                        self._wait_since_mono = None
+                        self._busy_since_mono = time.monotonic() if item is not None else None
 
-            if item is None:
-                continue
-            msg, recv_mono = item
-            self._process_image(msg, recv_mono)
+                if item is None:
+                    continue
+                msg, recv_mono = item
+                try:
+                    self._process_image(msg, recv_mono)
+                finally:
+                    with self._stat_lock:
+                        self._busy_since_mono = None
+                self._publish_status()          # state transitions only
+            except Exception as e:
+                # never let an unexpected exception silently kill the worker thread
+                with self._stat_lock:
+                    self._worker_loop_errors += 1
+                    self._last_error = f'worker loop: {type(e).__name__}: {e}'[:400]
+                try:
+                    self.get_logger().error(f'inference worker loop error (continuing): {e}\n{traceback.format_exc()}')
+                except Exception:
+                    pass
+                time.sleep(0.2)
 
     def _process_image(self, msg: Image, recv_mono: float = 0.0):
         """
@@ -485,29 +730,39 @@ class YoloDetectorNode(Node):
             t_convert0 = time.monotonic()
             queue_delay_ms = (t_total0 - recv_mono) * 1000.0 if recv_mono > 0.0 else 0.0
             # 将 ROS Image 消息转换为 OpenCV 格式
-            if self._cv_bridge_ok:
-                try:
-                    cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
-                except Exception as e:
-                    self._cv_bridge_ok = False
-                    self.get_logger().error(
-                        f'cv_bridge failed ({e}); falling back to raw conversion'
-                    )
+            try:
+                if self._cv_bridge_ok:
+                    try:
+                        cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+                    except Exception as e:
+                        self._cv_bridge_ok = False
+                        self.get_logger().error(
+                            f'cv_bridge failed ({e}); falling back to raw conversion'
+                        )
+                        cv_image = _image_msg_to_bgr(msg)
+                else:
                     cv_image = _image_msg_to_bgr(msg)
-            else:
-                cv_image = _image_msg_to_bgr(msg)
-            
+            except Exception as e:
+                self._record_failure('convert', e)
+                self.get_logger().error(f'Image conversion failed: {e}', throttle_duration_sec=5.0)
+                return
+
             convert_ms = (time.monotonic() - t_convert0) * 1000.0
 
             # 运行 YOLO 推理
             t_infer0 = time.monotonic()
-            results = self.model.predict(
-                source=cv_image,
-                conf=self.conf_threshold,
-                iou=self.iou_threshold,
-                device=self.device,
-                verbose=False
-            )
+            try:
+                results = self.model.predict(
+                    source=cv_image,
+                    conf=self.conf_threshold,
+                    iou=self.iou_threshold,
+                    device=self.device,
+                    verbose=False
+                )
+            except Exception as e:
+                self._record_failure('inference', e)
+                self.get_logger().error(f'Inference failed: {e}', throttle_duration_sec=5.0)
+                return
             infer_ms = (time.monotonic() - t_infer0) * 1000.0
             
             # 创建检测结果消息
@@ -548,7 +803,13 @@ class YoloDetectorNode(Node):
             selected_detections = self._select_haomu_detection(detection_array_msg.detections)
             if len(selected_detections) != len(detection_array_msg.detections):
                 detection_array_msg.detections = selected_detections
-                max_confidence = max((det.confidence for det in selected_detections), default=0.0)
+
+            # 门控只看目标类别的最大置信度（归一化类名匹配），不再对所有类别取 max
+            raw_n, target_n, max_confidence = _logic.target_stats(
+                ((d.class_name, d.confidence) for d in detection_array_msg.detections),
+                self._target_norm)
+            if not self._target_class_valid:
+                max_confidence = 0.0      # invalid target_class: never publish
 
             # 发布门控：仅当 max_confidence 持续超过阈值指定时长后才允许发布
             now_sec = self.get_clock().now().nanoseconds / 1e9
@@ -583,6 +844,10 @@ class YoloDetectorNode(Node):
                 self.publish_gate_open = False
 
             post_ms = (time.monotonic() - t_post0) * 1000.0
+
+            # 'no empty message' contract: only publish when at least one target-class box passed the gate
+            should_publish = should_publish and target_n > 0 and self._target_class_valid
+            self._record_success(raw_n, target_n, max_confidence, should_publish)
 
             if should_publish:
                 # 发布检测结果
@@ -653,6 +918,8 @@ class YoloDetectorNode(Node):
             throttle_duration_sec=5.0)
 
     def destroy_node(self):
+        if hasattr(self, '_status_stop'):
+            self._status_stop.set()
         self._worker_running = False
         with self._image_cv:
             self._image_cv.notify_all()
@@ -672,7 +939,11 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        # rclpy's own SIGINT handler may already have shut the context down; calling shutdown() again
+        # raised RCLError and made the process exit with code 1 on every Ctrl-C / launch SIGINT.
+        if rclpy.ok():
+            rclpy.shutdown()
+        _reap_helper_processes()
 
 
 if __name__ == '__main__':

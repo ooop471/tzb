@@ -86,5 +86,25 @@ pose_estimation_node:
     bbox_smoothing_enable: true
     bbox_ema_alpha: 0.65
 
+    # Motion-time coarse candidate: detector bbox + depth median, no FPFH/RANSAC.
+    candidate_topic: "/perception/candidate"
+    candidate_enable: true
+    candidate_min_score: 0.12
+    candidate_min_points: 30
+
+    # Skip the precise registration while the rover is only exploring.
+    # /mission/state is already published by rover_state at 20 Hz.
+    registration_gate_enabled: true
+    mission_state_topic: "/mission/state"
+    mission_state_timeout_sec: 1.0
+    registration_on_states:
+      - STOPPING
+      - LOCALIZING
+      - PLANNING
+      - APPROACHING
+      - SETTLING
+      - READY_TO_GRASP
+      - GRASPING
+
     timing_log_enable: true
     timing_log_throttle_sec: 5.0

@@ -1,0 +1,256 @@
+#!/usr/bin/env python3
+"""Far target locator (pre_ini / any arm pose, no arm motion).
+
+Per frame (~3 Hz):
+  1. ground plane in base_link: RANSAC on the depth cloud (camera_color_optical_frame) transformed with
+     FK(camera_link, measured joints) . T_ref; plane normal within 20 deg of vertical; smoothed over frames.
+  2. target pixel: best YOLO 'blue block' box (recent) else the largest blue HSV blob below the horizon.
+  (each NEW YOLO detection is processed once and stamped with its image; no temporal filter on the output)
+  3. position: camera ray through the box centre intersected with (ground plane + 25 mm along its normal)
+     -> p_ray; depth check: median of cloud points inside the box that lie 5..70 mm above the plane -> p_depth.
+  4. publish /perception/far_target (PoseStamped, base_link, p_ray), /perception/far_target/standoff
+     (PoseStamped, base_link: where base_link should stop so the block ends up --standoff m in front, yaw = bearing)
+     and /perception/far_target/status (JSON string; the operator viewer draws it).
+"""
+import os
+# One BLAS/OpenMP thread: numpy otherwise spins a thread per core on every small matrix op
+# (measured 930 % CPU in the 11-07 field run, starving the Nav2 controller).
+for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ[_v] = "1"
+import json, math, threading, time
+import numpy as np, cv2, rclpy, yaml
+cv2.setNumThreads(1)
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from sensor_msgs.msg import Image, CameraInfo, PointCloud2, JointState
+from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import String
+from rclpy.serialization import deserialize_message
+import pinocchio as pin
+
+from ament_index_python.packages import get_package_share_directory as _share
+URDF = _share("tzb_description") + "/urdf/tzb_description.urdf"
+PLANNER = _share("lite_motion_planner") + "/config/tzb_planner.yaml"
+JN = ["J1_joint", "J2_joint", "J3_joint", "J4_joint", "J5_joint", "J6_joint"]
+PRE_INI = [0.0, 1.0, -2.61, 0.0, 1.3, 0.0]
+HALF = 0.025
+
+
+class Locator(Node):
+    def __init__(self, standoff, period):
+        super().__init__("far_target_locator")
+        self.standoff = standoff; self.period = period
+        self.model = pin.buildModelFromUrdf(URDF); self.data = self.model.createData()
+        self.idx = [self.model.joints[self.model.getJointId(n)].idx_q for n in JN]
+        self.fid = self.model.getFrameId("camera_link")
+        p = yaml.safe_load(open(PLANNER))["/**"]["ros__parameters"]
+        self.X = np.array(p["tzb.pose_estimator_reference_transform_matrix"], float).reshape(4, 4)
+        self.lock = threading.Lock()
+        self.img = None; self.cloud = None; self.K = None; self.D = None; self.joints = None; self.dets = []; self.dets_t = 0.0
+        self.plane = None   # (n, d) with n.p = d, n pointing up
+        self.det_stamp = None; self.last_done = 0.0; self.hist_t = 0.0
+        self.hist = []
+        # raw subscriptions: only the frame used by a tick is deserialised (Python deserialisation of every
+        # 30 Hz cloud kept the executor busy and made the hint ~0.7 s old -> rejected by tzb_catch)
+        self.create_subscription(Image, "/camera/color/image_raw", self.on_img, qos_profile_sensor_data, raw=True)
+        self.create_subscription(CameraInfo, "/camera/color/camera_info", self.on_info, 10)
+        self.create_subscription(PointCloud2, "/camera/depth/color/points", self.on_cloud, qos_profile_sensor_data, raw=True)
+        self.create_subscription(JointState, "/serial/arm_joint_state", self.on_joints, qos_profile_sensor_data)
+        try:
+            from yolo_node.msg import DetectionArray
+            self.create_subscription(DetectionArray, "/yolo/detections", self.on_dets, 10)
+        except Exception as e:
+            self.get_logger().warn("no yolo_node.msg: %s (HSV only)" % e)
+        self.pub = self.create_publisher(PoseStamped, "/perception/far_target", 10)
+        self.pub_stand = self.create_publisher(PoseStamped, "/perception/far_target/standoff", 10)
+        self.pub_status = self.create_publisher(String, "/perception/far_target/status", 10)
+        # navigation hint for tzb_catch (camera optical frame, image stamp) -> /mission/target_hint
+        self.hint_frame = self.declare_parameter("hint_frame", "camera_color_optical_frame").value
+        self.pub_hint = self.create_publisher(PoseStamped, "/perception/target_hint", 10)
+        # 11-07 field run: YOLO 0.11-0.20 on a black flight case / dark clothes were published as targets.
+        self.min_conf = float(self.declare_parameter("min_confidence", 0.15).value)
+        self.size_ratio = (0.5, 2.5)   # box size / expected size of a 5 cm cube at the estimated depth
+        self.create_timer(period, self.tick)
+
+    def on_img(self, m):
+        with self.lock: self.img = m
+
+    def on_info(self, m):
+        self.K = np.array(m.k, float).reshape(3, 3); self.D = np.array(m.d, float)
+
+    def on_cloud(self, m):
+        with self.lock: self.cloud = m
+
+    def on_joints(self, m):
+        q = [float("nan")] * 6
+        for i, n in enumerate(JN):
+            if n in m.name: q[i] = float(m.position[m.name.index(n)])
+        self.joints = (time.time(), q)
+
+    def on_dets(self, m):
+        self.dets = [(d.x, d.y, d.width, d.height, d.confidence, d.class_name) for d in m.detections]; self.dets_t = time.time()
+        self.det_stamp = m.header.stamp   # stamp of the image YOLO ran on
+
+    # ------------------------------------------------------------------
+    def cam_pose(self):
+        q = PRE_INI; src = "pre_ini(assumed)"
+        if self.joints and time.time() - self.joints[0] < 1.0 and all(map(math.isfinite, self.joints[1])):
+            q = self.joints[1]; src = "measured"
+        qf = pin.neutral(self.model)
+        for i, v in zip(self.idx, q): qf[i] = v
+        pin.forwardKinematics(self.model, self.data, qf); pin.updateFramePlacements(self.model, self.data)
+        M = self.data.oMf[self.fid]; T = np.eye(4); T[:3, :3] = M.rotation; T[:3, 3] = M.translation
+        return T @ self.X, q, src
+
+    @staticmethod
+    def cloud_xyz(m):
+        names = {f.name: f.offset for f in m.fields}
+        n = m.width * m.height
+        buf = np.frombuffer(m.data, np.uint8)[:n * m.point_step].reshape(n, m.point_step)[::4]   # 1/4 of the points is plenty
+        xyz = np.stack([buf[:, names[k]:names[k] + 4].copy().view(np.float32).ravel() for k in ("x", "y", "z")], 1).astype(float)
+        return xyz[np.isfinite(xyz).all(1) & (xyz[:, 2] > 0.1)]
+
+    def fit_plane(self, P):
+        sel = P[(P[:, 0] > 0.45) & (P[:, 0] < 3.5) & (np.abs(P[:, 1]) < 1.2) & (P[:, 2] > -0.6) & (P[:, 2] < 0.1)]
+        if len(sel) > 3000: sel = sel[np.random.choice(len(sel), 3000, replace=False)]
+        if len(sel) < 300: return None, 0
+        best = (0, None); rng = np.random.default_rng()
+        for _ in range(80):
+            a, b, c = sel[rng.choice(len(sel), 3, replace=False)]
+            n = np.cross(b - a, c - a); nn = np.linalg.norm(n)
+            if nn < 1e-6: continue
+            n = n / nn
+            if n[2] < 0: n = -n
+            if n[2] < math.cos(math.radians(20)): continue
+            inl = np.abs((sel - a) @ n) < 0.012
+            if inl.sum() > best[0]: best = (inl.sum(), inl)
+        if best[1] is None: return None, 0
+        Q = sel[best[1]]; c = Q.mean(0); w, V = np.linalg.eigh(np.cov((Q - c).T)); n = V[:, 0]
+        if n[2] < 0: n = -n
+        return (n, float(n @ c)), int(best[0])
+
+    def target_pixel(self, img_bgr, horizon_v):
+        if time.time() - self.dets_t < 0.6 and self.dets:
+            d = max(self.dets, key=lambda d: d[4])
+            if d[4] >= self.min_conf:
+                return (d[0] + d[2] / 2.0, d[1] + d[3] / 2.0), (d[0], d[1], d[2], d[3]), "yolo %.2f" % d[4]
+        hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
+        mask = cv2.inRange(hsv, (85, 80, 60), (110, 255, 255))
+        mask[: int(max(0, horizon_v)), :] = 0
+        n, lab, st, cen = cv2.connectedComponentsWithStats(mask)
+        if n <= 1: return None, None, "none"
+        k = 1 + int(np.argmax(st[1:, 4]))
+        if st[k, 4] < 30: return None, None, "none"
+        x, y, w, h, a = st[k]
+        return (x + w / 2.0, y + h / 2.0), (x, y, w, h), "hsv"
+
+    def tick(self):
+        t_start = time.time()
+        with self.lock:
+            im_raw, cl_raw = self.img, self.cloud
+        if im_raw is None or self.K is None: return
+        yolo_fresh = time.time() - self.dets_t < 0.6 and bool(self.dets) and self.det_stamp is not None
+        if yolo_fresh:
+            src_t = self.det_stamp.sec + self.det_stamp.nanosec * 1e-9
+            if src_t <= self.last_done: return          # this detection was already published
+        im = deserialize_message(im_raw, Image)
+        im_t = im.header.stamp.sec + im.header.stamp.nanosec * 1e-9
+        if not yolo_fresh:
+            src_t = im_t
+            if src_t - self.last_done < 0.12: return
+        self.last_done = src_t
+        src_stamp = self.det_stamp if yolo_fresh else im.header.stamp
+        cl = deserialize_message(cl_raw, PointCloud2) if cl_raw is not None else None
+        T, q, qsrc = self.cam_pose()
+        R, o = T[:3, :3], T[:3, 3]
+        buf = np.frombuffer(im.data, np.uint8).reshape(im.height, im.step)[:, :im.width * 3].reshape(im.height, im.width, 3)
+        bgr = cv2.cvtColor(buf, cv2.COLOR_RGB2BGR) if im.encoding == "rgb8" else buf
+        Pc = None
+        if cl is not None:
+            try:
+                Pc = self.cloud_xyz(cl)
+                Pb = Pc @ R.T + o
+                pl, ninl = self.fit_plane(Pb)
+                if pl is not None:
+                    if self.plane is None: self.plane = pl
+                    else:
+                        n = 0.7 * self.plane[0] + 0.3 * pl[0]; n /= np.linalg.norm(n); self.plane = (n, 0.7 * self.plane[1] + 0.3 * pl[1])
+            except Exception as e:
+                self.get_logger().warn("cloud: %s" % e, throttle_duration_sec=5.0)
+        n, d = self.plane if self.plane is not None else (np.array([0, 0, 1.0]), -0.21)
+        # horizon: pixel row of a far point on the plane straight ahead
+        far = o + np.array([30.0, 0, 0]); far[2] = (d - n[0] * far[0] - n[1] * far[1]) / n[2]
+        pc = R.T @ (far - o); hv = self.K[1, 1] * pc[1] / pc[2] + self.K[1, 2] if pc[2] > 0 else 0
+        pix, box, dsrc = self.target_pixel(bgr, hv + 5)
+        st = dict(t=time.time(), joints_src=qsrc, plane=None if self.plane is None else dict(normal=n.round(4).tolist(), d=round(d, 4),
+                  tilt_deg=round(math.degrees(math.acos(min(1.0, n[2]))), 2), pitch_deg=round(math.degrees(math.atan2(-n[0], n[2])), 2),
+                  height_at_0p5m=round((d - n[0] * 0.5) / n[2], 4)), det=dsrc)
+        if pix is not None:
+            ray = cv2.undistortPoints(np.array([[pix]], float), self.K, self.D).ravel()
+            dv = R @ np.r_[ray, 1.0]
+            dd = d + HALF   # plane shifted up by the block half height along n
+            denom = n @ dv
+            if abs(denom) > 1e-6:
+                t = (dd - n @ o) / denom
+                if t > 0:
+                    p = o + t * dv
+                    # Each published point is ONE observation in the base frame at its own image stamp: no temporal
+                    # filtering here (a median over frames taken while the rover drives mixes different base poses;
+                    # mission_state does its own world-frame confirmation). The median below is for the display only.
+                    if self.hist and (src_t - self.hist_t > 0.5 or np.linalg.norm(p[:2] - self.hist[-1][:2]) > 0.15):
+                        self.hist = []
+                    self.hist.append(p); self.hist = self.hist[-7:]; self.hist_t = src_t
+                    pm = np.median(np.array(self.hist), 0)
+                    st.update(box=[float(v) for v in box], p_ray=p.round(4).tolist(), p_ray_med=pm.round(4).tolist(),
+                              range=round(float(math.hypot(pm[0], pm[1])), 3), bearing_deg=round(math.degrees(math.atan2(pm[1], pm[0])), 2))
+                    if Pc is not None and box is not None:
+                        x, y, w, h = box
+                        uv = Pc[:, :2] / Pc[:, 2:3] * np.array([self.K[0, 0], self.K[1, 1]]) + np.array([self.K[0, 2], self.K[1, 2]])
+                        inb = (uv[:, 0] > x + 0.15 * w) & (uv[:, 0] < x + 0.85 * w) & (uv[:, 1] > y + 0.15 * h) & (uv[:, 1] < y + 0.85 * h)
+                        Q = Pc[inb] @ R.T + o
+                        if len(Q):
+                            hgt = Q @ n - d; Q = Q[(hgt > 0.005) & (hgt < 0.07)]
+                        if len(Q) >= 5:
+                            pdp = np.median(Q, 0); st.update(p_depth=pdp.round(4).tolist(), n_depth=int(len(Q)), depth_minus_ray_m=round(float(np.linalg.norm(pdp[:2] - p[:2])), 3))
+                    # plausibility: YOLO only (HSV is display-only), not touching the image border, and the
+                    # box must have the size a 5 cm cube has at this depth
+                    pz = float((R.T @ (p - o))[2]); bx, by, bw, bh = box
+                    exp_px = self.K[0, 0] * 0.05 / max(pz, 0.05); ratio = max(bw, bh) / exp_px
+                    border = bx <= 2 or by <= 2 or bx + bw >= im.width - 2 or by + bh >= im.height - 2
+                    valid = dsrc.startswith("yolo") and not border and self.size_ratio[0] <= ratio <= self.size_ratio[1]
+                    st.update(valid=bool(valid), size_ratio=round(ratio, 2), border=bool(border))
+                    if not valid:
+                        self.pub_status.publish(String(data=json.dumps(st)))
+                        return
+                    msg = PoseStamped(); msg.header.stamp = src_stamp; msg.header.frame_id = "base_link"
+                    msg.pose.position.x, msg.pose.position.y, msg.pose.position.z = float(p[0]), float(p[1]), float(p[2])
+                    msg.pose.orientation.w = 1.0; self.pub.publish(msg)
+                    pcam = R.T @ (p - o)
+                    hm = PoseStamped(); hm.header.stamp = src_stamp; hm.header.frame_id = self.hint_frame
+                    hm.pose.position.x, hm.pose.position.y, hm.pose.position.z = float(pcam[0]), float(pcam[1]), float(pcam[2])
+                    hm.pose.orientation.w = 1.0; self.pub_hint.publish(hm)
+                    b = math.atan2(p[1], p[0]); r = math.hypot(p[0], p[1]); s = max(0.0, r - self.standoff)
+                    sm = PoseStamped(); sm.header = msg.header
+                    sm.pose.position.x, sm.pose.position.y = s * math.cos(b), s * math.sin(b)
+                    sm.pose.orientation.z, sm.pose.orientation.w = math.sin(b / 2), math.cos(b / 2)
+                    self.pub_stand.publish(sm)
+                    st.update(standoff=dict(x=round(sm.pose.position.x, 3), y=round(sm.pose.position.y, 3), yaw_deg=round(math.degrees(b), 2), drive_m=round(s, 3)))
+        st['proc_ms'] = round((time.time() - t_start) * 1000, 1)
+        st['img_age_ms'] = round((self.get_clock().now().nanoseconds * 1e-9 - src_t) * 1000, 1)
+        self.pub_status.publish(String(data=json.dumps(st)))
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser(); ap.add_argument("--standoff", type=float, default=0.45); ap.add_argument("--period", type=float, default=0.05)
+    a = ap.parse_args(rclpy.utilities.remove_ros_args(__import__("sys").argv)[1:])
+    rclpy.init(); n = Locator(a.standoff, a.period)
+    try: rclpy.spin(n)
+    except KeyboardInterrupt: pass
+    finally:
+        n.destroy_node()
+        if rclpy.ok(): rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()

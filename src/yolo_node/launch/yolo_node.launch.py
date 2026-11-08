@@ -18,7 +18,7 @@ def generate_launch_description():
         'model_path',
         # 新模型目录：/home/tzb/tzb_ws/src/best_openvino_model/blue_block
         # 可临时覆盖：ros2 launch yolo_node yolo_node.launch.py \
-        #   model_path:=/path/to/openvino_model target_class:=blue_block
+        #   model_path:=/path/to/openvino_model target_class:='blue block'
         # 文本提示词位于同目录 prompts.txt；如使用参考图，请在导出模型时传入参考图。
         default_value='/home/tzb/tzb_ws/src/best_openvino_model/blue_block',
 
@@ -96,8 +96,9 @@ def generate_launch_description():
 
     target_class_arg = DeclareLaunchArgument(
         'target_class',
-        default_value='blue_block',
-        description='Class name of the target object to detect and select'
+        default_value='blue block',   # matches default model metadata names {0: 'blue block'}; matching is normalised
+        description='Class name of the target object to detect and select '
+                    '(case/_/-/space-insensitive; must match a model class or nothing is published)'
     )
 
     timing_log_enable_arg = DeclareLaunchArgument(

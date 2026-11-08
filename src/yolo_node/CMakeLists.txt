@@ -25,6 +25,12 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# Pure helper module imported by yolo_detector.py (``import yolo_logic``); kept next to the script.
+install(FILES
+  yolo_node/yolo_logic.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 # Install launch files
 install(DIRECTORY
   launch

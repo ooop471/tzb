@@ -14,6 +14,8 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
+find_package(arm_task_interfaces REQUIRED)
 find_package(trajectory_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(shape_msgs REQUIRED)
@@ -178,7 +180,7 @@ if(TARGET dhz_4)
 endif()
 
 ament_target_dependencies(tzb_catch
-  rclcpp trajectory_msgs geometry_msgs sensor_msgs std_msgs visualization_msgs tf2_ros lite_motion_msgs arm2nav_msgs
+  rclcpp rclcpp_action trajectory_msgs geometry_msgs sensor_msgs std_msgs visualization_msgs tf2_ros lite_motion_msgs arm2nav_msgs arm_task_interfaces
 )
 
 if(TARGET haomu_flow_console)
@@ -199,7 +201,7 @@ if(BUILD_TESTING)
   add_test(NAME test_mission_arm
     COMMAND /usr/bin/python3 ${CMAKE_CURRENT_SOURCE_DIR}/test/test_mission_control.py
       $<TARGET_FILE:tzb_catch> ${CMAKE_CURRENT_SOURCE_DIR})
-  set_tests_properties(test_mission_arm PROPERTIES TIMEOUT 55 RUN_SERIAL TRUE
+  set_tests_properties(test_mission_arm PROPERTIES TIMEOUT 150 RUN_SERIAL TRUE
     ENVIRONMENT "ROS_DOMAIN_ID=223;ROS_LOCALHOST_ONLY=1;ROS_LOG_DIR=/tmp/rover_arm_mission_tests")
 endif()
 

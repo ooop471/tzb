@@ -155,6 +155,13 @@ DriverNode::DriverNode(const rclcpp::NodeOptions& options)
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
+  if (!rclcpp::ok())
+  {
+    // Shutdown requested while waiting for the device: creating the timer on
+    // the shut-down context would throw (and abort the process).
+    RCLCPP_WARN(get_logger(), "Shutdown requested while waiting for serial device %s; not starting.", device_name.c_str());
+    return;
+  }
 
   const auto send_period = std::chrono::duration_cast<std::chrono::nanoseconds>(
     std::chrono::duration<double>(1.0 / arm_command_publish_hz_));
@@ -175,7 +182,9 @@ DriverNode::~DriverNode()
   {
     serial_receive_enabled_.store(false);
     std::scoped_lock lock{serial_port_mutex_};
-    if (serial_driver_.port()->is_open())
+    // port() is null when the constructor's device wait was interrupted by a
+    // shutdown before init_port() ran; the old code dereferenced it.
+    if (serial_driver_.port() && serial_driver_.port()->is_open())
     {
       serial_driver_.port()->close();
     }
@@ -558,11 +567,11 @@ float DriverNode::angleToSerialUnit(float angle_rad, std::size_t joint_index) co
   {
     case 0:
       // J1: serial = ROS - 0.01965
-      serial_angle_rad = angle_rad - 0.22473F;
+      serial_angle_rad = angle_rad - 0.18540F;  // 11-07 zero jog: J1 +2.25 deg (was 0.22473)
       break;
     case 1:
       // J2: serial = 1.55281 - ROS, with reversed rotation direction.
-      serial_angle_rad = - 3.46819F + angle_rad;
+      serial_angle_rad = - 3.44269F + angle_rad;  // 11-07 zero jog: J2 +1.46 deg (was 3.46819)
       break;
     case 2:
       // J3: serial = ROS + 1.60589
@@ -574,7 +583,7 @@ float DriverNode::angleToSerialUnit(float angle_rad, std::size_t joint_index) co
       break;
     case 4:
       // J5: serial = ROS + 3.15340
-      serial_angle_rad = angle_rad - 0.688806F;
+      serial_angle_rad = angle_rad - 0.79521F;  // 11-07 zero jog: J5 -6.10 deg (was 0.688806)
       break;
     case 5:
       // J6: serial = ROS - 1.40514
@@ -600,10 +609,10 @@ float DriverNode::angleFromSerialUnit(float serial_angle, std::size_t joint_inde
   {
     case 0:
       // Inverse of J1: ROS = serial + 0.01965
-      return serial_angle_rad + 0.22473F;
+      return serial_angle_rad + 0.18540F;  // 11-07 zero jog (was 0.22473)
     case 1:
       // Inverse of J2: ROS = 1.55281 - serial
-      return  3.46819F + serial_angle_rad;
+      return  3.44269F + serial_angle_rad;  // 11-07 zero jog (was 3.46819)
     case 2:
       // Inverse of J3: ROS = serial - 1.60589
       return  - serial_angle_rad - 1.62393F;
@@ -612,7 +621,7 @@ float DriverNode::angleFromSerialUnit(float serial_angle, std::size_t joint_inde
       return serial_angle_rad + 2.7583F;
     case 4:
       // Inverse of J5: ROS = serial + 0.7566
-      return serial_angle_rad + 0.688806F;
+      return serial_angle_rad + 0.79521F;  // 11-07 zero jog (was 0.688806)
     case 5:
       // Inverse of J6: ROS = serial + 1.40514
       return serial_angle_rad;

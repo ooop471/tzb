@@ -49,6 +49,7 @@ import copy
 import json
 from scipy.spatial import cKDTree
 from pose_estimator.navigation_observations import NavigationCloudHistory
+from pose_estimator.foreground_observations import extract_foreground
 
 # ---------- 检测消息兼容层 ----------
 try:
@@ -367,14 +368,31 @@ class PoseEstimationNode(Node):
         self.pub_pose = self.create_publisher(PoseStamped, p['object_pose_topic'], 10)
         # Navigation observations are separate from the validated grasp output.
         self._navigation_observations = self.declare_parameter('navigation_observations', False).value
+        # 11-07: far_target_locator owns /perception/target_hint in the mission profile (launch sets False)
+        self._publish_target_hint = bool(self.declare_parameter('publish_target_hint', True).value)
         self._navigation_confidence = float(self.declare_parameter('navigation_confidence', 0.1).value)
         self._navigation_max_sync = float(self.declare_parameter('navigation_max_sync', 0.15).value)
         self._navigation_cloud_history = NavigationCloudHistory(
             float(self.declare_parameter('navigation_cloud_history_sec', 0.75).value),
             self._navigation_max_sync)
         self._navigation_last_processed_detection = 0.0
+        self._nav_history_lock = threading.Lock()
         self.pub_navigation_center = self.create_publisher(PoseStamped, '/perception/object_center', 10)
-        self.pub_navigation_hint = self.create_publisher(PoseStamped, '/perception/target_hint', 10)
+        self.pub_navigation_hint = (self.create_publisher(PoseStamped, '/perception/target_hint', 10)
+                                    if self._publish_target_hint else None)
+        # Fast motion-time candidate: coarse 3D point, no FPFH/RANSAC.
+        self.pub_candidate = (self.create_publisher(PoseStamped, str(self._p['candidate_topic']), 10)
+                              if bool(self._p.get('candidate_enable', True)) else None)
+        self._mission_state = None
+        self._mission_state_time = 0.0
+        state_qos = QoSProfile(
+            depth=1,
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.TRANSIENT_LOCAL)
+        self.sub_mission_state = self.create_subscription(
+            String, str(self._p['mission_state_topic']),
+            self._cb_mission_state, state_qos,
+            callback_group=self._cb_group_fast)
         self.pub_navigation_status = self.create_publisher(String, '/perception/navigation_status', 10)
         self.pub_roi = self.create_publisher(PointCloud2, '~/roi_cloud', 1)
         self.pub_marker = self.create_publisher(Marker, '~/model_marker', marker_qos)
@@ -466,6 +484,20 @@ class PoseEstimationNode(Node):
         decl('min_scene_points', 250)
         decl('rough_crop_pad_ratio', 0.35)
 
+        # ---- 运动段快速候选（不跑配准） ----
+        decl('candidate_topic', '/perception/candidate')
+        decl('candidate_enable', True)
+        decl('candidate_min_score', 0.12)
+        decl('candidate_min_points', 30)
+
+        # ---- 运动段关闭精配准（由 /mission/state 驱动） ----
+        decl('registration_gate_enabled', False)
+        decl('mission_state_topic', '/mission/state')
+        decl('mission_state_timeout_sec', 1.0)
+        decl('registration_on_states', [
+            'STOPPING', 'LOCALIZING', 'PLANNING', 'APPROACHING',
+            'SETTLING', 'READY_TO_GRASP', 'GRASPING'])
+
         # ---- 可信 ROI / bbox 防抖 ----
         decl('det_min_score', 0.87)
         decl('bbox_smoothing_enable', True)
@@ -499,11 +531,36 @@ class PoseEstimationNode(Node):
             'tracking_icp_dist_thresh', 'tracking_icp_max_iter', 'roi_timeout_sec',
             'publish_roi_cloud', 'publish_model_marker', 'viz_publish_every_n', 'publish_coarse_pose', 'publish_coarse_marker',
             'bbox_expand_ratio', 'bbox_expand_ratio_long', 'bbox_expand_ratio_width', 'min_scene_points', 'rough_crop_pad_ratio',
+            'candidate_topic', 'candidate_enable', 'candidate_min_score', 'candidate_min_points',
+            'registration_gate_enabled', 'mission_state_topic', 'mission_state_timeout_sec',
+            'registration_on_states',
             'det_min_score', 'bbox_smoothing_enable', 'bbox_ema_alpha',
             'max_tracking_translation_jump', 'max_tracking_rotation_jump_deg', 'axisymmetric_ignore_yaw_jump',
             'timing_log_enable', 'timing_log_throttle_sec',
         ]
         self._p = {n: self.get_parameter(n).value for n in names}
+        for name, default in [('foreground_block_size', 0.05),
+                              ('foreground_support_fraction', 0.08),
+                              ('foreground_min_points', 12)]:
+            self._p[name] = self.declare_parameter(name, default).value
+        self._foreground_counts = {}
+
+    def _foreground_observation(self, points, path):
+        floor = int(self._p['foreground_min_points'])
+        if path == 'candidate':
+            floor = max(floor, int(self._p['candidate_min_points']))
+        result = extract_foreground(
+            points, self._color_fx, self._color_fy,
+            block_size=float(self._p['foreground_block_size']),
+            support_fraction=float(self._p['foreground_support_fraction']),
+            absolute_floor=floor)
+        key = f'{path}:{result.reason}'
+        self._foreground_counts[key] = self._foreground_counts.get(key, 0) + 1
+        self.get_logger().debug(
+            f'[FOREGROUND] path={path} reason={result.reason} '
+            f'points={result.points} required={result.required} '
+            f'count={self._foreground_counts[key]}')
+        return result
 
 
     def _reset_tracking_state(self, reason: str, throttle: float = 1.0):
@@ -613,6 +670,86 @@ class PoseEstimationNode(Node):
             else:
                 self._latest_det_bbox = bbox
 
+        if bbox is not None:
+            self._publish_candidate(bbox, float(score), stamp_sec)
+
+    def _publish_candidate(self, bbox, score: float, det_stamp_sec: float):
+        """Publish a coarse 3D point for motion-time stopping.
+
+        This path intentionally skips FPFH/RANSAC and the 250-point
+        registration gate. It only needs enough depth points to take a
+        median inside the detector bbox, so it stays independent of the
+        registration thread and can follow the detector rate.
+        """
+        if not bool(self._p.get('candidate_enable', True)):
+            return
+        if self._color_fx is None or self._yolo_img_width is None:
+            return
+        if det_stamp_sec <= 0.0 or score < float(self._p.get('candidate_min_score', 0.12)):
+            return
+
+        with self._nav_history_lock:
+            matched = self._navigation_cloud_history.match(det_stamp_sec)
+        if matched is None:
+            return
+        if matched.height <= 1 or matched.width <= 1:
+            return
+
+        try:
+            r1, r2, c1, c2 = self._compute_rough_roi(matched, bbox)
+            rough = pc2_roi_numpy(matched, r1, r2, c1, c2)
+            scene = self._crop_by_projection(rough, bbox)
+            foreground = self._foreground_observation(scene, 'candidate')
+            if foreground.center is None:
+                return
+            center = foreground.center
+
+            msg = PoseStamped()
+            msg.header = copy.deepcopy(matched.header)
+            msg.pose.position.x = float(center[0])
+            msg.pose.position.y = float(center[1])
+            msg.pose.position.z = float(center[2])
+            msg.pose.orientation.w = 1.0
+            self.pub_candidate.publish(msg)
+            self.get_logger().debug(
+                f"[GRASP][candidate] xyz=({center[0]:.3f},{center[1]:.3f},{center[2]:.3f}) "
+                f"conf={score:.2f} points={len(scene)}",
+                throttle_duration_sec=2.0)
+        except Exception as exc:  # noqa: BLE001
+            self.get_logger().warn(
+                f"[GRASP][candidate] failed: {exc}",
+                throttle_duration_sec=2.0)
+
+    def _cb_mission_state(self, msg):
+        try:
+            state = json.loads(msg.data).get('state')
+        except Exception:
+            return
+        if not isinstance(state, str) or not state:
+            return
+        if state != self._mission_state:
+            self.get_logger().info(
+                f"[GRASP][registration_gate] mission_state={state}")
+        self._mission_state = state
+        self._mission_state_time = time.monotonic()
+
+    def _registration_wanted(self):
+        """True only in states where the precise center is actually used.
+
+        EXPLORING/STARTING/RESUMING only need the coarse candidate.  APPROACHING
+        must stay enabled: the state machine tracks /mission/target_center while
+        the chassis moves to the grasp pose.  GRASPING must stay enabled because
+        tzb_catch re-observes the target with the arm camera.
+        """
+        if not bool(self._p.get('registration_gate_enabled', False)):
+            return True
+        if self._mission_state is None:
+            return True
+        if (time.monotonic() - self._mission_state_time >
+                float(self._p.get('mission_state_timeout_sec', 1.0))):
+            return True
+        return self._mission_state in set(self._p.get('registration_on_states', []))
+
     # ----------------------------------------------------------------
     #  回调: 点云 (仅保留最新帧, 不堆栈)
     # ----------------------------------------------------------------
@@ -622,8 +759,9 @@ class PoseEstimationNode(Node):
             self._frame_count += 1
             frame_seq = self._frame_count
             self._latest_cloud_item = (msg, frame_seq)
-            if self._navigation_observations:
-                self._navigation_cloud_history.add(msg, stamp_to_sec(msg.header.stamp))
+            with self._nav_history_lock:
+                self._navigation_cloud_history.add(
+                    msg, stamp_to_sec(msg.header.stamp))
 
         # 已有线程在处理时, 这里只更新 latest, 直接返回
         if not self._cloud_process_lock.acquire(blocking=False):
@@ -677,13 +815,18 @@ class PoseEstimationNode(Node):
                     self._latest_det_bbox = None
             return
 
+        if not self._registration_wanted():
+            self._publish_navigation_status(
+                'registration_gated', msg, det_score, det_stamp_sec)
+            return
+
         if self._navigation_observations:
             # Inference takes ~220 ms on this rover. Pair the delayed RGB result
             # with buffered depth from that exposure, rather than the newest
             # cloud. Process each detection once; repeated old boxes add no evidence.
             if det_stamp_sec <= self._navigation_last_processed_detection:
                 return
-            with self._cloud_item_lock:
+            with self._nav_history_lock:
                 matched = self._navigation_cloud_history.match(det_stamp_sec)
             if matched is None:
                 self._publish_navigation_status('waiting_for_matching_cloud', msg, det_score, det_stamp_sec)
@@ -851,9 +994,37 @@ class PoseEstimationNode(Node):
             self._last_roi_diag_mono = now_mono
             self.get_logger().debug(f"[ROI DIAG] projected_points={len(scene_np)}")
 
+        foreground = self._foreground_observation(scene_np, 'hint')
+        navigation_valid = (self._navigation_observations and det_score >= self._navigation_confidence
+                            and det_stamp_sec > 0 and abs(cloud_stamp_sec-det_stamp_sec) <= self._navigation_max_sync)
+        hint_published = bool(navigation_valid and foreground.center is not None)
+        if hint_published and self._publish_target_hint:
+            self._publish_pose_msg(msg.header, foreground.center,
+                                   [0., 0., 0., 1.], msg.header.frame_id, self.pub_navigation_hint)
+        elif navigation_valid:
+            self._publish_navigation_status('foreground_rejected', msg, det_score, det_stamp_sec,
+                                            reason=foreground.reason)
+
+        if foreground.reason == 'dominant_background':
+            # One connected component wider than 120 mm holds >=50% of the ROI:
+            # that is not a 50 mm block but the surface it was cropped from.
+            # Global registration on such ROIs never passed its gates in replay
+            # (0/121) and costs 0.5-1.4 s per frame in the single processing
+            # thread; while it runs, callbacks stall, KEEP_LAST-1 clouds are
+            # dropped and later detections of the real target are never paired.
+            # Skip exactly like an insufficient ROI: tracking state untouched.
+            self._publish_navigation_status('registration_skipped', msg, det_score, det_stamp_sec,
+                                            reason=foreground.reason, points=len(scene_np),
+                                            hint_published=hint_published)
+            self.get_logger().debug(
+                f"ROI 为主导背景面 (points={len(scene_np)}), 跳过配准",
+                throttle_duration_sec=2.0)
+            return
+
         if len(scene_np) < p['min_scene_points']:
             self._publish_navigation_status('insufficient_roi', msg, det_score, det_stamp_sec,
-                                            points=len(scene_np), required=p['min_scene_points'])
+                                            points=len(scene_np), required=p['min_scene_points'],
+                                            hint_published=hint_published)
             self.get_logger().warn(
                 f"ROI 点数 {len(scene_np)} 不足, 跳过",
                 throttle_duration_sec=2.0)
@@ -882,7 +1053,8 @@ class PoseEstimationNode(Node):
 
         if n_pts < p['min_scene_points']:
             self._publish_navigation_status('insufficient_downsampled_roi', msg, det_score, det_stamp_sec,
-                                            points=n_pts, required=p['min_scene_points'])
+                                            points=n_pts, required=p['min_scene_points'],
+                                            hint_published=hint_published)
             self.get_logger().warn(
                 f"预处理后点数 {n_pts} 不足, 跳过",
                 throttle_duration_sec=2.0)
@@ -892,12 +1064,7 @@ class PoseEstimationNode(Node):
         #  3. 粗配准 / 精配准 / 追踪
         # ============================================================
         t3 = time.monotonic()
-        navigation_valid = (self._navigation_observations and det_score >= self._navigation_confidence
-                            and det_stamp_sec > 0 and abs(cloud_stamp_sec-det_stamp_sec) <= self._navigation_max_sync)
-        if navigation_valid:
-            self._publish_pose_msg(msg.header, np.median(np.asarray(scene.points), axis=0),
-                                   [0., 0., 0., 1.], msg.header.frame_id, self.pub_navigation_hint)
-        T, coverage, median = self._register(scene)
+        T, coverage, median = self._register(scene, foreground_center=foreground.center)
         t_stages['register'] = (time.monotonic() - t3) * 1000
         t_stages.update(getattr(self, '_last_reg_timing', {}))
 
@@ -907,7 +1074,7 @@ class PoseEstimationNode(Node):
 
         if T is None:
             self._publish_navigation_status('registration_rejected', msg, det_score, det_stamp_sec,
-                                            hint_published=bool(navigation_valid), center_published=False)
+                                            hint_published=hint_published, center_published=False)
             t_stages['total'] = (time.monotonic() - t_total0) * 1000
             self._log_timing(t_stages, det_score, n_pts, coverage, median)
             return
@@ -923,7 +1090,7 @@ class PoseEstimationNode(Node):
             self._publish_pose_msg(msg.header, center, quat, msg.header.frame_id, self.pub_navigation_center)
         self._publish_navigation_status('center_published' if navigation_valid else 'navigation_gated',
                                         msg, det_score, det_stamp_sec,
-                                        hint_published=bool(navigation_valid), center_published=bool(navigation_valid))
+                                        hint_published=hint_published, center_published=bool(navigation_valid))
         # 模型 AABB 中心: 与"哪些面被看到"无关的几何中心, 换位置/换视角都可复现。
         model_center = rot_matrix @ self.model.centroid + trans
         try:
@@ -1015,7 +1182,7 @@ class PoseEstimationNode(Node):
     # ----------------------------------------------------------------
     #  Registration
     # ----------------------------------------------------------------
-    def _register(self, scene):
+    def _register(self, scene, foreground_center=None):
         p = self._p
         self._last_reg_timing = {
             'reg_mode': 'TRACK', 'global_coarse': 0.0, 'icp_fine': 0.0}
@@ -1043,8 +1210,27 @@ class PoseEstimationNode(Node):
             self.get_logger().warn(
                 f"追踪验收失败 ({reason})，重新执行全局配准",
                 throttle_duration_sec=1.0)
+            previous_rotation = np.array(self._last_transform[:3, :3], copy=True)
             self._tracking = False
             self._last_transform = None
+
+            # Acquisition uses the existing GLOBAL trust region and final gate,
+            # measured from this seed, exactly as the RANSAC acquisition does.
+            # No old-pose jump check is applied to either acquisition path.
+            if foreground_center is not None:
+                seed = np.eye(4)
+                seed[:3, :3] = previous_rotation
+                seed[:3, 3] = np.asarray(foreground_center) - previous_rotation @ self.model.centroid
+                t_seed = time.monotonic()
+                transform, metrics = self._run_protected_icp(scene, seed, global_mode=True)
+                seed_ok, seed_desc = self._metrics_ok(metrics, stage='icp')
+                self._last_reg_timing['seeded_icp'] = (time.monotonic() - t_seed) * 1000.0
+                self.get_logger().debug(f'[REACQUIRE] seeded accepted={seed_ok} {seed_desc}')
+                if seed_ok:
+                    self._last_reg_timing['reg_mode'] = 'SEEDED'
+                    self._last_transform = transform
+                    self._tracking = True
+                    return transform, metrics['coverage'], metrics['median']
 
         if not bool(p['global_ransac_enable']):
             return None, 0.0, float('inf')
@@ -1427,6 +1613,10 @@ class PoseEstimationNode(Node):
 
 
 def main(args=None):
+    # Hang diagnosis (2026-11-06): `kill -USR1 <pid>` dumps every thread's Python stack to stderr.
+    import faulthandler, signal as _signal
+    faulthandler.enable()
+    faulthandler.register(_signal.SIGUSR1, all_threads=True, chain=False)
     rclpy.init(args=args)
     node = PoseEstimationNode()
     executor = MultiThreadedExecutor()

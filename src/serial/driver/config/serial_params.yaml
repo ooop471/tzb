@@ -36,3 +36,6 @@
     tzb.arm_command_publish_during_replay: false
     tzb.sequence_loop: false
     tzb.loop_pause_sec: 0.5
+    # After SIGINT/SIGTERM keep streaming while /tzb_catch/shutdown_hold is
+    # fresh (tzb_catch homing the arm), at most this long. SIGQUIT bypasses it.
+    tzb.shutdown_hold_timeout_sec: 45.0

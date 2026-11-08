@@ -7,6 +7,11 @@ from ament_index_python.packages import get_package_share_directory
 import os
 import yaml
 
+# Seconds launch waits after SIGINT before SIGTERM, and after SIGTERM before
+# SIGKILL. Must exceed tzb.shutdown_hold_timeout_sec (default 45 s).
+SHUTDOWN_SIGTERM_TIMEOUT = '55'
+SHUTDOWN_SIGKILL_TIMEOUT = '10'
+
 
 def _load_visualization_switches(params_file):
     with open(params_file, 'r', encoding='utf-8') as f:
@@ -44,6 +49,9 @@ def _build_nodes(context, pkg_share):
         name='planning_node',
         output='screen',
         parameters=[params_file],
+        # Keeps serving plan_arm_motion while the tzb_catch shutdown lease is fresh.
+        sigterm_timeout=SHUTDOWN_SIGTERM_TIMEOUT,
+        sigkill_timeout=SHUTDOWN_SIGKILL_TIMEOUT,
     )
     actions.append(planning_node)
 

@@ -9,6 +9,12 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+# Seconds launch waits after SIGINT before SIGTERM, and after SIGTERM before
+# SIGKILL. Must exceed tzb.shutdown_home_timeout_sec + 5 s watchdog (tzb_catch)
+# and tzb.shutdown_hold_timeout_sec (planning_node, serial driver).
+SHUTDOWN_SIGTERM_TIMEOUT = '55'
+SHUTDOWN_SIGKILL_TIMEOUT = '10'
+
 
 def prepare(context):
     planner = get_package_share_directory('lite_motion_planner')
@@ -33,6 +39,8 @@ def prepare(context):
     vision['pose_estimation_node']['ros__parameters'].update(
         model_path=os.path.join(perception, 'config', 'half_block.pcd'), navigation_observations=True,
         navigation_confidence=0.1,
+        # 11-07: far_target_locator is the only /mission/target_hint source (pose estimator keeps /perception/object_center)
+        publish_target_hint=False, candidate_enable=False,
         target_class=LaunchConfiguration('target_class').perform(context))
     directory = tempfile.mkdtemp(prefix='grasp_arm_')
     planner_path = os.path.join(directory, 'planner.yaml')
@@ -48,12 +56,20 @@ def prepare(context):
         launch_arguments={'model_path': LaunchConfiguration('model_path'),
                           'target_class': LaunchConfiguration('target_class')}.items())
     return [camera, detector,
+            Node(package='pose_estimator', executable='far_target_locator',
+                 name='far_target_locator', output='screen'),
             Node(package='pose_estimator', executable='pose_estimation_node',
                  name='pose_estimation_node', parameters=[vision_path], output='screen'),
+            # tzb_catch homes the arm after SIGINT (bounded by
+            # tzb.shutdown_home_timeout_sec) and planning_node keeps serving it
+            # while the shutdown lease is fresh: launch must not escalate to
+            # SIGTERM/SIGKILL before that finishes.
             Node(package='lite_motion_planner', executable='planning_node',
-                 name='planning_node', parameters=[planner_path], output='screen'),
+                 name='planning_node', parameters=[planner_path], output='screen',
+                 sigterm_timeout=SHUTDOWN_SIGTERM_TIMEOUT, sigkill_timeout=SHUTDOWN_SIGKILL_TIMEOUT),
             Node(package='lite_motion_planner', executable='tzb_catch',
-                 name='tzb_catch', parameters=[planner_path], output='screen')]
+                 name='tzb_catch', parameters=[planner_path], output='screen',
+                 sigterm_timeout=SHUTDOWN_SIGTERM_TIMEOUT, sigkill_timeout=SHUTDOWN_SIGKILL_TIMEOUT)]
 
 
 def generate_launch_description():

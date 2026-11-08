@@ -7,6 +7,12 @@ from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import os
 
+# Seconds launch waits after SIGINT before SIGTERM, and after SIGTERM before
+# SIGKILL. Must exceed tzb.shutdown_home_timeout_sec + 5 s watchdog (tzb_catch)
+# and tzb.shutdown_hold_timeout_sec (planning_node, serial driver).
+SHUTDOWN_SIGTERM_TIMEOUT = '55'
+SHUTDOWN_SIGKILL_TIMEOUT = '10'
+
 
 SUPPORTED_ROBOT_MODELS = {
     'tzb_description': 'tzb_planner.yaml',
@@ -61,6 +67,9 @@ def _build_model_nodes(context, pkg_share):
         name='tzb_catch',
         output='screen',
         parameters=catch_parameters,
+        # Homes the arm after SIGINT; do not escalate before the bounded homing ends.
+        sigterm_timeout=SHUTDOWN_SIGTERM_TIMEOUT,
+        sigkill_timeout=SHUTDOWN_SIGKILL_TIMEOUT,
     )
 
     return [
@@ -113,6 +122,9 @@ def generate_launch_description():
         output='screen',
         condition=IfCondition(LaunchConfiguration('use_serial_driver')),
         parameters=[LaunchConfiguration('serial_params_file')],
+        # Keeps streaming while the tzb_catch shutdown lease is fresh.
+        sigterm_timeout=SHUTDOWN_SIGTERM_TIMEOUT,
+        sigkill_timeout=SHUTDOWN_SIGKILL_TIMEOUT,
     )
 
     return LaunchDescription([

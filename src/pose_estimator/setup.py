@@ -23,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'pose_estimation_node = pose_estimator.pose_estimation_node:main',
+            'far_target_locator = pose_estimator.far_target_locator:main',
         ],
     },
 )
