@@ -227,6 +227,11 @@ public:
     // tzb.grasp_ground_z_max_deviation from it is treated as an inconsistent target (rejected).
     grasp_ground_z_ = this->declare_parameter<double>("tzb.grasp_ground_z", std::numeric_limits<double>::quiet_NaN());
     grasp_ground_z_max_deviation_ = this->declare_parameter<double>("tzb.grasp_ground_z_max_deviation", 0.08);
+    // 11-14 sand field: the floor height is NOT constant (block visual z -0.179..-0.204 within 30 cm on sand,
+    // -0.19 on tile). Overwriting the measured z with a fixed tzb.grasp_ground_z made the gripper close up to
+    // 2.5 cm below the block into the sand. grasp_use_visual_z=true keeps the measured z (the sanity gate
+    // against tzb.grasp_ground_z still applies). false = old fixed-floor behaviour.
+    grasp_use_visual_z_ = this->declare_parameter<bool>("tzb.grasp_use_visual_z", false);
     target_yaw_reference_offset_deg_ =
       this->declare_parameter<double>("tzb.target_yaw_reference_offset_deg", 0.0);
     if (isDegreeUnit(target_rpy_unit_)) {
@@ -801,6 +806,36 @@ public:
       force_target_roll_ ? "true" : "false",
       force_target_pitch_ ? "true" : "false",
       force_target_yaw_ ? "true" : "false");
+    // ---- per-class grasp profiles (class comes from /mission/target_class) ----
+    target_class_ = normalizeClassName(
+      this->declare_parameter<std::string>("tzb.default_target_class", "blue_block"));
+    try {
+      const std::string profiles_raw =
+        this->declare_parameter<std::string>("tzb.class_profiles", "{}");
+      class_profiles_ = nlohmann::json::parse(profiles_raw);
+      if (!class_profiles_.is_object()) {
+        throw std::runtime_error("tzb.class_profiles must be a JSON object");
+      }
+    } catch (const std::exception &e) {
+      RCLCPP_WARN(this->get_logger(),
+        "[GRASP][class] invalid tzb.class_profiles (%s); no per-class overrides", e.what());
+      class_profiles_ = nlohmann::json::object();
+    }
+    base_grasp_ground_z_ = grasp_ground_z_;
+    base_grasp_ground_z_max_deviation_ = grasp_ground_z_max_deviation_;
+    base_target_min_z_ = target_min_z_;
+    base_grasp_yaw_offset_deg_ = grasp_yaw_offset_deg_;
+    base_target_yaw_reference_offset_deg_ = target_yaw_reference_offset_deg_;
+    base_target_yaw_symmetry_deg_ = target_yaw_symmetry_deg_;
+    base_place_arm_positions_ = place_arm_positions_;
+    base_gripper_open_positions_ = gripper_open_positions_;
+    base_gripper_close_positions_ = gripper_close_positions_;
+    base_e3_object_id_ = e3_object_id_;
+    base_e3_mesh_resource_ = e3_mesh_resource_;
+    base_mesh_scale_ = mesh_scale_;
+    base_position_only_target_ = position_only_target_;
+    RCLCPP_INFO(this->get_logger(), "[GRASP][class] default='%s' profiles=%s",
+      target_class_.c_str(), class_profiles_.dump().c_str());
     logArmJointState("configured_ini_joint_positions", initial_arm_positions_);
     logArmJointState("configured_pre_ini_joint_positions", pre_initial_arm_positions_);
     logArmJointState("configured_place_joint_positions", place_arm_positions_);
@@ -836,6 +871,16 @@ public:
         [this](geometry_msgs::msg::PoseStamped::ConstSharedPtr m) { navigationTarget(*m, false); });
       mission_state_timer_ = create_wall_timer(std::chrono::milliseconds(100), [this]() { publishMissionState(); });
     }
+
+    // Class selected by pose_estimator / far_target_locator (latched); drives per-class profiles.
+    target_class_sub_ = create_subscription<std_msgs::msg::String>(
+      "/mission/target_class", rclcpp::QoS(1).transient_local(),
+      [this](std_msgs::msg::String::ConstSharedPtr m) {
+        const auto cls = normalizeClassName(m->data);
+        if (cls.empty() || cls == target_class_) return;
+        target_class_ = cls;
+        RCLCPP_INFO(get_logger(), "[GRASP][class] target class <- '%s'", target_class_.c_str());
+      });
 
     // Shutdown lease for planning_node / rm_serial_driver: true from node
     // start until the shutdown sequence has finished, then false.
@@ -1226,6 +1271,78 @@ private:
       "[SHUTDOWN][HOME][FAIL] reason=%s max_error=%.5f object_in_gripper=%s elapsed=%.2fs joint_errors:%s",
       reason.c_str(), max_error, gripper_closed_on_object_.load() ? "true" : "false", elapsed, joint_errors.c_str());
     return false;
+  }
+
+  static std::string normalizeClassName(const std::string &in) {
+    std::string out;
+    out.reserve(in.size());
+    bool pending_space = false;
+    for (char ch : in) {
+      const unsigned char c = static_cast<unsigned char>(ch);
+      if (c == '_' || c == '-' || std::isspace(c)) {
+        if (!out.empty()) pending_space = true;
+        continue;
+      }
+      if (pending_space) { out.push_back(' '); pending_space = false; }
+      out.push_back(static_cast<char>(std::tolower(c)));
+    }
+    return out;
+  }
+
+  // Apply the per-class grasp profile to the live members (base values first, then overrides).
+  void applyTargetClassProfile() {
+    grasp_ground_z_ = base_grasp_ground_z_;
+    grasp_ground_z_max_deviation_ = base_grasp_ground_z_max_deviation_;
+    target_min_z_ = base_target_min_z_;
+    grasp_yaw_offset_deg_ = base_grasp_yaw_offset_deg_;
+    target_yaw_reference_offset_deg_ = base_target_yaw_reference_offset_deg_;
+    target_yaw_symmetry_deg_ = base_target_yaw_symmetry_deg_;
+    place_arm_positions_ = base_place_arm_positions_;
+    gripper_open_positions_ = base_gripper_open_positions_;
+    gripper_close_positions_ = base_gripper_close_positions_;
+    e3_object_id_ = base_e3_object_id_;
+    e3_mesh_resource_ = base_e3_mesh_resource_;
+    mesh_scale_ = base_mesh_scale_;
+    position_only_target_ = base_position_only_target_;
+    if (!class_profiles_.contains(target_class_)) {
+      RCLCPP_INFO(this->get_logger(), "[GRASP][class] '%s' has no profile; using base params",
+        target_class_.c_str());
+      return;
+    }
+    const auto &pr = class_profiles_.at(target_class_);
+    auto num = [&pr](const char *key, double &dst) {
+      const auto it = pr.find(key);
+      if (it != pr.end() && it->is_number()) dst = it->get<double>();
+    };
+    auto vec = [&pr](const char *key, std::vector<double> &dst) {
+      const auto it = pr.find(key);
+      if (it != pr.end() && it->is_array()) dst = it->get<std::vector<double>>();
+    };
+    auto str = [&pr](const char *key, std::string &dst) {
+      const auto it = pr.find(key);
+      if (it != pr.end() && it->is_string()) dst = it->get<std::string>();
+    };
+    auto boolean = [&pr](const char *key, bool &dst) {
+      const auto it = pr.find(key);
+      if (it != pr.end() && it->is_boolean()) dst = it->get<bool>();
+    };
+    num("grasp_ground_z", grasp_ground_z_);
+    num("grasp_ground_z_max_deviation", grasp_ground_z_max_deviation_);
+    num("target_min_z", target_min_z_);
+    num("grasp_yaw_offset_deg", grasp_yaw_offset_deg_);
+    num("target_yaw_reference_offset_deg", target_yaw_reference_offset_deg_);
+    num("target_yaw_symmetry_deg", target_yaw_symmetry_deg_);
+    boolean("position_only_target", position_only_target_);
+    vec("place_arm_positions", place_arm_positions_);
+    vec("gripper_open_positions", gripper_open_positions_);
+    vec("gripper_close_positions", gripper_close_positions_);
+    vec("mesh_scale", mesh_scale_);
+    str("e3_object_id", e3_object_id_);
+    str("e3_mesh_resource", e3_mesh_resource_);
+    RCLCPP_INFO(this->get_logger(),
+      "[GRASP][class] applied '%s' profile: grasp_ground_z=%.4f pos_only=%d place_joints=%zu",
+      target_class_.c_str(), grasp_ground_z_, static_cast<int>(position_only_target_),
+      place_arm_positions_.size());
   }
 
   // Acceptance rules shared by the action server and the legacy JSON path
@@ -2584,10 +2701,12 @@ private:
           visual_z, visual_z - grasp_ground_z_, grasp_ground_z_, grasp_ground_z_max_deviation_);
         return false;
       }
-      out.pose.position.z = grasp_ground_z_;
+      if (!grasp_use_visual_z_) out.pose.position.z = grasp_ground_z_;
       RCLCPP_INFO(this->get_logger(),
-        "[GRASP][target][GROUND_Z] visual z=%.4f -> ground-resting z=%.4f (delta %.3f m)",
-        visual_z, grasp_ground_z_, grasp_ground_z_ - visual_z);
+        "[GRASP][target][GROUND_Z] visual z=%.4f -> %s z=%.4f (delta %.3f m)",
+        visual_z, grasp_use_visual_z_ ? "visual" : "ground-resting",
+        grasp_use_visual_z_ ? visual_z : grasp_ground_z_,
+        (grasp_use_visual_z_ ? visual_z : grasp_ground_z_) - visual_z);
     }
     const bool any_forced_target_rpy =
       force_target_roll_ || force_target_pitch_ || force_target_yaw_;
@@ -5027,6 +5146,7 @@ private:
   }
 
   bool runSequenceOnce() {
+    applyTargetClassProfile();
     RCLCPP_INFO(this->get_logger(), "[GRASP][task][BEGIN] target_source=%s arm_command=%s",
       use_yaml_e3_target_ ? "yaml" : pose_estimator_target_topic_.c_str(),
       arm_command_enabled_ ? "enabled" : "disabled");
@@ -5895,6 +6015,7 @@ private:
   double target_yaw_symmetry_deg_{90.0};
   double grasp_ground_z_{std::numeric_limits<double>::quiet_NaN()};
   double grasp_ground_z_max_deviation_{0.08};
+  bool grasp_use_visual_z_{false};
   double target_yaw_reference_offset_deg_{0.0};
   std::string pose_estimator_target_topic_{"/pose_estimator/object_pose"};
   double pose_estimator_wait_timeout_sec_{3.0};
@@ -6071,6 +6192,23 @@ private:
   uint64_t arm_state_sequence_{0};
   bool task_autostart_{false};
   bool mission_controlled_{false}, mission_pending_{false}, mission_success_{false};
+  // ---- per-class grasp profiles ----
+  std::string target_class_{"blue block"};
+  nlohmann::json class_profiles_{nlohmann::json::object()};
+  double base_grasp_ground_z_{std::numeric_limits<double>::quiet_NaN()};
+  double base_grasp_ground_z_max_deviation_{0.08};
+  double base_target_min_z_{-1.0};
+  double base_grasp_yaw_offset_deg_{0.0};
+  double base_target_yaw_reference_offset_deg_{0.0};
+  double base_target_yaw_symmetry_deg_{90.0};
+  std::vector<double> base_place_arm_positions_;
+  std::vector<double> base_gripper_open_positions_;
+  std::vector<double> base_gripper_close_positions_;
+  std::string base_e3_object_id_;
+  std::string base_e3_mesh_resource_;
+  std::vector<double> base_mesh_scale_;
+  bool base_position_only_target_{false};
+  rclcpp::Subscription<std_msgs::msg::String>::SharedPtr target_class_sub_;
   bool legacy_json_command_{false};
   // Action-server state, all under mission_mutex_.
   std::shared_ptr<ExecuteArmTaskGoalHandle> mission_goal_handle_;

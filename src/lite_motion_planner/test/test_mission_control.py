@@ -509,7 +509,7 @@ class MissionArmTest(unittest.TestCase):
                 self.assertIn((False, OBSERVE), trace[:first_pose],
                               'formal grasp must still observe after reaching its initial pose')
                 self.assertEqual(trace[-1], (False, POST_GRASP))
-                grasp = v['pose_requests'][pose_start]
+                grasp = v['pose_requests'][-1]  # final descent goal (hover was added 11-06; the first request is hover)
                 self.assertEqual(grasp['frame'], h.p['planning_frame'])
                 nav = self.centers_at(h, OBSERVE)[-1]
                 pos_err = float(np.linalg.norm(np.array(grasp['xyz']) - np.array(nav['xyz'])))

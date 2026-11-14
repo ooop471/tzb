@@ -21,7 +21,7 @@ import json, math, threading, time
 import numpy as np, cv2, rclpy, yaml
 cv2.setNumThreads(1)
 from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
+from rclpy.qos import qos_profile_sensor_data, QoSProfile, DurabilityPolicy
 from sensor_msgs.msg import Image, CameraInfo, PointCloud2, JointState
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import String
@@ -34,6 +34,11 @@ PLANNER = _share("lite_motion_planner") + "/config/tzb_planner.yaml"
 JN = ["J1_joint", "J2_joint", "J3_joint", "J4_joint", "J5_joint", "J6_joint"]
 PRE_INI = [0.0, 1.0, -2.61, 0.0, 1.3, 0.0]
 HALF = 0.025
+
+
+def _norm(name):
+    """Normalise a class name (case, '_' / '-' / whitespace are equivalent)."""
+    return ' '.join(str(name or '').replace('_', ' ').replace('-', ' ').lower().split())
 
 
 class Locator(Node):
@@ -69,7 +74,26 @@ class Locator(Node):
         self.pub_hint = self.create_publisher(PoseStamped, "/perception/target_hint", 10)
         # 11-07 field run: YOLO 0.11-0.20 on a black flight case / dark clothes were published as targets.
         self.min_conf = float(self.declare_parameter("min_confidence", 0.15).value)
-        self.size_ratio = (0.5, 2.5)   # box size / expected size of a 5 cm cube at the estimated depth
+        # Class priority (highest first) and permanently ignored classes ('d' is a bad label).
+        raw_classes = self.declare_parameter(
+            "target_classes", ['blue_block', 'big_rock', 'small_rock']).value
+        if isinstance(raw_classes, str):
+            raw_classes = [raw_classes]
+        self.ignored_classes = {
+            _norm(c) for c in self.declare_parameter("ignored_classes", ['d']).value if _norm(c)}
+        self.class_priority = [c for c in (_norm(c) for c in raw_classes) if c and c not in self.ignored_classes]
+        default_sizes = {"blue_block": 0.05, "big_rock": 0.04, "small_rock": 0.02}
+        raw_sizes = self.declare_parameter("class_sizes", json.dumps(default_sizes)).value
+        try:
+            self.class_sizes = {_norm(k): float(v) for k, v in (
+                json.loads(raw_sizes) if isinstance(raw_sizes, str) else raw_sizes).items()}
+        except Exception:
+            self.class_sizes = {_norm(k): float(v) for k, v in default_sizes.items()}
+        self._sel_class = ''
+        self.pub_target_class = self.create_publisher(
+            String, "/mission/target_class",
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self.size_ratio = (0.5, 2.5)   # box size / expected size of the selected class at the estimated depth
         self.create_timer(period, self.tick)
 
     def on_img(self, m):
@@ -130,10 +154,26 @@ class Locator(Node):
         return (n, float(n @ c)), int(best[0])
 
     def target_pixel(self, img_bgr, horizon_v):
+        self._sel_class = ''
         if time.time() - self.dets_t < 0.6 and self.dets:
-            d = max(self.dets, key=lambda d: d[4])
-            if d[4] >= self.min_conf:
-                return (d[0] + d[2] / 2.0, d[1] + d[3] / 2.0), (d[0], d[1], d[2], d[3]), "yolo %.2f" % d[4]
+            allowed = [d for d in self.dets
+                       if _norm(d[5]) and _norm(d[5]) not in self.ignored_classes]
+            chosen = None
+            for cls in self.class_priority:      # priority order, not global confidence
+                group = [d for d in allowed if _norm(d[5]) == cls]
+                if group:
+                    chosen = max(group, key=lambda d: d[4])
+                    break
+            if chosen is None and not self.class_priority and allowed:
+                chosen = max(allowed, key=lambda d: d[4])
+            if chosen is not None and chosen[4] >= self.min_conf:
+                self._sel_class = _norm(chosen[5])
+                return ((chosen[0] + chosen[2] / 2.0, chosen[1] + chosen[3] / 2.0),
+                        (chosen[0], chosen[1], chosen[2], chosen[3]),
+                        "yolo %s %.2f" % (self._sel_class, chosen[4]))
+        # HSV fallback is blue-specific: only when blue_block is an allowed target.
+        if self.class_priority and 'blue block' not in self.class_priority:
+            return None, None, "none"
         hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, (85, 80, 60), (110, 255, 255))
         mask[: int(max(0, horizon_v)), :] = 0
@@ -142,6 +182,7 @@ class Locator(Node):
         k = 1 + int(np.argmax(st[1:, 4]))
         if st[k, 4] < 30: return None, None, "none"
         x, y, w, h, a = st[k]
+        self._sel_class = 'blue block'
         return (x + w / 2.0, y + h / 2.0), (x, y, w, h), "hsv"
 
     def tick(self):
@@ -215,7 +256,8 @@ class Locator(Node):
                     # plausibility: YOLO only (HSV is display-only), not touching the image border, and the
                     # box must have the size a 5 cm cube has at this depth
                     pz = float((R.T @ (p - o))[2]); bx, by, bw, bh = box
-                    exp_px = self.K[0, 0] * 0.05 / max(pz, 0.05); ratio = max(bw, bh) / exp_px
+                    exp_size = self.class_sizes.get(self._sel_class, 0.05)
+                    exp_px = self.K[0, 0] * exp_size / max(pz, 0.05); ratio = max(bw, bh) / exp_px
                     border = bx <= 2 or by <= 2 or bx + bw >= im.width - 2 or by + bh >= im.height - 2
                     valid = dsrc.startswith("yolo") and not border and self.size_ratio[0] <= ratio <= self.size_ratio[1]
                     st.update(valid=bool(valid), size_ratio=round(ratio, 2), border=bool(border))
@@ -229,6 +271,8 @@ class Locator(Node):
                     hm = PoseStamped(); hm.header.stamp = src_stamp; hm.header.frame_id = self.hint_frame
                     hm.pose.position.x, hm.pose.position.y, hm.pose.position.z = float(pcam[0]), float(pcam[1]), float(pcam[2])
                     hm.pose.orientation.w = 1.0; self.pub_hint.publish(hm)
+                    if self._sel_class:
+                        self.pub_target_class.publish(String(data=self._sel_class))
                     b = math.atan2(p[1], p[0]); r = math.hypot(p[0], p[1]); s = max(0.0, r - self.standoff)
                     sm = PoseStamped(); sm.header = msg.header
                     sm.pose.position.x, sm.pose.position.y = s * math.cos(b), s * math.sin(b)

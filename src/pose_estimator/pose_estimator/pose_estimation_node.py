@@ -111,24 +111,50 @@ def pc2_roi_numpy(msg: PointCloud2, r1: int, r2: int, c1: int, c2: int) -> np.nd
         return xyz
 
 
-def extract_bbox_from_detection(det_msg, target_class: str, det_type: str):
-    """从检测消息提取 bbox → (x1, y1, x2, y2) 彩色图像素坐标."""
-    best = None
-    best_score = 0.0
+def _norm_class(name) -> str:
+    """Normalise a class name (case, '_' / '-' / whitespace are equivalent)."""
+    return ' '.join(str(name or '').replace('_', ' ').replace('-', ' ').lower().split())
+
+
+def _target_class_filter(target_classes, ignored_classes=()):
+    """Return (ordered normalised target names, ignored normalised set)."""
+    if isinstance(target_classes, str):
+        target_classes = [target_classes]
+    targets = []
+    for c in target_classes or []:
+        n = _norm_class(c)
+        if n and n not in targets:
+            targets.append(n)
+    ignored = {_norm_class(c) for c in ignored_classes or [] if _norm_class(c)}
+    return [c for c in targets if c not in ignored], ignored
+
+
+def extract_bbox_from_detection(det_msg, target_classes, det_type, ignored_classes=()):
+    """从检测消息提取 bbox → (x1, y1, x2, y2)，并返回命中的类别名。
+
+    ``target_classes`` 是优先级列表（'' / 空列表表示接受任意类）；返回
+    ``(bbox, score, class_name)``，没有命中时 ``bbox=None, class_name=''``。
+    """
+    targets, ignored = _target_class_filter(target_classes, ignored_classes)
+    candidates = []   # (priority, -score, bbox, class_name)
+
+    def _push(score, bbox, cls_name):
+        cname = _norm_class(cls_name)
+        if not cname or cname in ignored:
+            return
+        if targets and cname not in targets:
+            return
+        prio = targets.index(cname) if cname in targets else len(targets)
+        candidates.append((prio, -float(score), bbox, cname))
 
     if det_type == "yolov8":
         for det in det_msg.detections:
-            if target_class and det.class_name != target_class:
-                continue
-            if det.score < best_score:
-                continue
-            best_score = det.score
             cx = det.bbox.center.position.x
             cy = det.bbox.center.position.y
             w = det.bbox.size.x
             h = det.bbox.size.y
-            best = (int(cx - w / 2), int(cy - h / 2),
-                    int(cx + w / 2), int(cy + h / 2))
+            _push(det.score, (int(cx - w / 2), int(cy - h / 2),
+                              int(cx + w / 2), int(cy + h / 2)), det.class_name)
 
     elif det_type == "vision":
         for det in det_msg.detections:
@@ -138,29 +164,23 @@ def extract_bbox_from_detection(det_msg, target_class: str, det_type: str):
                 r_best = max(det.results, key=lambda r: r.hypothesis.score)
                 score = r_best.hypothesis.score
                 cls_name = r_best.hypothesis.class_id
-            if target_class and cls_name != target_class:
-                continue
-            if score < best_score:
-                continue
-            best_score = score
             cx = det.bbox.center.position.x
             cy = det.bbox.center.position.y
             w = det.bbox.size_x
             h = det.bbox.size_y
-            best = (int(cx - w / 2), int(cy - h / 2),
-                    int(cx + w / 2), int(cy + h / 2))
+            _push(score, (int(cx - w / 2), int(cy - h / 2),
+                          int(cx + w / 2), int(cy + h / 2)), cls_name)
 
     elif det_type == "yolo_node":
         for det in det_msg.detections:
-            if target_class and det.class_name != target_class:
-                continue
-            if det.confidence < best_score:
-                continue
-            best_score = det.confidence
-            best = (int(det.x), int(det.y),
-                    int(det.x + det.width), int(det.y + det.height))
+            _push(det.confidence, (int(det.x), int(det.y),
+                                   int(det.x + det.width), int(det.y + det.height)),
+                  det.class_name)
 
-    return best, best_score
+    if not candidates:
+        return None, 0.0, ''
+    _prio, neg_score, bbox, cname = min(candidates, key=lambda c: (c[0], c[1]))
+    return bbox, -neg_score, cname
 
 
 def _make_field(name, offset):
@@ -280,9 +300,73 @@ class PoseEstimationNode(Node):
             f"extent={np.array2string(self.model.raw_extent, precision=4)} centroid={np.array2string(self.model.centroid, precision=4)} "
             f"unit_scale={self.model.model_unit_scale_applied}")
 
+        # --------------- 类别策略 / 每类位姿模型 ---------------
+        raw_targets = p.get('target_classes') or []
+        if isinstance(raw_targets, str):
+            raw_targets = [raw_targets]
+        self._target_classes_norm = []
+        for c in raw_targets:
+            n = _norm_class(c)
+            if n and n not in self._target_classes_norm:
+                self._target_classes_norm.append(n)
+        legacy = _norm_class(p.get('target_class') or '')
+        if legacy:                                  # legacy single-class override
+            self._target_classes_norm = [legacy]
+        self._ignored_classes_norm = {
+            _norm_class(c) for c in (p.get('ignored_classes') or []) if _norm_class(c)}
+        self._target_classes_norm = [
+            c for c in self._target_classes_norm if c not in self._ignored_classes_norm]
+
+        self._class_models_cache = {}
+        self._class_model_specs = {}
+        model_dir = Path(p['model_path']).resolve().parent
+        raw_specs = str(p.get('class_models') or '').strip()
+        if raw_specs:
+            try:
+                for cname, path in (json.loads(raw_specs) or {}).items():
+                    self._class_model_specs[_norm_class(cname)] = str(path)
+            except Exception as exc:
+                self.get_logger().warn(f"class_models JSON 无效: {exc}")
+        for cname in self._target_classes_norm:     # auto-discover <class>.pcd beside model_path
+            if cname in self._class_model_specs:
+                continue
+            candidate = model_dir / (cname.replace(' ', '_') + '.pcd')
+            if candidate.is_file():
+                self._class_model_specs[cname] = str(candidate)
+        self._class_model_overrides = {}
+        raw_over = str(p.get('class_model_params') or '').strip()
+        if raw_over:
+            try:
+                for cname, over in (json.loads(raw_over) or {}).items():
+                    if isinstance(over, dict):
+                        self._class_model_overrides[_norm_class(cname)] = over
+            except Exception as exc:
+                self.get_logger().warn(f"class_model_params JSON 无效: {exc}")
+        for cname, path in self._class_model_specs.items():
+            try:
+                over = self._class_model_overrides.get(cname, {})
+                self._class_models_cache[cname] = ModelData(
+                    path,
+                    float(over.get('normal_radius', p['normal_radius'])),
+                    int(over.get('normal_max_nn', p['normal_max_nn'])),
+                    float(over.get('feature_radius', p['feature_radius'])),
+                    int(over.get('feature_max_nn', p['feature_max_nn'])),
+                    bool(over.get('model_auto_unit_scale', p.get('model_auto_unit_scale', True))))
+                cm = self._class_models_cache[cname]
+                self.get_logger().info(
+                    f"类别位姿模型 {cname}: {path} points={len(cm.cloud.points)} "
+                    f"extent={np.array2string(cm.raw_extent, precision=4)}")
+            except Exception as exc:
+                self.get_logger().error(f"类别位姿模型加载失败 {cname} ({path}): {exc}")
+        self.get_logger().info(
+            f"类别策略: priority={self._target_classes_norm} ignored={sorted(self._ignored_classes_norm)} "
+            f"class_models={list(self._class_models_cache)}")
+
         # --------------- 状态 ---------------
         self._lock = threading.Lock()
         self._latest_det_bbox = None
+        self._latest_det_class = ''
+        self._current_target_class = ''
         self._latest_det_raw_bbox = None
         self._latest_det_score = 0.0
         self._latest_det_stamp_sec = 0.0
@@ -380,6 +464,11 @@ class PoseEstimationNode(Node):
         self.pub_navigation_center = self.create_publisher(PoseStamped, '/perception/object_center', 10)
         self.pub_navigation_hint = (self.create_publisher(PoseStamped, '/perception/target_hint', 10)
                                     if self._publish_target_hint else None)
+        # Class side-channel: latched so tzb_target_bridge / tzb_catch can join later.
+        # PoseStamped has no class field; the class is the one of the detection that produced the pose.
+        self.pub_target_class = self.create_publisher(
+            String, '/mission/target_class',
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
         # Fast motion-time candidate: coarse 3D point, no FPFH/RANSAC.
         self.pub_candidate = (self.create_publisher(PoseStamped, str(self._p['candidate_topic']), 10)
                               if bool(self._p.get('candidate_enable', True)) else None)
@@ -430,7 +519,13 @@ class PoseEstimationNode(Node):
         decl('model_path', os.environ.get('TZB_POSE_MODEL', default_model_path))
         decl('pointcloud_topic', '/camera/depth/color/points')
         decl('detection_topic', '/yolo/detections')
-        decl('target_class', '')
+        decl('target_class', '')          # legacy single-class override
+        decl('target_classes', ['blue_block', 'big_rock', 'small_rock'])  # priority order
+        decl('ignored_classes', ['d'])    # never treated as a target
+        # JSON {class: pcd_path}; empty = auto-discover <class>.pcd next to model_path
+        decl('class_models', '')
+        # JSON {class: {normal_radius, feature_radius, normal_max_nn, feature_max_nn}}
+        decl('class_model_params', '')
         decl('object_pose_topic', '/pose_estimator/object_pose')
         decl('pose_yaw', 0.0)
         decl('use_detected_yaw', True)
@@ -514,6 +609,7 @@ class PoseEstimationNode(Node):
 
         names = [
             'model_path', 'pointcloud_topic', 'detection_topic', 'target_class',
+            'target_classes', 'ignored_classes', 'class_models', 'class_model_params',
             'object_pose_topic', 'pose_yaw', 'object_pose_offset_xyz',
             'camera_info_topic', 'camera_frame',
             'scene_voxel_size', 'normal_radius', 'normal_max_nn', 'feature_radius',
@@ -640,10 +736,14 @@ class PoseEstimationNode(Node):
     # ----------------------------------------------------------------
     #  回调: 检测
     # ----------------------------------------------------------------
+    def _model_for_class(self, class_name):
+        """Return the PCD model registered for *class_name* (default model otherwise)."""
+        return self._class_models_cache.get(_norm_class(class_name), self.model)
+
     def _cb_detection(self, msg):
         self._det_recv_count += 1
-        bbox, score = extract_bbox_from_detection(
-            msg, self._p['target_class'], _DET_TYPE)
+        bbox, score, det_class = extract_bbox_from_detection(
+            msg, self._target_classes_norm, _DET_TYPE, self._ignored_classes_norm)
         now_mono = time.monotonic()
         stamp_sec = stamp_to_sec(msg.header.stamp) if hasattr(msg, 'header') else 0.0
 
@@ -655,6 +755,7 @@ class PoseEstimationNode(Node):
             self._latest_det_score = float(score)
             self._latest_det_stamp_sec = stamp_sec
             self._latest_det_recv_mono = now_mono
+            self._latest_det_class = det_class if bbox is not None else ''
 
             if bbox is None or score < self._p['det_min_score']:
                 self._latest_det_bbox = None
@@ -799,6 +900,7 @@ class PoseEstimationNode(Node):
             det_score = self._latest_det_score
             det_stamp_sec = self._latest_det_stamp_sec
             det_recv_mono = self._latest_det_recv_mono
+            det_class = self._latest_det_class
 
         roi_timeout_sec = float(self._p.get('roi_timeout_sec', 0.50))
         roi_stale = (det_recv_mono <= 0.0) or ((now_mono - det_recv_mono) > roi_timeout_sec)
@@ -836,7 +938,10 @@ class PoseEstimationNode(Node):
 
         t0 = time.monotonic()
         try:
-            self._process(msg, bbox, det_score=det_score, det_stamp_sec=det_stamp_sec, det_recv_mono=det_recv_mono)
+            self.model = self._model_for_class(det_class)
+            self._current_target_class = det_class
+            self._process(msg, bbox, det_score=det_score, det_stamp_sec=det_stamp_sec,
+                          det_recv_mono=det_recv_mono, det_class=det_class)
         except Exception as e:
             self.get_logger().error(f"处理异常: {e}", throttle_duration_sec=2.0)
             import traceback
@@ -938,8 +1043,11 @@ class PoseEstimationNode(Node):
                     confidence_threshold=self._navigation_confidence, **details)
         self.pub_navigation_status.publish(String(data=json.dumps(data)))
 
-    def _process(self, msg: PointCloud2, bbox, det_score=0.0, det_stamp_sec=0.0, det_recv_mono=0.0):
+    def _process(self, msg: PointCloud2, bbox, det_score=0.0, det_stamp_sec=0.0, det_recv_mono=0.0,
+                 det_class=''):
         p = self._p
+        if det_class:
+            self._current_target_class = det_class
         frame_id = self._get_frame_id()
         t_total0 = time.monotonic()
         t_stages = {}
@@ -1001,6 +1109,8 @@ class PoseEstimationNode(Node):
         if hint_published and self._publish_target_hint:
             self._publish_pose_msg(msg.header, foreground.center,
                                    [0., 0., 0., 1.], msg.header.frame_id, self.pub_navigation_hint)
+            if self.pub_target_class is not None:
+                self.pub_target_class.publish(String(data=self._current_target_class or ''))
         elif navigation_valid:
             self._publish_navigation_status('foreground_rejected', msg, det_score, det_stamp_sec,
                                             reason=foreground.reason)
@@ -1506,6 +1616,7 @@ class PoseEstimationNode(Node):
 
     def _publish_pose(self, header, trans, quat, frame_id):
         self._publish_pose_msg(header, trans, quat, frame_id, self.pub_pose)
+        self.pub_target_class.publish(String(data=self._current_target_class or ''))
         self.get_logger().info(
             f"[GRASP][perception][PUBLISHED] topic={self._p['object_pose_topic']} "
             f"frame={frame_id} xyz=({trans[0]:.4f},{trans[1]:.4f},{trans[2]:.4f}) "

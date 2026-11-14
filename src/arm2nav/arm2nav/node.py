@@ -19,6 +19,11 @@ from arm2nav_msgs.msg import Arm2Nav
 from yolo_node.msg import DetectionArray
 
 
+def _norm_class(name) -> str:
+    """Normalise a class name (case, '_' / '-' / whitespace are equivalent)."""
+    return ' '.join(str(name or '').replace('_', ' ').replace('-', ' ').lower().split())
+
+
 class Arm2NavNode(Node):
     def __init__(self):
         super().__init__('arm2nav')
@@ -39,7 +44,14 @@ class Arm2NavNode(Node):
         self.target_frame = self.declare_parameter(
             'target_frame', 'camera_link').value
         self.target_class = self.declare_parameter(
-            'target_class', 'blue_block').value
+            'target_class', '').value            # legacy single-class override
+        raw_targets = self.declare_parameter(
+            'target_classes', ['blue_block', 'big_rock', 'small_rock']).value
+        if isinstance(raw_targets, str):
+            raw_targets = [c.strip() for c in raw_targets.split(',') if c.strip()]
+        self.target_classes = {_norm_class(c) for c in raw_targets if _norm_class(c)}
+        if _norm_class(self.target_class):
+            self.target_classes = {_norm_class(self.target_class)}
         self.confidence_threshold = float(self.declare_parameter(
             'confidence_threshold', 0.6).value)
         self.min_consecutive_detections = max(3, int(self.declare_parameter(
@@ -148,7 +160,7 @@ class Arm2NavNode(Node):
         best = None
         best_conf = -1.0
         for detection in msg.detections:
-            if self.target_class and detection.class_name != self.target_class:
+            if self.target_classes and _norm_class(detection.class_name) not in self.target_classes:
                 continue
             if float(detection.confidence) < self.confidence_threshold:
                 continue

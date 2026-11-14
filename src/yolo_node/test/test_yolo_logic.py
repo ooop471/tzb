@@ -233,3 +233,39 @@ def test_pick_target_empty_and_bad_mode():
     import pytest
     with pytest.raises(ValueError):
         L.pick_target_index([(0.5, 0, 0, 1, 1)], 'nope')
+
+
+# ------------------------------------------------------------------ class priority
+class _Det:
+    def __init__(self, class_name, confidence=0.5):
+        self.class_name = class_name
+        self.confidence = confidence
+
+
+def test_normalize_class_list_preserves_order_and_dedups():
+    assert L.normalize_class_list(['Blue-Block', 'blue block', ' big_rock ', '', 'd']) == [
+        'blue block', 'big rock', 'd']
+
+
+def test_priority_class_follows_priority_not_confidence():
+    dets = [_Det('small_rock', 0.9), _Det('big_rock', 0.8), _Det('blue_block', 0.4), _Det('d', 0.99)]
+    cls, group = L.priority_class(dets, ['blue block', 'big rock', 'small rock'], ['d'])
+    assert cls == 'blue block' and group == [dets[2]]
+
+
+def test_priority_class_falls_through_to_next_class():
+    dets = [_Det('d', 0.99), _Det('small_rock', 0.7)]
+    cls, group = L.priority_class(dets, ['blue block', 'big rock', 'small rock'], ['d'])
+    assert cls == 'small rock' and group == [dets[1]]
+
+
+def test_priority_class_none_when_only_ignored_or_empty():
+    assert L.priority_class([_Det('d', 0.9)], ['blue block'], ['d']) == (None, [])
+    assert L.priority_class([], ['blue block']) == (None, [])
+
+
+def test_resolve_class_list_keeps_priority_and_reports_missing():
+    names = {0: 'blue_block', 1: 'big_rock', 2: 'small_rock', 3: 'd'}
+    matched, missing, ids = L.resolve_class_list(['big_rock', 'blue_block', 'nope'], names)
+    assert matched == ['big rock', 'blue block'] and missing == ['nope']
+    assert ids['d'] == [3]

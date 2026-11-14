@@ -89,6 +89,11 @@ def _launch_selected_camera(context):
                 'depth_width': str(width),
                 'depth_height': str(height),
                 'depth_fps': str(fps),
+                # 曝光/增益：由 camera_switch.yaml 控制，暗环境测试用
+                'enable_color_auto_exposure': str(
+                    camera.get('enable_color_auto_exposure', True)).lower(),
+                'color_exposure': str(int(camera.get('color_exposure', -1))),
+                'color_gain': str(int(camera.get('color_gain', -1))),
             },
         )
         prefix = f'/{camera_name}'

@@ -34,6 +34,8 @@ def prepare(context):
               # Competition profile: one perception attempt, then recover and skip.
               'tzb.pose_estimator_wait_timeout_sec': 8.0, 'tzb.max_target_attempts': 1,
               'tzb.navigation_sensor_frame': LaunchConfiguration('navigation_sensor_frame').perform(context)})
+    target_classes = [c.strip() for c in
+                      LaunchConfiguration('target_classes').perform(context).split(',') if c.strip()]
     with open(os.path.join(perception, 'config', 'params.yaml'), encoding='utf-8') as stream:
         vision = yaml.safe_load(stream)
     vision['pose_estimation_node']['ros__parameters'].update(
@@ -41,7 +43,7 @@ def prepare(context):
         navigation_confidence=0.1,
         # 11-07: far_target_locator is the only /mission/target_hint source (pose estimator keeps /perception/object_center)
         publish_target_hint=False, candidate_enable=False,
-        target_class=LaunchConfiguration('target_class').perform(context))
+        target_classes=target_classes)
     directory = tempfile.mkdtemp(prefix='grasp_arm_')
     planner_path = os.path.join(directory, 'planner.yaml')
     vision_path = os.path.join(directory, 'vision.yaml')
@@ -54,7 +56,7 @@ def prepare(context):
     detector = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(
         get_package_share_directory('yolo_node'), 'launch', 'yolo_node.launch.py')),
         launch_arguments={'model_path': LaunchConfiguration('model_path'),
-                          'target_class': LaunchConfiguration('target_class')}.items())
+                          'target_classes': ','.join(target_classes)}.items())
     return [camera, detector,
             Node(package='pose_estimator', executable='far_target_locator',
                  name='far_target_locator', output='screen'),
@@ -75,8 +77,8 @@ def prepare(context):
 def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('model_path', default_value=os.path.join(
-            get_package_share_directory('yolo_node'), 'models', 'blue_block_320_openvino_model')),
-        DeclareLaunchArgument('target_class', default_value='blue block'),
+            get_package_share_directory('yolo_node'), 'models', 'blue_block_v1_640_openvino_model')),
+        DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock,small_rock'),
         DeclareLaunchArgument('navigation_sensor_frame', default_value='camera_color_optical_frame'),
         OpaqueFunction(function=prepare),
     ])

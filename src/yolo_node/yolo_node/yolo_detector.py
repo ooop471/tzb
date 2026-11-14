@@ -197,7 +197,7 @@ class YoloDetectorNode(Node):
             # 与 launch 文件一致；也可用 TZB_OPENVINO_MODEL 或 model_path 覆盖。
             os.environ.get(
                 'TZB_OPENVINO_MODEL',
-                '/home/tzb/tzb_ws/src/best_openvino_model/blue_block'))
+                '/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model'))
         self.declare_parameter('conf_threshold', 0.6)
         self.declare_parameter('iou_threshold', 0.45)
         self.declare_parameter('publish_conf_threshold', 0.6)
@@ -210,9 +210,13 @@ class YoloDetectorNode(Node):
         self.declare_parameter('annotated_image_topic', 'yolo/annotated_image')
         self.declare_parameter('left_or_right', 1)
         self.declare_parameter('multi_target_selection', 'confidence')  # or legacy 'area_left_right'
-        # Must match the default model's metadata names ({0: 'blue block'}); matching is normalised
-        # (case, '_' / '-' / whitespace) so 'blue_block' and 'blue block' are equivalent.
-        self.declare_parameter('target_class', 'blue block')
+        # Class policy. `target_classes` is an ordered priority list: the first class present in a
+        # frame wins (blue block > big rock > small rock by default). Matching is normalised
+        # (case, '_' / '-' / whitespace), so 'blue_block' and 'blue block' are equivalent.
+        # `target_class` is a legacy single-class override (non-empty wins over the list).
+        self.declare_parameter('target_class', '')
+        self.declare_parameter('target_classes', 'blue_block,big_rock,small_rock')
+        self.declare_parameter('ignored_classes', 'd')
         self.declare_parameter('status_topic', 'yolo/status')
         self.declare_parameter('status_period_sec', 1.0)
         self.declare_parameter('timing_log_enable', True)
@@ -240,10 +244,23 @@ class YoloDetectorNode(Node):
         self.left_or_right = int(self.get_parameter('left_or_right').value)
         self.multi_target_selection = str(self.get_parameter('multi_target_selection').value)
         self.target_class = str(self.get_parameter('target_class').value)
+        raw_targets = self.get_parameter('target_classes').value
+        if isinstance(raw_targets, str):        # launch args arrive comma-separated
+            raw_targets = [c for c in raw_targets.split(',') if c.strip()]
+        self._class_priority = _logic.normalize_class_list(raw_targets)
+        raw_ignored = self.get_parameter('ignored_classes').value
+        if isinstance(raw_ignored, str):
+            raw_ignored = [c for c in raw_ignored.split(',') if c.strip()]
+        self._ignored = set(_logic.normalize_class_list(raw_ignored))
+        legacy = _logic.normalize_class_name(self.target_class)
+        if legacy:                              # legacy single-class override
+            self._class_priority = [legacy]
+            self._ignored.discard(legacy)
+        self._class_priority = [c for c in self._class_priority if c not in self._ignored]
+        self._class_priority_valid = False      # decided after the model (and its names) are loaded
+        self._selected_class_last = ''
         status_topic = str(self.get_parameter('status_topic').value)
         self.status_period_sec = max(0.1, float(self.get_parameter('status_period_sec').value))
-        self._target_norm = _logic.normalize_class_name(self.target_class)
-        self._target_class_valid = False      # decided after the model (and its names) is loaded
         self.timing_log_enable = bool(self.get_parameter('timing_log_enable').value)
         self.timing_log_throttle_sec = float(self.get_parameter('timing_log_throttle_sec').value)
         self.image_queue_depth = max(1, int(self.get_parameter('image_queue_depth').value))
@@ -304,14 +321,19 @@ class YoloDetectorNode(Node):
         self.get_logger().info('YOLO model loaded successfully!')
         with self._stat_lock:
             self._model_names = _logic.names_as_dict(getattr(self.model, 'names', None))
-        valid, ids, matched = _logic.resolve_target_class(self.target_class, self._model_names)
-        self._target_class_valid = valid
-        if valid:
+        matched, missing, _ = _logic.resolve_class_list(self._class_priority, self._model_names)
+        self._class_priority = [c for c in self._class_priority if c in matched]
+        self._class_priority_valid = bool(self._class_priority)
+        if self._class_priority_valid:
             self.get_logger().info(
-                f"target_class '{self.target_class}' matches model class ids {ids} {matched}")
-        else:
-            msg = (f"target_class '{self.target_class}' (normalised '{self._target_norm}') matches NO model class; "
-                   f"model names={self._model_names}. Nothing will be published on the detection topic.")
+                f"target class priority matched in model: {self._class_priority} "
+                f"| ignored: {sorted(self._ignored)}")
+        if missing:
+            self.get_logger().warn(
+                f"target classes not present in model: {missing} | model names={self._model_names}")
+        if not self._class_priority_valid:
+            msg = (f"none of target_classes={raw_targets} match model class names {self._model_names}; "
+                   f"nothing will be published on the detection topic.")
             with self._stat_lock:
                 self._last_error = msg[:400]
             self.get_logger().error(msg)
@@ -358,7 +380,7 @@ class YoloDetectorNode(Node):
             f'for {self.publish_hold_seconds:.2f}s before publishing'
         )
         self.get_logger().info(
-            f'target selection mode: target_class={self.target_class} '
+            f'target selection: priority={self._class_priority} ignored={sorted(self._ignored)} '
             f'left_or_right={self.left_or_right} (0=left, 1=right) multi_target_selection={self.multi_target_selection}'
         )
         
@@ -433,8 +455,11 @@ class YoloDetectorNode(Node):
                 'stamp': round(self.get_clock().now().nanoseconds / 1e9, 3),
                 'model_path': self._status_model_path,
                 'model_names': {str(k): v for k, v in self._model_names.items()},
-                'target_class': self.target_class,
-                'target_class_valid': bool(self._target_class_valid),
+                'target_class': self.target_class,              # legacy single-class override (may be '')
+                'target_class_valid': bool(self._class_priority_valid),
+                'target_classes': list(self._class_priority),   # priority order, normalised
+                'ignored_classes': sorted(self._ignored),
+                'selected_class': self._selected_class_last,
                 'images_received': self._images_received,
                 'last_image_age_s': None if img_age is None else round(img_age, 2),
                 'inferences': self._inferences,
@@ -536,54 +561,50 @@ class YoloDetectorNode(Node):
         return float(np.mean(hist))
 
 
-    def _select_haomu_detection(self, detections: list):
-        """
-        当检测到多个 haomu 时：
-        1. 按 x 坐标为 haomu 检测分配稳定槽位；
-        2. 用最近 bbox_area_history_len 帧面积均值参与“面积前二”筛选，抑制单帧框大小突变；
-        3. 再根据 left_or_right 选择偏左(0)或偏右(1)的那个。
+    def _select_within_class(self, detections: list, class_norm: str):
+        """Choose one detection among boxes of a single (already filtered) class.
 
-        其余类别保持不变；若 haomu 数量不足 2，则保持原有结果。
+        1. 只有一个框时直接选它（并更新面积历史）；
+        2. multi_target_selection == 'confidence' 时选置信度最高的；
+        3. legacy 'area_left_right'：按 x 分配稳定槽位，用多帧面积均值取前二，再按 left_or_right 选左/右。
         """
-        # 用归一化类名匹配（大小写、'_' '-' 空格等价）
-        haomu_detections = [det for det in detections
-                            if _logic.is_target_class(det.class_name, self._target_norm)]
-
-        if len(haomu_detections) < 2:
-            if len(haomu_detections) == 1:
-                self._stable_haomu_area(haomu_detections[0], 0)
-            return detections
+        if not detections:
+            return None
+        if len(detections) == 1:
+            self._stable_haomu_area(detections[0], 0)
+            return detections[0]
 
         if self.multi_target_selection != 'area_left_right':
-            keep = haomu_detections[_logic.pick_target_index(
-                [(float(d.confidence), d.x, d.y, d.width, d.height) for d in haomu_detections],
+            return detections[_logic.pick_target_index(
+                [(float(d.confidence), d.x, d.y, d.width, d.height) for d in detections],
                 self.multi_target_selection)]
-            filtered = [det for det in detections
-                        if not _logic.is_target_class(det.class_name, self._target_norm)]
-            filtered.append(keep)
-            return filtered
 
-        by_x = sorted(haomu_detections, key=lambda det: float(det.x) + 0.5 * float(det.width))
+        by_x = sorted(detections, key=lambda det: float(det.x) + 0.5 * float(det.width))
         stable_area = {}
         for slot, det in enumerate(by_x):
             stable_area[id(det)] = self._stable_haomu_area(det, slot)
 
         top2 = sorted(
-            haomu_detections,
+            detections,
             key=lambda det: stable_area.get(id(det), float(det.width) * float(det.height)),
             reverse=True,
         )[:2]
 
         choose_right = 1 if int(self.left_or_right) == 1 else 0
-        selected_haomu = sorted(
+        return sorted(
             top2,
             key=lambda det: float(det.x) + 0.5 * float(det.width),
         )[-1 if choose_right else 0]
 
-        filtered = [det for det in detections
-                    if not _logic.is_target_class(det.class_name, self._target_norm)]
-        filtered.append(selected_haomu)
-        return filtered
+    def _select_target(self, detections: list):
+        """优先级选择单个目标：先按类别优先级，再按类内规则。
+
+        Returns ``(class_norm, detection)``; ``(None, None)`` when no allowed class is present.
+        """
+        class_norm, group = _logic.priority_class(detections, self._class_priority, self._ignored)
+        if class_norm is None:
+            return None, None
+        return class_norm, self._select_within_class(group, class_norm)
 
     def _load_model(self, model_path: str, device: str) -> YOLO:
         """
@@ -799,17 +820,22 @@ class YoloDetectorNode(Node):
                         
                         detection_array_msg.detections.append(detection_msg)
             
-            # 对 haomu 做后处理：多个同类目标时，仅保留按规则选中的一个
-            selected_detections = self._select_haomu_detection(detection_array_msg.detections)
-            if len(selected_detections) != len(detection_array_msg.detections):
-                detection_array_msg.detections = selected_detections
-
-            # 门控只看目标类别的最大置信度（归一化类名匹配），不再对所有类别取 max
-            raw_n, target_n, max_confidence = _logic.target_stats(
-                ((d.class_name, d.confidence) for d in detection_array_msg.detections),
-                self._target_norm)
-            if not self._target_class_valid:
-                max_confidence = 0.0      # invalid target_class: never publish
+            # 优先级选择：只发布“当前最高优先级类别”的那一个目标；
+            # 下游不会再看到混合类别（d 已在 _select_target 中永久排除）。
+            all_detections = detection_array_msg.detections
+            raw_n = len(all_detections)
+            selected_class, selected_det = self._select_target(all_detections)
+            self._selected_class_last = selected_class or ''
+            if selected_det is not None:
+                detection_array_msg.detections = [selected_det]
+                target_n = 1
+                max_confidence = float(selected_det.confidence)
+            else:
+                detection_array_msg.detections = []
+                target_n = 0
+                max_confidence = 0.0
+            if not self._class_priority_valid:
+                max_confidence = 0.0      # no usable class: never publish
 
             # 发布门控：仅当 max_confidence 持续超过阈值指定时长后才允许发布
             now_sec = self.get_clock().now().nanoseconds / 1e9
@@ -846,7 +872,7 @@ class YoloDetectorNode(Node):
             post_ms = (time.monotonic() - t_post0) * 1000.0
 
             # 'no empty message' contract: only publish when at least one target-class box passed the gate
-            should_publish = should_publish and target_n > 0 and self._target_class_valid
+            should_publish = should_publish and target_n > 0 and self._class_priority_valid
             self._record_success(raw_n, target_n, max_confidence, should_publish)
 
             if should_publish:

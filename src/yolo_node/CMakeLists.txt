@@ -43,7 +43,7 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY ../best_openvino_model/blue_block_320_openvino_model
+install(DIRECTORY ../best_openvino_model/blue_block_v1_640_openvino_model
   DESTINATION share/${PROJECT_NAME}/models)
 
 if(BUILD_TESTING)

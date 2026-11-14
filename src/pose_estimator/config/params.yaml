@@ -6,7 +6,13 @@ pose_estimation_node:
     # Topics
     pointcloud_topic: "/camera/depth/color/points"
     detection_topic: "/yolo/detections"
-    target_class: "blue block"
+    # 类别优先级（d 是错误标注，永久排除）；blue_block 沿用 model_path 的 half_block.pcd
+    target_classes: ["blue_block", "big_rock", "small_rock"]
+    ignored_classes: ["d"]
+    # 每类位姿模型：留空则自动在 config/ 下找 <class>.pcd（big_rock.pcd / small_rock.pcd）
+    class_models: ""
+    # 每类模型几何参数覆盖（可选），例如小石头可减小 feature_radius
+    class_model_params: ""
     object_pose_topic: "/pose_estimator/object_pose"
     pose_yaw: 0.0
     use_detected_yaw: true

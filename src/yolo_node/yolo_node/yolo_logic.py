@@ -82,6 +82,56 @@ def target_stats(detections, target_class_norm: str):
     return raw, tgt, mx
 
 
+def normalize_class_list(classes) -> list:
+    """Normalise class names, drop empties/duplicates, preserve first-seen order."""
+    out = []
+    seen = set()
+    for name in classes or []:
+        norm = normalize_class_name(name)
+        if norm and norm not in seen:
+            out.append(norm)
+            seen.add(norm)
+    return out
+
+
+def resolve_class_list(classes, names):
+    """Resolve an ordered class list against model names.
+
+    Returns ``(matched_norm, missing_norm, {norm: [ids]})``; ``matched_norm`` keeps the
+    requested priority order and only contains classes the model actually has.
+    """
+    d = names_as_dict(names)
+    id_by_norm = {}
+    for i, n in d.items():
+        id_by_norm.setdefault(normalize_class_name(n), []).append(i)
+    matched, missing = [], []
+    for c in normalize_class_list(classes):
+        if c in id_by_norm:
+            matched.append(c)
+        else:
+            missing.append(c)
+    return matched, missing, id_by_norm
+
+
+def priority_class(detections, priority_norm, ignored_norm=()):
+    """Return ``(class_norm, [det, ...])`` for the first class in *priority* with detections.
+
+    Detections with an empty or ignored class are dropped. ``priority_norm`` and
+    ``ignored_norm`` must already be normalised (see :func:`normalize_class_list`).
+    """
+    ignored = set(ignored_norm or ())
+    buckets = {}
+    for det in detections or []:
+        cname = normalize_class_name(getattr(det, 'class_name', None))
+        if not cname or cname in ignored:
+            continue
+        buckets.setdefault(cname, []).append(det)
+    for cname in priority_norm or ():
+        if cname in buckets:
+            return cname, buckets[cname]
+    return None, []
+
+
 def classify_state(*, model_failed=False, model_ready=False, images_received=0,
                    last_image_age_s=None, inference_lag_s=0.0, last_outcome='none',
                    raw_detections_last=0, target_detections_last=0, published_last=False,

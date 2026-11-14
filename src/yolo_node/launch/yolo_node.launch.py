@@ -16,11 +16,11 @@ def generate_launch_description():
     # 声明启动参数
     model_path_arg = DeclareLaunchArgument(
         'model_path',
-        # 新模型目录：/home/tzb/tzb_ws/src/best_openvino_model/blue_block
+        # 新模型目录：/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
         # 可临时覆盖：ros2 launch yolo_node yolo_node.launch.py \
         #   model_path:=/path/to/openvino_model target_class:='blue block'
         # 文本提示词位于同目录 prompts.txt；如使用参考图，请在导出模型时传入参考图。
-        default_value='/home/tzb/tzb_ws/src/best_openvino_model/blue_block',
+        default_value='/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model',
 
 
         description='Path to OpenVINO model directory'
@@ -40,7 +40,7 @@ def generate_launch_description():
     
     conf_threshold_arg = DeclareLaunchArgument(
         'conf_threshold',
-        default_value='0.1',
+        default_value='0.2',
         description='Confidence threshold for detections'
     )
     
@@ -52,7 +52,7 @@ def generate_launch_description():
 
     publish_conf_threshold_arg = DeclareLaunchArgument(
         'publish_conf_threshold',
-        default_value='0.1',
+        default_value='0.2',
         description='Only publish when max confidence is above this threshold'
     )
 
@@ -96,9 +96,20 @@ def generate_launch_description():
 
     target_class_arg = DeclareLaunchArgument(
         'target_class',
-        default_value='blue block',   # matches default model metadata names {0: 'blue block'}; matching is normalised
-        description='Class name of the target object to detect and select '
-                    '(case/_/-/space-insensitive; must match a model class or nothing is published)'
+        default_value='',   # legacy single-class override; empty = use target_classes priority
+        description='Legacy single-class override (empty = use target_classes)'
+    )
+
+    target_classes_arg = DeclareLaunchArgument(
+        'target_classes',
+        default_value='blue_block,big_rock,small_rock',
+        description='Priority-ordered class list, comma separated: first class present wins'
+    )
+
+    ignored_classes_arg = DeclareLaunchArgument(
+        'ignored_classes',
+        default_value='d',
+        description='Comma-separated classes that must never be selected (e.g. bad labels)'
     )
 
     timing_log_enable_arg = DeclareLaunchArgument(
@@ -156,6 +167,8 @@ def generate_launch_description():
             'annotated_image_topic': LaunchConfiguration('annotated_image_topic'),
             'left_or_right': LaunchConfiguration('left_or_right'),
             'target_class': LaunchConfiguration('target_class'),
+            'target_classes': LaunchConfiguration('target_classes'),
+            'ignored_classes': LaunchConfiguration('ignored_classes'),
             'timing_log_enable': LaunchConfiguration('timing_log_enable'),
             'timing_log_throttle_sec': LaunchConfiguration('timing_log_throttle_sec'),
             'image_queue_depth': LaunchConfiguration('image_queue_depth'),
@@ -179,6 +192,8 @@ def generate_launch_description():
         annotated_image_topic_arg,
         left_or_right_arg,
         target_class_arg,
+        target_classes_arg,
+        ignored_classes_arg,
         timing_log_enable_arg,
         timing_log_throttle_sec_arg,
         image_queue_depth_arg,
