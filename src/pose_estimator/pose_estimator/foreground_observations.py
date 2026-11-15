@@ -19,6 +19,9 @@ class ForegroundResult:
     points: int = 0
     required: int = 0
     extent: tuple = ()
+    # Boolean mask over the caller's array marking the accepted component, so the
+    # same qualification can also *purge* the ROI instead of only judging it.
+    mask: object = None
 
 
 def extract_foreground(points, fx, fy, block_size=0.05,
@@ -33,14 +36,15 @@ def extract_foreground(points, fx, fy, block_size=0.05,
     Expected samples = fx*fy*(block_size/z)^2; retain >=8% with a 12-point
     floor. This is a support test, independent of registration's 250 points.
     """
-    xyz = np.asarray(points, dtype=np.float64)
-    if xyz.ndim != 2 or xyz.shape[1] != 3:
+    xyz_in = np.asarray(points, dtype=np.float64)
+    if xyz_in.ndim != 2 or xyz_in.shape[1] != 3:
         return ForegroundResult(None, 'invalid_shape')
     if not (np.isfinite([fx, fy, block_size, support_fraction]).all()
             and fx > 0 and fy > 0 and block_size > 0
             and 0 < support_fraction <= 1 and absolute_floor >= 3):
         return ForegroundResult(None, 'invalid_parameters')
-    xyz = xyz[np.isfinite(xyz).all(axis=1) & (xyz[:, 2] > 0.001)]
+    valid = np.isfinite(xyz_in).all(axis=1) & (xyz_in[:, 2] > 0.001)
+    xyz = xyz_in[valid]
     if len(xyz) < absolute_floor:
         return ForegroundResult(None, 'insufficient_points', len(xyz), absolute_floor)
 
@@ -85,8 +89,11 @@ def extract_foreground(points, fx, fy, block_size=0.05,
         if np.sqrt(max(0., eigenvalues[0])) < 0.002:
             rejected = 'planar_background'
             continue
+        mask = np.zeros(len(xyz_in), dtype=bool)
+        mask[np.flatnonzero(valid)[labels == label]] = True
         candidates.append(ForegroundResult(center, 'accepted', len(component),
-                                           required, tuple(float(v) for v in ordered)))
+                                           required, tuple(float(v) for v in ordered),
+                                           mask))
     if not candidates:
         return ForegroundResult(None, rejected)
     # Nearest supported compact object; tiny near-depth speckles fail support/extent.

@@ -83,14 +83,42 @@ pose_estimation_node:
 
     # ROI crop and detector gating.
     bbox_expand_ratio: 0.10
-    # Per-side padding relative to the detected bbox: total size 1.40 x 1.30.
-    bbox_expand_ratio_long: 0.03
-    bbox_expand_ratio_width: 0.02
+    # Per-side padding relative to the detected bbox. The old 0.03/0.02 left the
+    # ROI with essentially no support surface at all (measured: identical point
+    # counts with the ROI filters on and off), which is why purging never changed
+    # a sand result. A wider box also stops a slightly small detector box
+    # (21 px vs a 28 px block) from starving the cloud; the filters below then
+    # take the support surface back out.
+    bbox_expand_ratio_long: 0.25
+    bbox_expand_ratio_width: 0.15
     rough_crop_pad_ratio: 0.35
     min_scene_points: 250
     det_min_score: 0.05
     bbox_smoothing_enable: true
     bbox_ema_alpha: 0.65
+
+    # ROI purging before registration. Coverage divides by every point sent to
+    # registration, so the support surface (floor / sand) subtracts from the
+    # object's share and a correct pose can still fail the gate. Two stages,
+    # each with its own switch and reason code in [ROI FILTER] logs.
+    # 1) drop the dominant support plane; refuses to fire when the plane is the
+    #    nearer surface (that would be the block's own top face).
+    roi_plane_removal_enable: true
+    # Sand is rougher than a concrete floor: 5 mm is tuned for concrete, 8 mm
+    # keeps a granular surface inliers without swallowing a 50 mm block.
+    roi_plane_dist_thresh: 0.008
+    roi_plane_min_inlier_ratio: 0.15
+    roi_plane_min_keep_ratio: 0.25
+    roi_plane_require_farther: true
+    roi_plane_max_iter: 200
+    # 2) keep only the qualified foreground component. The extractor already
+    #    computed it for the navigation hint; before this it was judged but
+    #    never used to crop the cloud.
+    roi_foreground_purge_enable: true
+    roi_purged_min_points: 120
+    # Keep points within this distance of the qualified component: dropping the
+    # block's own edge/occlusion points lowers coverage instead of raising it.
+    roi_purge_margin: 0.015
 
     # Motion-time coarse candidate: detector bbox + depth median, no FPFH/RANSAC.
     candidate_topic: "/perception/candidate"

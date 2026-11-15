@@ -254,12 +254,27 @@ void DriverNode::armCommandCallback(sensor_msgs::msg::JointState::ConstSharedPtr
   }
 }
 
+namespace {
+const char * gripperCommandName(int value)
+{
+  switch (value) {
+    case -1: return "open";
+    case 1: return "closed mode 1";
+    case 2: return "closed mode 2";
+    case 3: return "closed mode 3";
+    default: return "unknown";
+  }
+}
+}  // namespace
+
 void DriverNode::gripperCommandCallback(std_msgs::msg::Int8::ConstSharedPtr msg)
 {
   std::scoped_lock lock{arm_mutex_};
-  if (msg->data != 1 && msg->data != -1)
+  if (msg->data != -1 && msg->data != 1 && msg->data != 2 && msg->data != 3)
   {
-    RCLCPP_WARN(get_logger(), "Ignoring invalid gripper command: %d", static_cast<int>(msg->data));
+    RCLCPP_WARN(
+      get_logger(), "Ignoring invalid gripper command: %d (expected -1/1/2/3)",
+      static_cast<int>(msg->data));
     return;
   }
   gripper_command_ = msg->data;
@@ -267,7 +282,7 @@ void DriverNode::gripperCommandCallback(std_msgs::msg::Int8::ConstSharedPtr msg)
     get_logger(),
     "Gripper serial command updated: %d (%s)",
     static_cast<int>(gripper_command_),
-    gripper_command_ == 1 ? "closed" : "open");
+    gripperCommandName(gripper_command_));
 }
 
 void DriverNode::timerCallback()
@@ -305,7 +320,7 @@ void DriverNode::timerCallback()
           get_logger(),
           "Sending gripper_command to lower controller: %d (%s), arm_sequence=%u, log_interval=%.2f s.",
           static_cast<int>(send_packet.gripper_command),
-          send_packet.gripper_command == 1 ? "closed" : "open",
+          gripperCommandName(send_packet.gripper_command),
           send_packet.arm_sequence,
           gripper_command_log_interval_sec_);
       }

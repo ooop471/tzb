@@ -1691,7 +1691,8 @@ PlanningNode::PlanningNode()
         std::chrono::duration<double>(1.0 / republish_hz));
       collision_marker_timer_ = this->create_wall_timer(
         std::max(std::chrono::milliseconds(100), period),
-        std::bind(&PlanningNode::collisionMarkerTimerTick, this));
+        std::bind(&PlanningNode::collisionMarkerTimerTick, this),
+        planning_cb_group_);
     }
 
     RCLCPP_INFO(
@@ -1715,7 +1716,8 @@ PlanningNode::PlanningNode()
         std::chrono::duration<double>(1.0 / republish_hz));
       e3_marker_timer_ = this->create_wall_timer(
         std::max(std::chrono::milliseconds(100), period),
-        std::bind(&PlanningNode::e3MarkerTimerTick, this));
+        std::bind(&PlanningNode::e3MarkerTimerTick, this),
+        planning_cb_group_);
     }
 
     RCLCPP_INFO(
@@ -1734,7 +1736,8 @@ PlanningNode::PlanningNode()
       this->get_parameter("enable_joint_state_playback").as_bool()) {
     playback_timer_ = this->create_wall_timer(
       std::chrono::milliseconds(10),
-      std::bind(&PlanningNode::playbackTimerTick, this));
+      std::bind(&PlanningNode::playbackTimerTick, this),
+      planning_cb_group_);
     playback_timer_->cancel();
   }
 

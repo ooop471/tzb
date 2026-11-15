@@ -50,6 +50,7 @@ import json
 from scipy.spatial import cKDTree
 from pose_estimator.navigation_observations import NavigationCloudHistory
 from pose_estimator.foreground_observations import extract_foreground
+from pose_estimator.roi_filter import remove_support_plane, grow_mask
 
 # ---------- 检测消息兼容层 ----------
 try:
@@ -484,6 +485,7 @@ class PoseEstimationNode(Node):
             callback_group=self._cb_group_fast)
         self.pub_navigation_status = self.create_publisher(String, '/perception/navigation_status', 10)
         self.pub_roi = self.create_publisher(PointCloud2, '~/roi_cloud', 1)
+        self.pub_roi_filtered = self.create_publisher(PointCloud2, '~/roi_cloud_filtered', 1)
         self.pub_marker = self.create_publisher(Marker, '~/model_marker', marker_qos)
         self.pub_coarse_marker = self.create_publisher(Marker, '~/coarse_model_marker', marker_qos)
         self.pub_coarse_pose = self.create_publisher(PoseStamped, '~/coarse_pose', 1)
@@ -579,6 +581,22 @@ class PoseEstimationNode(Node):
         decl('min_scene_points', 250)
         decl('rough_crop_pad_ratio', 0.35)
 
+        # ---- ROI 提纯：先剔支撑面，再只留前景连通域 ----
+        # coverage 的分母是送进配准的全部点。沙子/水泥地不是目标却占分母，
+        # 背景越脏物体的占比越低，于是"配准其实对、验收不过是分"的假阴性
+        # 越多。两级滤波都在配准之前完成，且各有开关与原因码。
+        decl('roi_plane_removal_enable', True)
+        decl('roi_plane_dist_thresh', 0.005)
+        decl('roi_plane_min_inlier_ratio', 0.15)
+        decl('roi_plane_min_keep_ratio', 0.25)
+        decl('roi_plane_require_farther', True)
+        decl('roi_plane_max_iter', 200)
+        decl('roi_foreground_purge_enable', True)
+        decl('roi_purged_min_points', 120)
+        # 按连通域裁剪会把物块贴边的点一起删掉，反而压低 coverage；
+        # 这里按距离把掩码膨胀一点，保住那些模型能解释的边缘点。
+        decl('roi_purge_margin', 0.015)
+
         # ---- 运动段快速候选（不跑配准） ----
         decl('candidate_topic', '/perception/candidate')
         decl('candidate_enable', True)
@@ -627,6 +645,9 @@ class PoseEstimationNode(Node):
             'tracking_icp_dist_thresh', 'tracking_icp_max_iter', 'roi_timeout_sec',
             'publish_roi_cloud', 'publish_model_marker', 'viz_publish_every_n', 'publish_coarse_pose', 'publish_coarse_marker',
             'bbox_expand_ratio', 'bbox_expand_ratio_long', 'bbox_expand_ratio_width', 'min_scene_points', 'rough_crop_pad_ratio',
+            'roi_plane_removal_enable', 'roi_plane_dist_thresh', 'roi_plane_min_inlier_ratio',
+            'roi_plane_min_keep_ratio', 'roi_plane_require_farther', 'roi_plane_max_iter',
+            'roi_foreground_purge_enable', 'roi_purged_min_points', 'roi_purge_margin',
             'candidate_topic', 'candidate_enable', 'candidate_min_score', 'candidate_min_points',
             'registration_gate_enabled', 'mission_state_topic', 'mission_state_timeout_sec',
             'registration_on_states',
@@ -1102,6 +1123,30 @@ class PoseEstimationNode(Node):
             self._last_roi_diag_mono = now_mono
             self.get_logger().debug(f"[ROI DIAG] projected_points={len(scene_np)}")
 
+        # ---- 2.5a 支撑面剔除：地面 / 沙面 ----
+        # 先剔平面再做连通域：粗糙沙面才不会把物块和地面连成一整片，
+        # 也才不会把"物体 + 背景"的整体尺寸撑过 foreground 的 120 mm 上限。
+        if bool(p['roi_plane_removal_enable']) and len(scene_np):
+            t_plane = time.monotonic()
+            scene_np, plane_info = remove_support_plane(
+                scene_np,
+                dist_thresh=float(p['roi_plane_dist_thresh']),
+                min_inlier_ratio=float(p['roi_plane_min_inlier_ratio']),
+                min_keep_ratio=float(p['roi_plane_min_keep_ratio']),
+                require_farther=bool(p['roi_plane_require_farther']),
+                max_iter=int(p['roi_plane_max_iter']))
+            t_stages['plane_filter'] = (time.monotonic() - t_plane) * 1000
+            if (not hasattr(self, '_last_plane_diag_mono')
+                    or now_mono - self._last_plane_diag_mono >= diag_throttle):
+                self._last_plane_diag_mono = now_mono
+                self.get_logger().info(
+                    f"[ROI FILTER][plane] {plane_info['reason']} stage={plane_info.get('stage', 1)} "
+                    f"kept={plane_info['kept']} plane={plane_info['inlier_ratio']:.2f} "
+                    f"z_in={plane_info['z_inlier']:.3f} z_other={plane_info['z_other']:.3f} "
+                    f"s2_ratio={plane_info.get('stage2_ratio', float('nan')):.2f} "
+                    f"s2_z_in={plane_info.get('stage2_z_inlier', float('nan')):.3f} "
+                    f"s2_z_other={plane_info.get('stage2_z_other', float('nan')):.3f}")
+
         foreground = self._foreground_observation(scene_np, 'hint')
         navigation_valid = (self._navigation_observations and det_score >= self._navigation_confidence
                             and det_stamp_sec > 0 and abs(cloud_stamp_sec-det_stamp_sec) <= self._navigation_max_sync)
@@ -1131,12 +1176,34 @@ class PoseEstimationNode(Node):
                 throttle_duration_sec=2.0)
             return
 
-        if len(scene_np) < p['min_scene_points']:
+        # ---- 2.5b 前景连通域提纯：只把物块自己送进配准 ----
+        # foreground 已经算出了被选中的连通域，之前只用了它的中心，
+        # 点云仍按整块 ROI 送配准 —— 背景点照样占 coverage 的分母。
+        required_points = int(p['min_scene_points'])
+        if bool(p['roi_foreground_purge_enable']) and foreground.mask is not None:
+            before_purge = len(scene_np)
+            keep_mask = grow_mask(scene_np, foreground.mask,
+                                  margin=float(p['roi_purge_margin']))
+            purged = scene_np[keep_mask]
+            if len(purged) >= int(p['roi_purged_min_points']):
+                scene_np = purged
+                required_points = int(p['roi_purged_min_points'])
+                if (not hasattr(self, '_last_purge_diag_mono')
+                        or now_mono - self._last_purge_diag_mono >= diag_throttle):
+                    self._last_purge_diag_mono = now_mono
+                    self.get_logger().info(
+                        f"[ROI FILTER][foreground] in={before_purge} out={len(purged)} "
+                        f"reason={foreground.reason}")
+
+        if p['publish_roi_cloud'] and publish_viz_this_frame:
+            self._publish_cloud_np(scene_np, msg.header, self.pub_roi_filtered)
+
+        if len(scene_np) < required_points:
             self._publish_navigation_status('insufficient_roi', msg, det_score, det_stamp_sec,
-                                            points=len(scene_np), required=p['min_scene_points'],
+                                            points=len(scene_np), required=required_points,
                                             hint_published=hint_published)
             self.get_logger().warn(
-                f"ROI 点数 {len(scene_np)} 不足, 跳过",
+                f"ROI 点数 {len(scene_np)} 不足 (需 {required_points}), 跳过",
                 throttle_duration_sec=2.0)
             return
 

@@ -330,6 +330,12 @@ public:
       "tzb.gripper_close_positions", std::vector<double>{0.0});
     gripper_command_topic_ = this->declare_parameter<std::string>(
       "tzb.gripper_command_topic", "/tzb_catch/gripper_command");
+    // Gripper serial protocol: -1 = open, 1/2/3 = closed mode 1/2/3.
+    // Per-class override: tzb.class_profiles["<class>"]["gripper_close_level"].
+    gripper_close_level_ = this->declare_parameter<int>("tzb.gripper_close_level", 1);
+    if (gripper_close_level_ < 1 || gripper_close_level_ > 3) {
+      throw std::runtime_error("tzb.gripper_close_level must be 1, 2 or 3");
+    }
     grasp_collision_links_ = this->declare_parameter<std::vector<std::string>>(
       "tzb.grasp_collision_links",
       std::vector<std::string>{"Claw_left_Link", "claw_right_Link"});
@@ -830,6 +836,7 @@ public:
     base_place_arm_positions_ = place_arm_positions_;
     base_gripper_open_positions_ = gripper_open_positions_;
     base_gripper_close_positions_ = gripper_close_positions_;
+    base_gripper_close_level_ = gripper_close_level_;
     base_e3_object_id_ = e3_object_id_;
     base_e3_mesh_resource_ = e3_mesh_resource_;
     base_mesh_scale_ = mesh_scale_;
@@ -1300,6 +1307,7 @@ private:
     place_arm_positions_ = base_place_arm_positions_;
     gripper_open_positions_ = base_gripper_open_positions_;
     gripper_close_positions_ = base_gripper_close_positions_;
+    gripper_close_level_ = base_gripper_close_level_;
     e3_object_id_ = base_e3_object_id_;
     e3_mesh_resource_ = base_e3_mesh_resource_;
     mesh_scale_ = base_mesh_scale_;
@@ -1326,6 +1334,10 @@ private:
       const auto it = pr.find(key);
       if (it != pr.end() && it->is_boolean()) dst = it->get<bool>();
     };
+    auto integer = [&pr](const char *key, int &dst) {
+      const auto it = pr.find(key);
+      if (it != pr.end() && it->is_number_integer()) dst = it->get<int>();
+    };
     num("grasp_ground_z", grasp_ground_z_);
     num("grasp_ground_z_max_deviation", grasp_ground_z_max_deviation_);
     num("target_min_z", target_min_z_);
@@ -1336,13 +1348,20 @@ private:
     vec("place_arm_positions", place_arm_positions_);
     vec("gripper_open_positions", gripper_open_positions_);
     vec("gripper_close_positions", gripper_close_positions_);
+    integer("gripper_close_level", gripper_close_level_);
+    if (gripper_close_level_ < 1 || gripper_close_level_ > 3) {
+      RCLCPP_WARN(this->get_logger(),
+        "[GRASP][class] '%s' gripper_close_level out of range (%d); using 1",
+        target_class_.c_str(), gripper_close_level_);
+      gripper_close_level_ = 1;
+    }
     vec("mesh_scale", mesh_scale_);
     str("e3_object_id", e3_object_id_);
     str("e3_mesh_resource", e3_mesh_resource_);
     RCLCPP_INFO(this->get_logger(),
-      "[GRASP][class] applied '%s' profile: grasp_ground_z=%.4f pos_only=%d place_joints=%zu",
+      "[GRASP][class] applied '%s' profile: grasp_ground_z=%.4f pos_only=%d place_joints=%zu close_level=%d",
       target_class_.c_str(), grasp_ground_z_, static_cast<int>(position_only_target_),
-      place_arm_positions_.size());
+      place_arm_positions_.size(), gripper_close_level_);
   }
 
   // Acceptance rules shared by the action server and the legacy JSON path
@@ -2145,24 +2164,30 @@ private:
         if(mission_phase_!="BUSY" || !missionOperationUsesVision(mission_operation_)) return;
         expected=mission_expected_center_;
       }
-      bool same=false, known=false;
-      const double t=rclcpp::Time(msg.header.stamp).seconds();
-      if(expected.size()==3) for(const auto &center:mission_centers_) {
-        if(std::abs(center.first-t)<0.001) {
-          known=true;
-          if((center.second-Eigen::Vector3d(expected[0],expected[1],expected[2])).norm()<0.10) same=true;
+      // 11-14: association gate: only reject a pose whose stamp is KNOWN in mission_centers_
+      // but whose xyz disagrees with expected_center (bad navigation-chain match).
+      // A pose whose stamp is not in mission_centers_ (direct grasp / T5 / no nav chain)
+      // is not rejected here - it falls through to stream detection.
+      {
+        bool same=false, known=false;
+        const double t=rclcpp::Time(msg.header.stamp).seconds();
+        if(expected.size()==3) for(const auto &center:mission_centers_) {
+          if(std::abs(center.first-t)<0.001) {
+            known=true;
+            if((center.second-Eigen::Vector3d(expected[0],expected[1],expected[2])).norm()<0.10) same=true;
+          }
         }
-      }
-      if(!same) {
+        if(known && !same) {
+          // stamp matched the nav-chain but xyz disagreed: reset stream and skip
+          std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
+          resetPoseEstimatorContinuityLocked();
+          return;
+        }
+        // unknown stamp (no nav chain) OR known+same: fall through to stream detection
         if(!known && now().seconds()-t>=-0.15 && now().seconds()-t<=0.6) {
           mission_pending_poses_.push_back(msg);
           while(mission_pending_poses_.size()>30) mission_pending_poses_.pop_front();
         }
-        if(known) {
-          std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
-          resetPoseEstimatorContinuityLocked();
-        }
-        return;
       }
     }
     const auto now = std::chrono::steady_clock::now();
@@ -2857,23 +2882,28 @@ private:
     const std::string& stage_name,
     int8_t serial_command) {
     std_msgs::msg::Int8 command_msg;
-    if (serial_command != 1 && serial_command != -1) {
-      throw std::invalid_argument("gripper command must be 1 (closed) or -1 (open)");
+    if (serial_command != -1 && serial_command != 1 &&
+        serial_command != 2 && serial_command != 3) {
+      throw std::invalid_argument(
+        "gripper command must be -1 (open) or 1/2/3 (closed mode 1/2/3)");
     }
     command_msg.data = serial_command;
     gripper_command_pub_->publish(command_msg);
 
-    const bool closing = command_msg.data == 1;
+    const bool closing = command_msg.data > 0;
     gripper_state_ = closing ? gripper_close_positions_ : gripper_open_positions_;
     // The grasp sequence closes only at the target, so a close means "object
     // in the jaws" until the next open (place release or observe open).
     gripper_closed_on_object_.store(closing);
+    const std::string gripper_action = closing
+      ? "closed level " + std::to_string(static_cast<int>(command_msg.data))
+      : "open";
     RCLCPP_INFO(
       this->get_logger(),
       "[GRASP][gripper][SENT] step=%s serial_int8=%d (%s); physical_confirmation=unavailable.",
       stage_name.c_str(),
       static_cast<int>(command_msg.data),
-      closing ? "closed" : "open");
+      gripper_action.c_str());
     publishCurrentTheoreticalJointState(stage_name + "_final_sync");
   }
 
@@ -5314,7 +5344,9 @@ private:
         return false;
       }
     }
-    publishGripperCommand("close_gripper_at_target", 1);
+    publishGripperCommand(
+      "close_gripper_at_target",
+      static_cast<int8_t>(gripper_close_level_));
     if (gripper_settle_sec_ > 0.0) {
       RCLCPP_INFO(
         this->get_logger(),
@@ -6057,6 +6089,7 @@ private:
   std::vector<double> gripper_home_positions_;
   std::vector<double> gripper_open_positions_;
   std::vector<double> gripper_close_positions_;
+  int gripper_close_level_{1};
   std::vector<std::string> grasp_collision_links_;
   double grasp_collision_allowed_penetration_m_{-1.0};
   bool e3_collision_object_enabled_{true};
@@ -6204,6 +6237,7 @@ private:
   std::vector<double> base_place_arm_positions_;
   std::vector<double> base_gripper_open_positions_;
   std::vector<double> base_gripper_close_positions_;
+  int base_gripper_close_level_{1};
   std::string base_e3_object_id_;
   std::string base_e3_mesh_resource_;
   std::vector<double> base_mesh_scale_;
