@@ -210,6 +210,12 @@ class YoloDetectorNode(Node):
         self.declare_parameter('annotated_image_topic', 'yolo/annotated_image')
         self.declare_parameter('left_or_right', 1)
         self.declare_parameter('multi_target_selection', 'confidence')  # or legacy 'area_left_right'
+        # Temporal target lock: once one of several same-class boxes is selected,
+        # keep the box nearest to the previous selection until it disappears.
+        self.declare_parameter('target_lock_enable', True)
+        self.declare_parameter('target_lock_timeout_sec', 1.0)
+        self.declare_parameter('target_lock_min_iou', 0.10)
+        self.declare_parameter('target_lock_max_center_px', 40.0)
         # Class policy. `target_classes` is an ordered priority list: the first class present in a
         # frame wins (blue block > big rock > small rock by default). Matching is normalised
         # (case, '_' / '-' / whitespace), so 'blue_block' and 'blue block' are equivalent.
@@ -243,6 +249,13 @@ class YoloDetectorNode(Node):
         annotated_image_topic = self.get_parameter('annotated_image_topic').value
         self.left_or_right = int(self.get_parameter('left_or_right').value)
         self.multi_target_selection = str(self.get_parameter('multi_target_selection').value)
+        self.target_lock_enable = bool(self.get_parameter('target_lock_enable').value)
+        self.target_lock_timeout_sec = max(
+            0.0, float(self.get_parameter('target_lock_timeout_sec').value))
+        self.target_lock_min_iou = max(
+            0.0, float(self.get_parameter('target_lock_min_iou').value))
+        self.target_lock_max_center_px = max(
+            0.0, float(self.get_parameter('target_lock_max_center_px').value))
         self.target_class = str(self.get_parameter('target_class').value)
         raw_targets = self.get_parameter('target_classes').value
         if isinstance(raw_targets, str):        # launch args arrive comma-separated
@@ -259,6 +272,9 @@ class YoloDetectorNode(Node):
         self._class_priority = [c for c in self._class_priority if c not in self._ignored]
         self._class_priority_valid = False      # decided after the model (and its names) are loaded
         self._selected_class_last = ''
+        self._locked_bbox = None
+        self._locked_class = ''
+        self._locked_stamp = 0.0
         status_topic = str(self.get_parameter('status_topic').value)
         self.status_period_sec = max(0.1, float(self.get_parameter('status_period_sec').value))
         self.timing_log_enable = bool(self.get_parameter('timing_log_enable').value)
@@ -561,23 +577,85 @@ class YoloDetectorNode(Node):
         return float(np.mean(hist))
 
 
+    @staticmethod
+    def _target_iou(det, box):
+        """IoU between a Detection and a stored (x, y, w, h) box."""
+        ax1 = float(det.x)
+        ay1 = float(det.y)
+        ax2 = ax1 + float(det.width)
+        ay2 = ay1 + float(det.height)
+        bx1, by1, bw, bh = [float(v) for v in box]
+        bx2 = bx1 + bw
+        by2 = by1 + bh
+        ix1 = max(ax1, bx1)
+        iy1 = max(ay1, by1)
+        ix2 = min(ax2, bx2)
+        iy2 = min(ay2, by2)
+        iw = max(0.0, ix2 - ix1)
+        ih = max(0.0, iy2 - iy1)
+        inter = iw * ih
+        area_a = max(0.0, ax2 - ax1) * max(0.0, ay2 - ay1)
+        area_b = max(0.0, bx2 - bx1) * max(0.0, by2 - by1)
+        union = area_a + area_b - inter
+        return inter / union if union > 1.0e-9 else 0.0
+
+    @staticmethod
+    def _target_center_distance(det, box):
+        cx = float(det.x) + 0.5 * float(det.width)
+        cy = float(det.y) + 0.5 * float(det.height)
+        bx, by, bw, bh = [float(v) for v in box]
+        bcx = bx + 0.5 * bw
+        bcy = by + 0.5 * bh
+        dx = cx - bcx
+        dy = cy - bcy
+        return (dx * dx + dy * dy) ** 0.5
+
+    def _update_target_lock(self, det, class_norm, now=None):
+        self._locked_bbox = (
+            float(det.x), float(det.y), float(det.width), float(det.height))
+        self._locked_class = class_norm
+        self._locked_stamp = time.monotonic() if now is None else now
+
+
     def _select_within_class(self, detections: list, class_norm: str):
         """Choose one detection among boxes of a single (already filtered) class.
 
-        1. 只有一个框时直接选它（并更新面积历史）；
-        2. multi_target_selection == 'confidence' 时选置信度最高的；
-        3. legacy 'area_left_right'：按 x 分配稳定槽位，用多帧面积均值取前二，再按 left_or_right 选左/右。
+        1. If a target is already locked, keep the box nearest to the previous
+           selection (IoU/center hysteresis) while it is still present.  This
+           stops two similar blocks from alternating every frame.
+        2. Only one box: select it.
+        3. multi_target_selection == 'confidence': highest confidence.
+        4. legacy 'area_left_right': stable area top-2, then left/right.
         """
         if not detections:
             return None
+        now = time.monotonic()
+
+        if (self.target_lock_enable and self._locked_bbox is not None
+                and class_norm == self._locked_class
+                and now - self._locked_stamp <= self.target_lock_timeout_sec):
+            best = max(
+                detections,
+                key=lambda det: self._target_iou(det, self._locked_bbox))
+            best_iou = self._target_iou(best, self._locked_bbox)
+            best_center = self._target_center_distance(best, self._locked_bbox)
+            if (best_iou >= self.target_lock_min_iou
+                    or best_center <= self.target_lock_max_center_px):
+                self._stable_haomu_area(best, 0)
+                self._update_target_lock(best, class_norm, now)
+                return best
+
         if len(detections) == 1:
             self._stable_haomu_area(detections[0], 0)
+            self._update_target_lock(detections[0], class_norm, now)
             return detections[0]
 
         if self.multi_target_selection != 'area_left_right':
-            return detections[_logic.pick_target_index(
+            selected = detections[_logic.pick_target_index(
                 [(float(d.confidence), d.x, d.y, d.width, d.height) for d in detections],
                 self.multi_target_selection)]
+            self._update_target_lock(selected, class_norm, now)
+            return selected
 
         by_x = sorted(detections, key=lambda det: float(det.x) + 0.5 * float(det.width))
         stable_area = {}
@@ -591,10 +669,12 @@ class YoloDetectorNode(Node):
         )[:2]
 
         choose_right = 1 if int(self.left_or_right) == 1 else 0
-        return sorted(
+        selected = sorted(
             top2,
             key=lambda det: float(det.x) + 0.5 * float(det.width),
         )[-1 if choose_right else 0]
+        self._update_target_lock(selected, class_norm, now)
+        return selected
 
     def _select_target(self, detections: list):
         """优先级选择单个目标：先按类别优先级，再按类内规则。

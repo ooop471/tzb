@@ -7,6 +7,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch.conditions import IfCondition
 from launch_ros.actions import Node
 
 # Seconds launch waits after SIGINT before SIGTERM, and after SIGTERM before
@@ -52,6 +53,7 @@ def prepare(context):
             yaml.safe_dump(data, stream)
     camera = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(
         perception, 'launch', 'camera_switch.launch.py')),
+        condition=IfCondition(LaunchConfiguration('start_camera')),
         launch_arguments={'camera_config_file': os.path.join(perception, 'config', 'camera_switch.yaml')}.items())
     detector = IncludeLaunchDescription(PythonLaunchDescriptionSource(os.path.join(
         get_package_share_directory('yolo_node'), 'launch', 'yolo_node.launch.py')),
@@ -76,6 +78,7 @@ def prepare(context):
 
 def generate_launch_description():
     return LaunchDescription([
+        DeclareLaunchArgument('start_camera', default_value='true'),
         DeclareLaunchArgument('model_path', default_value=os.path.join(
             get_package_share_directory('yolo_node'), 'models', 'blue_block_v1_640_openvino_model')),
         DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock,small_rock'),

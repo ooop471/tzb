@@ -6244,6 +6244,8 @@ void OBCameraNode::onNewFrameSetCallback(std::shared_ptr<ob::FrameSet> frame_set
 
     if (enable_stream_[COLOR] && color_frame) {
       std::unique_lock<std::mutex> lock(color_frame_queue_lock_);
+      // A live perception consumer needs the newest frame, not an accumulating backlog.
+      while (!color_frame_queue_.empty()) color_frame_queue_.pop();
       color_frame_queue_.push(frame_set);
       color_frame_queue_cv_.notify_all();
     } else {
@@ -6319,11 +6321,13 @@ void OBCameraNode::onNewColorFrameCallback() {
     if (!rclcpp::ok() || !is_running_.load() || stop_color_frame_threads_.load()) {
       break;
     }
-    std::shared_ptr<ob::FrameSet> frameSet = color_frame_queue_.front();
+    std::shared_ptr<ob::FrameSet> frameSet = color_frame_queue_.back();
+    while (!color_frame_queue_.empty()) color_frame_queue_.pop();
+    // Decoding and point-cloud publication must not hold up SDK frame arrival.
+    lock.unlock();
     is_color_frame_decoded_ = decodeColorFrameToBuffer(frameSet->colorFrame(), rgb_buffer_);
     onNewFrameCallback(frameSet->colorFrame(), COLOR);
     publishPointCloud(frameSet);
-    color_frame_queue_.pop();
   }
 
   RCLCPP_DEBUG_STREAM(logger_, "Color frame thread exited");

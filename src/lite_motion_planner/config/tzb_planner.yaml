@@ -13,14 +13,15 @@
     # 11-15: NaN disables the ground-z sanity gate entirely (std::isfinite is false),
     # so the grasp target always uses the measured (visual) TCP z.
     # Restore a finite value (e.g. -0.21) + tzb.grasp_ground_z_max_deviation to re-enable the gate.
-    tzb.grasp_ground_z: .nan
+    tzb.grasp_ground_z: -0.23
     tzb.grasp_use_visual_z: true  # 11-14: sand surface height varies spot to spot; trust the measured block z
-    tzb.grasp_ground_z_max_deviation: 0.08
+    tzb.grasp_ground_z_max_deviation: 0.12
     # ---- 按类别抓取参数（JSON；键为归一化类名，缺省字段回落到上面的 tzb.*）----
     # d 是错误标注，推理侧已永久排除；石头参数需实测后填，例如：
     #   tzb.class_profiles: '{"big rock": {"position_only_target": true}, "small rock": {"position_only_target": true}}'
     tzb.default_target_class: "blue_block"
     # 1=blue_block, 2=big_rock, 3=small_rock (keys are normalised class names).
+    # 11-15 TEMP: blue block uses closed mode 2 (was 1).
     tzb.class_profiles: '{"blue block": {"gripper_close_level": 1}, "big rock": {"gripper_close_level": 2}, "small rock": {"gripper_close_level": 3}}'
     tzb.target_yaw_symmetry_deg: 90.0
     # tool x-axis yaw is ~180 deg at J6=0 (observe pose FK): pick the cube-equivalent yaw near radial+180 so J6 stays near 0
@@ -82,7 +83,11 @@
     gripper_scene_collision_allowed_penetration: 0.0
     gripper_self_collision_links: ["Claw_left_Link", "claw_right_Link"]
     gripper_self_collision_allowed_penetration: 0.0
-    self_collision_allowed_penetration: 0.0
+    # TEMP 11-16: the arm is parked in a slight J1_link/J6_link self-overlap and the
+    # planner refuses any plan whose START is in collision. Allow a few cm so the first
+    # plan (pre_ini -> ini) can move it out. REVERT to 0.0 after the arm is back to a
+    # normal pose.
+    self_collision_allowed_penetration: 0.05
     # Keep the robot base in collision checking for obstacle avoidance.
     globally_ignored_robot_collision_links: ["base_link"]
 
@@ -141,7 +146,7 @@
     tzb.joint_positions_unit: "rad"
     # These presets belong to the active tzb_description model. Array index 0 maps
     # to J1_joint (there is no J0 joint), followed by J2_joint through J6_joint.
-    tzb.ini_joint_positions: [0.5, 1.0, -2.61, 0.0, 0.0, 0.0]
+    tzb.ini_joint_positions: [0.0, 0.85, -2.56, 0.0, 0.0, 0.0]  # 11-15 tight low stow: camera centered, gripper tucked inside the lidar radius
     # 11-10: release point moved 4 cm toward the vehicle front (+x).
     # TCP (base_link) -0.46505 -> -0.42505, z 0.34217, orientation unchanged.
     # Joints solved with the planner's IK and re-checked with FK + plan_only.
@@ -150,7 +155,7 @@
     # (x 0.38-0.50 now at image rows ~315-397); J2/J3 inside the 11-07 hand-eye calibration range.
     tzb.observe_joint_positions: [0.0, -0.192, -2.0, 0.0, 1.2184, 0.0]  # was [0.0, 0.0, -2.0, 0.0, 1.57, 0.0]
     tzb.sentry_joint_positions: [0.0, 1.13, -2.18, 0.0, 1.57, 0.0]
-    tzb.pre_ini_joint_positions: [0.5, 1.0, -2.61, 0.0, 1.3, 0.0]
+    tzb.pre_ini_joint_positions: [0.0, 0.85, -2.56, 0.0, 1.40, 0.0]  # 11-15 tight low stow: camera centered, gripper tucked inside the lidar radius
     # Compact carry pose between the wall-side grasp and the rear place pose.
     # J1 is held while folding here, then rotated while the arm stays folded, so
     # the 180 deg turn does not sweep at full extension into a side wall.
@@ -161,8 +166,11 @@
     # The 0.80 m pose cleared the lidar but tipped the jaws up (tool_z +0.94) and
     # the block slipped out; the old low tuck at z 0.09..0.24 dragged it across
     # the lidar.
-    tzb.carry_tuck_joint_positions: [0.0, 0.66, -1.70, 0.0, 1.55, 0.0]
+    tzb.carry_tuck_joint_positions: [0.0, 0.35, -1.38, 0.0, 1.55, 0.0]  # 11-15 raised: lidar-band clearance 0.207 -> 0.325 m, TCP z 0.33 -> 0.39
     tzb.staged_yaw_enabled: true
+    # Land the stow at goal_yaw+offset, then rotate to the final yaw at the folded shape.
+    # Keeps the gripper beside (not over) the lidar during the final descent.
+    tzb.retract_land_yaw_offset_rad: 0.6
     # Only stage plans whose J1 change is at least this large (rad).
     tzb.staged_yaw_min_rad: 0.5
 

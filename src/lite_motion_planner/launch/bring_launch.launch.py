@@ -2,7 +2,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
@@ -12,6 +12,17 @@ def _pkg_launch(package_name, launch_name):
     return PythonLaunchDescriptionSource(
         os.path.join(get_package_share_directory(package_name), 'launch', launch_name)
     )
+
+
+def _defer_arm_include(context, period, action):
+    """Resolve arguments before the enclosing mission launch scope is restored."""
+    from launch.utilities import normalize_to_list_of_substitutions, perform_substitutions
+    if action.condition is not None and not action.condition.evaluate(context):
+        return []
+    arguments = [(name, perform_substitutions(context, normalize_to_list_of_substitutions(value)))
+                 for name, value in action.launch_arguments]
+    return [TimerAction(period=period, actions=[IncludeLaunchDescription(
+        action.launch_description_source, launch_arguments=arguments)])]
 
 
 def generate_launch_description():
@@ -85,21 +96,15 @@ def generate_launch_description():
         'serial_params_file', default_value=serial_params_file)
     rviz_config_arg = DeclareLaunchArgument('rviz_config', default_value=rviz_config_file)
 
-    camera_launch = IncludeLaunchDescription(
-        _pkg_launch('pose_estimator','camera_switch.launch.py'),
-        launch_arguments={
-            'camera_config_file': LaunchConfiguration('camera_config_file'),
-        }.items(),
-    )
 
     yolo_launch = IncludeLaunchDescription(
         _pkg_launch('yolo_node', 'yolo_node.launch.py'),
         launch_arguments={
             'NUC': LaunchConfiguration('NUC'),
-            'model_path': '/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model',
-            'target_class': '',
-            'target_classes': 'blue_block,big_rock,small_rock',
-            'ignored_classes': 'd',
+            'model_path': LaunchConfiguration('model_path'),
+            'target_class': LaunchConfiguration('target_class'),
+            'target_classes': LaunchConfiguration('target_classes'),
+            'ignored_classes': LaunchConfiguration('ignored_classes'),
         }.items(),
     )
 
@@ -122,6 +127,7 @@ def generate_launch_description():
             'use_rviz': LaunchConfiguration('use_rviz'),
             'use_robot_state_publisher': LaunchConfiguration('use_robot_state_publisher'),
             'rviz_config': LaunchConfiguration('rviz_config'),
+            'use_external_serial': LaunchConfiguration('use_external_serial'),
             'use_serial_driver': LaunchConfiguration('use_serial_driver'),
             'serial_params_file': LaunchConfiguration('serial_params_file'),
         }.items(),
@@ -143,6 +149,11 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument('use_external_serial', default_value='false'),
+        DeclareLaunchArgument('model_path', default_value='/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model'),
+        DeclareLaunchArgument('target_class', default_value=''),
+        DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock,small_rock'),
+        DeclareLaunchArgument('ignored_classes', default_value='d'),
         nuc_arg,
         robot_model_arg,
         wait_for_nav_go_finish_arg,
@@ -158,10 +169,9 @@ def generate_launch_description():
         use_serial_driver_arg,
         serial_params_file_arg,
         rviz_config_arg,
-        camera_launch,
-        TimerAction(period=1.0, actions=[yolo_launch]),
-        TimerAction(period=2.0, actions=[pose_estimator_launch]),
-        TimerAction(period=3.0, actions=[tzb_catch_launch]),
-        TimerAction(period=3.5, actions=[nav2arm_launch]),
-        TimerAction(period=3.5, actions=[arm2nav_launch]),
+        OpaqueFunction(function=lambda context: _defer_arm_include(context, 1.0, yolo_launch)),
+        OpaqueFunction(function=lambda context: _defer_arm_include(context, 2.0, pose_estimator_launch)),
+        OpaqueFunction(function=lambda context: _defer_arm_include(context, 3.0, tzb_catch_launch)),
+        OpaqueFunction(function=lambda context: _defer_arm_include(context, 3.5, nav2arm_launch)),
+        OpaqueFunction(function=lambda context: _defer_arm_include(context, 3.5, arm2nav_launch)),
     ])

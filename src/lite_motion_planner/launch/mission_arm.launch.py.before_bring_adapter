@@ -1,0 +1,29 @@
+"""Camera-free arm algorithms, preserving the arm workspace's model/class defaults."""
+import os
+from pathlib import Path
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, OpaqueFunction
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
+
+
+def prepare(context):
+    entry = Path(get_package_share_directory('lite_motion_planner')) / 'launch/exploration_grasp_arm.launch.py'
+    args = {'start_camera': 'false', 'navigation_sensor_frame': LaunchConfiguration('navigation_sensor_frame').perform(context)}
+    model = LaunchConfiguration('model_path').perform(context)
+    target = LaunchConfiguration('target_class').perform(context)
+    if model:
+        args['model_path'] = model
+    if target:
+        args['target_classes' if "LaunchConfiguration('target_classes')" in entry.read_text() else 'target_class'] = target
+    return [GroupAction(actions=[IncludeLaunchDescription(PythonLaunchDescriptionSource(str(entry)), launch_arguments=args.items())], forwarding=False)]
+
+
+def generate_launch_description():
+    return LaunchDescription([
+        DeclareLaunchArgument('model_path', default_value=''),
+        DeclareLaunchArgument('target_class', default_value=''),
+        DeclareLaunchArgument('navigation_sensor_frame', default_value='camera_color_optical_frame'),
+        OpaqueFunction(function=prepare),
+    ])

@@ -90,9 +90,21 @@ class Locator(Node):
         except Exception:
             self.class_sizes = {_norm(k): float(v) for k, v in default_sizes.items()}
         self._sel_class = ''
+        self._last_hint_class = ''
+        self._locked_class = ''
         self.pub_target_class = self.create_publisher(
             String, "/mission/target_class",
             QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self.pub_locked_class = self.create_publisher(
+            String, '/mission/locked_target_class',
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self.create_subscription(
+            String, '/mission/state', self.on_mission_state,
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self.max_target_range = float(self.declare_parameter("max_target_range", 1.5).value)
+        if not math.isfinite(self.max_target_range) or self.max_target_range <= 0:
+            raise ValueError("max_target_range must be positive")
+        self._selection_status = {}
         self.size_ratio = (0.5, 2.5)   # box size / expected size of the selected class at the estimated depth
         self.create_timer(period, self.tick)
 
@@ -153,26 +165,64 @@ class Locator(Node):
         if n[2] < 0: n = -n
         return (n, float(n @ c)), int(best[0])
 
-    def target_pixel(self, img_bgr, horizon_v):
+    def on_mission_state(self, msg):
+        try:
+            state = json.loads(msg.data)
+        except (ValueError, TypeError):
+            return
+        if not isinstance(state, dict):
+            return
+        locked = (self._locked_class or self._last_hint_class) if state.get('target_position_locked', False) else ''
+        if locked == self._locked_class:
+            return
+        self._locked_class = locked
+        self.pub_locked_class.publish(String(data=locked))
+        if locked:
+            self.pub_target_class.publish(String(data=locked))
+            self.get_logger().info('Target class frozen for this attempt: %s' % locked)
+
+    def target_pixel(self, img_bgr, horizon_v, R, o, n, plane_d):
         self._sel_class = ''
+        self._selection_status = {'selection_reason': 'no_recent_detection', 'candidates': 0,
+                                  'max_target_range': self.max_target_range}
         if time.time() - self.dets_t < 0.6 and self.dets:
-            allowed = [d for d in self.dets
-                       if _norm(d[5]) and _norm(d[5]) not in self.ignored_classes]
-            chosen = None
-            for cls in self.class_priority:      # priority order, not global confidence
-                group = [d for d in allowed if _norm(d[5]) == cls]
-                if group:
-                    chosen = max(group, key=lambda d: d[4])
-                    break
-            if chosen is None and not self.class_priority and allowed:
-                chosen = max(allowed, key=lambda d: d[4])
-            if chosen is not None and chosen[4] >= self.min_conf:
-                self._sel_class = _norm(chosen[5])
-                return ((chosen[0] + chosen[2] / 2.0, chosen[1] + chosen[3] / 2.0),
-                        (chosen[0], chosen[1], chosen[2], chosen[3]),
-                        "yolo %s %.2f" % (self._sel_class, chosen[4]))
+            candidates = []
+            for d in self.dets:
+                cls = _norm(d[5])
+                if (not cls or cls in self.ignored_classes or
+                    (self._locked_class and cls != self._locked_class) or
+                    (self.class_priority and cls not in self.class_priority) or d[4] < self.min_conf):
+                    continue
+                self._selection_status['candidates'] += 1
+                bx, by, bw, bh = d[:4]
+                if bx <= 2 or by <= 2 or bx+bw >= img_bgr.shape[1]-2 or by+bh >= img_bgr.shape[0]-2:
+                    continue
+                pix = (bx+bw/2, by+bh/2)
+                ray = cv2.undistortPoints(np.array([[pix]], float), self.K, self.D).ravel()
+                dv = R @ np.r_[ray, 1.0]
+                denominator = float(n @ dv)
+                if abs(denominator) < 1e-6:
+                    continue
+                size = self.class_sizes.get(cls, 0.05)
+                scale = float((plane_d+size/2-n@o)/denominator)
+                camera_range = scale * float(np.linalg.norm(np.r_[ray, 1.0]))
+                if not 0 < camera_range <= self.max_target_range:
+                    continue
+                expected_px = self.K[0, 0]*size/max(scale, 0.05)
+                ratio = max(bw, bh)/expected_px
+                if not self.size_ratio[0] <= ratio <= self.size_ratio[1]:
+                    continue
+                candidates.append((camera_range, -d[4], cls, pix, d))
+            if candidates:
+                camera_range, _, cls, pix, d = min(candidates, key=lambda v: (v[0], v[1]))
+                self._sel_class = cls
+                self._selection_status.update(selection_reason='nearest_valid_target',
+                    selected_range=round(camera_range, 3), eligible=len(candidates))
+                return pix, tuple(d[:4]), "yolo %s %.2f" % (cls, d[4])
+            self._selection_status['selection_reason'] = 'no_candidate_in_range_or_valid_geometry'
         # HSV fallback is blue-specific: only when blue_block is an allowed target.
-        if self.class_priority and 'blue block' not in self.class_priority:
+        if (self._locked_class and self._locked_class != 'blue block') or (
+                self.class_priority and 'blue block' not in self.class_priority):
             return None, None, "none"
         hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
         mask = cv2.inRange(hsv, (85, 80, 60), (110, 255, 255))
@@ -222,14 +272,15 @@ class Locator(Node):
         # horizon: pixel row of a far point on the plane straight ahead
         far = o + np.array([30.0, 0, 0]); far[2] = (d - n[0] * far[0] - n[1] * far[1]) / n[2]
         pc = R.T @ (far - o); hv = self.K[1, 1] * pc[1] / pc[2] + self.K[1, 2] if pc[2] > 0 else 0
-        pix, box, dsrc = self.target_pixel(bgr, hv + 5)
+        pix, box, dsrc = self.target_pixel(bgr, hv + 5, R, o, n, d)
         st = dict(t=time.time(), joints_src=qsrc, plane=None if self.plane is None else dict(normal=n.round(4).tolist(), d=round(d, 4),
                   tilt_deg=round(math.degrees(math.acos(min(1.0, n[2]))), 2), pitch_deg=round(math.degrees(math.atan2(-n[0], n[2])), 2),
                   height_at_0p5m=round((d - n[0] * 0.5) / n[2], 4)), det=dsrc)
+        st.update(self._selection_status)
         if pix is not None:
             ray = cv2.undistortPoints(np.array([[pix]], float), self.K, self.D).ravel()
             dv = R @ np.r_[ray, 1.0]
-            dd = d + HALF   # plane shifted up by the block half height along n
+            dd = d + self.class_sizes.get(self._sel_class, 0.05)/2   # plane shifted up by the block half height along n
             denom = n @ dv
             if abs(denom) > 1e-6:
                 t = (dd - n @ o) / denom
@@ -259,7 +310,9 @@ class Locator(Node):
                     exp_size = self.class_sizes.get(self._sel_class, 0.05)
                     exp_px = self.K[0, 0] * exp_size / max(pz, 0.05); ratio = max(bw, bh) / exp_px
                     border = bx <= 2 or by <= 2 or bx + bw >= im.width - 2 or by + bh >= im.height - 2
-                    valid = dsrc.startswith("yolo") and not border and self.size_ratio[0] <= ratio <= self.size_ratio[1]
+                    valid = (dsrc.startswith("yolo") and not border and
+                             self.size_ratio[0] <= ratio <= self.size_ratio[1] and
+                             np.linalg.norm(R.T @ (p-o)) <= self.max_target_range)
                     st.update(valid=bool(valid), size_ratio=round(ratio, 2), border=bool(border))
                     if not valid:
                         self.pub_status.publish(String(data=json.dumps(st)))
@@ -272,7 +325,8 @@ class Locator(Node):
                     hm.pose.position.x, hm.pose.position.y, hm.pose.position.z = float(pcam[0]), float(pcam[1]), float(pcam[2])
                     hm.pose.orientation.w = 1.0; self.pub_hint.publish(hm)
                     if self._sel_class:
-                        self.pub_target_class.publish(String(data=self._sel_class))
+                        self._last_hint_class = self._sel_class
+                        self.pub_target_class.publish(String(data=self._locked_class or self._sel_class))
                     b = math.atan2(p[1], p[0]); r = math.hypot(p[0], p[1]); s = max(0.0, r - self.standoff)
                     sm = PoseStamped(); sm.header = msg.header
                     sm.pose.position.x, sm.pose.position.y = s * math.cos(b), s * math.sin(b)

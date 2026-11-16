@@ -22,3 +22,7 @@ ros2 topic echo /arm_task/state             # 判断结果
 ros2 topic echo /arm_task/state          # READY → GRASPING → SUCCESS/FAILED
 ros2 topic echo /arm_task/result --once  # 1 成功 / -1 放弃
 ros2 topic echo /tzb_catch/result --once # 机械臂原始回报
+ros2 launch pose_estimator camera_switch.launch.py
+ros2 launch lite_motion_planner bring_with_camera.launch.py
+pkill -INT -f camera_container
+pkill -INT -f camera_switch.launch.py   -

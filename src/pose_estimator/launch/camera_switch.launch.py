@@ -71,6 +71,11 @@ def _launch_selected_camera(context):
             {
                 # SDK frame-rate INFO repeats continuously; retain WARN/ERROR.
                 'log_level': 'warn',
+                # Use the SDK host-arrival stamp; never restamp old frames at publication.
+                'time_domain': str(camera.get('time_domain', 'system')),
+                'color_qos': 'sensor_data',
+                'depth_qos': 'sensor_data',
+                'point_cloud_qos': 'sensor_data',
                 'camera_name': camera_name,
                 'enable_color': 'true',
                 'enable_depth': 'true',

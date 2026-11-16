@@ -103,6 +103,17 @@ DriverNode::DriverNode(const rclcpp::NodeOptions& options)
   {
     max_arm_command_velocity_rad_s_[i] = static_cast<float>(std::max(0.0, max_velocities[i]));
   }
+  const auto zero_offsets = declare_parameter<std::vector<double>>(
+    "tzb.arm_joint_zero_offsets",
+    std::vector<double>{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+  if (zero_offsets.size() != kArmJointCount)
+  {
+    throw std::runtime_error("tzb.arm_joint_zero_offsets must contain exactly 6 values");
+  }
+  for (std::size_t i = 0; i < kArmJointCount; ++i)
+  {
+    arm_joint_zero_offsets_[i] = static_cast<float>(zero_offsets[i]);
+  }
   (void)declare_parameter<bool>("tzb.arm_command_publish_during_replay", false);
   (void)declare_parameter<bool>("tzb.sequence_loop", false);
   (void)declare_parameter<double>("tzb.loop_pause_sec", 0.5);
@@ -577,41 +588,42 @@ float DriverNode::angleToSerialUnit(float angle_rad, std::size_t joint_index) co
   // Calibration offsets are expressed in radians.  ROS JointState values are
   // already radians; serialAngleRadToUnit() converts the calibrated value to
   // the wire unit (radians or degrees) after this joint-specific mapping.
-  float serial_angle_rad = angle_rad;
+  const float zero_offset =
+    joint_index < kArmJointCount ? arm_joint_zero_offsets_[joint_index] : 0.0F;
+  const float calibrated_angle_rad = angle_rad + zero_offset;
+  float serial_angle_rad = calibrated_angle_rad;
   switch (joint_index)
   {
     case 0:
-      // J1: serial = ROS - 0.01965
-      serial_angle_rad = angle_rad - 0.18540F;  // 11-07 zero jog: J1 +2.25 deg (was 0.22473)
+      // J1: serial = ROS - 0.18540
+      serial_angle_rad = calibrated_angle_rad - 0.18540F;
       break;
     case 1:
-      // J2: serial = 1.55281 - ROS, with reversed rotation direction.
-      serial_angle_rad = - 3.44269F + angle_rad;  // 11-07 zero jog: J2 +1.46 deg (was 3.46819)
+      // J2: serial = ROS - 3.44269
+      serial_angle_rad = - 3.44269F + calibrated_angle_rad;
       break;
     case 2:
-      // J3: serial = ROS + 1.60589
-      serial_angle_rad = - angle_rad - 1.62393F;
+      // J3: serial = -ROS - 1.62393
+      serial_angle_rad = - calibrated_angle_rad - 1.62393F;
       break;
     case 3:
-      // J4: serial = ROS + 3.12144
-      serial_angle_rad = angle_rad - 2.7583F;
+      // J4: serial = ROS - 2.7583
+      serial_angle_rad = calibrated_angle_rad - 2.7583F;
       break;
     case 4:
-      // J5: serial = ROS + 3.15340
-      serial_angle_rad = angle_rad - 0.79521F;  // 11-07 zero jog: J5 -6.10 deg (was 0.688806)
+      // J5: serial = ROS - 0.79521
+      serial_angle_rad = calibrated_angle_rad - 0.79521F;
       break;
     case 5:
-      // J6: serial = ROS - 1.40514
-      serial_angle_rad = angle_rad;
+      // J6: serial = ROS
+      serial_angle_rad = calibrated_angle_rad;
       break;
     case 6:
-      // J7 calibration retained for a future 7-joint packet.  The current
-      // serial protocol carries kArmJointCount == 6 joints, so this case is
-      // not reached by the current driver.
+      // J7 calibration retained for a future 7-joint packet.
       serial_angle_rad = angle_rad - 0.19149F;
       break;
     default:
-      serial_angle_rad = angle_rad;
+      serial_angle_rad = calibrated_angle_rad;
       break;
   }
   return serialAngleRadToUnit(serial_angle_rad);
@@ -620,32 +632,44 @@ float DriverNode::angleToSerialUnit(float angle_rad, std::size_t joint_index) co
 float DriverNode::angleFromSerialUnit(float serial_angle, std::size_t joint_index) const
 {
   const float serial_angle_rad = serialAngleRadFromUnit(serial_angle);
+  const float zero_offset =
+    joint_index < kArmJointCount ? arm_joint_zero_offsets_[joint_index] : 0.0F;
+  float ros_angle_rad = serial_angle_rad;
   switch (joint_index)
   {
     case 0:
-      // Inverse of J1: ROS = serial + 0.01965
-      return serial_angle_rad + 0.18540F;  // 11-07 zero jog (was 0.22473)
+      // Inverse of J1: ROS = serial + 0.18540
+      ros_angle_rad = serial_angle_rad + 0.18540F;
+      break;
     case 1:
-      // Inverse of J2: ROS = 1.55281 - serial
-      return  3.44269F + serial_angle_rad;  // 11-07 zero jog (was 3.46819)
+      // Inverse of J2: ROS = serial + 3.44269
+      ros_angle_rad = 3.44269F + serial_angle_rad;
+      break;
     case 2:
-      // Inverse of J3: ROS = serial - 1.60589
-      return  - serial_angle_rad - 1.62393F;
+      // Inverse of J3: ROS = -serial - 1.62393
+      ros_angle_rad = - serial_angle_rad - 1.62393F;
+      break;
     case 3:
-      // Inverse of J4: ROS = serial - 3.12144
-      return serial_angle_rad + 2.7583F;
+      // Inverse of J4: ROS = serial + 2.7583
+      ros_angle_rad = serial_angle_rad + 2.7583F;
+      break;
     case 4:
-      // Inverse of J5: ROS = serial + 0.7566
-      return serial_angle_rad + 0.79521F;  // 11-07 zero jog (was 0.688806)
+      // Inverse of J5: ROS = serial + 0.79521
+      ros_angle_rad = serial_angle_rad + 0.79521F;
+      break;
     case 5:
-      // Inverse of J6: ROS = serial + 1.40514
-      return serial_angle_rad;
+      // Inverse of J6: ROS = serial
+      ros_angle_rad = serial_angle_rad;
+      break;
     case 6:
       // Inverse of the retained J7 calibration above.
-      return serial_angle_rad + 0.19149F;
+      ros_angle_rad = serial_angle_rad + 0.19149F;
+      break;
     default:
-      return serial_angle_rad;
+      ros_angle_rad = serial_angle_rad;
+      break;
   }
+  return ros_angle_rad - zero_offset;
 }
 
 float DriverNode::serialAngleRadToUnit(float serial_angle_rad) const

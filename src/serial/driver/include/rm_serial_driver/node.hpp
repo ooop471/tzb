@@ -63,6 +63,7 @@ private:
   std::array<float, kArmJointCount> arm_target_position_{};
   std::array<float, kArmJointCount> arm_command_position_rad_{};
   std::array<float, kArmJointCount> max_arm_command_velocity_rad_s_{};
+  std::array<float, kArmJointCount> arm_joint_zero_offsets_{};
   std::vector<std::string> arm_joint_names_;
   uint32_t arm_sequence_{0};
   bool arm_serial_enabled_{true};

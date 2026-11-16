@@ -502,6 +502,8 @@ public:
     staged_yaw_enabled_ = this->declare_parameter<bool>("tzb.staged_yaw_enabled", true);
     staged_yaw_min_rad_ = std::max(
       0.0, this->declare_parameter<double>("tzb.staged_yaw_min_rad", 0.5));
+    retract_land_yaw_offset_rad_ = this->declare_parameter<double>(
+      "tzb.retract_land_yaw_offset_rad", 0.6);
     place_arm_positions_ = this->declare_parameter<std::vector<double>>(
       "tzb.place_joint_positions", initial_arm_positions_);
     observe_joint_positions_ = this->declare_parameter<std::vector<double>>(
@@ -3670,19 +3672,25 @@ private:
       carry_tuck_joint_positions_.size() != arm_state_.size()) {
       return direct_plan();
     }
+    // Stow poses are staged even when there is no yaw delta: the direct fold
+    // drags the gripper through the lidar cylinder in front of the base.
+    const bool stow_target =
+      maxJointError(target_joints, pre_initial_arm_positions_) < 1e-3;
     const double yaw_delta = std::abs(target_joints.front() - arm_state_.front());
-    if (yaw_delta < staged_yaw_min_rad_) {
+    if (!stow_target && yaw_delta < staged_yaw_min_rad_) {
       return direct_plan();
     }
 
     std::vector<double> tuck_start = carry_tuck_joint_positions_;
-    std::vector<double> tuck_goal = carry_tuck_joint_positions_;
     tuck_start.front() = arm_state_.front();
-    tuck_goal.front() = target_joints.front();
+    const bool offset_landing =
+      stow_target && std::abs(retract_land_yaw_offset_rad_) > 1e-3;
     RCLCPP_INFO(
       this->get_logger(),
-      "[GRASP][retract][STAGED] step=%s yaw_delta=%.3frad from=%.3f to=%.3f; tuck -> rotate_folded -> extend",
-      stage_name.c_str(), yaw_delta, arm_state_.front(), target_joints.front());
+      "[GRASP][retract][STAGED] step=%s yaw_delta=%.3frad from=%.3f to=%.3f; %s",
+      stage_name.c_str(), yaw_delta, arm_state_.front(), target_joints.front(),
+      offset_landing ? "tuck -> rotate_folded -> land_offset -> rotate_low"
+                     : "tuck -> rotate_folded -> extend");
     // A failed stage leaves arm_state_ at the pre-stage pose while the arm is
     // part-way; the fallback must start from fresh measured joints, and the
     // unattended shutdown/cancel recovery gets no fallback sweep at all.
@@ -3709,6 +3717,25 @@ private:
     if (!executeArmJointPlan(tuck_start, stage_name + "_tuck")) {
       return fallback("tuck");
     }
+    if (offset_landing) {
+      const double land_yaw = target_joints.front() + retract_land_yaw_offset_rad_;
+      std::vector<double> tuck_land = carry_tuck_joint_positions_;
+      tuck_land.front() = land_yaw;
+      std::vector<double> land_pose = target_joints;
+      land_pose.front() = land_yaw;
+      if (!executeArmJointPlan(tuck_land, stage_name + "_rotate_folded")) {
+        return fallback("rotate_folded");
+      }
+      if (!executeArmJointPlan(land_pose, stage_name + "_land_offset")) {
+        return fallback("land_offset");
+      }
+      if (!executeArmJointPlan(target_joints, stage_name + "_rotate_low")) {
+        return fallback("rotate_low");
+      }
+      return true;
+    }
+    std::vector<double> tuck_goal = carry_tuck_joint_positions_;
+    tuck_goal.front() = target_joints.front();
     if (!executeArmJointPlan(tuck_goal, stage_name + "_rotate_folded")) {
       return fallback("rotate_folded");
     }
@@ -6155,6 +6182,7 @@ private:
   std::vector<double> carry_tuck_joint_positions_;
   bool staged_yaw_enabled_{true};
   double staged_yaw_min_rad_{0.5};
+  double retract_land_yaw_offset_rad_{0.6};  // land the stow at goal_yaw+offset, then rotate low
   std::vector<double> place_arm_positions_;
   std::vector<double> observe_joint_positions_;
   std::vector<double> max_arm_command_velocity_rad_s_;

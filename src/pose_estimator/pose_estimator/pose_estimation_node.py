@@ -453,6 +453,9 @@ class PoseEstimationNode(Node):
         self.pub_pose = self.create_publisher(PoseStamped, p['object_pose_topic'], 10)
         # Navigation observations are separate from the validated grasp output.
         self._navigation_observations = self.declare_parameter('navigation_observations', False).value
+        self._match_detection_cloud = bool(self.declare_parameter(
+            'match_detection_cloud', bool(self._navigation_observations)).value)
+        self._locked_target_class = ''
         # 11-07: far_target_locator owns /perception/target_hint in the mission profile (launch sets False)
         self._publish_target_hint = bool(self.declare_parameter('publish_target_hint', True).value)
         self._navigation_confidence = float(self.declare_parameter('navigation_confidence', 0.1).value)
@@ -470,6 +473,10 @@ class PoseEstimationNode(Node):
         self.pub_target_class = self.create_publisher(
             String, '/mission/target_class',
             QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
+        self.sub_locked_target_class = self.create_subscription(
+            String, '/mission/locked_target_class', self._cb_locked_target_class,
+            QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL),
+            callback_group=self._cb_group_fast)
         # Fast motion-time candidate: coarse 3D point, no FPFH/RANSAC.
         self.pub_candidate = (self.create_publisher(PoseStamped, str(self._p['candidate_topic']), 10)
                               if bool(self._p.get('candidate_enable', True)) else None)
@@ -761,10 +768,22 @@ class PoseEstimationNode(Node):
         """Return the PCD model registered for *class_name* (default model otherwise)."""
         return self._class_models_cache.get(_norm_class(class_name), self.model)
 
+    def _cb_locked_target_class(self, msg):
+        locked = _norm_class(msg.data)
+        with self._lock:
+            if locked == self._locked_target_class:
+                return
+            self._locked_target_class = locked
+            # Drop any bbox belonging to the previous class.
+            self._latest_det_bbox = None
+            self._latest_det_class = ''
+            self._latest_det_stamp_sec = 0.0
+
     def _cb_detection(self, msg):
         self._det_recv_count += 1
+        classes = [self._locked_target_class] if self._locked_target_class else self._target_classes_norm
         bbox, score, det_class = extract_bbox_from_detection(
-            msg, self._target_classes_norm, _DET_TYPE, self._ignored_classes_norm)
+            msg, classes, _DET_TYPE, self._ignored_classes_norm)
         now_mono = time.monotonic()
         stamp_sec = stamp_to_sec(msg.header.stamp) if hasattr(msg, 'header') else 0.0
 
@@ -943,7 +962,7 @@ class PoseEstimationNode(Node):
                 'registration_gated', msg, det_score, det_stamp_sec)
             return
 
-        if self._navigation_observations:
+        if self._match_detection_cloud:
             # Inference takes ~220 ms on this rover. Pair the delayed RGB result
             # with buffered depth from that exposure, rather than the newest
             # cloud. Process each detection once; repeated old boxes add no evidence.
@@ -1244,6 +1263,10 @@ class PoseEstimationNode(Node):
         T, coverage, median = self._register(scene, foreground_center=foreground.center)
         t_stages['register'] = (time.monotonic() - t3) * 1000
         t_stages.update(getattr(self, '_last_reg_timing', {}))
+
+        # A class lock can arrive while registration is processing an older frame.
+        if self._locked_target_class and _norm_class(det_class) != self._locked_target_class:
+            return
 
         # 蓝色只表示本次真正送入精配准的 RANSAC 初值。
         if self._last_coarse_transform is not None:

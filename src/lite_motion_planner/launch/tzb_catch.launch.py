@@ -44,7 +44,8 @@ def _build_model_nodes(context, pkg_share):
         catch_parameters.append({
             'tzb.listen_navigation_goal_status': listen_navigation_goal_status == 'true',
         })
-    if not use_serial_driver:
+    use_external_serial = LaunchConfiguration('use_external_serial').perform(context).lower() == 'true'
+    if not use_serial_driver and not use_external_serial:
         catch_parameters.append({
             'tzb.arm_feedback_enabled': False,
             'tzb.require_arm_feedback_for_completion': False,
@@ -128,6 +129,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        DeclareLaunchArgument('use_external_serial', default_value='false'),
         robot_model_arg,
         params_file_arg,
         autostart_arg,

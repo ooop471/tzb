@@ -33,6 +33,10 @@
     tzb.arm_command_goal_tolerance_rad: 0.005
     # Keep this hard limiter aligned with lite_motion_planner.
     tzb.max_arm_command_velocity_rad_s: [1.2, 1.2, 1.2, 1.8, 1.8, 2.2]
+    # Residual joint-zero offsets in ROS radians.  Measured 2026-11-15 with the
+    # arm physically at the URDF zero pose; applied after the existing J1-J6
+    # mapping: send +offset, receive -offset.  Set all zeros to disable.
+    tzb.arm_joint_zero_offsets: [0.119062, 2.318266, 1.001765, 2.775233, -0.657453, 0.175464]
     tzb.arm_command_publish_during_replay: false
     tzb.sequence_loop: false
     tzb.loop_pause_sec: 0.5
