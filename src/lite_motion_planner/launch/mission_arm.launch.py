@@ -60,7 +60,8 @@ def prepare(context):
             str(planner / 'launch/bring_launch.launch.py')), launch_arguments=args.items()),
         Node(package='pose_estimator', executable='far_target_locator',
              name='far_target_locator', output='screen',
-             parameters=[{'max_target_range': float(LaunchConfiguration('target_max_range').perform(context))}]),
+             parameters=[{'max_target_range': float(LaunchConfiguration('target_max_range').perform(context)),
+                          'target_classes': [target or 'blue_block']}]),
     ], forwarding=False)]
 
 
@@ -68,7 +69,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('target_max_range', default_value='1.5'),
         DeclareLaunchArgument('model_path', default_value=''),
-        DeclareLaunchArgument('target_class', default_value=''),
+        DeclareLaunchArgument('target_class', default_value='blue_block'),
         DeclareLaunchArgument('navigation_sensor_frame', default_value='camera_color_optical_frame'),
         OpaqueFunction(function=prepare),
     ])

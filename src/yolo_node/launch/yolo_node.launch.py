@@ -102,7 +102,7 @@ def generate_launch_description():
 
     target_classes_arg = DeclareLaunchArgument(
         'target_classes',
-        default_value='blue_block,big_rock,small_rock',
+        default_value='blue_block,big_rock',
         description='Priority-ordered class list, comma separated: first class present wins'
     )
 

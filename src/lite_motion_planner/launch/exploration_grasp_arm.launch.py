@@ -81,7 +81,7 @@ def generate_launch_description():
         DeclareLaunchArgument('start_camera', default_value='true'),
         DeclareLaunchArgument('model_path', default_value=os.path.join(
             get_package_share_directory('yolo_node'), 'models', 'blue_block_v1_640_openvino_model')),
-        DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock,small_rock'),
+        DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock'),
         DeclareLaunchArgument('navigation_sensor_frame', default_value='camera_color_optical_frame'),
         OpaqueFunction(function=prepare),
     ])

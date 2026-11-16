@@ -20,7 +20,7 @@ COMMAND_NAMES = {
     -1: 'open',
     1: 'closed mode 1 (blue_block)',
     2: 'closed mode 2 (big_rock)',
-    3: 'closed mode 3 (small_rock)',
+   
 }
 
 

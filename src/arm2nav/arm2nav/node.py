@@ -46,7 +46,7 @@ class Arm2NavNode(Node):
         self.target_class = self.declare_parameter(
             'target_class', '').value            # legacy single-class override
         raw_targets = self.declare_parameter(
-            'target_classes', ['blue_block', 'big_rock', 'small_rock']).value
+            'target_classes', ['blue_block', 'big_rock']).value
         if isinstance(raw_targets, str):
             raw_targets = [c.strip() for c in raw_targets.split(',') if c.strip()]
         self.target_classes = {_norm_class(c) for c in raw_targets if _norm_class(c)}

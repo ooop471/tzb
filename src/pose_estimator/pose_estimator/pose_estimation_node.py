@@ -529,7 +529,7 @@ class PoseEstimationNode(Node):
         decl('pointcloud_topic', '/camera/depth/color/points')
         decl('detection_topic', '/yolo/detections')
         decl('target_class', '')          # legacy single-class override
-        decl('target_classes', ['blue_block', 'big_rock', 'small_rock'])  # priority order
+        decl('target_classes', ['blue_block', 'big_rock'])  # priority order
         decl('ignored_classes', ['d'])    # never treated as a target
         # JSON {class: pcd_path}; empty = auto-discover <class>.pcd next to model_path
         decl('class_models', '')

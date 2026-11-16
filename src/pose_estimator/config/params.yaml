@@ -7,7 +7,7 @@ pose_estimation_node:
     pointcloud_topic: "/camera/depth/color/points"
     detection_topic: "/yolo/detections"
     # 类别优先级（d 是错误标注，永久排除）；blue_block 沿用 model_path 的 half_block.pcd
-    target_classes: ["blue_block", "big_rock", "small_rock"]
+    target_classes: ["blue_block"]
     ignored_classes: ["d"]
     # 每类位姿模型：留空则自动在 config/ 下找 <class>.pcd（big_rock.pcd / small_rock.pcd）
     class_models: ""

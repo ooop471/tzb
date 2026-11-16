@@ -217,11 +217,11 @@ class YoloDetectorNode(Node):
         self.declare_parameter('target_lock_min_iou', 0.10)
         self.declare_parameter('target_lock_max_center_px', 40.0)
         # Class policy. `target_classes` is an ordered priority list: the first class present in a
-        # frame wins (blue block > big rock > small rock by default). Matching is normalised
+        # frame wins (blue block > big rock by default). Matching is normalised
         # (case, '_' / '-' / whitespace), so 'blue_block' and 'blue block' are equivalent.
         # `target_class` is a legacy single-class override (non-empty wins over the list).
         self.declare_parameter('target_class', '')
-        self.declare_parameter('target_classes', 'blue_block,big_rock,small_rock')
+        self.declare_parameter('target_classes', 'blue_block,big_rock')
         self.declare_parameter('ignored_classes', 'd')
         self.declare_parameter('status_topic', 'yolo/status')
         self.declare_parameter('status_period_sec', 1.0)
@@ -644,6 +644,12 @@ class YoloDetectorNode(Node):
                 self._stable_haomu_area(best, 0)
                 self._update_target_lock(best, class_norm, now)
                 return best
+            # The locked box is momentarily missing/misdetected.  Do NOT
+            # switch to the other block inside the hold window; publish no
+            # selection for this frame and wait for the locked target to
+            # come back.  Otherwise one dropped frame is enough to hand the
+            # lock to the other block and reset tzb_catch continuity.
+            return None
 
         if len(detections) == 1:
             self._stable_haomu_area(detections[0], 0)

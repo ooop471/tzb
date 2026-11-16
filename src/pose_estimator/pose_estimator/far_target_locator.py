@@ -76,7 +76,7 @@ class Locator(Node):
         self.min_conf = float(self.declare_parameter("min_confidence", 0.15).value)
         # Class priority (highest first) and permanently ignored classes ('d' is a bad label).
         raw_classes = self.declare_parameter(
-            "target_classes", ['blue_block', 'big_rock', 'small_rock']).value
+            "target_classes", ['blue_block']).value
         if isinstance(raw_classes, str):
             raw_classes = [raw_classes]
         self.ignored_classes = {

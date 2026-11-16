@@ -18,11 +18,11 @@
     tzb.grasp_ground_z_max_deviation: 0.12
     # ---- 按类别抓取参数（JSON；键为归一化类名，缺省字段回落到上面的 tzb.*）----
     # d 是错误标注，推理侧已永久排除；石头参数需实测后填，例如：
-    #   tzb.class_profiles: '{"big rock": {"position_only_target": true}, "small rock": {"position_only_target": true}}'
+    #   tzb.class_profiles: '{"big rock": {"position_only_target": true}}'
     tzb.default_target_class: "blue_block"
-    # 1=blue_block, 2=big_rock, 3=small_rock (keys are normalised class names).
+    # 1=blue_block, 2=big_rock (keys are normalised class names).
     # 11-15 TEMP: blue block uses closed mode 2 (was 1).
-    tzb.class_profiles: '{"blue block": {"gripper_close_level": 1}, "big rock": {"gripper_close_level": 2}, "small rock": {"gripper_close_level": 3}}'
+    tzb.class_profiles: '{"blue block": {"gripper_close_level": 1}, "big rock": {"gripper_close_level": 2}}'
     tzb.target_yaw_symmetry_deg: 90.0
     # tool x-axis yaw is ~180 deg at J6=0 (observe pose FK): pick the cube-equivalent yaw near radial+180 so J6 stays near 0
     # (radial reference gave J6 2.4-2.9 rad; real J6 stopped at 2.57 on 11-06 21:40).

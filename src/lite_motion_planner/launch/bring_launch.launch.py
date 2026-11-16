@@ -151,8 +151,8 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('use_external_serial', default_value='false'),
         DeclareLaunchArgument('model_path', default_value='/home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model'),
-        DeclareLaunchArgument('target_class', default_value=''),
-        DeclareLaunchArgument('target_classes', default_value='blue_block,big_rock,small_rock'),
+        DeclareLaunchArgument('target_class', default_value='blue_block'),
+        DeclareLaunchArgument('target_classes', default_value='blue_block'),
         DeclareLaunchArgument('ignored_classes', default_value='d'),
         nuc_arg,
         robot_model_arg,
