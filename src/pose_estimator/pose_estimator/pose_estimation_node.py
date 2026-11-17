@@ -130,7 +130,7 @@ def _target_class_filter(target_classes, ignored_classes=()):
     return [c for c in targets if c not in ignored], ignored
 
 
-def extract_bbox_from_detection(det_msg, target_classes, det_type, ignored_classes=()):
+def extract_bbox_from_detection(det_msg, target_classes, det_type, ignored_classes=(), all_candidates=False):
     """从检测消息提取 bbox → (x1, y1, x2, y2)，并返回命中的类别名。
 
     ``target_classes`` 是优先级列表（'' / 空列表表示接受任意类）；返回
@@ -178,6 +178,8 @@ def extract_bbox_from_detection(det_msg, target_classes, det_type, ignored_class
                                    int(det.x + det.width), int(det.y + det.height)),
                   det.class_name)
 
+    if all_candidates:
+        return [(c[2], -c[1], c[3]) for c in sorted(candidates, key=lambda c:(c[0],c[1]))]
     if not candidates:
         return None, 0.0, ''
     _prio, neg_score, bbox, cname = min(candidates, key=lambda c: (c[0], c[1]))
@@ -784,6 +786,7 @@ class PoseEstimationNode(Node):
         classes = [self._locked_target_class] if self._locked_target_class else self._target_classes_norm
         bbox, score, det_class = extract_bbox_from_detection(
             msg, classes, _DET_TYPE, self._ignored_classes_norm)
+
         now_mono = time.monotonic()
         stamp_sec = stamp_to_sec(msg.header.stamp) if hasattr(msg, 'header') else 0.0
 
@@ -863,7 +866,8 @@ class PoseEstimationNode(Node):
 
     def _cb_mission_state(self, msg):
         try:
-            state = json.loads(msg.data).get('state')
+            report = json.loads(msg.data)
+            state = report.get('state')
         except Exception:
             return
         if not isinstance(state, str) or not state:

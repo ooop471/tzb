@@ -1,4 +1,5 @@
 #include "lite_motion_planner/robot_model.hpp"
+#include "lite_motion_planner/robust_pose_lock.hpp"
 
 #include <lite_motion_msgs/srv/add_scene_object.hpp>
 #include <lite_motion_msgs/srv/attach_scene_object.hpp>
@@ -248,11 +249,20 @@ public:
     max_target_attempts_ = std::max(
       0,
       static_cast<int>(this->declare_parameter<int>("tzb.max_target_attempts", 5)));
+    chassis_adjustment_enabled_ = this->declare_parameter<bool>("tzb.chassis_adjustment_enabled", false);
+    prepare_only_ = this->declare_parameter<bool>("tzb.prepare_only", false);
+    chassis_near_x_ = this->declare_parameter<double>("tzb.chassis_near_x", .43);
+    chassis_far_x_ = this->declare_parameter<double>("tzb.chassis_far_x", .70);
+    if (!std::isfinite(chassis_near_x_) || !std::isfinite(chassis_far_x_) ||
+        chassis_near_x_ <= 0 || chassis_far_x_ <= chassis_near_x_)
+      throw std::invalid_argument("Invalid precise chassis target distance");
+    chassis_adjustment_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>(
+      "/tzb_catch/chassis_adjustment", rclcpp::QoS(10).reliable());
     pose_estimator_continuous_required_sec_ = std::max(
       0.0,
-      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 2.0));
+      this->declare_parameter<double>("tzb.pose_estimator_continuous_required_sec", 1.0));
     target_lock_max_spread_m_ = this->declare_parameter<double>(
-      "tzb.target_lock_max_spread_m", 0.01);
+      "tzb.target_lock_max_spread_m", 0.02);
     pose_estimator_continuous_max_gap_sec_ = std::max(
       1e-3,
       this->declare_parameter<double>("tzb.pose_estimator_continuous_max_gap_sec", 0.75));
@@ -687,9 +697,11 @@ public:
           onArmState(*msg);
         });
     }
-    if (task_start_gate_enabled_) {
+    if (!mission_controlled_) {
       task_result_pub_ = this->create_publisher<std_msgs::msg::Int8>(
         task_result_topic_, rclcpp::QoS(10).reliable());
+    }
+    if (task_start_gate_enabled_) {
       task_start_sub_ = this->create_subscription<std_msgs::msg::Int8>(
         task_start_topic_,
         rclcpp::QoS(10).reliable(),
@@ -1166,6 +1178,19 @@ private:
       return true;
     }
     const bool object_held = gripper_closed_on_object_.load();
+    // A normally completed task already commanded and confirmed pre_ini.
+    // Reuse its continuous measured arrival, never just a single sample.
+    if (!object_held && standalone_task_succeeded_.load()) {
+      std::lock_guard<std::mutex> lock(arm_state_mutex_);
+      const auto now = std::chrono::steady_clock::now();
+      if (ready_feedback_samples_ >= 3 && ready_feedback_since_ &&
+          std::chrono::duration<double>(now-latest_arm_state_time_).count() <= arm_state_max_age_sec_ &&
+          std::chrono::duration<double>(latest_arm_state_time_-*ready_feedback_since_).count() >=
+            std::max(.25, arm_motion_stable_duration_sec_)) {
+        RCLCPP_INFO(get_logger(), "[SHUTDOWN][HOME][SKIPPED] reason=completed_and_stably_home; no duplicate arm command");
+        return true;
+      }
+    }
     if (object_held && shutdown_with_object_ == "hold") {
       publishMeasuredHold("shutdown_object_hold");
       RCLCPP_ERROR(this->get_logger(), "[SHUTDOWN][HOME][SKIPPED] reason=object_in_gripper (tzb.shutdown_with_object=hold; arm held at its measured pose, object still in the jaws)");
@@ -1774,18 +1799,7 @@ private:
       geometry_msgs::msg::PoseStamped out=correctedTargetInPlanningFrame(camera,in);
       if(!std::isfinite(out.pose.position.x)||!std::isfinite(out.pose.position.y)||!std::isfinite(out.pose.position.z)) return;
       if(precise) {
-        mission_centers_.push_back({t,Eigen::Vector3d(out.pose.position.x,out.pose.position.y,out.pose.position.z)});
-        while(mission_centers_.size()>30) mission_centers_.pop_front();
         navigation_center_pub_->publish(out);
-        // DDS does not order separate topics. A raw grasp pose may arrive before
-        // its matching center; defer that frame until its identity can be checked.
-        for(auto it=mission_pending_poses_.begin();it!=mission_pending_poses_.end();++it)
-          if(std::abs(rclcpp::Time(it->header.stamp).seconds()-t)<0.001) {
-            const auto pending=*it;
-            mission_pending_poses_.erase(it);
-            onPoseEstimatorTarget(pending);
-            break;
-          }
       } else navigation_hint_pub_->publish(out);
     } catch(const std::exception &e) {
       RCLCPP_WARN_THROTTLE(get_logger(),*get_clock(),3000,"Navigation target transform rejected: %s",e.what());
@@ -2132,6 +2146,13 @@ private:
 
     {
       std::lock_guard<std::mutex> lock(arm_state_mutex_);
+      const auto received = std::chrono::steady_clock::now();
+      const bool continuous = have_complete_arm_state_ &&
+        std::chrono::duration<double>(received-latest_arm_state_time_).count() <= std::min(.2, arm_state_max_age_sec_);
+      if (maxNormalizedJointError(positions, pre_initial_arm_positions_) <= 1.0) {
+        if (!continuous || !ready_feedback_since_) {ready_feedback_since_=received;ready_feedback_samples_=0;}
+        ++ready_feedback_samples_;
+      } else {ready_feedback_since_.reset();ready_feedback_samples_=0;}
       latest_measured_arm_positions_ = positions;
       if(mission_controlled_) {
         const double t=rclcpp::Time(msg.header.stamp).seconds();
@@ -2160,38 +2181,11 @@ private:
 
   void onPoseEstimatorTarget(const geometry_msgs::msg::PoseStamped& msg) {
     if(mission_controlled_) {
-      std::vector<double> expected;
-      {
-        std::lock_guard<std::mutex> lock(mission_mutex_);
-        if(mission_phase_!="BUSY" || !missionOperationUsesVision(mission_operation_)) return;
-        expected=mission_expected_center_;
-      }
-      // 11-14: association gate: only reject a pose whose stamp is KNOWN in mission_centers_
-      // but whose xyz disagrees with expected_center (bad navigation-chain match).
-      // A pose whose stamp is not in mission_centers_ (direct grasp / T5 / no nav chain)
-      // is not rejected here - it falls through to stream detection.
-      {
-        bool same=false, known=false;
-        const double t=rclcpp::Time(msg.header.stamp).seconds();
-        if(expected.size()==3) for(const auto &center:mission_centers_) {
-          if(std::abs(center.first-t)<0.001) {
-            known=true;
-            if((center.second-Eigen::Vector3d(expected[0],expected[1],expected[2])).norm()<0.10) same=true;
-          }
-        }
-        if(known && !same) {
-          // stamp matched the nav-chain but xyz disagreed: reset stream and skip
-          std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
-          resetPoseEstimatorContinuityLocked();
-          return;
-        }
-        // unknown stamp (no nav chain) OR known+same: fall through to stream detection
-        if(!known && now().seconds()-t>=-0.15 && now().seconds()-t<=0.6) {
-          mission_pending_poses_.push_back(msg);
-          while(mission_pending_poses_.size()>30) mission_pending_poses_.pop_front();
-        }
-      }
+      std::lock_guard<std::mutex> lock(mission_mutex_);
+      if(mission_phase_!="BUSY" || !missionOperationUsesVision(mission_operation_)) return;
     }
+    // Once stopped, acquire the precise pose exactly as standalone grasping.
+    // The coarse navigation target does not validate/reset this pose stream.
     const auto now = std::chrono::steady_clock::now();
     {
       std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
@@ -2205,7 +2199,6 @@ private:
         "[GRASP][target][REJECT] nonfinite_position_or_invalid_quaternion frame=%s",
         msg.header.frame_id.c_str());
       std::lock_guard<std::mutex> lock(pose_estimator_mutex_);
-      resetPoseEstimatorContinuityLocked();
       return;
     }
 
@@ -2229,6 +2222,11 @@ private:
       }
       pose_estimator_last_msg_time_ = now;
       pose_lock_window_.push_back(msg);
+      // Rolling window: retain at least five samples; a bad frame does not
+      // restart a full acquisition cycle.
+      const double newest=rclcpp::Time(msg.header.stamp).seconds();
+      while(pose_lock_window_.size()>5 && newest-rclcpp::Time(pose_lock_window_.front().header.stamp).seconds()>
+            std::max(1.0,pose_estimator_continuous_required_sec_))pose_lock_window_.erase(pose_lock_window_.begin());
       if (pose_lock_window_.size() > 240) {
         pose_lock_window_.erase(pose_lock_window_.begin());
       }
@@ -2240,62 +2238,22 @@ private:
       }
 
       geometry_msgs::msg::PoseStamped locked = msg;
-      if (!pose_lock_window_.empty()) {
-        std::vector<double> xs, ys, zs;
-        xs.reserve(pose_lock_window_.size());
-        ys.reserve(pose_lock_window_.size());
-        zs.reserve(pose_lock_window_.size());
-        for (const auto & sample : pose_lock_window_) {
-          xs.push_back(sample.pose.position.x);
-          ys.push_back(sample.pose.position.y);
-          zs.push_back(sample.pose.position.z);
-        }
-        auto median_of = [](std::vector<double> & values) {
-            std::sort(values.begin(), values.end());
-            return values[values.size() / 2];
-          };
-        locked.pose.position.x = median_of(xs);
-        locked.pose.position.y = median_of(ys);
-        locked.pose.position.z = median_of(zs);
-        const double mx = locked.pose.position.x;
-        const double my = locked.pose.position.y;
-        const double mz = locked.pose.position.z;
-        double best_dist = std::numeric_limits<double>::infinity();
-        for (const auto & sample : pose_lock_window_) {
-          const double dx = sample.pose.position.x - mx;
-          const double dy = sample.pose.position.y - my;
-          const double dz = sample.pose.position.z - mz;
-          const double dist = dx * dx + dy * dy + dz * dz;
-          if (dist < best_dist) {
-            best_dist = dist;
-            locked.pose.orientation = sample.pose.orientation;
-          }
-        }
-        double max_dev = 0.0;
-        for (const auto & sample : pose_lock_window_) {
-          const double dx = sample.pose.position.x - mx;
-          const double dy = sample.pose.position.y - my;
-          const double dz = sample.pose.position.z - mz;
-          max_dev = std::max(max_dev, std::sqrt(dx * dx + dy * dy + dz * dz));
-        }
-        RCLCPP_INFO(
-          this->get_logger(),
-          "[GRASP][target][AVERAGED] samples=%zu median_xyz=(%.4f, %.4f, %.4f) max_dev=%.4fm",
-          pose_lock_window_.size(),
-          locked.pose.position.x, locked.pose.position.y, locked.pose.position.z,
-          max_dev);
-        if (target_lock_max_spread_m_ > 0.0 &&
-            max_dev > target_lock_max_spread_m_ && pose_lock_retry_count_ < 5) {
-          ++pose_lock_retry_count_;
-          RCLCPP_WARN(
-            this->get_logger(),
-            "[GRASP][target][UNSTABLE] max_dev=%.4fm > %.4fm; re-acquiring (%d/5).",
-            max_dev, target_lock_max_spread_m_, pose_lock_retry_count_);
-          pose_lock_window_.clear();
-          pose_estimator_stream_start_time_ = now;
-          return;
-        }
+      std::vector<std::array<double,3>> positions;
+      for(const auto& sample:pose_lock_window_)positions.push_back({sample.pose.position.x,sample.pose.position.y,sample.pose.position.z});
+      const auto consensus=lite_motion_planner::pose_lock_consensus(positions,target_lock_max_spread_m_);
+      if(!consensus.stable) {
+        RCLCPP_INFO_THROTTLE(get_logger(),*get_clock(),1000,
+          "[GRASP][target][STABILIZING] samples=%zu inliers=%zu; keeping rolling window",positions.size(),consensus.inliers.size());
+        return;
       }
+      locked.pose.position.x=consensus.center[0];locked.pose.position.y=consensus.center[1];locked.pose.position.z=consensus.center[2];
+      double best_dist=std::numeric_limits<double>::infinity();
+      for(auto i:consensus.inliers) {
+        const auto& sample=pose_lock_window_[i];
+        const double d=std::pow(sample.pose.position.x-consensus.center[0],2)+std::pow(sample.pose.position.y-consensus.center[1],2)+std::pow(sample.pose.position.z-consensus.center[2],2);
+        if(d<best_dist){best_dist=d;locked.pose.orientation=sample.pose.orientation;}
+      }
+      RCLCPP_INFO(get_logger(),"[GRASP][target][CONSENSUS] samples=%zu inliers=%zu max_inlier_deviation=%.4fm",positions.size(),consensus.inliers.size(),consensus.max_deviation);
       latest_pose_estimator_target_ = locked;
       have_pose_estimator_target_ = true;
       RCLCPP_INFO(
@@ -2722,7 +2680,7 @@ private:
 
     if (std::isfinite(grasp_ground_z_)) {
       const double visual_z = out.pose.position.z;
-      if (std::abs(visual_z - grasp_ground_z_) > grasp_ground_z_max_deviation_) {
+      if (!lite_motion_planner::grasp_height_acceptable(visual_z,grasp_ground_z_,grasp_ground_z_max_deviation_,grasp_use_visual_z_)) {
         RCLCPP_ERROR(this->get_logger(),
           "[GRASP][target][GROUND_Z][REJECT] visual z=%.4f is %.3f m from tzb.grasp_ground_z=%.4f (max %.3f); not grasping an inconsistent target.",
           visual_z, visual_z - grasp_ground_z_, grasp_ground_z_, grasp_ground_z_max_deviation_);
@@ -5203,6 +5161,7 @@ private:
   }
 
   bool runSequenceOnce() {
+    chassis_adjustment_requested_ = false;
     applyTargetClassProfile();
     RCLCPP_INFO(this->get_logger(), "[GRASP][task][BEGIN] target_source=%s arm_command=%s",
       use_yaml_e3_target_ ? "yaml" : pose_estimator_target_topic_.c_str(),
@@ -5286,12 +5245,27 @@ private:
 
         calib_locked_pose_ = locked_pose;
         if (!resolveE3TargetPose(e3_target_world_pose_)) {
-          RCLCPP_WARN(
-            this->get_logger(),
-            "Could not transform the pose estimator target; retrying pose acquisition.");
-          continue;
+          RCLCPP_WARN(this->get_logger(),"Precise target transform/height invalid; ending acquisition instead of retrying the same result.");
+          return false;
         }
         e3_target_world_pose_.header.frame_id = planning_frame_;
+        // Check the same corrected target used by the arm BEFORE hover/grasp
+        // motion. Return control for safe folding and chassis repositioning.
+        if (chassis_adjustment_enabled_ &&
+            (e3_target_world_pose_.pose.position.x < chassis_near_x_-1e-9 ||
+             e3_target_world_pose_.pose.position.x > chassis_far_x_+1e-9)) {
+          if (planning_frame_ != "base_link") {
+            RCLCPP_ERROR(get_logger(), "Precise chassis adjustment requires base_link planning frame");
+            return false;
+          }
+          auto measured=e3_target_world_pose_;
+          measured.header.stamp=this->now();
+          chassis_adjustment_pub_->publish(measured);
+          chassis_adjustment_requested_=true;
+          RCLCPP_INFO(get_logger(), "[GRASP][REPOSITION] precise_x=%.3f allowed_x=[%.3f,%.3f]; fold before chassis motion",
+            measured.pose.position.x,chassis_near_x_,chassis_far_x_);
+          return false;
+        }
         publishReferenceMarkers("resolved_tcp_target");
         publishE3Marker();
 
@@ -5616,7 +5590,13 @@ private:
     return false;
   }
 
+  std::atomic_bool standalone_task_succeeded_{false};
+  // Protected by arm_state_mutex_. A stale gap or out-of-band joint resets it.
+  std::optional<std::chrono::steady_clock::time_point> ready_feedback_since_;
+  size_t ready_feedback_samples_{0};
+
   void publishTaskResult(bool success) {
+    standalone_task_succeeded_.store(success);
     if (success) {
       RCLCPP_INFO(this->get_logger(), "[GRASP][task][END] result=SUCCESS result_publisher=%s",
         task_result_pub_ ? "enabled" : "disabled");
@@ -5629,7 +5609,7 @@ private:
       return;
     }
     std_msgs::msg::Int8 msg;
-    msg.data = success ? 1 : -1;
+    msg.data = success ? 1 : chassis_adjustment_requested_ ? -2 : -1;
     task_result_pub_->publish(msg);
     RCLCPP_INFO(
       this->get_logger(),
@@ -5639,6 +5619,7 @@ private:
   }
 
   void runSequence() {
+    standalone_task_succeeded_.store(false);
     if (mission_controlled_) { runMissionSequence(); return; }
     if (!waitForService<lite_motion_msgs::srv::PlanArmMotion>(
           plan_client_, "plan_arm_motion") ||
@@ -5652,6 +5633,14 @@ private:
       return;
     }
 
+    if (prepare_only_) {
+      setPhase("prepare");
+      const bool success=readInitialArmJointPositions(arm_state_) &&
+        executeArmStagedYawPlan(pre_initial_arm_positions_,"mission_prepare_exploration_pose");
+      publishTaskResult(success);
+      setPhase("waiting");
+      return;
+    }
     if (sentry_mode_) {
       const bool success = runSentrySequence();
       record_tcp_trajectory_.store(false);
@@ -6079,6 +6068,10 @@ private:
   std::string pose_estimator_target_topic_{"/pose_estimator/object_pose"};
   double pose_estimator_wait_timeout_sec_{3.0};
   int max_target_attempts_{5};
+  bool chassis_adjustment_enabled_{false},chassis_adjustment_requested_{false};
+  bool prepare_only_{false};
+  double chassis_near_x_{.43},chassis_far_x_{.70};
+  rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr chassis_adjustment_pub_;
   double pose_estimator_continuous_required_sec_{2.0};
   double pose_estimator_continuous_max_gap_sec_{0.75};
   std::string pose_estimator_reference_frame_;
@@ -6293,8 +6286,6 @@ private:
   std::mutex mission_mutex_;
   std::condition_variable mission_cv_;
   std::deque<std::pair<double,std::vector<double>>> mission_joint_history_;
-  std::deque<std::pair<double,Eigen::Vector3d>> mission_centers_;
-  std::deque<geometry_msgs::msg::PoseStamped> mission_pending_poses_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr mission_state_pub_;
   rclcpp::Subscription<std_msgs::msg::String>::SharedPtr mission_command_sub_;
   rclcpp::TimerBase::SharedPtr mission_state_timer_;

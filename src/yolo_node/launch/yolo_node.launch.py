@@ -40,7 +40,7 @@ def generate_launch_description():
     
     conf_threshold_arg = DeclareLaunchArgument(
         'conf_threshold',
-        default_value='0.2',
+        default_value='0.6',
         description='Confidence threshold for detections'
     )
     
@@ -52,7 +52,7 @@ def generate_launch_description():
 
     publish_conf_threshold_arg = DeclareLaunchArgument(
         'publish_conf_threshold',
-        default_value='0.2',
+        default_value='0.6',
         description='Only publish when max confidence is above this threshold'
     )
 

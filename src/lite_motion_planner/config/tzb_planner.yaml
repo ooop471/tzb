@@ -109,8 +109,8 @@
     tzb.pose_estimator_reference_frame: "camera_link"
     tzb.apply_reference_transform_to_frozen_frame: true
     tzb.pose_estimator_wait_timeout_sec: 15.0
-    tzb.pose_estimator_continuous_required_sec: 4.5  # 11-14: publish ~5s/frame; max_gap=7.0 keeps stream alive; 4.5s<5s so 2nd msg locks (not 1st mid-movement)
-    tzb.pose_estimator_continuous_max_gap_sec: 7.0  # 11-14: PUBLISHED ~5s/frame; 2.5 still reset stream; 7.0 passes
+    tzb.pose_estimator_continuous_required_sec: 1.0
+    tzb.pose_estimator_continuous_max_gap_sec: 0.75
     tzb.pose_estimator_reference_transform_matrix: [  # 11-07 board hand-eye refit with J2/J5 zero correction (fit_z25.json, 2.0 px)
       +0.999608, +0.006241, -0.027284, +0.022188,
       -0.020709, +0.820694, -0.570993, +0.058083,
@@ -302,3 +302,4 @@
     tzb.arm2nav_state_topic: "/arm2nav"
     tzb.arm2nav_arm_state_topic: "/arm2nav/from_arm"
     tzb.sentry_trigger_pulse_sec: 0.2
+    tzb.target_lock_max_spread_m: 0.02

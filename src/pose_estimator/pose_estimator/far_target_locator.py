@@ -27,6 +27,8 @@ from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import String
 from rclpy.serialization import deserialize_message
 import pinocchio as pin
+import tf2_ros
+from pose_estimator.target_identity import LockedTargetIdentity
 
 from ament_index_python.packages import get_package_share_directory as _share
 URDF = _share("tzb_description") + "/urdf/tzb_description.urdf"
@@ -92,6 +94,9 @@ class Locator(Node):
         self._sel_class = ''
         self._last_hint_class = ''
         self._locked_class = ''
+        self._target_identity = LockedTargetIdentity()
+        self._identity_tf = tf2_ros.Buffer()
+        self._identity_listener = tf2_ros.TransformListener(self._identity_tf, self)
         self.pub_target_class = self.create_publisher(
             String, "/mission/target_class",
             QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL))
@@ -172,6 +177,7 @@ class Locator(Node):
             return
         if not isinstance(state, dict):
             return
+        self._target_identity.update(state)
         locked = (self._locked_class or self._last_hint_class) if state.get('target_position_locked', False) else ''
         if locked == self._locked_class:
             return
@@ -187,6 +193,7 @@ class Locator(Node):
                                   'max_target_range': self.max_target_range}
         if time.time() - self.dets_t < 0.6 and self.dets:
             candidates = []
+            expected = self._target_identity.expected(self._identity_tf, "base_link")
             for d in self.dets:
                 cls = _norm(d[5])
                 if (not cls or cls in self.ignored_classes or
@@ -212,14 +219,21 @@ class Locator(Node):
                 ratio = max(bw, bh)/expected_px
                 if not self.size_ratio[0] <= ratio <= self.size_ratio[1]:
                     continue
-                candidates.append((camera_range, -d[4], cls, pix, d))
+                identity_distance = self._target_identity.distance(o + scale * dv, expected)
+                if identity_distance is None:
+                    continue
+                priority = identity_distance if self._target_identity.active else camera_range
+                candidates.append((priority, camera_range, -d[4], cls, pix, d))
             if candidates:
-                camera_range, _, cls, pix, d = min(candidates, key=lambda v: (v[0], v[1]))
+                _, camera_range, _, cls, pix, d = min(candidates, key=lambda v: (v[0], v[1], v[2]))
                 self._sel_class = cls
-                self._selection_status.update(selection_reason='nearest_valid_target',
+                self._selection_status.update(selection_reason=('locked_original_target' if self._target_identity.active else 'nearest_valid_target'),
                     selected_range=round(camera_range, 3), eligible=len(candidates))
                 return pix, tuple(d[:4]), "yolo %s %.2f" % (cls, d[4])
             self._selection_status['selection_reason'] = 'no_candidate_in_range_or_valid_geometry'
+        if self._target_identity.active:
+            self._selection_status['selection_reason'] = 'locked_target_not_visible'
+            return None, None, 'locked_target_not_visible'
         # HSV fallback is blue-specific: only when blue_block is an allowed target.
         if (self._locked_class and self._locked_class != 'blue block') or (
                 self.class_priority and 'blue block' not in self.class_priority):
