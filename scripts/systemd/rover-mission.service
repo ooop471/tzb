@@ -1,0 +1,22 @@
+[Unit]
+Description=Rover full mission (sensors, navigation, grasp and unloading)
+
+[Service]
+Type=simple
+WorkingDirectory=%h/nav_explore_ws
+Environment=PYTHONUNBUFFERED=1
+ExecStartPre=/usr/bin/python3 %h/nav_explore_ws/scripts/wait_mission_devices.py --timeout 90
+ExecStartPre=/usr/bin/bash %h/nav_explore_ws/scripts/start_mission.bash --check
+ExecStart=/usr/bin/bash %h/nav_explore_ws/scripts/start_mission.bash
+# The supervisor owns shutdown order; keep serial feedback alive for arm homing.
+KillSignal=SIGINT
+KillMode=mixed
+TimeoutStartSec=180
+TimeoutStopSec=180
+Restart=no
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=rover-mission
+
+[Install]
+WantedBy=default.target

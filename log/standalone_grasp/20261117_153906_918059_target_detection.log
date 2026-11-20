@@ -1,0 +1,33 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-15-39-07-106824-tzb-NUC14RVS-B-45250
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [45252]
+[INFO] [far_target_locator-2]: process started with pid [45254]
+[python3-1] [INFO] [1794901148.479034221] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794901148.482079520] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794901148.482624695] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794901148.482838313] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794901148.485246825] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794901149.056056587] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794901149.056319663] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794901149.059091756] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794901149.060208828] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794901149.060699262] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794901149.060858406] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794901149.061000287] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794901149.061134915] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794901149.061492837] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794901149.119578637] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.661
+[python3-1] [INFO] [1794901149.119859760] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794901149.120114125] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=1 infer=20 post=1ms | det=1 max_conf=0.66 publish=True
+[python3-1] [INFO] [1794901149.120313502] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[python3-1] [INFO] [1794901149.151681955] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794901149.151914351] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794901149.218112440] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794901149.284960603] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 45254]
+[INFO] [python3-1]: process has finished cleanly [pid 45252]

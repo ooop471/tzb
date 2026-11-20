@@ -1,0 +1,43 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-02-06-57-046293-tzb-NUC14RVS-B-4393
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4410]
+[INFO] [far_target_locator-2]: process started with pid [4412]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1504, in <module>
+[python3-1]     from . import masked
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/__init__.py", line 1, in <module>
+[python3-1]     from .maskedtensor.core import is_masked_tensor, MaskedTensor
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/maskedtensor/__init__.py", line 8, in <module>
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[python3-1]     from .unary import _apply_native_unary, _is_native_unary
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/maskedtensor/unary.py", line 170, in <module>
+[python3-1]     NATIVE_INPLACE_UNARY_MAP = {
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/maskedtensor/unary.py", line 171, in <dictcomp>
+[python3-1]     getattr(torch.ops.aten, name): _torch_inplace_unary(name)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_ops.py", line 757, in __getattr__
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 48, in __init__
+[far_target_locator-2]     super().__init__("far_target_locator")
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 228, in __init__
+[far_target_locator-2]     self._parameter_service = ParameterService(self)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/parameter_service.py", line 55, in __init__
+[far_target_locator-2]     node.create_service(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1468, in create_service
+[python3-1]     op, overload_names = torch._C._jit_get_operation(qualified_op_name)
+[python3-1] KeyboardInterrupt
+[far_target_locator-2]     service_impl = _rclpy.Service(
+[far_target_locator-2] KeyboardInterrupt
+[ERROR] [far_target_locator-2]: process has died [pid 4412, exit code -2, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_l20b_4rm'].
+[ERROR] [python3-1]: process has died [pid 4410, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_v18dary2'].

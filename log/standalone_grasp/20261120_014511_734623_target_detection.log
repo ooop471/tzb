@@ -1,0 +1,71 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-20-01-45-11-977571-tzb-NUC14RVS-B-5808
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [5809]
+[INFO] [far_target_locator-2]: process started with pid [5811]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 25, in importlib_load_entry_point
+[far_target_locator-2]     return next(matches).load()
+[far_target_locator-2]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 171, in load
+[far_target_locator-2]     module = import_module(match.group('module'))
+[far_target_locator-2]   File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+[far_target_locator-2]     return _bootstrap._gcd_import(name[level:], package, level)
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[far_target_locator-2]   File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 23, in <module>
+[far_target_locator-2]     from rclpy.node import Node
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 75, in <module>
+[far_target_locator-2]     from rclpy.time_source import TimeSource
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/time_source.py", line 24, in <module>
+[far_target_locator-2]     import rosgraph_msgs.msg
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rosgraph_msgs/msg/__init__.py", line 1, in <module>
+[far_target_locator-2]     from rosgraph_msgs.msg._action import Action  # noqa: F401
+[far_target_locator-2] KeyboardInterrupt
+[ERROR] [far_target_locator-2]: process has died [pid 5811, exit code -2, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_272rsbav'].
+[python3-1] [INFO] [1795110313.008272843] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1795110313.009625703] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1795110313.010088473] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1795110313.010355492] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1795110313.012223597] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1795110313.495666572] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1795110313.495896947] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1795110313.498737486] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1795110313.500662799] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1795110313.501358161] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1795110313.501664930] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1795110313.501948463] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1795110313.502209501] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1795110313.502791934] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1795110313.875469544] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.895
+[python3-1] [INFO] [1795110313.875700464] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795110313.875960743] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=1 infer=17 post=1ms | det=1 max_conf=0.90 publish=True
+[python3-1] [INFO] [1795110313.876164307] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[ERROR] [python3-1]: process[python3-1] failed to terminate '5' seconds after receiving 'SIGINT', escalating to 'SIGTERM'
+[INFO] [python3-1]: sending signal 'SIGTERM' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1062, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1049, in main
+[python3-1]     rclpy.spin(node)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[python3-1]     executor.spin_once()
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+[python3-1]     self._spin_once_impl(timeout_sec)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 797, in _spin_once_impl
+[python3-1]     handler, entity, node = self.wait_for_ready_callbacks(timeout_sec=timeout_sec)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 780, in wait_for_ready_callbacks
+[python3-1]     return next(self._cb_iter)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 681, in _wait_for_ready_callbacks
+[python3-1]     raise ExternalShutdownException()
+[python3-1] rclpy.executors.ExternalShutdownException
+[ERROR] [python3-1]: process has died [pid 5809, exit code 1, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_cmd0dueg'].

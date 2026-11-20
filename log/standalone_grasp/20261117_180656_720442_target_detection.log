@@ -1,0 +1,172 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-18-06-57-017406-tzb-NUC14RVS-B-12449
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [12450]
+[INFO] [far_target_locator-2]: process started with pid [12452]
+[python3-1] [INFO] [1794910018.143536519] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794910018.144940908] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794910018.145376079] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794910018.145555571] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794910018.147277782] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794910018.700401506] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794910018.700636077] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794910018.703561670] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794910018.704897657] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794910018.705728442] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794910018.706030546] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794910018.706314741] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794910018.706599916] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794910018.707082633] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794910018.769753527] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=1 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910018.770004996] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> NO_DETECTION
+[python3-1] [INFO] [1794910023.771109819] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910028.841996313] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910033.850329393] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910038.857158146] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910040.930081163] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910040.957890515] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910041.960763827] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.637
+[python3-1] [INFO] [1794910041.960988096] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794910041.961376739] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910042.059690908] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794910042.059942928] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910042.095066847] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910043.863673365] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.82 publish=True
+[python3-1] [INFO] [1794910045.128973474] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910045.197231034] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910045.228235475] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910045.329380604] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910045.364241645] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910045.560871547] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910045.595613522] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910045.797168461] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910045.829494520] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910046.062221234] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910046.132356122] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910047.597476550] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910047.631116581] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910047.664907470] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910047.832274533] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910047.932539254] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.844
+[python3-1] [INFO] [1794910047.932752891] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794910047.933048965] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910047.966865485] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794910047.967112757] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910048.400834625] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910048.903812932] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.86 publish=True
+[python3-1] [INFO] [1794910049.099058145] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910049.167777003] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910049.434733141] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910049.472150021] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910049.501773623] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910049.539840237] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910049.571644323] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910049.939495653] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910050.006951212] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910050.404879203] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910050.942862342] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[python3-1] [INFO] [1794910052.104911087] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910053.104578043] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.706
+[python3-1] [INFO] [1794910053.104799378] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794910053.105084851] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910053.138594915] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794910053.138843933] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910053.374167230] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794910053.440316916] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794910053.904834640] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910055.343278496] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910055.610883814] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910058.980304673] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910063.984890242] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910068.991655621] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910073.996181091] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910079.001723383] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910084.007538871] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910089.014238018] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910094.019641797] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910099.094551757] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910104.096794259] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910109.104022751] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910114.112961498] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=1 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910119.116300286] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910124.121451913] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910129.132770308] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=24 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910134.174298719] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=24 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910139.279263754] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910144.279738156] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910149.454573400] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=1 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910154.461056856] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910158.297687884] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794910158.336878402] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794910159.465859979] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910164.473507132] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910169.478640709] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910174.484615797] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910179.492022773] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910184.499845254] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910189.504621771] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910194.678275832] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910199.917725056] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910204.923380414] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910209.927820217] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910214.935667647] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910219.942546203] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910224.947157935] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910230.156121261] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910235.161840152] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910240.169624030] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=24 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910245.170851620] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910250.181549281] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910255.251707935] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910260.259060333] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910265.263765880] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910270.271865475] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910275.273787038] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910280.283871368] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910285.355130556] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910290.360529439] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910295.603623534] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910300.840785597] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910305.842915608] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910310.851790016] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910316.222638856] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910321.229566821] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910326.340740535] [yolo_node]: [GRASP][detection][STATUS] total=25ms | queue=0 convert=0 infer=25 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910331.374312802] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910336.419313105] [yolo_node]: [GRASP][detection][STATUS] total=25ms | queue=0 convert=0 infer=24 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910341.587077618] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910346.629055917] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910351.633439966] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910356.639629144] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910361.646016156] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910366.651319175] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=1 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910371.687244779] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=16 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910376.694761990] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910381.702252048] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910386.705833999] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910391.713400069] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910396.717589572] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910401.825033667] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910406.835720203] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910411.840107366] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910416.842600546] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910421.849331485] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910426.854882331] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910431.897602328] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910437.066622619] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910442.073788723] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910447.079100943] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910452.118852411] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910457.124563454] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910462.494600885] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910467.602332319] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=1 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910472.606920345] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=1 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910477.621384989] [yolo_node]: [GRASP][detection][STATUS] total=25ms | queue=0 convert=0 infer=25 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910482.622977333] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910487.633144483] [yolo_node]: [GRASP][detection][STATUS] total=26ms | queue=0 convert=0 infer=25 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910492.798484877] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910497.807940478] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910502.808480919] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910507.815084689] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794910512.826442491] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False

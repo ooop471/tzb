@@ -1,0 +1,57 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-16-22-33-57-602662-tzb-NUC14RVS-B-72522
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [72523]
+[INFO] [far_target_locator-2]: process started with pid [72525]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 80, in __init__
+[far_target_locator-2]     raw_classes = self.declare_parameter(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 367, in declare_parameter
+[far_target_locator-2]     return self.declare_parameters('', [args], ignore_override)[0]
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 493, in declare_parameters
+[far_target_locator-2]     self._set_parameters(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 738, in _set_parameters
+[far_target_locator-2]     raise InvalidParameterTypeException(
+[far_target_locator-2] rclpy.exceptions.InvalidParameterTypeException: Trying to set parameter 'target_classes' to 'blue_block' of type 'STRING', expecting type 'STRING_ARRAY'
+[ERROR] [far_target_locator-2]: process has died [pid 72525, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_3jwz2s_u'].
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1437, in <module>
+[python3-1]     from torch import hub as hub
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/hub.py", line 61, in <module>
+[python3-1]     from tqdm import tqdm  # If tqdm is installed use it, otherwise use the fake wrapper
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/tqdm/__init__.py", line 3, in <module>
+[python3-1]     from .cli import main  # TODO: remove in v5.0.0
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/tqdm/cli.py", line 11, in <module>
+[python3-1]     from .version import __version__
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/tqdm/version.py", line 5, in <module>
+[python3-1]     __version__ = version('tqdm')
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 996, in version
+[python3-1]     return distribution(distribution_name).version
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 969, in distribution
+[python3-1]     return Distribution.from_name(distribution_name)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 544, in from_name
+[python3-1]     dist = next(iter(dists), None)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 904, in <genexpr>
+[python3-1]     path.search(prepared) for path in map(FastPath, paths)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 802, in search
+[python3-1]     return self.lookup(self.mtime).search(name)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/_functools.py", line 80, in wrapper
+[python3-1]     return cached_method(*args, **kwargs)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 812, in lookup
+[python3-1]     return Lookup(self)
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 822, in __init__
+[python3-1]     for child in path.children():
+[python3-1]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 789, in children
+[python3-1]     return os.listdir(self.root or '.')
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 72523, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_onjl34k5'].

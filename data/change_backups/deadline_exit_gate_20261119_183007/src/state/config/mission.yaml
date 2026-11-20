@@ -1,0 +1,136 @@
+mission_state:
+  ros__parameters:
+    # Measured and confirmed on this rover, 2026-11-01.
+    geometry_calibrated: true
+    # [forward, left, yaw] in metres/radians relative to the pose at /mission/start.
+    # Entrance: 1 m ahead; destination: the captured mission start pose.
+    # ROS 2 double arrays require a decimal point on every element.
+    # Retries/resume keep the original start pose.
+    entry_navigation.enabled: true
+    entry_navigation.goal: [1.0, 0.0, 0.0]                 #[2.7372, 2.43, 0.0]
+    entry_navigation.goal_frame: odom_init
+    entry_navigation.relative_to_start: true
+    entry_navigation.position_tolerance: 0.25
+    entry_navigation.yaw_tolerance: 0.10
+    entry_navigation.timeout: 180.0
+    entry_navigation.max_attempts: 3
+    # Keep cave profiles aligned with bringup/config/nav2_params.yaml.
+    navigation_inflation.cave_global_radius: 0.15
+    navigation_inflation.cave_local_radius: 0.15
+    navigation_speed.outdoor_max_linear: 0.4
+    navigation_inflation.outdoor_radius: 0.37
+    navigation_inflation.switch_timeout: 15.0
+    navigation_inflation.settle_time: 0.2
+    cave_navigation_only: false
+    # Wall time starts with mission preparation; pauses do not stop the clock.
+    mission_time.total_seconds: 600.0
+    mission_time.grasp_cutoff_seconds: 360.0
+    mission_time.max_grasps: 3
+    autostart: false
+    exit_navigation.enabled: true
+    # Ordinary coordinate navigation after the confirmed cave exit; same planner/controller as entry.
+    exit_navigation.goal: [0.0, 0.0, 0.0]
+    exit_navigation.relative_to_start: true
+    exit_navigation.goal_frame: odom_init
+    exit_navigation.position_tolerance: 0.25
+    exit_navigation.yaw_tolerance: 0.25
+    exit_navigation.timeout: 180.0
+    exit_navigation.max_attempts: 3
+    # Measured bin centre: 40 cm behind base_link; vehicle heading is unrestricted.
+    # The square is centred on exit_navigation.goal; its axes follow that goal frame/yaw.
+    unload_alignment.enabled: true
+    unload_alignment.reference_frame: base_link
+    unload_alignment.reference_x: -0.40
+    unload_alignment.reference_y: 0.0
+    unload_alignment.zone_width: 0.50
+    unload_alignment.zone_height: 0.50
+    # Reserve 5 cm inside each edge: measured point must stay within +/-20 cm.
+    unload_alignment.margin: 0.05
+    unload_alignment.speed: 0.05
+    unload_alignment.timeout: 60.0
+    unload_alignment.max_attempts: 5
+    unload_alignment.goal_tolerance: 0.08
+    unload_alignment.path_tolerance: 0.08
+    # Last-ten-seconds fallback uses bin-centre distance, not chassis-centre distance.
+    # Stop/arm/feedback interlocks remain mandatory; navigation-only never unloads.
+    unload_deadline.enabled: true
+    unload_deadline.remaining_seconds: 60.0
+    unload_deadline.radius: 1.0
+    arm_folded_joint_tolerance: 0.15
+    grasp_enabled: true   # false: stop at READY_TO_GRASP for approach-only validation
+    # Centreline approach; use the measured 22..35 cm x +/-14 cm grasp rectangle.
+    centered_grasp.enabled: true
+    centered_grasp.region_margin: 0.0
+    centered_grasp.max_yaw_degrees: 10.0
+    centered_grasp.centre_band: 0.14
+    centered_grasp.map_timeout: 2.0
+    centered_grasp.reference_timeout: 2.5
+    centered_grasp.body_rear: 0.42
+    centered_grasp.body_half_width: 0.308
+    centered_grasp.footprint_margin: 0.01
+    centered_grasp.rotation_tolerance: 0.015
+    centered_grasp.rotation_speed: 0.35
+    centered_grasp.rotation_timeout: 16.0
+    front_offset_m: 0.30
+    target_gap_m: 0.25
+    # Ground-plane grasp region measured from the chassis front edge, 2026-11-02.
+    # Depth 0.13 m, total width 0.28 m centered on the chassis centerline.
+    grasp_region_near_gap_m: 0.13
+    grasp_region_far_gap_m: 0.4
+    grasp_region_half_width_m: 0.14
+    world_frame: odom_init
+    planning_frame: map
+    base_frame: base_frame
+    arm_frame: base_link
+    # base_link pose expressed in base_frame: [x,y,z,roll,pitch,yaw], meters/radians.
+    # Trial: base_link and base_frame share the same origin and axes.
+    arm_mount_xyz_rpy: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    alignment_position_tolerance: 0.05
+    alignment_yaw_tolerance: 0.1745329
+    settle_duration: 0.35
+    settle_position_spread: 0.02
+    settle_yaw_spread: 0.03
+    input_timeout: 0.6
+    runtime_input_grace: 2.0
+    target_timeout: 2.5
+    target_confirmation_duration: 0.2
+    target_max_sample_gap: 0.5
+    target_position_spread: 0.05
+    target_association_distance: 0.25
+    max_target_distance: 2.0
+    min_target_height: -0.5
+    max_target_height: 1.0
+    arm_max_target_range: 1.2
+    arm_min_target_z: -0.5
+    arm_max_target_z: 0.8
+    max_alignment_attempts: 2
+    planning_timeout: 8.0
+    approach_timeout: 60.0
+    grasp_timeout: 180.0  # allow standalone acquisition retries plus arm motion
+    cancel_timeout: 8.0
+    preparation_timeout: 45.0
+
+    # Timed bin unloading at the destination; FF opens; leave bin open after unloading.
+    unload.enabled: true
+    unload.open_seconds: 5.0
+    unload.wait_seconds: 5.0
+    centered_grasp.localize_timeout: 12.0
+    grasp_unverified_target_cooldown: 60.0
+    centered_grasp.rotation_min_speed: 0.18
+    grasp_region_half_angle_degrees: 35.0
+    # Cave exploration linear speed cap (m/s); grasp/adjustment retain their own limits.
+    cave_navigation.max_linear_speed: 0.35
+    cave_navigation.max_angular_speed: 0.5
+    cave_navigation.max_heading_degrees: 10.0
+    centered_grasp.tracking_speed: 0.10
+    centered_grasp.tracking_timeout: 180.0
+    perception.max_target_range: 0.8
+    centered_grasp.stop_forward_distance: 0.20
+    centered_grasp.deceleration: 0.4
+    centered_grasp.preview_wait: 0.5
+    centered_grasp.adjustment_speed: 0.05
+    centered_grasp.adjustment_max_distance: 0.3
+    centered_grasp.adjustment_distance_band: 0.04
+
+    centered_grasp.lateral_tolerance: 0.05
+

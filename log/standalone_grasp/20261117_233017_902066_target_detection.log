@@ -1,0 +1,43 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-23-30-17-725133-tzb-NUC14RVS-B-4250
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4254]
+[INFO] [far_target_locator-2]: process started with pid [4256]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1750, in <module>
+[python3-1]     from . import _meta_registrations
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_meta_registrations.py", line 8, in <module>
+[python3-1]     from torch._decomp import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 190, in <module>
+[python3-1]     import torch._decomp.decompositions
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/decompositions.py", line 10, in <module>
+[python3-1]     import torch._prims as prims
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_prims/__init__.py", line 2968, in <module>
+[python3-1]     register_debug_prims()
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_prims/debug_prims.py", line 41, in register_debug_prims
+[python3-1]     def load_tensor_factory(name, size, stride, dtype, device):
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_custom_op/impl.py", line 330, in inner
+[python3-1]     self._register_impl("factory", f)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_custom_op/impl.py", line 221, in _register_impl
+[python3-1]     frame = inspect.getframeinfo(sys._getframe(stacklevel))
+[python3-1]   File "/usr/lib/python3.10/inspect.py", line 1624, in getframeinfo
+[python3-1]     lines, lnum = findsource(frame)
+[python3-1]   File "/usr/lib/python3.10/inspect.py", line 952, in findsource
+[python3-1]     module = getmodule(object, file)
+[python3-1]   File "/usr/lib/python3.10/inspect.py", line 878, in getmodule
+[python3-1]     os.path.realpath(f)] = module.__name__
+[python3-1]   File "/usr/lib/python3.10/posixpath.py", line 393, in realpath
+[python3-1]     path, ok = _joinrealpath(filename[:0], filename, strict, {})
+[python3-1]   File "/usr/lib/python3.10/posixpath.py", line 426, in _joinrealpath
+[python3-1]     newpath = join(path, name)
+[python3-1] KeyboardInterrupt
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 4256]
+[ERROR] [python3-1]: process has died [pid 4254, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_a6leuf45'].

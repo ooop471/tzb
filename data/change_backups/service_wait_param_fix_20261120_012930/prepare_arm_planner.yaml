@@ -1,0 +1,279 @@
+/**:
+  ros__parameters:
+    collision_check_resolution: 0.02
+    control_period: 0.01
+    default_ee_frame: tcp_link
+    default_group: arm
+    enable_joint_state_playback: true
+    enable_moveit_visualization: true
+    enable_visualization: true
+    globally_ignored_robot_collision_links:
+    - base_link
+    gripper_scene_collision_allowed_penetration: 0.0
+    gripper_scene_collision_links:
+    - Claw_left_Link
+    - claw_right_Link
+    gripper_scene_collision_object_ids:
+    - ''
+    gripper_self_collision_allowed_penetration: 0.0
+    gripper_self_collision_links:
+    - Claw_left_Link
+    - claw_right_Link
+    ik_alpha: 0.5
+    ik_damping: 1.0e-05
+    ik_max_iterations: 600
+    ik_max_seed_count: 48
+    ik_max_step_norm: 0.35
+    ik_pos_tolerance: 0.002
+    ik_rot_tolerance: 0.03
+    joint_state_playback_loop: false
+    joint_state_playback_speed_scale: 0.7
+    launch_robot_state_publisher: true
+    launch_visualization_rviz: true
+    mesh_package_dirs:
+    - /home/tzb/tzb_ws/src/tzb_description
+    moveit_display_trajectory_topic: /display_planned_path
+    moveit_monitored_planning_scene_topic: /monitored_planning_scene
+    moveit_planning_scene_topic: /planning_scene
+    ompl_max_plan_attempts: 4
+    planning_frame: base_link
+    planning_timeout: 2.0
+    publish_collision_labels: true
+    publish_collision_markers: true
+    publish_e3_marker: false
+    publish_joint_states_for_visualization: true
+    publish_moveit_display_trajectory: true
+    publish_moveit_monitored_planning_scene: true
+    publish_moveit_planning_scene: true
+    publish_robot_collision_markers: false
+    relaxed_scene_collision_allowed_penetration: 0.005
+    relaxed_scene_collision_links:
+    - tcp_link
+    - J6_link
+    - Claw_left_Link
+    - claw_right_Link
+    relaxed_scene_collision_object_id: E3
+    relaxed_scene_collision_object_ids:
+    - ''
+    self_collision_allowed_penetration: 0.05
+    srdf_path: /home/tzb/tzb_ws/src/lite_motion_planner/config/tzb_description.srdf
+    trajectory_collision_check_step: 0.05
+    tzb.adaptive_rpy: false
+    tzb.adaptive_rpy_max_candidates: 64
+    tzb.adaptive_rpy_max_deg: 360.0
+    tzb.adaptive_rpy_step_deg: 360.0
+    tzb.apply_reference_transform_to_frozen_frame: true
+    tzb.arm2nav_arm_state_topic: /arm2nav/from_arm
+    tzb.arm2nav_state_topic: /arm2nav
+    tzb.arm_command_enabled: true
+    tzb.arm_command_goal_tolerance_rad: 0.005
+    tzb.arm_command_publish_hz: 100.0
+    tzb.arm_command_speed_scale: 1.0
+    tzb.arm_command_topic: /tzb_catch/arm_joint_command
+    tzb.arm_feedback_enabled: true
+    tzb.arm_group: arm
+    tzb.arm_motion_feedback_timeout_sec: 20.0
+    tzb.arm_motion_goal_tolerance_rad: 0.1
+    tzb.arm_motion_stable_duration_sec: 0.25
+    tzb.arm_state_max_age_sec: 0.5
+    tzb.arm_state_topic: /serial/arm_joint_state
+    tzb.arm_state_wait_timeout_sec: 3.0
+    tzb.autostart: true
+    tzb.camera_frame_from_measured_joints: true
+    tzb.carry_tuck_joint_positions:
+    - 0.0
+    - 0.35
+    - -1.38
+    - 0.0
+    - 1.55
+    - 0.0
+    tzb.chassis_adjustment_enabled: false
+    tzb.chassis_far_x: 0.52
+    tzb.chassis_near_x: 0.43
+    tzb.class_profiles: '{"blue block": {"gripper_close_level": 1}, "big rock": {"gripper_close_level":
+      2}}'
+    tzb.default_target_class: blue_block
+    tzb.e3_collision_object_enabled: true
+    tzb.e3_marker_topic: /tzb_catch/e3_marker
+    tzb.e3_mesh_resource: package://lite_motion_planner/config/E3.STL
+    tzb.e3_target_frame: base_link
+    tzb.e3_target_rpy:
+    - 0.0
+    - 0.0
+    - 0.0
+    tzb.e3_target_xyz:
+    - 0.3
+    - 0.8
+    - 0.2
+    tzb.force_target_pitch: true
+    tzb.force_target_roll: true
+    tzb.force_target_yaw: false
+    tzb.forced_target_pitch: 0.0
+    tzb.forced_target_roll: -3.14
+    tzb.forced_target_yaw: 3.1416
+    tzb.freeze_camera_pointcloud_enabled: false
+    tzb.grasp_arrival_max_speed_rad_s: 0.02
+    tzb.grasp_arrival_stable_sec: 0.5
+    tzb.grasp_arrival_timeout_sec: 8.0
+    tzb.grasp_arrival_tolerance_j6_rad: 0.09
+    tzb.grasp_arrival_tolerance_rad: 0.015
+    tzb.grasp_collision_allowed_penetration: -1.0
+    tzb.grasp_collision_links:
+    - tcp_link
+    - J6_link
+    - Claw_left_Link
+    - claw_right_Link
+    tzb.grasp_ground_z: -0.23
+    tzb.grasp_ground_z_max_deviation: 0.3
+    tzb.grasp_hover_height_m: 0.08
+    tzb.grasp_precise_arrival_enabled: true
+    tzb.grasp_residual_gain: 1.0
+    tzb.grasp_residual_iterations: 3
+    tzb.grasp_residual_lead_max_rad: 0.08
+    tzb.grasp_residual_max_rad: 0.1
+    tzb.grasp_use_visual_z: true
+    tzb.grasp_yaw_offset_deg: 0.0
+    tzb.gripper_close_level: 1
+    tzb.gripper_close_positions:
+    - 0.0
+    tzb.gripper_command_topic: /tzb_catch/gripper_command
+    tzb.gripper_home_positions:
+    - 0.0
+    tzb.gripper_joint_names:
+    - Claw_left_joint
+    tzb.gripper_open_positions:
+    - 0.5236
+    tzb.home_on_shutdown: true
+    tzb.ini_joint_positions:
+    - 0.0
+    - 0.85
+    - -2.56
+    - 0.0
+    - 0.0
+    - 0.0
+    tzb.j6_arrival_tolerance_rad: 0.4
+    tzb.joint_goal_tolerance_rad: 0.01
+    tzb.joint_planning_timeout: 2.0
+    tzb.joint_positions_unit: rad
+    tzb.listen_navigation_goal_status: false
+    tzb.loop_pause_sec: 0.5
+    tzb.max_arm_command_velocity_rad_s:
+    - 1.2
+    - 1.2
+    - 1.2
+    - 1.8
+    - 1.8
+    - 2.2
+    tzb.max_target_attempts: 1
+    tzb.mesh_scale:
+    - 0.001
+    - 0.001
+    - 0.001
+    tzb.navigation_goal_status_topic: /navigation_goal_status
+    tzb.no_motion_warning_sec: 2.0
+    tzb.observe_joint_positions:
+    - 0.0
+    - -0.192
+    - -2.0
+    - 0.0
+    - 1.2184
+    - 0.0
+    tzb.path_check_step: 0.05
+    tzb.place_joint_positions:
+    - 3.139811
+    - -0.112227
+    - -1.074262
+    - 7.6e-05
+    - 1.543511
+    - -0.000175
+    tzb.pose_estimator_axis_conversion_matrix:
+    - 1.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    tzb.pose_estimator_continuous_max_gap_sec: 0.75
+    tzb.pose_estimator_continuous_required_sec: 1.0
+    tzb.pose_estimator_reference_frame: camera_link
+    tzb.pose_estimator_reference_transform_matrix:
+    - 0.999608
+    - 0.006241
+    - -0.027284
+    - 0.022188
+    - -0.020709
+    - 0.820694
+    - -0.570993
+    - 0.058083
+    - 0.018828
+    - 0.571334
+    - 0.820502
+    - -0.0072
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.0
+    tzb.pose_estimator_target_topic: /pose_estimator/object_pose
+    tzb.pose_estimator_wait_timeout_sec: 15.0
+    tzb.position_only_target: false
+    tzb.post_action_wait_sec: 0.05
+    tzb.pre_ini_joint_positions:
+    - 0.0
+    - 0.85
+    - -2.56
+    - 0.0
+    - 1.4
+    - 0.0
+    tzb.prepare_only: true
+    tzb.publish_e3_marker: true
+    tzb.publish_tcp_trajectory: true
+    tzb.reference_marker_republish_hz: 5.0
+    tzb.replay_after_complete: false
+    tzb.replay_loop: false
+    tzb.require_arm_feedback_for_completion: true
+    tzb.response_wait_sec: 15.0
+    tzb.result_topic: /tzb_catch/result
+    tzb.retract_land_yaw_offset_rad: 0.6
+    tzb.sentry_execution_limit: 1
+    tzb.sentry_joint_positions:
+    - 0.0
+    - 1.13
+    - -2.18
+    - 0.0
+    - 1.57
+    - 0.0
+    tzb.sentry_mode: false
+    tzb.sentry_trigger_pulse_sec: 0.2
+    tzb.sequence_loop: false
+    tzb.service_wait_sec: 5                                                                                                                                           .0
+    tzb.shutdown_hold_timeout_sec: 45.0
+    tzb.shutdown_home_timeout_sec: 35.0
+    tzb.shutdown_with_object: place
+    tzb.staged_yaw_enabled: true
+    tzb.staged_yaw_min_rad: 0.5
+    tzb.start_topic: /tzb_catch/start
+    tzb.target_correction_rpy_deg:
+    - 0.0
+    - 0.0
+    - 0.0
+    tzb.target_correction_xyz:
+    - -0.01
+    - 0.012
+    - 0.0
+    tzb.target_left_y_offset: 0.0
+    tzb.target_left_y_threshold: 0.05
+    tzb.target_lock_max_spread_m: 0.02
+    tzb.target_min_z: -0.25
+    tzb.target_rpy_unit: rad
+    tzb.target_yaw_reference_offset_deg: 180.0
+    tzb.target_yaw_symmetry_deg: 90.0
+    tzb.tcp_frame: tcp_link
+    tzb.tcp_trajectory_line_width_m: 0.006
+    tzb.tcp_trajectory_max_points: 10000
+    tzb.tcp_trajectory_min_distance_m: 0.002
+    tzb.use_yaml_e3_target: false
+    urdf_path: /home/tzb/tzb_ws/src/tzb_description/urdf/tzb_description.urdf
+    visualization_joint_states_topic: /joint_states

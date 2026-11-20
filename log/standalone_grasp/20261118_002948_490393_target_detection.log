@@ -1,0 +1,63 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-18-00-29-49-047308-tzb-NUC14RVS-B-5854
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [5856]
+[INFO] [far_target_locator-2]: process started with pid [5858]
+[python3-1] [INFO] [1794932990.142769078] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794932990.145215949] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794932990.145778165] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794932990.146065481] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794932990.148315153] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794932990.673246173] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794932990.673474509] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794932990.676856905] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794932990.678356976] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794932990.679265310] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794932990.679571486] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794932990.679844674] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794932990.680104017] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794932990.680651431] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794932990.717286086] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.922
+[python3-1] [INFO] [1794932990.717503258] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794932990.717766560] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=2 infer=20 post=1ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1794932990.717964256] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[far_target_locator-2] [INFO] [1794932990.815738943] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [INFO] [1794932995.722797008] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.91 publish=True
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/sensor_msgs/msg/_image.py", line 94, in __init__
+[far_target_locator-2]     def __init__(self, **kwargs):
+[far_target_locator-2] KeyboardInterrupt
+[far_target_locator-2] 
+[far_target_locator-2] The above exception was the direct cause of the following exception:
+[far_target_locator-2] 
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 360, in main
+[far_target_locator-2]     try: rclpy.spin(n)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[far_target_locator-2]     executor.spin_once()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+[far_target_locator-2]     self._spin_once_impl(timeout_sec)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 805, in _spin_once_impl
+[far_target_locator-2]     raise handler.exception()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 272, in _execute_coroutine_step
+[far_target_locator-2]     result = coro.send(None)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 488, in handler
+[far_target_locator-2]     await call_coroutine(entity, arg)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 396, in _execute_timer
+[far_target_locator-2]     await await_or_execute(tmr.callback)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 110, in await_or_execute
+[far_target_locator-2]     return callback(*args)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 261, in tick
+[far_target_locator-2]     im = deserialize_message(im_raw, Image)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/serialization.py", line 42, in deserialize_message
+[far_target_locator-2]     return _rclpy.rclpy_deserialize(serialized_message, message_type)
+[far_target_locator-2] TypeError: Unable to convert function return value to a Python type! The signature was
+[far_target_locator-2] 	(arg0: bytes, arg1: object) -> object
+[ERROR] [far_target_locator-2]: process has died [pid 5858, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_zbxle3d9'].
+[INFO] [python3-1]: process has finished cleanly [pid 5856]

@@ -1,0 +1,51 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-21-28-46-688365-tzb-NUC14RVS-B-19514
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [19519]
+[INFO] [far_target_locator-2]: process started with pid [19521]
+[python3-1] [INFO] [1794922128.080546662] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794922128.082674256] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794922128.083383440] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794922128.083754474] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794922128.086749521] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] [INFO] [1794922128.141387336] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> MODEL_FAILED
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 19521]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1062, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1046, in main
+[python3-1]     node = YoloDetectorNode()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 323, in __init__
+[python3-1]     self.model = self._load_model(model_path, device)
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 771, in _load_model
+[python3-1]     _ = loaded.predict(source=dummy, device=device, verbose=False)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/engine/model.py", line 548, in predict
+[python3-1]     self.predictor.setup_model(model=self.model, verbose=is_cli)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/torch_utils.py", line 101, in disable
+[python3-1]     return fn(*args, **kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/engine/predictor.py", line 460, in setup_model
+[python3-1]     self.model = AutoBackend(
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/torch_utils.py", line 101, in disable
+[python3-1]     return fn(*args, **kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/autobackend.py", line 249, in __init__
+[python3-1]     self.backend = self._BACKEND_MAP[format](model, **backend_kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/backends/base.py", line 105, in __init__
+[python3-1]     self.load_model(weight)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/backends/openvino.py", line 32, in load_model
+[python3-1]     import openvino as ov
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino/__init__.py", line 94, in <module>
+[python3-1]     from openvino import opset16
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino/opset16/__init__.py", line 6, in <module>
+[python3-1]     from openvino.opset16.ops import identity
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 879, in exec_module
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 975, in get_code
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 1073, in get_data
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 19519, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_ps2okbkn'].

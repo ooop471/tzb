@@ -1,0 +1,970 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-15-17-38-37-765106-tzb-NUC14RVS-B-6059
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6125]
+[INFO] [far_target_locator-2]: process started with pid [6127]
+[INFO] [pose_estimation_node-3]: process started with pid [6129]
+[INFO] [planning_node-4]: process started with pid [6131]
+[INFO] [tzb_catch-5]: process started with pid [6133]
+[INFO] [static_transform_publisher-6]: process started with pid [6135]
+[INFO] [static_transform_publisher-7]: process started with pid [6137]
+[INFO] [imu_transform_node-8]: process started with pid [6139]
+[INFO] [imu_complementary_filter_node-9]: process started with pid [6141]
+[INFO] [fastlio_mapping-10]: process started with pid [6143]
+[INFO] [terrainAnalysis-11]: process started with pid [6168]
+[INFO] [component_container_mt-12]: process started with pid [6175]
+[INFO] [rover_explore_node-13]: process started with pid [6181]
+[INFO] [exploration_nav2_planner-14]: process started with pid [6183]
+[INFO] [exploration_path_follower-15]: process started with pid [6186]
+[INFO] [mission_motion_gate-16]: process started with pid [6189]
+[INFO] [mission_state-17]: process started with pid [6191]
+[INFO] [static_transform_publisher-18]: process started with pid [6194]
+[static_transform_publisher-6] [INFO] [1794735518.828978069] [exploration_map_to_odom]: Spinning until stopped - publishing transform
+[static_transform_publisher-6] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-6] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-6] from 'map' to 'odom_init'
+[static_transform_publisher-7] [INFO] [1794735518.830135549] [exploration_base_to_livox]: Spinning until stopped - publishing transform
+[static_transform_publisher-7] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-7] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-7] from 'base_frame' to 'livox_frame'
+[terrainAnalysis-11] [INFO] [1794735518.842590381] [terrain_analysis]: Terrain obstacle height threshold: 0.100 m above local ground
+[fastlio_mapping-10] [INFO] [1794735518.848738714] [laser_mapping]: p_pre->lidar_type 1
+[fastlio_mapping-10] Multi thread started 
+[fastlio_mapping-10] ~~~~/home/tzb/nav_explore_ws/src/localization/fast_lio/ doesn't exist
+[static_transform_publisher-18] [INFO] [1794735518.852041352] [mission_arm_mount]: Spinning until stopped - publishing transform
+[static_transform_publisher-18] translation: ('0.160000', '0.000000', '0.000000')
+[static_transform_publisher-18] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-18] from 'base_frame' to 'base_link'
+[rover_explore_node-13] finished constructor
+[rover_explore_node-13] parameter kAutoStart: 0
+[fastlio_mapping-10] [INFO] [1794735518.857972368] [laser_mapping]: Node init finished.
+[exploration_nav2_planner-14] [INFO] [1794735518.860160268] [exploration_nav2_planner]: Exploration path source: validated center path -> FollowPath (no global replanning)
+[tzb_catch-5] [INFO] [1794735518.866946665] [tzb_catch]: tzb_catch configured: arm_group=arm tcp_frame=tcp_link target_source=/pose_estimator/object_pose continuous_required=4.50s arm_state=/serial/arm_joint_state initial_wait=0.50s arrival_wait=20.00s navigation_status_listener=disabled sentry_mode=disabled force_rpy=(roll:true pitch:true yaw:false)
+[tzb_catch-5] [INFO] [1794735518.867185748] [tzb_catch]: [GRASP][class] default='blue block' profiles={"big rock":{"gripper_close_level":2},"blue block":{"gripper_close_level":1},"small rock":{"gripper_close_level":3}}
+[tzb_catch-5] [INFO] [1794735518.867217817] [tzb_catch]: Stage [configured_ini_joint_positions] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1794735518.867230308] [tzb_catch]: Stage [configured_pre_ini_joint_positions] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794735518.867241191] [tzb_catch]: Stage [configured_place_joint_positions] arm joints: J1_joint=3.13981 J2_joint=-0.112227 J3_joint=-1.07426 J4_joint=7.6e-05 J5_joint=1.54351 J6_joint=-0.000175
+[tzb_catch-5] [INFO] [1794735518.867250719] [tzb_catch]: Stage [configured_observe_joint_positions] arm joints: J1_joint=0 J2_joint=-0.192 J3_joint=-2 J4_joint=0 J5_joint=1.2184 J6_joint=0
+[planning_node-4] [INFO] [1794735518.885177485] [planning_node]: Globally ignored robot collision links: 1
+[planning_node-4] [INFO] [1794735518.885299267] [planning_node]: Robot collision model initialized: geometries=20, active_collision_pairs=189
+[planning_node-4] [INFO] [1794735518.885308542] [planning_node]: Self-collision penetration allowance: 0.0000 m
+[terrainAnalysis-11] [INFO] [1794735519.155282202] [terrain_analysis]: TerrainAnalysisNode 初始化完成 - 动态体素版本
+[tzb_catch-5] [INFO] [1794735519.165048702] [tzb_catch]: [MISSION] /arm_task/execute action server ready (expected_center frame must be base_link); legacy /arm_task/command disabled
+[imu_complementary_filter_node-9] [INFO] [1794735519.167137784] [imu_complementary_filter]: Starting ComplementaryFilterROS
+[planning_node-4] [INFO] [1794735519.175269450] [planning_node]: [SHUTDOWN][GATE] listening on /tzb_catch/shutdown_hold (grace=1.5s for a lease, fresh<=0.50s, max_hold=45.0s); SIGQUIT bypasses the hold
+[exploration_path_follower-15] [INFO] [1794735519.188793822] [exploration_path_follower]: Standalone TARE follower: automatic start, continuous FollowPath updates, no mission state machine, no displacement watchdog or endpoint blacklist
+[rover_explore_node-13] [INFO] [1794735519.210450999] [rover_explore]: Exploration collision source: Nav2 global + local maps, with observed-free goals
+[rover_explore_node-13] [INFO] [1794735519.221776983] [rover_explore]: Rover exploration: 7.5 m sensor range, 2.0 m lookahead, 0.30 m surface/coverage voxel; fixed-return filter enabled
+[component_container_mt-12] [INFO] [1794735519.348035587] [nav2_container]: Load Library: /opt/ros/humble/lib/libmap_server_core.so
+[component_container_mt-12] [INFO] [1794735519.365886455] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::CostmapFilterInfoServer>
+[component_container_mt-12] [INFO] [1794735519.365935041] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapSaver>
+[component_container_mt-12] [INFO] [1794735519.365944313] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[component_container_mt-12] [INFO] [1794735519.365951275] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[component_container_mt-12] [INFO] [1794735519.381645910] [map_server]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/map_server' in container '/nav2_container'
+[component_container_mt-12] 	map_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.381851179] [map_server]: Creating
+[component_container_mt-12] [INFO] [1794735519.382643711] [nav2_container]: Load Library: /opt/ros/humble/lib/libcontroller_server_core.so
+[component_container_mt-12] [INFO] [1794735519.387407183] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[component_container_mt-12] [INFO] [1794735519.387431329] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[component_container_mt-12] [INFO] [1794735519.395201913] [controller_server]: 
+[component_container_mt-12] 	controller_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.400479908] [controller_server]: Creating controller server
+[fastlio_mapping-10] IMU Initial Done
+[fastlio_mapping-10] [WARN] [1794735519.459285040] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-10] 
+[component_container_mt-12] [INFO] [1794735519.539387726] [local_costmap.local_costmap]: 
+[component_container_mt-12] 	local_costmap lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.541691963] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/controller_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735519.547026005] [nav2_container]: Load Library: /opt/ros/humble/lib/libnav2_lifecycle_manager_core.so
+[component_container_mt-12] [INFO] [1794735519.548363052] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794735519.548389863] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[fastlio_mapping-10] [INFO] [1794735519.549675162] [laser_mapping]: Initialize the map kdtree
+[component_container_mt-12] [INFO] [1794735519.632264034] [lifecycle_manager_localization]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_localization' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735519.635463974] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[component_container_mt-12] [INFO] [1794735519.635899491] [nav2_container]: Load Library: /opt/ros/humble/lib/libsmoother_server_core.so
+[component_container_mt-12] [INFO] [1794735519.638822454] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[component_container_mt-12] [INFO] [1794735519.638859613] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[component_container_mt-12] [INFO] [1794735519.640450006] [lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-12] [INFO] [1794735519.640690225] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+[component_container_mt-12] [INFO] [1794735519.641031479] [map_server]: Configuring
+[component_container_mt-12] [INFO] [1794735519.641100422] [map_io]: Loading yaml file: /tmp/standalone_exploration_orm2zegp/unknown.yaml
+[component_container_mt-12] [INFO] [1794735519.641321568] [map_io]: resolution: 0.1
+[component_container_mt-12] [INFO] [1794735519.641330943] [map_io]: origin[0]: -50
+[component_container_mt-12] [INFO] [1794735519.641333114] [map_io]: origin[1]: -50
+[component_container_mt-12] [INFO] [1794735519.641334905] [map_io]: origin[2]: 0
+[component_container_mt-12] [INFO] [1794735519.641337124] [map_io]: free_thresh: 0.25
+[component_container_mt-12] [INFO] [1794735519.641339032] [map_io]: occupied_thresh: 0.65
+[component_container_mt-12] [INFO] [1794735519.641341337] [map_io]: mode: trinary
+[component_container_mt-12] [INFO] [1794735519.641344255] [map_io]: negate: 0
+[component_container_mt-12] [INFO] [1794735519.643401700] [map_io]: Loading image_file: /tmp/standalone_exploration_orm2zegp/unknown.pgm
+[rover_explore_node-13] [INFO] [1794735519.652391017] [rover_explore]: Observed ground: fitted=1 floor_z=-0.040 odometry_z=-0.006 cells=126 inliers=89
+[terrainAnalysis-11] [INFO] [1794735519.653022273] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 52 个点
+[component_container_mt-12] [INFO] [1794735519.712242086] [map_io]: Read map /tmp/standalone_exploration_orm2zegp/unknown.pgm: 1000 X 1000 map @ 0.1 m/cell
+[component_container_mt-12] [INFO] [1794735519.879455844] [smoother_server]: 
+[component_container_mt-12] 	smoother_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.880839863] [smoother_server]: Creating smoother server
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/smoother_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735519.882313736] [lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+[component_container_mt-12] [INFO] [1794735519.882574864] [map_server]: Activating
+[component_container_mt-12] [INFO] [1794735519.883197106] [map_server]: Creating bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735519.883415917] [nav2_container]: Load Library: /opt/ros/humble/lib/libplanner_server_core.so
+[component_container_mt-12] [INFO] [1794735519.884983870] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[component_container_mt-12] [INFO] [1794735519.885005492] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[component_container_mt-12] [INFO] [1794735519.904544934] [planner_server]: 
+[component_container_mt-12] 	planner_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.905704476] [planner_server]: Creating
+[component_container_mt-12] [INFO] [1794735519.920685340] [global_costmap.global_costmap]: 
+[component_container_mt-12] 	global_costmap lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.921471512] [global_costmap.global_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/planner_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735519.928145179] [nav2_container]: Load Library: /opt/ros/humble/lib/libbehavior_server_core.so
+[component_container_mt-12] [INFO] [1794735519.933017469] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-12] [INFO] [1794735519.933047543] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-12] [INFO] [1794735519.949341945] [behavior_server]: 
+[component_container_mt-12] 	behavior_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/behavior_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735519.956186782] [nav2_container]: Load Library: /opt/ros/humble/lib/libbt_navigator_core.so
+[component_container_mt-12] [INFO] [1794735519.960031266] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-12] [INFO] [1794735519.960075946] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-12] [INFO] [1794735519.978399625] [bt_navigator]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/bt_navigator' in container '/nav2_container'
+[component_container_mt-12] 	bt_navigator lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735519.978474353] [bt_navigator]: Creating
+[component_container_mt-12] [INFO] [1794735519.981456196] [nav2_container]: Load Library: /opt/ros/humble/lib/libwaypoint_follower_core.so
+[component_container_mt-12] [INFO] [1794735519.982753503] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-12] [INFO] [1794735519.982785492] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-12] [INFO] [1794735519.994255950] [lifecycle_manager_localization]: Server map_server connected with bond.
+[component_container_mt-12] [INFO] [1794735519.994326834] [lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-12] [INFO] [1794735519.994348494] [lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+[component_container_mt-12] [INFO] [1794735520.011503794] [waypoint_follower]: 
+[component_container_mt-12] 	waypoint_follower lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794735520.012532428] [waypoint_follower]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/waypoint_follower' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735520.014768936] [nav2_container]: Load Library: /opt/ros/humble/lib/libvelocity_smoother_core.so
+[component_container_mt-12] [INFO] [1794735520.016012315] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-12] [INFO] [1794735520.016035408] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-12] [INFO] [1794735520.032134437] [velocity_smoother]: 
+[component_container_mt-12] 	velocity_smoother lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/velocity_smoother' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735520.034618932] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794735520.034664007] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794735520.073522651] [lifecycle_manager_navigation]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_navigation' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794735520.076302946] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[component_container_mt-12] [INFO] [1794735520.092506786] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-12] [INFO] [1794735520.092553255] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.092747902] [controller_server]: Configuring controller interface
+[component_container_mt-12] [INFO] [1794735520.092920670] [controller_server]: getting goal checker plugins..
+[component_container_mt-12] [INFO] [1794735520.092934500] [controller_server]: Controller frequency set to 20.0000Hz
+[component_container_mt-12] [INFO] [1794735520.092958459] [local_costmap.local_costmap]: Configuring
+[component_container_mt-12] [INFO] [1794735520.098490003] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794735520.130152080] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-12] [INFO] [1794735520.130199672] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[component_container_mt-12] [INFO] [1794735520.131860524] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-12] [INFO] [1794735520.141091771] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-12] [INFO] [1794735520.144427768] [local_costmap.local_costmap]: Voxel filter activated.
+[component_container_mt-12] [INFO] [1794735520.150265933] [local_costmap.local_costmap]: Passthough filter activated.
+[component_container_mt-12] [INFO] [1794735520.154233869] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[component_container_mt-12] [INFO] [1794735520.154268661] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794735520.154272940] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794735520.159054590] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794735520.159090118] [local_costmap.local_costmap]: Using plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794735520.159563951] [local_costmap.local_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-12] [ERROR] [1794735520.167070263] [local_costmap.local_costmap]: The configured inflation radius (0.100) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[component_container_mt-12] [INFO] [1794735520.172550028] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::PoseProgressChecker
+[component_container_mt-12] [INFO] [1794735520.174001623] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794735520.174560113] [controller_server]: Created goal checker : grasp_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794735520.175079209] [controller_server]: Created goal checker : hint_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794735520.175532963] [controller_server]: Created goal checker : entry_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794735520.175875221] [controller_server]: Controller Server has general_goal_checker grasp_goal_checker hint_goal_checker entry_goal_checker  goal checkers available.
+[component_container_mt-12] [INFO] [1794735520.178399490] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[component_container_mt-12] [INFO] [1794735520.180868898] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[component_container_mt-12] [INFO] [1794735520.183594350] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[component_container_mt-12] [INFO] [1794735520.183643568] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[component_container_mt-12] [INFO] [1794735520.184661620] [controller_server]: InflationCostCritic instantiated with 1 power and 253.000000 / 0.023622 weights. Critic will collision check based on footprint cost.
+[component_container_mt-12] [INFO] [1794735520.184689838] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[component_container_mt-12] [INFO] [1794735520.185059018] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[component_container_mt-12] [INFO] [1794735520.185075865] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[component_container_mt-12] [INFO] [1794735520.185448268] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[component_container_mt-12] [INFO] [1794735520.185464482] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[component_container_mt-12] [INFO] [1794735520.186496192] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 14.000000 weight
+[component_container_mt-12] [INFO] [1794735520.186523244] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[component_container_mt-12] [INFO] [1794735520.187146427] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[component_container_mt-12] [INFO] [1794735520.187981154] [controller_server]: PathAngleCritic instantiated with 1 power and 1.000000 weight. Reversing not allowed.
+[component_container_mt-12] [INFO] [1794735520.188003159] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[component_container_mt-12] [INFO] [1794735520.193609131] [controller_server]: Critic loaded : mppi::critics::CorridorCritic
+[component_container_mt-12] [INFO] [1794735520.195212714] [controller_server]: Optimizer reset
+[component_container_mt-12] [INFO] [1794735520.199085229] [MPPIController]: Configured MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794735520.200611536] [controller_server]: Created controller : ApproachPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794735520.207552349] [controller_server]: Controller Server has FollowPath ApproachPath  controllers available.
+[component_container_mt-12] [INFO] [1794735520.216385299] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.216523357] [smoother_server]: Configuring smoother server
+[component_container_mt-12] [INFO] [1794735520.223634929] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[component_container_mt-12] [INFO] [1794735520.224426174] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[component_container_mt-12] [INFO] [1794735520.229990616] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.230196777] [planner_server]: Configuring
+[component_container_mt-12] [INFO] [1794735520.230222695] [global_costmap.global_costmap]: Configuring
+[component_container_mt-12] [INFO] [1794735520.235439044] [global_costmap.global_costmap]: Using plugin "static_layer"
+[component_container_mt-12] [INFO] [1794735520.236918764] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[component_container_mt-12] [INFO] [1794735520.238058775] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[component_container_mt-12] [INFO] [1794735520.238106776] [global_costmap.global_costmap]: Using plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794735520.238284701] [global_costmap.global_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-12] [INFO] [1794735520.238292494] [global_costmap.global_costmap]: stvl_layer's global frame is map.
+[component_container_mt-12] [INFO] [1794735520.239885839] [global_costmap.global_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-12] [INFO] [1794735520.241544727] [global_costmap.global_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-12] [INFO] [1794735520.244004010] [global_costmap.global_costmap]: Voxel filter activated.
+[component_container_mt-12] [INFO] [1794735520.248635888] [global_costmap.global_costmap]: Passthough filter activated.
+[component_container_mt-12] [INFO] [1794735520.251187483] [global_costmap.global_costmap]: stvl_layer initialization complete!
+[component_container_mt-12] [INFO] [1794735520.251217955] [global_costmap.global_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794735520.251222318] [global_costmap.global_costmap]: Using plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794735520.251587878] [global_costmap.global_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794735520.251603520] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794735520.252412045] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-12] [ERROR] [1794735520.256406922] [global_costmap.global_costmap]: The configured inflation radius (0.100) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[component_container_mt-12] [INFO] [1794735520.263279705] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735520.263325225] [planner_server]: Configuring GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735520.267059517] [planner_server]: Configured plugin GridBased of type SmacPlanner2D with tolerance 0.50, maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal.
+[component_container_mt-12] [INFO] [1794735520.267097888] [planner_server]: Planner Server has GridBased  planners available.
+[component_container_mt-12] [INFO] [1794735520.276717088] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.277003473] [behavior_server]: Configuring
+[component_container_mt-12] [INFO] [1794735520.284601691] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors/Spin
+[component_container_mt-12] [INFO] [1794735520.285787988] [behavior_server]: Configuring spin
+[component_container_mt-12] [INFO] [1794735520.292480360] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors/BackUp
+[component_container_mt-12] [INFO] [1794735520.293463284] [behavior_server]: Configuring backup
+[component_container_mt-12] [INFO] [1794735520.298818614] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors/DriveOnHeading
+[component_container_mt-12] [INFO] [1794735520.299842003] [behavior_server]: Configuring drive_on_heading
+[component_container_mt-12] [INFO] [1794735520.306095419] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors/Wait
+[component_container_mt-12] [INFO] [1794735520.307078732] [behavior_server]: Configuring wait
+[component_container_mt-12] [INFO] [1794735520.308050071] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 1000 X 1000 at 0.100000 m/pix
+[component_container_mt-12] [INFO] [1794735520.338848607] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[component_container_mt-12] [INFO] [1794735520.339008394] [bt_navigator]: Configuring
+[mission_state-17] [INFO] [1794735520.361577385] [mission_state]: PREPARING: Automatic mission startup after valid inputs
+[tzb_catch-5] [INFO] [1794735520.362096421] [tzb_catch]: [MISSION][goal][ACCEPT] session=515438352322 task_id=1 command=prepare expected_center=(0.0000, 0.0000, 0.0000)
+[tzb_catch-5] [INFO] [1794735520.362278644] [tzb_catch]: [GRASP][service][WAIT] name=plan_arm_motion timeout=1.00s
+[tzb_catch-5] [INFO] [1794735520.362534156] [tzb_catch]: [GRASP][service][READY] name=plan_arm_motion
+[tzb_catch-5] [INFO] [1794735520.362542527] [tzb_catch]: [GRASP][service][WAIT] name=add_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794735520.362561191] [tzb_catch]: [GRASP][service][READY] name=add_scene_object
+[tzb_catch-5] [INFO] [1794735520.362563903] [tzb_catch]: [GRASP][service][WAIT] name=remove_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794735520.362678519] [tzb_catch]: [GRASP][service][READY] name=remove_scene_object
+[tzb_catch-5] [INFO] [1794735520.362690075] [tzb_catch]: [GRASP][service][WAIT] name=set_scene_collision_allowance timeout=1.00s
+[tzb_catch-5] [INFO] [1794735520.362713104] [tzb_catch]: [GRASP][service][READY] name=set_scene_collision_allowance
+[tzb_catch-5] [INFO] [1794735520.362724780] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.168526 J2_joint=3.44288 J3_joint=-1.62489 J4_joint=2.78745 J5_joint=0.772392 J6_joint=0.113708
+[tzb_catch-5] [INFO] [1794735520.362733669] [tzb_catch]: [GRASP][plan][BEGIN] step=mission_prepare_exploration_pose goal=joint service=plan_arm_motion
+[tzb_catch-5] [WARN] [1794735520.362740226] [tzb_catch]: Stage [mission_prepare_exploration_pose] clamped start joints to URDF limits: J2_joint=3.44288->1.1345
+[planning_node-4] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-4] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-4] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-4] Info:    Solution found in 0.003364 seconds
+[tzb_catch-5] [INFO] [1794735520.386847398] [tzb_catch]: [GRASP][plan][OK] step=mission_prepare_exploration_pose points=2
+[tzb_catch-5] [INFO] [1794735520.386892783] [tzb_catch]: Stage [mission_prepare_exploration_pose_planned_final] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794735520.386901031] [tzb_catch]: [GRASP][command][BEGIN] step=mission_prepare_exploration_pose hz=100.00 speed_scale=1.000 duration=1.642s
+[component_container_mt-12] [INFO] [1794735520.476450067] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[component_container_mt-12] [INFO] [1794735520.476649887] [waypoint_follower]: Configuring
+[component_container_mt-12] [INFO] [1794735520.494104242] [waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[component_container_mt-12] [INFO] [1794735520.494585046] [waypoint_follower]: Waypoint pause duration is set to zero, disabling task executor plugin.
+[component_container_mt-12] [INFO] [1794735520.495002585] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+[component_container_mt-12] [INFO] [1794735520.495132858] [velocity_smoother]: Configuring velocity smoother
+[component_container_mt-12] [INFO] [1794735520.499975616] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.500265350] [controller_server]: Activating
+[component_container_mt-12] [INFO] [1794735520.500295497] [local_costmap.local_costmap]: Activating
+[component_container_mt-12] [INFO] [1794735520.500307864] [local_costmap.local_costmap]: Checking transform
+[component_container_mt-12] [INFO] [1794735520.500421863] [local_costmap.local_costmap]: start
+[component_container_mt-12] [INFO] [1794735520.500433565] [local_costmap.local_costmap]: stvl_layer was activated.
+[component_container_mt-12] [INFO] [1794735520.557651711] [controller_server]: Activating controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [WARN] [1794735520.557744036] [controller_server]: Parameter controller_server.verbose not found
+[component_container_mt-12] [INFO] [1794735520.559004800] [controller_server]: Optimizer reset
+[component_container_mt-12] [INFO] [1794735520.559766499] [MPPIController]: Activated MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794735520.559801963] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[pose_estimation_node-3] [INFO] [1794735520.637722044] [pose_estimation_node]: 加载模型: /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/half_block.pcd
+[pose_estimation_node-3] [INFO] [1794735520.708687998] [pose_estimation_node]: 模型加载完毕: raw=7500 used=7500 extent=[0.05 0.05 0.05] centroid=[0.008  0.0084 0.0083] unit_scale=0.001
+[component_container_mt-12] [INFO] [1794735520.710646953] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+[component_container_mt-12] [INFO] [1794735520.710683227] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794735520.711160371] [smoother_server]: Activating
+[component_container_mt-12] [INFO] [1794735520.711197737] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+[pose_estimation_node-3] [INFO] [1794735520.775596866] [pose_estimation_node]: 类别位姿模型 big rock: /home/tzb/tzb_ws/src/pose_estimator/config/big_rock.pcd points=8000 extent=[0.0395 0.0331 0.0327]
+[pose_estimation_node-3] [INFO] [1794735520.810371167] [pose_estimation_node]: 类别位姿模型 small rock: /home/tzb/tzb_ws/src/pose_estimator/config/small_rock.pcd points=4000 extent=[0.0171 0.0213 0.019 ]
+[pose_estimation_node-3] [INFO] [1794735520.810955939] [pose_estimation_node]: 类别策略: priority=['blue block', 'big rock', 'small rock'] ignored=['d'] class_models=['big rock', 'small rock']
+[pose_estimation_node-3] [INFO] [1794735520.825313702] [pose_estimation_node]: 检测消息类型: yolo_node
+[component_container_mt-12] [INFO] [1794735520.835837752] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+[component_container_mt-12] [INFO] [1794735520.835877841] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[pose_estimation_node-3] [INFO] [1794735520.836128687] [pose_estimation_node]: 节点已启动, 等待数据... 订阅点云: /camera/depth/color/points | 订阅检测: /yolo/detections | 订阅CamInfo: /camera/color/camera_info | 发布位姿: /pose_estimator/object_pose | 可视化发布: ROI=True Marker=True Coarse=True (every_n=3)
+[component_container_mt-12] [INFO] [1794735520.836471484] [planner_server]: Activating
+[component_container_mt-12] [INFO] [1794735520.836549469] [global_costmap.global_costmap]: Activating
+[component_container_mt-12] [INFO] [1794735520.836568024] [global_costmap.global_costmap]: Checking transform
+[component_container_mt-12] [INFO] [1794735520.836677018] [global_costmap.global_costmap]: start
+[component_container_mt-12] [INFO] [1794735520.836691192] [global_costmap.global_costmap]: stvl_layer was activated.
+[component_container_mt-12] [INFO] [1794735520.988586695] [planner_server]: Activating plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735520.996042233] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[pose_estimation_node-3] [INFO] [1794735521.081521425] [pose_estimation_node]: ✓ 点云 frame='camera_color_optical_frame', size=640×480, point_step=20
+[pose_estimation_node-3] [WARN] [1794735521.081996592] [pose_estimation_node]: 等待 CameraInfo ...
+[component_container_mt-12] [INFO] [1794735521.106107659] [lifecycle_manager_navigation]: Server planner_server connected with bond.
+[component_container_mt-12] [INFO] [1794735521.106198096] [lifecycle_manager_navigation]: [34m[1mActivating behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794735521.106823478] [behavior_server]: Activating
+[component_container_mt-12] [INFO] [1794735521.106852739] [behavior_server]: Activating spin
+[component_container_mt-12] [INFO] [1794735521.106871056] [behavior_server]: Activating backup
+[component_container_mt-12] [INFO] [1794735521.106879146] [behavior_server]: Activating drive_on_heading
+[component_container_mt-12] [INFO] [1794735521.106887457] [behavior_server]: Activating wait
+[component_container_mt-12] [INFO] [1794735521.106899028] [behavior_server]: Creating bond (behavior_server) to lifecycle manager.
+[pose_estimation_node-3] [INFO] [1794735521.115967977] [pose_estimation_node]: ✓ CameraInfo: 640×480, fx=366.6 fy=366.9 cx=318.7 cy=241.0, frame=camera_color_optical_frame
+[pose_estimation_node-3] [WARN] [1794735521.147552303] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[component_container_mt-12] [INFO] [1794735521.212306902] [lifecycle_manager_navigation]: Server behavior_server connected with bond.
+[component_container_mt-12] [INFO] [1794735521.212360135] [lifecycle_manager_navigation]: [34m[1mActivating bt_navigator[0m[0m
+[component_container_mt-12] [INFO] [1794735521.212736293] [bt_navigator]: Activating
+[component_container_mt-12] [INFO] [1794735521.279043289] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735521.382821432] [lifecycle_manager_navigation]: Server bt_navigator connected with bond.
+[component_container_mt-12] [INFO] [1794735521.382873988] [lifecycle_manager_navigation]: [34m[1mActivating waypoint_follower[0m[0m
+[component_container_mt-12] [INFO] [1794735521.383355786] [waypoint_follower]: Activating
+[component_container_mt-12] [INFO] [1794735521.383387562] [waypoint_follower]: Creating bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735521.488826504] [lifecycle_manager_navigation]: Server waypoint_follower connected with bond.
+[component_container_mt-12] [INFO] [1794735521.488862306] [lifecycle_manager_navigation]: [34m[1mActivating velocity_smoother[0m[0m
+[component_container_mt-12] [INFO] [1794735521.489275716] [velocity_smoother]: Activating
+[component_container_mt-12] [INFO] [1794735521.489310903] [velocity_smoother]: Creating bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735521.594232664] [lifecycle_manager_navigation]: Server velocity_smoother connected with bond.
+[component_container_mt-12] [INFO] [1794735521.594264473] [lifecycle_manager_navigation]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-12] [INFO] [1794735521.594268668] [lifecycle_manager_navigation]: [34m[1mCreating bond timer...[0m[0m
+[rover_explore_node-13] [INFO] [1794735521.751832947] [rover_explore]: Observed ground: fitted=1 floor_z=0.012 odometry_z=-0.014 cells=457 inliers=310
+[terrainAnalysis-11] [INFO] [1794735521.753618606] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2938 个点
+[tzb_catch-5] [INFO] [1794735522.036044222] [tzb_catch]: [GRASP][command][END] step=mission_prepare_exploration_pose status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794735522.036091534] [tzb_catch]: [GRASP][feedback][WAIT] step=mission_prepare_exploration_pose enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[tzb_catch-5] [WARN] [1794735522.393264570] [tzb_catch]: [GRASP][feedback][NO_MOTION][EARLY] step=mission_prepare_exploration_pose no joint has moved 2.0s after the command (commanded travel up to 2.787 rad on J4_joint); check the remote controller (遥控器) / arm enable / arm power; still waiting up to 20.0s for arrival
+[pose_estimation_node-3] [INFO] [1794735522.703337168] [pose_estimation_node]: [GRASP][registration_gate] mission_state=PREPARING
+[rover_explore_node-13] [INFO] [1794735523.752024713] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.017 cells=430 inliers=292
+[terrainAnalysis-11] [INFO] [1794735523.854256369] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2932 个点
+[python3-1] [INFO] [1794735525.200632157] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794735525.202163596] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794735525.202595785] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/install/yolo_node/share/yolo_node/models/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794735525.202773380] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794735525.204851624] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/install/yolo_node/share/yolo_node/models/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/install/yolo_node/share/yolo_node/models/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[rover_explore_node-13] [INFO] [1794735525.752907713] [rover_explore]: Observed ground: fitted=1 floor_z=0.008 odometry_z=-0.016 cells=423 inliers=288
+[pose_estimation_node-3] [INFO] [1794735525.836751244] [pose_estimation_node]: 
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   ★ 启动诊断 (5秒内接收统计)
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   点云   [/camera/depth/color/points]: ✓ 123 帧
+[pose_estimation_node-3]   检测   [/yolo/detections]: ✗ 未收到!
+[pose_estimation_node-3]   CamInfo [/camera/color/camera_info]: ✓ 145 帧
+[pose_estimation_node-3]   内参:   ✓ 已获取
+[pose_estimation_node-3] =======================================================
+[python3-1] [INFO] [1794735525.922048847] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794735525.922273125] [yolo_node]: target class priority matched in model: ['blue block', 'big rock', 'small rock'] | ignored: ['d']
+[python3-1] [INFO] [1794735525.925383420] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794735525.927021011] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794735525.927850769] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794735525.928009163] [yolo_node]: Publish gating enabled: conf>0.2 for 0.00s before publishing
+[python3-1] [INFO] [1794735525.928151087] [yolo_node]: target selection: priority=['blue block', 'big rock', 'small rock'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794735525.928284125] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794735525.928633258] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[terrainAnalysis-11] [INFO] [1794735525.952707358] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2584 个点
+[python3-1] [INFO] [1794735525.991717182] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=3 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794735525.991943138] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> NO_DETECTION
+[python3-1] [INFO] [1794735526.092921527] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.406
+[python3-1] [INFO] [1794735526.093130263] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735526.093442552] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735526.122873817] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735526.123097168] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-3] [WARN] [1794735526.156041688] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735526.991729348] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735527.024457261] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735527.753079477] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.016 cells=452 inliers=306
+[terrainAnalysis-11] [INFO] [1794735527.953107646] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2620 个点
+[python3-1] [INFO] [1794735528.195626393] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735528.228224677] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735529.152416739] [terrain_analysis]: 已清理 3 个远离机器人的体素
+[rover_explore_node-13] [INFO] [1794735529.762397602] [rover_explore]: Observed ground: fitted=1 floor_z=0.025 odometry_z=-0.017 cells=471 inliers=313
+[terrainAnalysis-11] [INFO] [1794735529.953894749] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2426 个点
+[python3-1] [WARN] [1794735530.664423624] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=1216 mean=785 jump=0.55
+[python3-1] [INFO] [1794735530.665094546] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735530.693793018] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735530.996021235] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [WARN] [1794735531.695975995] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=161 mean=785 jump=0.79
+[python3-1] [INFO] [1794735531.696268079] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.351
+[python3-1] [INFO] [1794735531.696459308] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735531.696771568] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735531.730762802] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735531.731010172] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735531.851892801] [rover_explore]: Observed ground: fitted=1 floor_z=0.024 odometry_z=-0.020 cells=464 inliers=315
+[terrainAnalysis-11] [INFO] [1794735532.054033640] [terrain_analysis]: 自车点云发布前过滤：删除 2 个点，剩余 2523 个点
+[pose_estimation_node-3] [WARN] [1794735533.218451395] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735533.854971255] [rover_explore]: Observed ground: fitted=1 floor_z=0.017 odometry_z=-0.018 cells=477 inliers=352
+[terrainAnalysis-11] [INFO] [1794735534.055310321] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2633 个点
+[python3-1] [WARN] [1794735534.431072534] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=1233 mean=785 jump=0.57
+[python3-1] [INFO] [1794735534.431770001] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735534.468790242] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735535.951147196] [rover_explore]: Observed ground: fitted=1 floor_z=0.020 odometry_z=-0.020 cells=504 inliers=341
+[terrainAnalysis-11] [INFO] [1794735536.152102990] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2490 个点
+[python3-1] [INFO] [1794735536.201342661] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735537.951266389] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.018 cells=494 inliers=331
+[terrainAnalysis-11] [INFO] [1794735538.152705830] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2654 个点
+[pose_estimation_node-3] [WARN] [1794735538.224110071] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [WARN] [1794735539.835347703] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=1269 mean=785 jump=0.62
+[python3-1] [INFO] [1794735539.835618666] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.314
+[python3-1] [INFO] [1794735539.835791457] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735539.836089056] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735539.873544071] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735539.873777539] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735539.951329961] [rover_explore]: Observed ground: fitted=1 floor_z=0.019 odometry_z=-0.015 cells=543 inliers=378
+[terrainAnalysis-11] [INFO] [1794735540.252878494] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2438 个点
+[python3-1] [INFO] [1794735540.503751658] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735540.569266799] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735541.206459768] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735541.952367985] [rover_explore]: Observed ground: fitted=1 floor_z=0.019 odometry_z=-0.017 cells=491 inliers=355
+[tzb_catch-5] [ERROR] [1794735542.036217485] [tzb_catch]: Stage [mission_prepare_exploration_pose] did not receive physical-arrival confirmation within 20.00 s (last max error 2.78745 rad); joint_errors: J1_joint{target=0.5, measured=0.168526, error=-0.331474, raw_error=-0.331474, abs=0.331474, BAD} J2_joint{target=1, measured=3.44288, error=2.44288, raw_error=2.44288, abs=2.44288, BAD} J3_joint{target=-2.61, measured=-1.62489, error=0.985111, raw_error=0.985111, abs=0.985111, BAD} J4_joint{target=0, measured=2.78745, error=2.78745, raw_error=2.78745, abs=2.78745, BAD} J5_joint{target=1.3, measured=0.772392, error=-0.527608, raw_error=-0.527608, abs=0.527608, BAD} J6_joint{target=0, measured=0.113708, error=0.113708, raw_error=0.113708, abs=0.113708, ok}; aborting before the next subtask.
+[tzb_catch-5] [ERROR] [1794735542.036335342] [tzb_catch]: [GRASP][feedback][NO_MOTION] step=mission_prepare_exploration_pose lower controller did not execute any joint command (commanded travel up to 2.787 rad on J4_joint; largest measured change 0.0000 rad < 0.002); check the remote controller (遥控器) / arm enable / arm power
+[tzb_catch-5] [INFO] [1794735542.036462517] [tzb_catch]: [MISSION][result] task_id=1 aborted success=false safe_to_drive=false phase=ERROR message=prepare failed; arm not confirmed at pre_ini no_motion(check_remote_or_power): lower controller did not execute any joint command; check the remote controller (遥控器) / arm enable / arm power
+[mission_state-17] [INFO] [1794735542.054552111] [mission_state]: FAULT: prepare failed; arm not confirmed at pre_ini no_motion(check_remote_or_power): lower controller did not execute any joint command; check the remote controller (遥控器) / arm enable / arm power
+[pose_estimation_node-3] [INFO] [1794735542.100601257] [pose_estimation_node]: [GRASP][registration_gate] mission_state=FAULT
+[terrainAnalysis-11] [INFO] [1794735542.353594036] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2744 个点
+[pose_estimation_node-3] [WARN] [1794735543.233174336] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735543.276329962] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735543.308504224] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735544.051523471] [rover_explore]: Observed ground: fitted=1 floor_z=0.015 odometry_z=-0.019 cells=506 inliers=360
+[python3-1] [INFO] [1794735544.242353481] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735544.278513442] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735544.453686819] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2677 个点
+[python3-1] [INFO] [1794735544.476506714] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735544.507083532] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735546.162733420] [rover_explore]: Observed ground: fitted=1 floor_z=0.022 odometry_z=-0.019 cells=506 inliers=384
+[python3-1] [INFO] [1794735546.208890710] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[terrainAnalysis-11] [INFO] [1794735546.562533450] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2521 个点
+[rover_explore_node-13] [INFO] [1794735548.260695354] [rover_explore]: Observed ground: fitted=1 floor_z=0.018 odometry_z=-0.018 cells=122 inliers=93
+[pose_estimation_node-3] [WARN] [1794735548.269041058] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[terrainAnalysis-11] [INFO] [1794735548.662593923] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2658 个点
+[rover_explore_node-13] [INFO] [1794735550.261504233] [rover_explore]: Observed ground: fitted=1 floor_z=0.010 odometry_z=-0.018 cells=161 inliers=106
+[python3-1] [WARN] [1794735550.412781498] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=153 mean=926 jump=0.84
+[python3-1] [INFO] [1794735550.413029900] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.212
+[python3-1] [INFO] [1794735550.413195163] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735550.413492592] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735550.450241730] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735550.450481229] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735550.663220040] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2480 个点
+[python3-1] [INFO] [1794735551.386922768] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=23 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735552.261905319] [rover_explore]: Observed ground: fitted=1 floor_z=0.025 odometry_z=-0.017 cells=131 inliers=108
+[terrainAnalysis-11] [INFO] [1794735552.752873241] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2774 个点
+[pose_estimation_node-3] [WARN] [1794735553.277808933] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735554.351368160] [rover_explore]: Observed ground: fitted=1 floor_z=0.023 odometry_z=-0.018 cells=210 inliers=165
+[python3-1] [WARN] [1794735554.518880066] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=173 mean=926 jump=0.81
+[python3-1] [INFO] [1794735554.519609765] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735554.583550138] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735554.753458892] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2921 个点
+[rover_explore_node-13] [INFO] [1794735556.352316583] [rover_explore]: Observed ground: fitted=1 floor_z=0.036 odometry_z=-0.017 cells=169 inliers=137
+[python3-1] [INFO] [1794735556.387006120] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[terrainAnalysis-11] [INFO] [1794735556.753502060] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2612 个点
+[pose_estimation_node-3] [WARN] [1794735558.282145005] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735558.352788524] [rover_explore]: Observed ground: fitted=1 floor_z=0.037 odometry_z=-0.017 cells=194 inliers=139
+[terrainAnalysis-11] [INFO] [1794735558.754392559] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2741 个点
+[terrainAnalysis-11] [INFO] [1794735559.146342918] [terrain_analysis]: 已清理 3 个远离机器人的体素
+[rover_explore_node-13] [INFO] [1794735560.452301018] [rover_explore]: Observed ground: fitted=1 floor_z=0.032 odometry_z=-0.017 cells=311 inliers=216
+[terrainAnalysis-11] [INFO] [1794735560.754914259] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2541 个点
+[python3-1] [INFO] [1794735561.392718956] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [WARN] [1794735561.457981135] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=126 mean=926 jump=0.86
+[python3-1] [INFO] [1794735561.458214230] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.238
+[python3-1] [INFO] [1794735561.458379995] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735561.458649204] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735561.491357112] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735561.491587994] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735562.361163364] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735562.391297759] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735562.553372473] [rover_explore]: Observed ground: fitted=1 floor_z=0.012 odometry_z=-0.017 cells=343 inliers=241
+[python3-1] [INFO] [1794735562.728324874] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735562.763625017] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735562.854485373] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2616 个点
+[python3-1] [WARN] [1794735563.693915937] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=170 mean=969 jump=0.82
+[python3-1] [INFO] [1794735563.694636886] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735563.729583907] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735564.553859946] [rover_explore]: Observed ground: fitted=1 floor_z=0.011 odometry_z=-0.018 cells=357 inliers=251
+[terrainAnalysis-11] [INFO] [1794735564.855020932] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2533 个点
+[pose_estimation_node-3] [WARN] [1794735565.219816267] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[python3-1] [WARN] [1794735565.262944882] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=148 mean=969 jump=0.85
+[python3-1] [INFO] [1794735565.263627101] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735565.295568311] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735566.396219763] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735566.652217198] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.017 cells=397 inliers=291
+[terrainAnalysis-11] [INFO] [1794735566.955544443] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2469 个点
+[python3-1] [INFO] [1794735567.065101337] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.244
+[python3-1] [INFO] [1794735567.065347797] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735567.065707720] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735567.095500118] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735567.095761407] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735568.654156203] [rover_explore]: Observed ground: fitted=1 floor_z=-0.001 odometry_z=-0.019 cells=408 inliers=278
+[terrainAnalysis-11] [INFO] [1794735569.052342002] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2493 个点
+[terrainAnalysis-11] [INFO] [1794735569.144677634] [terrain_analysis]: 已清理 3 个远离机器人的体素
+[pose_estimation_node-3] [WARN] [1794735570.221840200] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735570.750720027] [rover_explore]: Observed ground: fitted=1 floor_z=0.012 odometry_z=-0.018 cells=468 inliers=321
+[terrainAnalysis-11] [INFO] [1794735571.054309998] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2484 个点
+[python3-1] [INFO] [1794735571.502255936] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735572.751985305] [rover_explore]: Observed ground: fitted=1 floor_z=0.025 odometry_z=-0.017 cells=429 inliers=322
+[terrainAnalysis-11] [INFO] [1794735573.151185022] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2563 个点
+[rover_explore_node-13] [INFO] [1794735574.851091286] [rover_explore]: Observed ground: fitted=1 floor_z=0.018 odometry_z=-0.018 cells=481 inliers=338
+[terrainAnalysis-11] [INFO] [1794735575.152235421] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2754 个点
+[pose_estimation_node-3] [WARN] [1794735575.235534483] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735576.508127901] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735576.951429250] [rover_explore]: Observed ground: fitted=1 floor_z=0.018 odometry_z=-0.018 cells=484 inliers=327
+[terrainAnalysis-11] [INFO] [1794735577.152791863] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2595 个点
+[python3-1] [INFO] [1794735578.644026254] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.234
+[python3-1] [INFO] [1794735578.644235063] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735578.644515751] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735578.676892925] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735578.677129039] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735578.951795717] [rover_explore]: Observed ground: fitted=1 floor_z=0.014 odometry_z=-0.018 cells=505 inliers=359
+[terrainAnalysis-11] [INFO] [1794735579.252797287] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2532 个点
+[pose_estimation_node-3] [WARN] [1794735580.240206057] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [WARN] [1794735580.412261609] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=165 mean=965 jump=0.83
+[python3-1] [INFO] [1794735580.412947021] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735580.583514003] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735581.051228828] [rover_explore]: Observed ground: fitted=1 floor_z=0.018 odometry_z=-0.017 cells=571 inliers=369
+[terrainAnalysis-11] [INFO] [1794735581.353631303] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2581 个点
+[python3-1] [INFO] [1794735581.512383442] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [WARN] [1794735582.645764407] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=179 mean=965 jump=0.81
+[python3-1] [INFO] [1794735582.646427679] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735582.778113057] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735583.052720428] [rover_explore]: Observed ground: fitted=1 floor_z=0.018 odometry_z=-0.020 cells=489 inliers=361
+[terrainAnalysis-11] [INFO] [1794735583.452316340] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2722 个点
+[rover_explore_node-13] [INFO] [1794735585.152344386] [rover_explore]: Observed ground: fitted=1 floor_z=0.021 odometry_z=-0.016 cells=517 inliers=374
+[pose_estimation_node-3] [WARN] [1794735585.378591557] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[terrainAnalysis-11] [INFO] [1794735585.553050256] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2746 个点
+[python3-1] [WARN] [1794735585.585969940] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=129 mean=965 jump=0.87
+[python3-1] [INFO] [1794735585.586209569] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.208
+[python3-1] [INFO] [1794735585.586370667] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735585.586650395] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735585.619854071] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735585.620085481] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735586.519857305] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735587.252719509] [rover_explore]: Observed ground: fitted=1 floor_z=-0.004 odometry_z=-0.017 cells=138 inliers=98
+[terrainAnalysis-11] [INFO] [1794735587.554261348] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2549 个点
+[python3-1] [INFO] [1794735587.687854195] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735587.721043373] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735588.123793021] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735588.155664022] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735589.261163052] [rover_explore]: Observed ground: fitted=1 floor_z=0.033 odometry_z=-0.018 cells=123 inliers=95
+[terrainAnalysis-11] [INFO] [1794735589.652077773] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2704 个点
+[pose_estimation_node-3] [WARN] [1794735590.389144795] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735591.351999438] [rover_explore]: Observed ground: fitted=1 floor_z=0.013 odometry_z=-0.017 cells=225 inliers=147
+[python3-1] [INFO] [1794735591.600492508] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[terrainAnalysis-11] [INFO] [1794735591.653768527] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2716 个点
+[python3-1] [WARN] [1794735592.837595685] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=153 mean=1069 jump=0.86
+[python3-1] [INFO] [1794735592.837879593] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.323
+[python3-1] [INFO] [1794735592.838048120] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735592.838337726] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735592.873795200] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735592.874059181] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735593.208857664] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735593.242420244] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735593.450680667] [rover_explore]: Observed ground: fitted=1 floor_z=0.010 odometry_z=-0.020 cells=264 inliers=186
+[python3-1] [INFO] [1794735593.575314872] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735593.605853740] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[terrainAnalysis-11] [INFO] [1794735593.751456118] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2905 个点
+[python3-1] [INFO] [1794735594.007521256] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735594.039697909] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735594.209405302] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735594.242465686] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735595.451145535] [rover_explore]: Observed ground: fitted=1 floor_z=0.033 odometry_z=-0.018 cells=290 inliers=204
+[pose_estimation_node-3] [WARN] [1794735595.739556943] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[terrainAnalysis-11] [INFO] [1794735595.752610601] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2906 个点
+[python3-1] [INFO] [1794735595.980346061] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735596.010799644] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735596.615468141] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794735597.517036491] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735597.550788364] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735597.552182690] [rover_explore]: Observed ground: fitted=1 floor_z=0.011 odometry_z=-0.018 cells=306 inliers=226
+[terrainAnalysis-11] [INFO] [1794735597.852402042] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2506 个点
+[rover_explore_node-13] [INFO] [1794735599.650634042] [rover_explore]: Observed ground: fitted=1 floor_z=0.016 odometry_z=-0.020 cells=398 inliers=298
+[terrainAnalysis-11] [INFO] [1794735599.852413516] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2609 个点
+[pose_estimation_node-3] [WARN] [1794735600.748886142] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735601.659565742] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735601.662155660] [rover_explore]: Observed ground: fitted=1 floor_z=0.027 odometry_z=-0.018 cells=336 inliers=250
+[terrainAnalysis-11] [INFO] [1794735601.862606847] [terrain_analysis]: 自车点云发布前过滤：删除 2 个点，剩余 2578 个点
+[rover_explore_node-13] [INFO] [1794735603.753180063] [rover_explore]: Observed ground: fitted=1 floor_z=0.014 odometry_z=-0.019 cells=415 inliers=291
+[terrainAnalysis-11] [INFO] [1794735603.954422374] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2607 个点
+[python3-1] [INFO] [1794735604.601436033] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.506
+[python3-1] [INFO] [1794735604.601653846] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735604.601949454] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735604.635249006] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735604.635504917] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735605.850923841] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.019 cells=449 inliers=304
+[terrainAnalysis-11] [INFO] [1794735606.056935121] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2314 个点
+[pose_estimation_node-3] [WARN] [1794735606.128338552] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[python3-1] [INFO] [1794735606.671876943] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735607.851796940] [rover_explore]: Observed ground: fitted=1 floor_z=0.013 odometry_z=-0.019 cells=522 inliers=328
+[terrainAnalysis-11] [INFO] [1794735608.152767011] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2324 个点
+[rover_explore_node-13] [INFO] [1794735609.951506683] [rover_explore]: Observed ground: fitted=1 floor_z=0.022 odometry_z=-0.017 cells=497 inliers=342
+[terrainAnalysis-11] [INFO] [1794735610.153161256] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2446 个点
+[pose_estimation_node-3] [WARN] [1794735611.136857079] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735611.816926511] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735611.953351206] [rover_explore]: Observed ground: fitted=1 floor_z=0.016 odometry_z=-0.018 cells=503 inliers=338
+[terrainAnalysis-11] [INFO] [1794735612.153817226] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2840 个点
+[rover_explore_node-13] [INFO] [1794735614.053519618] [rover_explore]: Observed ground: fitted=1 floor_z=0.020 odometry_z=-0.019 cells=537 inliers=367
+[terrainAnalysis-11] [INFO] [1794735614.253850322] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2815 个点
+[rover_explore_node-13] [INFO] [1794735616.053658803] [rover_explore]: Observed ground: fitted=1 floor_z=0.024 odometry_z=-0.019 cells=504 inliers=370
+[pose_estimation_node-3] [WARN] [1794735616.153843103] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[terrainAnalysis-11] [INFO] [1794735616.255868296] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2824 个点
+[python3-1] [INFO] [1794735616.429047271] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.351
+[python3-1] [INFO] [1794735616.429287067] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735616.429609270] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735616.464049451] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735616.464279775] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735616.828959872] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735618.153279304] [rover_explore]: Observed ground: fitted=1 floor_z=0.015 odometry_z=-0.015 cells=564 inliers=395
+[terrainAnalysis-11] [INFO] [1794735618.265897577] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2849 个点
+[python3-1] [INFO] [1794735619.868131611] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735620.000604062] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735620.252887917] [rover_explore]: Observed ground: fitted=1 floor_z=0.015 odometry_z=-0.017 cells=642 inliers=395
+[terrainAnalysis-11] [INFO] [1794735620.354447917] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2714 个点
+[python3-1] [INFO] [1794735620.471336765] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735620.502814461] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735621.836278224] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[pose_estimation_node-3] [WARN] [1794735621.995570660] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735622.363049725] [rover_explore]: Observed ground: fitted=1 floor_z=0.047 odometry_z=-0.017 cells=122 inliers=98
+[terrainAnalysis-11] [INFO] [1794735622.365144944] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2520 个点
+[rover_explore_node-13] [INFO] [1794735624.451367845] [rover_explore]: Observed ground: fitted=1 floor_z=0.013 odometry_z=-0.017 cells=213 inliers=150
+[terrainAnalysis-11] [INFO] [1794735624.453412270] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2422 个点
+[rover_explore_node-13] [INFO] [1794735626.551911159] [rover_explore]: Observed ground: fitted=1 floor_z=0.020 odometry_z=-0.017 cells=270 inliers=199
+[terrainAnalysis-11] [INFO] [1794735626.552749038] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2495 个点
+[python3-1] [INFO] [1794735626.645843859] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.230
+[python3-1] [INFO] [1794735626.646063504] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735626.646348322] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735626.678006770] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735626.678238517] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735627.013044848] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=1 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[pose_estimation_node-3] [WARN] [1794735628.179926337] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735628.552082388] [rover_explore]: Observed ground: fitted=1 floor_z=0.021 odometry_z=-0.020 cells=256 inliers=209
+[terrainAnalysis-11] [INFO] [1794735628.653980122] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2582 个点
+[rover_explore_node-13] [INFO] [1794735630.552748141] [rover_explore]: Observed ground: fitted=1 floor_z=0.005 odometry_z=-0.017 cells=317 inliers=220
+[terrainAnalysis-11] [INFO] [1794735630.655183590] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2596 个点
+[python3-1] [INFO] [1794735632.022088140] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=1 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735632.653121151] [rover_explore]: Observed ground: fitted=1 floor_z=0.038 odometry_z=-0.018 cells=285 inliers=232
+[terrainAnalysis-11] [INFO] [1794735632.755291155] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2813 个点
+[pose_estimation_node-3] [WARN] [1794735633.181662041] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735634.754216764] [rover_explore]: Observed ground: fitted=1 floor_z=0.024 odometry_z=-0.018 cells=364 inliers=264
+[terrainAnalysis-11] [INFO] [1794735634.755648546] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2652 个点
+[python3-1] [WARN] [1794735634.926883716] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=1961 mean=1011 jump=0.94
+[python3-1] [INFO] [1794735634.927128904] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.377
+[python3-1] [INFO] [1794735634.927295238] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735634.927592348] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735634.994000198] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735634.994237155] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794735635.762758220] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735635.794613903] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735636.852256658] [rover_explore]: Observed ground: fitted=1 floor_z=0.024 odometry_z=-0.019 cells=425 inliers=314
+[terrainAnalysis-11] [INFO] [1794735636.853037698] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2467 个点
+[python3-1] [INFO] [1794735637.031478823] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794735637.097143982] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735637.131745681] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [WARN] [1794735637.197452643] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=151 mean=1033 jump=0.85
+[python3-1] [INFO] [1794735637.198108606] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735637.229439406] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-3] [WARN] [1794735638.728648437] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735638.852974649] [rover_explore]: Observed ground: fitted=1 floor_z=0.017 odometry_z=-0.016 cells=455 inliers=307
+[terrainAnalysis-11] [INFO] [1794735638.854068366] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2557 个点
+[terrainAnalysis-11] [INFO] [1794735639.198636705] [terrain_analysis]: 已清理 3 个远离机器人的体素
+[python3-1] [WARN] [1794735639.600075496] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=135 mean=1033 jump=0.87
+[python3-1] [INFO] [1794735639.600739805] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735639.635874993] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735640.863884578] [rover_explore]: Observed ground: fitted=1 floor_z=0.023 odometry_z=-0.019 cells=433 inliers=312
+[terrainAnalysis-11] [INFO] [1794735640.865304550] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2510 个点
+[python3-1] [INFO] [1794735642.038185326] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735642.952612516] [rover_explore]: Observed ground: fitted=1 floor_z=0.019 odometry_z=-0.018 cells=493 inliers=350
+[terrainAnalysis-11] [INFO] [1794735642.953522499] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2597 个点
+[pose_estimation_node-3] [WARN] [1794735643.765296675] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [WARN] [1794735644.646364772] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=150 mean=1033 jump=0.85
+[python3-1] [INFO] [1794735644.646605365] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.235
+[python3-1] [INFO] [1794735644.646759822] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735644.647033791] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735644.678634689] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735644.678877903] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735645.051895426] [rover_explore]: Observed ground: fitted=1 floor_z=0.023 odometry_z=-0.017 cells=540 inliers=367
+[terrainAnalysis-11] [INFO] [1794735645.053313632] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2454 个点
+[python3-1] [INFO] [1794735647.047704460] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735647.052449659] [rover_explore]: Observed ground: fitted=1 floor_z=0.033 odometry_z=-0.018 cells=487 inliers=335
+[terrainAnalysis-11] [INFO] [1794735647.053769526] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2481 个点
+[python3-1] [WARN] [1794735648.182218625] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=2022 mean=1033 jump=0.96
+[python3-1] [INFO] [1794735648.182908273] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735648.251024360] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735649.152361859] [rover_explore]: Observed ground: fitted=1 floor_z=0.022 odometry_z=-0.019 cells=505 inliers=350
+[terrainAnalysis-11] [INFO] [1794735649.153004209] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2564 个点
+[pose_estimation_node-3] [WARN] [1794735649.744186478] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735651.251446634] [rover_explore]: Observed ground: fitted=1 floor_z=0.019 odometry_z=-0.018 cells=588 inliers=407
+[terrainAnalysis-11] [INFO] [1794735651.252374624] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2630 个点
+[python3-1] [INFO] [1794735652.125110998] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=22 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735653.353593852] [rover_explore]: Observed ground: fitted=1 floor_z=-0.024 odometry_z=-0.020 cells=114 inliers=79
+[terrainAnalysis-11] [INFO] [1794735653.354931706] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2572 个点
+[pose_estimation_node-3] [WARN] [1794735654.749861526] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794735655.354083763] [rover_explore]: Observed ground: fitted=1 floor_z=0.032 odometry_z=-0.020 cells=112 inliers=87
+[terrainAnalysis-11] [INFO] [1794735655.355513289] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2249 个点
+[python3-1] [INFO] [1794735657.127132915] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=0 max_conf=0.00 publish=False
+[rover_explore_node-13] [INFO] [1794735657.453813966] [rover_explore]: Observed ground: fitted=1 floor_z=0.019 odometry_z=-0.019 cells=218 inliers=166
+[terrainAnalysis-11] [INFO] [1794735657.454249393] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2705 个点
+[rover_explore_node-13] [INFO] [1794735659.552330041] [rover_explore]: Observed ground: fitted=1 floor_z=0.015 odometry_z=-0.017 cells=261 inliers=203
+[terrainAnalysis-11] [INFO] [1794735659.553145771] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2696 个点
+[pose_estimation_node-3] [WARN] [1794735659.755659281] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1794735660.803292702] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.514
+[python3-1] [INFO] [1794735660.803516897] [yolo_node]: Publish gate opened: confidence>0.2 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794735660.803802756] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1794735660.900859209] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.2). Publishing paused.
+[python3-1] [INFO] [1794735660.901098936] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[rover_explore_node-13] [INFO] [1794735661.652455243] [rover_explore]: Observed ground: fitted=1 floor_z=0.020 odometry_z=-0.018 cells=341 inliers=252
+[terrainAnalysis-11] [INFO] [1794735661.653326696] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2575 个点
+[python3-1] [INFO] [1794735662.136938018] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [static_transform_publisher-18]: sending signal 'SIGINT' to process[static_transform_publisher-18]
+[INFO] [mission_state-17]: sending signal 'SIGINT' to process[mission_state-17]
+[INFO] [mission_motion_gate-16]: sending signal 'SIGINT' to process[mission_motion_gate-16]
+[INFO] [exploration_path_follower-15]: sending signal 'SIGINT' to process[exploration_path_follower-15]
+[INFO] [exploration_nav2_planner-14]: sending signal 'SIGINT' to process[exploration_nav2_planner-14]
+[INFO] [rover_explore_node-13]: sending signal 'SIGINT' to process[rover_explore_node-13]
+[INFO] [component_container_mt-12]: sending signal 'SIGINT' to process[component_container_mt-12]
+[INFO] [terrainAnalysis-11]: sending signal 'SIGINT' to process[terrainAnalysis-11]
+[INFO] [fastlio_mapping-10]: sending signal 'SIGINT' to process[fastlio_mapping-10]
+[INFO] [imu_complementary_filter_node-9]: sending signal 'SIGINT' to process[imu_complementary_filter_node-9]
+[INFO] [imu_transform_node-8]: sending signal 'SIGINT' to process[imu_transform_node-8]
+[INFO] [static_transform_publisher-7]: sending signal 'SIGINT' to process[static_transform_publisher-7]
+[INFO] [static_transform_publisher-6]: sending signal 'SIGINT' to process[static_transform_publisher-6]
+[INFO] [tzb_catch-5]: sending signal 'SIGINT' to process[tzb_catch-5]
+[INFO] [planning_node-4]: sending signal 'SIGINT' to process[planning_node-4]
+[INFO] [pose_estimation_node-3]: sending signal 'SIGINT' to process[pose_estimation_node-3]
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[static_transform_publisher-18] [INFO] [1794735663.181771971] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[mission_motion_gate-16] [INFO] [1794735663.185094783] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[mission_state-17] [INFO] [1794735663.185331815] [mission_state]: PAUSED: Shutting down
+[pose_estimation_node-3] [INFO] [1794735663.188558106] [pose_estimation_node]: [GRASP][registration_gate] mission_state=PAUSED
+[rover_explore_node-13] [INFO] [1794735663.191714104] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-12] [INFO] [1794735663.192006120] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-12] [INFO] [1794735663.192123467] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[component_container_mt-12] [INFO] [1794735663.192347341] [bt_navigator]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.192370990] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[terrainAnalysis-11] [INFO] [1794735663.195385324] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[fastlio_mapping-10] catch sig %d2
+[imu_complementary_filter_node-9] [INFO] [1794735663.199323242] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[imu_complementary_filter_node-9] [INFO] [1794735663.200032899] [imu_complementary_filter]: Destroying ComplementaryFilterROS
+[static_transform_publisher-7] [INFO] [1794735663.199629357] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[imu_transform_node-8] [INFO] [1794735663.200335564] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-6] [INFO] [1794735663.201765971] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-12] [INFO] [1794735663.202864898] [bt_navigator]: Cleaning up
+[tzb_catch-5] [WARN] [1794735663.203394414] [tzb_catch]: [SHUTDOWN][BEGIN] signal=2 phase=waiting hint="press Ctrl+C again after 2 s or Ctrl+\ to stop the arm where it is"
+[tzb_catch-5] [INFO] [1794735663.203863968] [tzb_catch]: [SHUTDOWN] task worker stopped after 0.00s; phase=waiting
+[tzb_catch-5] [INFO] [1794735663.204304266] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.168526 J2_joint=3.44288 J3_joint=-1.62489 J4_joint=2.78745 J5_joint=0.772392 J6_joint=0.113708
+[tzb_catch-5] [INFO] [1794735663.204357800] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home goal=joint service=plan_arm_motion
+[tzb_catch-5] [WARN] [1794735663.204375439] [tzb_catch]: Stage [shutdown_home] clamped start joints to URDF limits: J2_joint=3.44288->1.1345
+[planning_node-4] [WARN] [1794735663.204488113] [planning_node]: [SHUTDOWN][HOLD] waiting for tzb_catch homing (signal=2, max 45.0s)
+[planning_node-4] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-4] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-4] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-4] Info:    Solution found in 0.003662 seconds
+[pose_estimation_node-3] [ModelData] points=7500 centroid=[0.00804956 0.00843504 0.00834317]
+[pose_estimation_node-3]   raw=7500 extent=[0.05       0.05       0.04998446] min=[0. 0. 0.] max=[0.05       0.05       0.04998446]
+[pose_estimation_node-3]   unit_scale=0.001 extent_before_scale=[50.         50.         49.98445892]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] [ModelData] points=8000 centroid=[-0.00022057  0.00060295  0.00725396]
+[pose_estimation_node-3]   raw=8000 extent=[0.03949388 0.03313522 0.03271301] min=[-0.01980828 -0.01599649 -0.01168051] max=[0.0196856  0.01713873 0.02103251]
+[pose_estimation_node-3]   unit_scale=1.0 extent_before_scale=[0.03949388 0.03313522 0.03271301]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] [ModelData] points=4000 centroid=[ 4.91108538e-05  2.34505438e-04 -7.69939746e-04]
+[pose_estimation_node-3]   raw=4000 extent=[0.0170862  0.0213377  0.01897023] min=[-0.00829844 -0.01084567 -0.01030486] max=[0.00878776 0.01049204 0.00866537]
+[pose_estimation_node-3]   unit_scale=1.0 extent_before_scale=[0.0170862  0.0213377  0.01897023]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[component_container_mt-12] [INFO] [1794735663.247308229] [lifecycle_manager_navigation]: [34m[1mHave not received a heartbeat from bt_navigator.[0m[0m
+[component_container_mt-12] [ERROR] [1794735663.247351955] [lifecycle_manager_navigation]: CRITICAL FAILURE: SERVER bt_navigator IS DOWN after not receiving a heartbeat for 4000 ms. Shutting down related nodes.
+[component_container_mt-12] [INFO] [1794735663.247415589] [lifecycle_manager_navigation]: [34m[1mTerminating bond timer...[0m[0m
+[component_container_mt-12] [INFO] [1794735663.247422552] [lifecycle_manager_navigation]: [34m[1mResetting managed nodes...[0m[0m
+[component_container_mt-12] [INFO] [1794735663.247428215] [lifecycle_manager_navigation]: [34m[1mDeactivating velocity_smoother[0m[0m
+[tzb_catch-5] [INFO] [1794735663.252119247] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home points=2
+[tzb_catch-5] [INFO] [1794735663.252179981] [tzb_catch]: Stage [shutdown_home_planned_final] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794735663.252197645] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home hz=100.00 speed_scale=1.000 duration=1.642s
+[pose_estimation_node-3] Traceback (most recent call last):
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node", line 33, in <module>
+[pose_estimation_node-3]     sys.exit(load_entry_point('pose-estimator', 'console_scripts', 'pose_estimation_node')())
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/build/pose_estimator/pose_estimator/pose_estimation_node.py", line 1809, in main
+[pose_estimation_node-3]     rclpy.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[pose_estimation_node-3]     _shutdown(context=context)
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[pose_estimation_node-3]     return context.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[pose_estimation_node-3]     self.__context.shutdown()
+[pose_estimation_node-3] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/sensor_msgs/msg/_point_cloud2.py", line 104, in __init__
+[far_target_locator-2]     def __init__(self, **kwargs):
+[far_target_locator-2] KeyboardInterrupt
+[far_target_locator-2] 
+[far_target_locator-2] The above exception was the direct cause of the following exception:
+[far_target_locator-2] 
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/build/pose_estimator/pose_estimator/far_target_locator.py", line 292, in main
+[far_target_locator-2]     try: rclpy.spin(n)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 229, in spin
+[far_target_locator-2]     executor.spin_once()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 808, in spin_once
+[far_target_locator-2]     self._spin_once_impl(timeout_sec)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 805, in _spin_once_impl
+[far_target_locator-2]     raise handler.exception()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/task.py", line 272, in _execute_coroutine_step
+[far_target_locator-2]     result = coro.send(None)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 488, in handler
+[far_target_locator-2]     await call_coroutine(entity, arg)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 396, in _execute_timer
+[far_target_locator-2]     await await_or_execute(tmr.callback)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/executors.py", line 110, in await_or_execute
+[far_target_locator-2]     return callback(*args)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/build/pose_estimator/pose_estimator/far_target_locator.py", line 204, in tick
+[far_target_locator-2]     cl = deserialize_message(cl_raw, PointCloud2) if cl_raw is not None else None
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/serialization.py", line 42, in deserialize_message
+[far_target_locator-2]     return _rclpy.rclpy_deserialize(serialized_message, message_type)
+[far_target_locator-2] TypeError: Unable to convert function return value to a Python type! The signature was
+[far_target_locator-2] 	(arg0: bytes, arg1: object) -> object
+[component_container_mt-12] [INFO] [1794735663.280982514] [velocity_smoother]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.281060705] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[INFO] [static_transform_publisher-18]: process has finished cleanly [pid 6194]
+[INFO] [mission_motion_gate-16]: process has finished cleanly [pid 6189]
+[INFO] [imu_transform_node-8]: process has finished cleanly [pid 6139]
+[INFO] [static_transform_publisher-7]: process has finished cleanly [pid 6137]
+[INFO] [terrainAnalysis-11]: process has finished cleanly [pid 6168]
+[INFO] [imu_complementary_filter_node-9]: process has finished cleanly [pid 6141]
+[ERROR] [fastlio_mapping-10]: process has died [pid 6143, exit code -11, cmd '/home/tzb/nav_explore_ws/install/fast_lio/lib/fast_lio/fastlio_mapping --ros-args --params-file /home/tzb/nav_explore_ws/install/fast_lio/share/fast_lio/config/mid360.yaml --params-file /tmp/launch_params_jpnnq6xf --params-file /tmp/launch_params_oz3pfjlu'].
+[INFO] [static_transform_publisher-6]: process has finished cleanly [pid 6135]
+[INFO] [exploration_nav2_planner-14]: process has finished cleanly [pid 6183]
+[INFO] [exploration_path_follower-15]: process has finished cleanly [pid 6186]
+[INFO] [mission_state-17]: process has finished cleanly [pid 6191]
+[INFO] [rover_explore_node-13]: process has finished cleanly [pid 6181]
+[component_container_mt-12] [INFO] [1794735663.388780576] [bt_navigator]: Completed Cleaning up
+[component_container_mt-12] [INFO] [1794735663.388820595] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.388827171] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[component_container_mt-12] [INFO] [1794735663.388841050] [waypoint_follower]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.388847563] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.398985714] [waypoint_follower]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.398992158] [lifecycle_manager_navigation]: [34m[1mDeactivating waypoint_follower[0m[0m
+[component_container_mt-12] [INFO] [1794735663.411647156] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.411705833] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[component_container_mt-12] [INFO] [1794735663.411720120] [velocity_smoother]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.411736031] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.411738981] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[component_container_mt-12] [INFO] [1794735663.411750033] [planner_server]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.411767093] [global_costmap.global_costmap]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.411784356] [global_costmap.global_costmap]: stvl_layer was deactivated.
+[component_container_mt-12] [WARN] [1794735663.418500637] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.418519339] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.418526234] [waypoint_follower]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794735663.419168809] [lifecycle_manager_navigation]: Failed to change state for node: waypoint_follower
+[component_container_mt-12] [INFO] [1794735663.419197096] [lifecycle_manager_navigation]: [34m[1mDeactivating bt_navigator[0m[0m
+[component_container_mt-12] [WARN] [1794735663.419539744] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.419554084] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.419560299] [bt_navigator]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794735663.419745148] [lifecycle_manager_navigation]: Failed to change state for node: bt_navigator
+[component_container_mt-12] [INFO] [1794735663.419751743] [lifecycle_manager_navigation]: [34m[1mDeactivating behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794735663.419891834] [behavior_server]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.419937029] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[ERROR] [far_target_locator-2]: process has died [pid 6127, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator'].
+[component_container_mt-12] [INFO] [1794735663.436828262] [planner_server]: Deactivating plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735663.436870485] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.447847888] [planner_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.463797970] [global_costmap.global_costmap]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.480834890] [planner_server]: Cleaning up plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735663.481112072] [planner_server]: Destroying plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794735663.495601079] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.495642628] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[component_container_mt-12] [INFO] [1794735663.495669814] [smoother_server]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.495696015] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.505928444] [smoother_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.516698772] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.516739641] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[component_container_mt-12] [INFO] [1794735663.538941917] [lifecycle_manager_navigation]: [34m[1mDeactivating planner_server[0m[0m
+[component_container_mt-12] [WARN] [1794735663.541109517] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.541135315] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.541141753] [planner_server]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794735663.541530946] [lifecycle_manager_navigation]: Failed to change state for node: planner_server
+[component_container_mt-12] [INFO] [1794735663.541561103] [lifecycle_manager_navigation]: [34m[1mDeactivating smoother_server[0m[0m
+[component_container_mt-12] [WARN] [1794735663.541664762] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.541674369] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.541677197] [smoother_server]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794735663.541929017] [lifecycle_manager_navigation]: Failed to change state for node: smoother_server
+[component_container_mt-12] [INFO] [1794735663.541946035] [lifecycle_manager_navigation]: [34m[1mDeactivating controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794735663.542077128] [controller_server]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.542098575] [controller_server]: Deactivating controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794735663.542116907] [MPPIController]: Deactivated MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794735663.542129470] [local_costmap.local_costmap]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.542140053] [local_costmap.local_costmap]: stvl_layer was deactivated.
+[component_container_mt-12] [INFO] [1794735663.550593733] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[ERROR] [pose_estimation_node-3]: process has died [pid 6129, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node --ros-args -r __node:=pose_estimation_node --params-file /tmp/grasp_arm_2cadl4zk/vision.yaml'].
+[component_container_mt-12] [INFO] [1794735663.662563480] [lifecycle_manager_navigation]: [34m[1mCleaning up velocity_smoother[0m[0m
+[component_container_mt-12] [WARN] [1794735663.664997767] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.665015087] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.665021304] [velocity_smoother]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794735663.665328114] [lifecycle_manager_navigation]: [34m[1mCleaning up waypoint_follower[0m[0m
+[component_container_mt-12] [WARN] [1794735663.665411870] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.665420516] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.665423219] [waypoint_follower]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794735663.665580202] [lifecycle_manager_navigation]: [34m[1mCleaning up bt_navigator[0m[0m
+[component_container_mt-12] [WARN] [1794735663.665716413] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.665729112] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.665734699] [bt_navigator]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794735663.665886710] [lifecycle_manager_navigation]: [34m[1mCleaning up behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794735663.665990497] [behavior_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.704446938] [lifecycle_manager_navigation]: [34m[1mCleaning up planner_server[0m[0m
+[component_container_mt-12] [WARN] [1794735663.704574080] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.704599043] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.704605281] [planner_server]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794735663.704810693] [lifecycle_manager_navigation]: [34m[1mCleaning up smoother_server[0m[0m
+[component_container_mt-12] [WARN] [1794735663.704890231] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794735663.704898114] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794735663.704902150] [smoother_server]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794735663.705032378] [lifecycle_manager_navigation]: [34m[1mCleaning up controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794735663.705124692] [controller_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.705140925] [controller_server]: Cleaning up controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794735663.714127876] [MPPIController]: Cleaned up MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794735663.716533666] [local_costmap.local_costmap]: Cleaning up
+[INFO] [python3-1]: process has finished cleanly [pid 6125]
+[component_container_mt-12] [INFO] [1794735663.745012623] [lifecycle_manager_navigation]: [34m[1mManaged nodes have been reset[0m[0m
+[component_container_mt-12] [INFO] [1794735663.795841943] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[component_container_mt-12] [INFO] [1794735663.795867823] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.795871823] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[component_container_mt-12] [INFO] [1794735663.795876685] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.795880049] [lifecycle_manager_localization]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_localization)
+[component_container_mt-12] [INFO] [1794735663.795888698] [lifecycle_manager_localization]: [34m[1mTerminating bond timer...[0m[0m
+[component_container_mt-12] [INFO] [1794735663.809331158] [map_server]: Running Nav2 LifecycleNode rcl preshutdown (map_server)
+[component_container_mt-12] [INFO] [1794735663.809364363] [map_server]: Deactivating
+[component_container_mt-12] [INFO] [1794735663.809375856] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.819455561] [map_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794735663.819521437] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794735663.837989241] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[component_container_mt-12] [INFO] [1794735663.845308376] [velocity_smoother]: Destroying
+[component_container_mt-12] [INFO] [1794735663.859036986] [waypoint_follower]: Destroying
+[component_container_mt-12] [INFO] [1794735663.871570575] [bt_navigator]: Destroying
+[component_container_mt-12] [INFO] [1794735663.880233358] [behavior_server]: Destroying
+[component_container_mt-12] Magick: abort due to signal 11 (SIGSEGV) "Segmentation Fault"...
+[tzb_catch-5] [INFO] [1794735664.894397791] [tzb_catch]: [GRASP][command][END] step=shutdown_home status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794735664.894433005] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[ERROR] [component_container_mt-12]: process has died [pid 6175, exit code -6, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_mt --ros-args --log-level info --ros-args -r __node:=nav2_container --params-file /tmp/tmp7hefsztu --params-file /tmp/launch_params_n8tzviyl -r /tf:=tf -r /tf_static:=tf_static'].
+[tzb_catch-5] [WARN] [1794735665.256993446] [tzb_catch]: [GRASP][feedback][NO_MOTION][EARLY] step=shutdown_home no joint has moved 2.0s after the command (commanded travel up to 2.787 rad on J4_joint); check the remote controller (遥控器) / arm enable / arm power; still waiting up to 20.0s for arrival
+[tzb_catch-5] [ERROR] [1794735684.894512067] [tzb_catch]: Stage [shutdown_home] did not receive physical-arrival confirmation within 20.00 s (last max error 2.78745 rad); joint_errors: J1_joint{target=0.5, measured=0.168526, error=-0.331474, raw_error=-0.331474, abs=0.331474, BAD} J2_joint{target=1, measured=3.44288, error=2.44288, raw_error=2.44288, abs=2.44288, BAD} J3_joint{target=-2.61, measured=-1.62489, error=0.985111, raw_error=0.985111, abs=0.985111, BAD} J4_joint{target=0, measured=2.78745, error=2.78745, raw_error=2.78745, abs=2.78745, BAD} J5_joint{target=1.3, measured=0.772392, error=-0.527608, raw_error=-0.527608, abs=0.527608, BAD} J6_joint{target=0, measured=0.113708, error=0.113708, raw_error=0.113708, abs=0.113708, ok}; aborting before the next subtask.
+[tzb_catch-5] [ERROR] [1794735684.894567059] [tzb_catch]: [GRASP][feedback][NO_MOTION] step=shutdown_home lower controller did not execute any joint command (commanded travel up to 2.787 rad on J4_joint; largest measured change 0.0000 rad < 0.002); check the remote controller (遥控器) / arm enable / arm power
+[tzb_catch-5] [ERROR] [1794735684.894772968] [tzb_catch]: [SHUTDOWN][HOME][FAIL] reason=no_motion(check_remote_or_power) max_error=2.78745 object_in_gripper=false elapsed=21.69s joint_errors: J1_joint{target=0.5, measured=0.168526, error=-0.331474, raw_error=-0.331474, abs=0.331474, BAD} J2_joint{target=1, measured=3.44288, error=2.44288, raw_error=2.44288, abs=2.44288, BAD} J3_joint{target=-2.61, measured=-1.62489, error=0.985111, raw_error=0.985111, abs=0.985111, BAD} J4_joint{target=0, measured=2.78745, error=2.78745, raw_error=2.78745, abs=2.78745, BAD} J5_joint{target=1.3, measured=0.772392, error=-0.527608, raw_error=-0.527608, abs=0.527608, BAD} J6_joint{target=0, measured=0.113708, error=0.113708, raw_error=0.113708, abs=0.113708, ok}
+[tzb_catch-5] [ERROR] [1794735684.894817709] [tzb_catch]: [SHUTDOWN][END] exit_code=2
+[planning_node-4] [INFO] [1794735684.913032959] [planning_node]: [SHUTDOWN][RELEASE] reason=hold_released waited=21.71s
+[INFO] [planning_node-4]: process has finished cleanly [pid 6131]
+[ERROR] [tzb_catch-5]: process has died [pid 6133, exit code 2, cmd '/home/tzb/tzb_ws/install/lite_motion_planner/lib/lite_motion_planner/tzb_catch --ros-args -r __node:=tzb_catch --params-file /tmp/grasp_arm_2cadl4zk/planner.yaml'].

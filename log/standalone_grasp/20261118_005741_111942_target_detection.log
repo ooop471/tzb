@@ -1,0 +1,51 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-18-00-57-41-675556-tzb-NUC14RVS-B-7744
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [7746]
+[INFO] [far_target_locator-2]: process started with pid [7748]
+[python3-1] [INFO] [1794934662.781883143] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794934662.783665807] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794934662.784085427] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794934662.784291190] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794934662.786204082] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794934663.336945490] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794934663.337198243] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794934663.340405578] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794934663.342158481] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794934663.342813769] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794934663.343000084] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794934663.343168898] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794934663.343341264] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794934663.343737895] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794934665.078085825] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.938
+[python3-1] [INFO] [1794934665.078310301] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794934665.100223572] [yolo_node]: [GRASP][detection][STATUS] total=46ms | queue=0 convert=1 infer=22 post=1ms | det=1 max_conf=0.94 publish=True
+[python3-1] [INFO] [1794934665.100681153] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[far_target_locator-2] [INFO] [1794934665.566019570] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [INFO] [1794934670.135964122] [yolo_node]: [GRASP][detection][STATUS] total=49ms | queue=25 convert=0 infer=25 post=0ms | det=1 max_conf=0.94 publish=True
+[python3-1] [INFO] [1794934675.151213577] [yolo_node]: [GRASP][detection][STATUS] total=45ms | queue=1 convert=0 infer=25 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1794934680.581139060] [yolo_node]: [GRASP][detection][STATUS] total=42ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.94 publish=True
+[far_target_locator-2] [INFO] [1794934682.703771077] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [INFO] [1794934685.597616625] [yolo_node]: [GRASP][detection][STATUS] total=54ms | queue=28 convert=0 infer=18 post=0ms | det=1 max_conf=0.94 publish=True
+[python3-1] [INFO] [1794934690.620706869] [yolo_node]: [GRASP][detection][STATUS] total=43ms | queue=23 convert=0 infer=19 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1794934695.699300275] [yolo_node]: [GRASP][detection][STATUS] total=40ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.94 publish=True
+[python3-1] [INFO] [1794934699.284141979] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794934699.284513933] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[python3-1] [INFO] [1794934700.248720366] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.916
+[python3-1] [INFO] [1794934700.249008849] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794934700.266950481] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[python3-1] [INFO] [1794934700.707914636] [yolo_node]: [GRASP][detection][STATUS] total=52ms | queue=0 convert=0 infer=23 post=0ms | det=1 max_conf=0.92 publish=True
+[far_target_locator-2] [INFO] [1794934703.603720898] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [INFO] [1794934705.748845563] [yolo_node]: [GRASP][detection][STATUS] total=42ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.94 publish=True
+[python3-1] [INFO] [1794934706.496133876] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794934706.496472221] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[python3-1] [INFO] [1794934707.559930472] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.924
+[python3-1] [INFO] [1794934707.560140057] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794934707.589772128] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[python3-1] [INFO] [1794934710.776705462] [yolo_node]: [GRASP][detection][STATUS] total=42ms | queue=22 convert=0 infer=17 post=0ms | det=1 max_conf=0.95 publish=True
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 7748]
+[INFO] [python3-1]: process has finished cleanly [pid 7746]

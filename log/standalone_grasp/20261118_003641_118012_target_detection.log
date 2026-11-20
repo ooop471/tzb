@@ -1,0 +1,47 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-18-00-36-42-071704-tzb-NUC14RVS-B-5947
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [5949]
+[INFO] [far_target_locator-2]: process started with pid [5951]
+[python3-1] [INFO] [1794933403.185756537] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794933403.187268671] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794933403.187766452] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794933403.187977917] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794933403.189923933] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794933403.679847277] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794933403.680074220] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794933403.682760184] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794933403.683842240] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794933403.684300693] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794933403.684461806] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794933403.684609019] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794933403.684746289] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794933403.685077349] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794933404.220741542] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.907
+[python3-1] [INFO] [1794933404.221001514] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794933404.221356248] [yolo_node]: [GRASP][detection][STATUS] total=26ms | queue=0 convert=1 infer=24 post=1ms | det=1 max_conf=0.91 publish=True
+[python3-1] [INFO] [1794933404.221553454] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[python3-1] [INFO] [1794933408.084268311] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794933408.084513409] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794933409.320125195] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1794933409.487995808] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.664
+[python3-1] [INFO] [1794933409.488218130] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794933409.488519318] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[far_target_locator-2] [INFO] [1794933410.225771992] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [INFO] [1794933414.323052969] [yolo_node]: [GRASP][detection][STATUS] total=16ms | queue=0 convert=0 infer=16 post=0ms | det=1 max_conf=0.94 publish=True
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] [ERROR] [1794933414.359726658] [yolo_node]: Error processing image: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] [ERROR] [1794933414.360203581] [yolo_node]: Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 966, in _process_image
+[python3-1]     self.detection_publisher.publish(detection_array_msg)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+[python3-1]     self.__publisher.publish(msg)
+[python3-1] rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] 
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 5951]
+[INFO] [python3-1]: process has finished cleanly [pid 5949]

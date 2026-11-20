@@ -1,0 +1,22 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-19-00-03-05-569334-tzb-NUC14RVS-B-2780
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [launch.user]: Camera switch: starting Orbbec Gemini 336L.
+[INFO] [launch.user]: Camera topics: /camera/color/image_raw, /camera/depth/image_rect_raw, /camera/depth/color/points.
+[INFO] [component_container-1]: process started with pid [2915]
+[component_container-1] [INFO] [1795017786.007578850] [camera.camera_container]: Load Library: /home/tzb/tzb_ws/install/orbbec_camera/lib/liborbbec_camera.so
+[component_container-1] [INFO] [1795017786.108765687] [camera.camera_container]: Found class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[component_container-1] [INFO] [1795017786.108812873] [camera.camera_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<orbbec_camera::OBCameraNodeDriver>
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/camera/camera' in container '/camera/camera_container'
+[component_container-1] [WARN] [1795017787.465540069] [camera.camera]: Color preset is not supported by this device
+[component_container-1] [WARN] [1795020322.546179362] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[component_container-1] [ERROR] [1795020322.693375197] [camera.camera]: Error in setupDevices at line 936: Cannot switch depth work mode while any stream is started. Please stop all stream first! status:107
+[component_container-1] [WARN] [1795020322.699309721] [camera.camera]: Color preset is not supported by this device
+[component_container-1] [ERROR] [1795020322.926715748] [camera.camera]: Failed to start pipeline: The Color has already been started. status:107
+[component_container-1] [WARN] [1795020347.796154813] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[component_container-1] [ERROR] [1795020347.962403777] [camera.camera]: Error in setupDevices at line 936: Cannot switch depth work mode while any stream is started. Please stop all stream first! status:107
+[component_container-1] [WARN] [1795020347.967819657] [camera.camera]: Color preset is not supported by this device
+[component_container-1] [ERROR] [1795020348.210381231] [camera.camera]: Failed to start pipeline: The Color has already been started. status:107
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [component_container-1]: sending signal 'SIGINT' to process[component_container-1]
+[component_container-1] Received signal: 2
+[ERROR] [component_container-1]: process has died [pid 2915, exit code -2, cmd '/opt/ros/humble/lib/rclcpp_components/component_container --ros-args -r __node:=camera_container -r __ns:=/camera -r /camera/depth/image_raw:=/camera/depth/image_rect_raw -r /camera/depth_registered/points:=/camera/depth/color/points'].

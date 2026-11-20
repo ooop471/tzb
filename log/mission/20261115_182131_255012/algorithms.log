@@ -1,0 +1,744 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-15-18-21-39-920549-tzb-NUC14RVS-B-13900
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [static_transform_publisher-1]: process started with pid [13964]
+[INFO] [static_transform_publisher-2]: process started with pid [13966]
+[INFO] [imu_transform_node-3]: process started with pid [13968]
+[INFO] [imu_complementary_filter_node-4]: process started with pid [13970]
+[INFO] [fastlio_mapping-5]: process started with pid [13972]
+[INFO] [terrainAnalysis-6]: process started with pid [13974]
+[INFO] [component_container_mt-7]: process started with pid [13976]
+[INFO] [rover_explore_node-8]: process started with pid [13978]
+[INFO] [exploration_nav2_planner-9]: process started with pid [13980]
+[INFO] [exploration_path_follower-10]: process started with pid [13982]
+[INFO] [mission_motion_gate-11]: process started with pid [14040]
+[INFO] [mission_state-12]: process started with pid [14049]
+[INFO] [static_transform_publisher-13]: process started with pid [14055]
+[static_transform_publisher-1] [INFO] [1794738100.592765725] [exploration_map_to_odom]: Spinning until stopped - publishing transform
+[static_transform_publisher-1] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-1] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-1] from 'map' to 'odom_init'
+[static_transform_publisher-2] [INFO] [1794738100.596981694] [exploration_base_to_livox]: Spinning until stopped - publishing transform
+[static_transform_publisher-2] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-2] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-2] from 'base_frame' to 'livox_frame'
+[imu_complementary_filter_node-4] [INFO] [1794738100.599254056] [imu_complementary_filter]: Starting ComplementaryFilterROS
+[exploration_nav2_planner-9] [INFO] [1794738100.602417991] [exploration_nav2_planner]: Exploration path source: Nav2 path to observed center goal; soft corridor guidance
+[terrainAnalysis-6] [INFO] [1794738100.607020392] [terrain_analysis]: Terrain obstacle height threshold: 0.100 m above local ground
+[static_transform_publisher-13] [INFO] [1794738100.612076127] [mission_arm_mount]: Spinning until stopped - publishing transform
+[static_transform_publisher-13] translation: ('0.160000', '0.000000', '0.000000')
+[static_transform_publisher-13] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-13] from 'base_frame' to 'base_link'
+[terrainAnalysis-6] [INFO] [1794738100.615003383] [terrain_analysis]: TerrainAnalysisNode 初始化完成 - 动态体素版本
+[rover_explore_node-8] finished constructor
+[rover_explore_node-8] parameter kAutoStart: 0
+[fastlio_mapping-5] [INFO] [1794738100.656336127] [laser_mapping]: p_pre->lidar_type 1
+[fastlio_mapping-5] Multi thread started 
+[fastlio_mapping-5] ~~~~/home/tzb/nav_explore_ws/src/localization/fast_lio/ doesn't exist
+[exploration_path_follower-10] [INFO] [1794738100.660979887] [exploration_path_follower]: Exploration follower: continuous FollowPath updates, bounded collision-checked recovery and continuous replanning
+[fastlio_mapping-5] [INFO] [1794738100.670952228] [laser_mapping]: Node init finished.
+[component_container_mt-7] [INFO] [1794738100.710194894] [nav2_container]: Load Library: /opt/ros/humble/lib/libcontroller_server_core.so
+[component_container_mt-7] [INFO] [1794738100.714484149] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[component_container_mt-7] [INFO] [1794738100.714519099] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[component_container_mt-7] [INFO] [1794738100.723775036] [controller_server]: 
+[component_container_mt-7] 	controller_server lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.728578116] [controller_server]: Creating controller server
+[component_container_mt-7] [INFO] [1794738100.737199508] [local_costmap.local_costmap]: 
+[component_container_mt-7] 	local_costmap lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.737648818] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/controller_server' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.740593830] [nav2_container]: Load Library: /opt/ros/humble/lib/libsmoother_server_core.so
+[component_container_mt-7] [INFO] [1794738100.741456128] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[component_container_mt-7] [INFO] [1794738100.741469543] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[component_container_mt-7] [INFO] [1794738100.750340628] [smoother_server]: 
+[component_container_mt-7] 	smoother_server lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.752079493] [smoother_server]: Creating smoother server
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/smoother_server' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.754404758] [nav2_container]: Load Library: /opt/ros/humble/lib/libplanner_server_core.so
+[component_container_mt-7] [INFO] [1794738100.755306671] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[component_container_mt-7] [INFO] [1794738100.755333721] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[component_container_mt-7] [INFO] [1794738100.764539020] [planner_server]: 
+[component_container_mt-7] 	planner_server lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.766324474] [planner_server]: Creating
+[component_container_mt-7] [INFO] [1794738100.776126639] [global_costmap.global_costmap]: 
+[component_container_mt-7] 	global_costmap lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.776839451] [global_costmap.global_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/planner_server' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.779812859] [nav2_container]: Load Library: /opt/ros/humble/lib/libbehavior_server_core.so
+[component_container_mt-7] [INFO] [1794738100.782870361] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-7] [INFO] [1794738100.782894222] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-7] [INFO] [1794738100.795159786] [behavior_server]: 
+[component_container_mt-7] 	behavior_server lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/behavior_server' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.799060415] [nav2_container]: Load Library: /opt/ros/humble/lib/libbt_navigator_core.so
+[component_container_mt-7] [INFO] [1794738100.801090075] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-7] [INFO] [1794738100.801120298] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-7] [INFO] [1794738100.819972190] [bt_navigator]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/bt_navigator' in container '/nav2_container'
+[component_container_mt-7] 	bt_navigator lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.820025528] [bt_navigator]: Creating
+[component_container_mt-7] [INFO] [1794738100.820650420] [nav2_container]: Load Library: /opt/ros/humble/lib/libmap_server_core.so
+[component_container_mt-7] [INFO] [1794738100.827692636] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::CostmapFilterInfoServer>
+[component_container_mt-7] [INFO] [1794738100.827752795] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapSaver>
+[component_container_mt-7] [INFO] [1794738100.827758139] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[component_container_mt-7] [INFO] [1794738100.827761282] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[component_container_mt-7] [INFO] [1794738100.840712852] [map_server]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/map_server' in container '/nav2_container'
+[component_container_mt-7] 	map_server lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.840770584] [map_server]: Creating
+[component_container_mt-7] [INFO] [1794738100.841557478] [nav2_container]: Load Library: /opt/ros/humble/lib/libwaypoint_follower_core.so
+[component_container_mt-7] [INFO] [1794738100.842098537] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-7] [INFO] [1794738100.842111397] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-7] [INFO] [1794738100.853051990] [waypoint_follower]: 
+[component_container_mt-7] 	waypoint_follower lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.853594234] [waypoint_follower]: Creating
+[component_container_mt-7] [INFO] [1794738100.854626930] [nav2_container]: Load Library: /opt/ros/humble/lib/libnav2_lifecycle_manager_core.so
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/waypoint_follower' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.855391075] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-7] [INFO] [1794738100.855417647] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-7] [INFO] [1794738100.910312918] [lifecycle_manager_localization]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_localization' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738100.913123089] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[component_container_mt-7] [INFO] [1794738100.914251342] [nav2_container]: Load Library: /opt/ros/humble/lib/libvelocity_smoother_core.so
+[component_container_mt-7] [INFO] [1794738100.915084185] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-7] [INFO] [1794738100.915103809] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-7] [INFO] [1794738100.915252119] [lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-7] [INFO] [1794738100.916150323] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+[component_container_mt-7] [INFO] [1794738100.916485246] [map_server]: Configuring
+[component_container_mt-7] [INFO] [1794738100.916555234] [map_io]: Loading yaml file: /tmp/standalone_exploration_oagfjch2/unknown.yaml
+[component_container_mt-7] [INFO] [1794738100.916794662] [map_io]: resolution: 0.1
+[component_container_mt-7] [INFO] [1794738100.916804558] [map_io]: origin[0]: -50
+[component_container_mt-7] [INFO] [1794738100.916809581] [map_io]: origin[1]: -50
+[component_container_mt-7] [INFO] [1794738100.916814020] [map_io]: origin[2]: 0
+[component_container_mt-7] [INFO] [1794738100.916819179] [map_io]: free_thresh: 0.25
+[component_container_mt-7] [INFO] [1794738100.916823977] [map_io]: occupied_thresh: 0.65
+[component_container_mt-7] [INFO] [1794738100.916829315] [map_io]: mode: trinary
+[component_container_mt-7] [INFO] [1794738100.916834446] [map_io]: negate: 0
+[component_container_mt-7] [INFO] [1794738100.917165745] [map_io]: Loading image_file: /tmp/standalone_exploration_oagfjch2/unknown.pgm
+[fastlio_mapping-5] [WARN] [1794738100.920007496] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-5] 
+[fastlio_mapping-5] IMU Initial Done
+[fastlio_mapping-5] [WARN] [1794738100.960034490] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-5] 
+[component_container_mt-7] [INFO] [1794738100.980247482] [velocity_smoother]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/velocity_smoother' in container '/nav2_container'
+[component_container_mt-7] 	velocity_smoother lifecycle node launched. 
+[component_container_mt-7] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-7] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-7] [INFO] [1794738100.981169621] [map_io]: Read map /tmp/standalone_exploration_oagfjch2/unknown.pgm: 1000 X 1000 map @ 0.1 m/cell
+[component_container_mt-7] [INFO] [1794738100.982377278] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-7] [INFO] [1794738100.982408853] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-7] [INFO] [1794738100.987909618] [lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+[component_container_mt-7] [INFO] [1794738100.988043283] [map_server]: Activating
+[component_container_mt-7] [INFO] [1794738100.988592967] [map_server]: Creating bond (map_server) to lifecycle manager.
+[rover_explore_node-8] [INFO] [1794738100.988720128] [rover_explore]: Exploration collision source: Nav2 global + local maps, with observed-free goals
+[rover_explore_node-8] [INFO] [1794738100.997235491] [rover_explore]: Rover exploration: 7.5 m sensor range, 2.0 m lookahead, 0.30 m surface/coverage voxel; fixed-return filter enabled
+[component_container_mt-7] [INFO] [1794738100.997500569] [lifecycle_manager_navigation]: Creating
+[component_container_mt-7] [INFO] [1794738101.000414766] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_navigation' in container '/nav2_container'
+[component_container_mt-7] [INFO] [1794738101.013161446] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-7] [INFO] [1794738101.013207871] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.013405268] [controller_server]: Configuring controller interface
+[component_container_mt-7] [INFO] [1794738101.013593310] [controller_server]: getting goal checker plugins..
+[component_container_mt-7] [INFO] [1794738101.013633136] [controller_server]: Controller frequency set to 20.0000Hz
+[component_container_mt-7] [INFO] [1794738101.013654359] [local_costmap.local_costmap]: Configuring
+[component_container_mt-7] [INFO] [1794738101.018301358] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[component_container_mt-7] [INFO] [1794738101.038213838] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-7] [INFO] [1794738101.038252117] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[component_container_mt-7] [INFO] [1794738101.039889470] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-7] [INFO] [1794738101.042932936] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-7] [INFO] [1794738101.045021811] [local_costmap.local_costmap]: Voxel filter activated.
+[component_container_mt-7] [INFO] [1794738101.049226422] [local_costmap.local_costmap]: Passthough filter activated.
+[component_container_mt-7] [INFO] [1794738101.051725708] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[component_container_mt-7] [INFO] [1794738101.051767803] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-7] [INFO] [1794738101.051777831] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[fastlio_mapping-5] [INFO] [1794738101.060404786] [laser_mapping]: Initialize the map kdtree
+[component_container_mt-7] [INFO] [1794738101.094120124] [lifecycle_manager_localization]: Server map_server connected with bond.
+[component_container_mt-7] [INFO] [1794738101.094165811] [lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-7] [INFO] [1794738101.094179557] [lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+[component_container_mt-7] [INFO] [1794738101.128408828] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-7] [INFO] [1794738101.128439409] [local_costmap.local_costmap]: Using plugin "denoise_layer"
+[component_container_mt-7] [INFO] [1794738101.128897532] [local_costmap.local_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-7] [ERROR] [1794738101.132901297] [local_costmap.local_costmap]: The configured inflation radius (0.100) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[rover_explore_node-8] [INFO] [1794738101.165750913] [rover_explore]: Observed ground: fitted=1 floor_z=0.050 odometry_z=-0.006 cells=113 inliers=93
+[terrainAnalysis-6] [INFO] [1794738101.166517816] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 52 个点
+[component_container_mt-7] [INFO] [1794738101.169688886] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::PoseProgressChecker
+[component_container_mt-7] [INFO] [1794738101.171112324] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-7] [INFO] [1794738101.171836123] [controller_server]: Created goal checker : grasp_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-7] [INFO] [1794738101.172521898] [controller_server]: Created goal checker : hint_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-7] [INFO] [1794738101.173268018] [controller_server]: Created goal checker : entry_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-7] [INFO] [1794738101.173788081] [controller_server]: Controller Server has general_goal_checker grasp_goal_checker hint_goal_checker entry_goal_checker  goal checkers available.
+[component_container_mt-7] [INFO] [1794738101.174677409] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[component_container_mt-7] [INFO] [1794738101.177041616] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[component_container_mt-7] [INFO] [1794738101.181301863] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[component_container_mt-7] [INFO] [1794738101.181339731] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[component_container_mt-7] [INFO] [1794738101.182269903] [controller_server]: InflationCostCritic instantiated with 1 power and 253.000000 / 0.023622 weights. Critic will collision check based on footprint cost.
+[component_container_mt-7] [INFO] [1794738101.182295104] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[component_container_mt-7] [INFO] [1794738101.182726440] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[component_container_mt-7] [INFO] [1794738101.182745731] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[component_container_mt-7] [INFO] [1794738101.183166069] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[component_container_mt-7] [INFO] [1794738101.183186181] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[component_container_mt-7] [INFO] [1794738101.184100156] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 14.000000 weight
+[component_container_mt-7] [INFO] [1794738101.184118747] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[component_container_mt-7] [INFO] [1794738101.184540869] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[component_container_mt-7] [INFO] [1794738101.185085611] [controller_server]: PathAngleCritic instantiated with 1 power and 1.000000 weight. Reversing not allowed.
+[component_container_mt-7] [INFO] [1794738101.185102834] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[component_container_mt-7] [INFO] [1794738101.191348466] [controller_server]: Critic loaded : mppi::critics::CorridorCritic
+[component_container_mt-7] [INFO] [1794738101.194275000] [controller_server]: Optimizer reset
+[component_container_mt-7] [INFO] [1794738101.201196018] [MPPIController]: Configured MPPI Controller: FollowPath
+[component_container_mt-7] [INFO] [1794738101.203077167] [controller_server]: Created controller : ApproachPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-7] [INFO] [1794738101.207658328] [controller_server]: Controller Server has FollowPath ApproachPath  controllers available.
+[component_container_mt-7] [INFO] [1794738101.214600653] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.214826007] [smoother_server]: Configuring smoother server
+[component_container_mt-7] [INFO] [1794738101.230643743] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[component_container_mt-7] [INFO] [1794738101.231549797] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[component_container_mt-7] [INFO] [1794738101.240910369] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.241069123] [planner_server]: Configuring
+[component_container_mt-7] [INFO] [1794738101.241112090] [global_costmap.global_costmap]: Configuring
+[component_container_mt-7] [INFO] [1794738101.252360886] [global_costmap.global_costmap]: Using plugin "static_layer"
+[component_container_mt-7] [INFO] [1794738101.256738241] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[component_container_mt-7] [INFO] [1794738101.258605185] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[component_container_mt-7] [INFO] [1794738101.258637193] [global_costmap.global_costmap]: Using plugin "stvl_layer"
+[component_container_mt-7] [INFO] [1794738101.258817398] [global_costmap.global_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-7] [INFO] [1794738101.258825362] [global_costmap.global_costmap]: stvl_layer's global frame is map.
+[component_container_mt-7] [INFO] [1794738101.260221428] [global_costmap.global_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-7] [INFO] [1794738101.261572346] [global_costmap.global_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-7] [INFO] [1794738101.265806286] [global_costmap.global_costmap]: Voxel filter activated.
+[component_container_mt-7] [INFO] [1794738101.271604601] [global_costmap.global_costmap]: Passthough filter activated.
+[component_container_mt-7] [INFO] [1794738101.274226958] [global_costmap.global_costmap]: stvl_layer initialization complete!
+[component_container_mt-7] [INFO] [1794738101.274266615] [global_costmap.global_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-7] [INFO] [1794738101.274276141] [global_costmap.global_costmap]: Using plugin "denoise_layer"
+[component_container_mt-7] [INFO] [1794738101.274811570] [global_costmap.global_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-7] [INFO] [1794738101.274834857] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[component_container_mt-7] [INFO] [1794738101.275449522] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-7] [ERROR] [1794738101.278967271] [global_costmap.global_costmap]: The configured inflation radius (0.100) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[component_container_mt-7] [INFO] [1794738101.281761604] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 1000 X 1000 at 0.100000 m/pix
+[component_container_mt-7] [INFO] [1794738101.284246407] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlanner2D
+[component_container_mt-7] [INFO] [1794738101.284273238] [planner_server]: Configuring GridBased of type SmacPlanner2D
+[component_container_mt-7] [INFO] [1794738101.304962653] [planner_server]: Configured plugin GridBased of type SmacPlanner2D with tolerance 0.50, maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal.
+[component_container_mt-7] [INFO] [1794738101.305012931] [planner_server]: Planner Server has GridBased  planners available.
+[component_container_mt-7] [INFO] [1794738101.313900543] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.314076897] [behavior_server]: Configuring
+[component_container_mt-7] [INFO] [1794738101.319986931] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors/Spin
+[component_container_mt-7] [INFO] [1794738101.320950363] [behavior_server]: Configuring spin
+[component_container_mt-7] [INFO] [1794738101.326772212] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors/BackUp
+[component_container_mt-7] [INFO] [1794738101.327423124] [behavior_server]: Configuring backup
+[component_container_mt-7] [INFO] [1794738101.332743414] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors/DriveOnHeading
+[component_container_mt-7] [INFO] [1794738101.333697577] [behavior_server]: Configuring drive_on_heading
+[component_container_mt-7] [INFO] [1794738101.340262701] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors/Wait
+[component_container_mt-7] [INFO] [1794738101.340910012] [behavior_server]: Configuring wait
+[component_container_mt-7] [INFO] [1794738101.344396067] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[component_container_mt-7] [INFO] [1794738101.344497548] [bt_navigator]: Configuring
+[component_container_mt-7] [INFO] [1794738101.649155190] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[component_container_mt-7] [INFO] [1794738101.649369879] [waypoint_follower]: Configuring
+[mission_state-12] [INFO] [1794738101.656052020] [mission_state]: PREPARING: Automatic mission startup after valid inputs
+[mission_state-12] [INFO] [1794738101.656149523] [mission_state]: ENTRY_HANDOFF: Arm ready; navigating to the configured cave entrance before exploration
+[component_container_mt-7] [INFO] [1794738101.662811780] [waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[component_container_mt-7] [INFO] [1794738101.663349965] [waypoint_follower]: Waypoint pause duration is set to zero, disabling task executor plugin.
+[component_container_mt-7] [INFO] [1794738101.664039898] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+[component_container_mt-7] [INFO] [1794738101.664195990] [velocity_smoother]: Configuring velocity smoother
+[component_container_mt-7] [INFO] [1794738101.667315022] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.667510984] [controller_server]: Activating
+[component_container_mt-7] [INFO] [1794738101.667549652] [local_costmap.local_costmap]: Activating
+[component_container_mt-7] [INFO] [1794738101.667567863] [local_costmap.local_costmap]: Checking transform
+[component_container_mt-7] [INFO] [1794738101.667679668] [local_costmap.local_costmap]: start
+[component_container_mt-7] [INFO] [1794738101.667693314] [local_costmap.local_costmap]: stvl_layer was activated.
+[component_container_mt-7] [INFO] [1794738101.719194666] [controller_server]: Activating controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-7] [WARN] [1794738101.719321139] [controller_server]: Parameter controller_server.verbose not found
+[component_container_mt-7] [INFO] [1794738101.720670182] [controller_server]: Optimizer reset
+[component_container_mt-7] [INFO] [1794738101.721795319] [MPPIController]: Activated MPPI Controller: FollowPath
+[component_container_mt-7] [INFO] [1794738101.721826995] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738101.992191102] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+[component_container_mt-7] [INFO] [1794738101.992225104] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+[component_container_mt-7] [INFO] [1794738101.992570113] [smoother_server]: Activating
+[component_container_mt-7] [INFO] [1794738101.992619506] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738102.095953024] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+[component_container_mt-7] [INFO] [1794738102.096007161] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[component_container_mt-7] [INFO] [1794738102.096352580] [planner_server]: Activating
+[component_container_mt-7] [INFO] [1794738102.096390135] [global_costmap.global_costmap]: Activating
+[component_container_mt-7] [INFO] [1794738102.096399379] [global_costmap.global_costmap]: Checking transform
+[component_container_mt-7] [INFO] [1794738102.096494935] [global_costmap.global_costmap]: start
+[component_container_mt-7] [INFO] [1794738102.096505608] [global_costmap.global_costmap]: stvl_layer was activated.
+[component_container_mt-7] [INFO] [1794738102.198351210] [planner_server]: Activating plugin GridBased of type SmacPlanner2D
+[component_container_mt-7] [INFO] [1794738102.202358483] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738102.308742627] [lifecycle_manager_navigation]: Server planner_server connected with bond.
+[component_container_mt-7] [INFO] [1794738102.308785518] [lifecycle_manager_navigation]: [34m[1mActivating behavior_server[0m[0m
+[component_container_mt-7] [INFO] [1794738102.309240729] [behavior_server]: Activating
+[component_container_mt-7] [INFO] [1794738102.309270948] [behavior_server]: Activating spin
+[component_container_mt-7] [INFO] [1794738102.309295269] [behavior_server]: Activating backup
+[component_container_mt-7] [INFO] [1794738102.309307080] [behavior_server]: Activating drive_on_heading
+[component_container_mt-7] [INFO] [1794738102.309335458] [behavior_server]: Activating wait
+[component_container_mt-7] [INFO] [1794738102.309362579] [behavior_server]: Creating bond (behavior_server) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738102.415481992] [lifecycle_manager_navigation]: Server behavior_server connected with bond.
+[component_container_mt-7] [INFO] [1794738102.415526580] [lifecycle_manager_navigation]: [34m[1mActivating bt_navigator[0m[0m
+[component_container_mt-7] [INFO] [1794738102.415878985] [bt_navigator]: Activating
+[component_container_mt-7] [INFO] [1794738102.811080114] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738102.953950872] [lifecycle_manager_navigation]: Server bt_navigator connected with bond.
+[component_container_mt-7] [INFO] [1794738102.954002046] [lifecycle_manager_navigation]: [34m[1mActivating waypoint_follower[0m[0m
+[component_container_mt-7] [INFO] [1794738102.954514450] [waypoint_follower]: Activating
+[component_container_mt-7] [INFO] [1794738102.954563034] [waypoint_follower]: Creating bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738103.064719875] [lifecycle_manager_navigation]: Server waypoint_follower connected with bond.
+[component_container_mt-7] [INFO] [1794738103.064772959] [lifecycle_manager_navigation]: [34m[1mActivating velocity_smoother[0m[0m
+[component_container_mt-7] [INFO] [1794738103.065202611] [velocity_smoother]: Activating
+[component_container_mt-7] [INFO] [1794738103.065274077] [velocity_smoother]: Creating bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-7] [INFO] [1794738103.177854156] [lifecycle_manager_navigation]: Server velocity_smoother connected with bond.
+[component_container_mt-7] [INFO] [1794738103.177900185] [lifecycle_manager_navigation]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-7] [INFO] [1794738103.177910132] [lifecycle_manager_navigation]: [34m[1mCreating bond timer...[0m[0m
+[mission_state-12] [INFO] [1794738103.199655548] [mission_state]: ENTRY_PLANNING: Planning cave entrance navigation
+[mission_state-12] [INFO] [1794738103.240745897] [mission_state]: ENTRY_NAVIGATING: Navigating to the cave entrance; exploration remains disabled
+[component_container_mt-7] [INFO] [1794738103.241267998] [controller_server]: Received a goal, begin computing control effort.
+[component_container_mt-7] [INFO] [1794738103.243007305] [controller_server]: Optimizer reset
+[rover_explore_node-8] [INFO] [1794738103.263611779] [rover_explore]: Observed ground: fitted=1 floor_z=0.023 odometry_z=-0.011 cells=270 inliers=193
+[terrainAnalysis-6] [INFO] [1794738103.264693404] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2808 个点
+[rover_explore_node-8] [INFO] [1794738105.364601875] [rover_explore]: Observed ground: fitted=1 floor_z=0.064 odometry_z=0.023 cells=319 inliers=252
+[terrainAnalysis-6] [INFO] [1794738105.365056700] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2995 个点
+[rover_explore_node-8] [INFO] [1794738107.462982185] [rover_explore]: Observed ground: fitted=1 floor_z=0.079 odometry_z=0.063 cells=338 inliers=245
+[terrainAnalysis-6] [INFO] [1794738107.464204346] [terrain_analysis]: 自车点云发布前过滤：删除 21 个点，剩余 2864 个点
+[rover_explore_node-8] [INFO] [1794738109.464256831] [rover_explore]: Observed ground: fitted=1 floor_z=0.106 odometry_z=0.106 cells=364 inliers=272
+[terrainAnalysis-6] [INFO] [1794738109.465025555] [terrain_analysis]: 自车点云发布前过滤：删除 27 个点，剩余 2834 个点
+[rover_explore_node-8] [INFO] [1794738111.465147522] [rover_explore]: Observed ground: fitted=1 floor_z=0.106 odometry_z=0.135 cells=358 inliers=259
+[terrainAnalysis-6] [INFO] [1794738111.465977989] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2679 个点
+[rover_explore_node-8] [INFO] [1794738113.563202924] [rover_explore]: Observed ground: fitted=1 floor_z=0.120 odometry_z=0.162 cells=438 inliers=317
+[terrainAnalysis-6] [INFO] [1794738113.563864605] [terrain_analysis]: 自车点云发布前过滤：删除 1 个点，剩余 2270 个点
+[rover_explore_node-8] [INFO] [1794738115.563639489] [rover_explore]: Observed ground: fitted=1 floor_z=0.141 odometry_z=0.180 cells=450 inliers=347
+[terrainAnalysis-6] [INFO] [1794738115.564647506] [terrain_analysis]: 自车点云发布前过滤：删除 1 个点，剩余 2150 个点
+[rover_explore_node-8] [INFO] [1794738117.563936243] [rover_explore]: Observed ground: fitted=1 floor_z=0.176 odometry_z=0.198 cells=433 inliers=356
+[terrainAnalysis-6] [INFO] [1794738117.565160696] [terrain_analysis]: 自车点云发布前过滤：删除 7 个点，剩余 2042 个点
+[rover_explore_node-8] [INFO] [1794738119.564403818] [rover_explore]: Observed ground: fitted=1 floor_z=0.196 odometry_z=0.220 cells=427 inliers=330
+[terrainAnalysis-6] [INFO] [1794738119.663795276] [terrain_analysis]: 自车点云发布前过滤：删除 1 个点，剩余 2831 个点
+[rover_explore_node-8] [INFO] [1794738121.663297509] [rover_explore]: Observed ground: fitted=1 floor_z=0.226 odometry_z=0.242 cells=432 inliers=351
+[terrainAnalysis-6] [INFO] [1794738121.664766838] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2272 个点
+[rover_explore_node-8] [INFO] [1794738123.663956667] [rover_explore]: Observed ground: fitted=1 floor_z=0.253 odometry_z=0.264 cells=453 inliers=367
+[terrainAnalysis-6] [INFO] [1794738123.665602052] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2597 个点
+[rover_explore_node-8] [INFO] [1794738125.763304215] [rover_explore]: Observed ground: fitted=1 floor_z=0.269 odometry_z=0.290 cells=486 inliers=396
+[terrainAnalysis-6] [INFO] [1794738125.763928058] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2799 个点
+[rover_explore_node-8] [INFO] [1794738127.764322136] [rover_explore]: Observed ground: fitted=1 floor_z=0.299 odometry_z=0.319 cells=502 inliers=430
+[terrainAnalysis-6] [INFO] [1794738127.764752753] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2371 个点
+[rover_explore_node-8] [INFO] [1794738129.765112504] [rover_explore]: Observed ground: fitted=1 floor_z=0.308 odometry_z=0.338 cells=464 inliers=402
+[terrainAnalysis-6] [INFO] [1794738129.765489067] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2587 个点
+[terrainAnalysis-6] [INFO] [1794738130.615761196] [terrain_analysis]: 已清理 1 个远离机器人的体素
+[rover_explore_node-8] [INFO] [1794738131.864035361] [rover_explore]: Observed ground: fitted=1 floor_z=0.356 odometry_z=0.363 cells=478 inliers=408
+[terrainAnalysis-6] [INFO] [1794738131.864495331] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2919 个点
+[rover_explore_node-8] [INFO] [1794738133.864703032] [rover_explore]: Observed ground: fitted=1 floor_z=0.386 odometry_z=0.388 cells=477 inliers=400
+[terrainAnalysis-6] [INFO] [1794738133.865966013] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3035 个点
+[rover_explore_node-8] [INFO] [1794738135.963284715] [rover_explore]: Observed ground: fitted=1 floor_z=0.411 odometry_z=0.412 cells=474 inliers=391
+[terrainAnalysis-6] [INFO] [1794738135.964241634] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2466 个点
+[rover_explore_node-8] [INFO] [1794738137.963698574] [rover_explore]: Observed ground: fitted=1 floor_z=0.440 odometry_z=0.435 cells=416 inliers=338
+[terrainAnalysis-6] [INFO] [1794738137.964606707] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2667 个点
+[rover_explore_node-8] [INFO] [1794738140.063233190] [rover_explore]: Observed ground: fitted=1 floor_z=0.433 odometry_z=0.456 cells=100 inliers=80
+[terrainAnalysis-6] [INFO] [1794738140.064333331] [terrain_analysis]: 自车点云发布前过滤：删除 7 个点，剩余 2317 个点
+[rover_explore_node-8] [INFO] [1794738142.162535055] [rover_explore]: Observed ground: fitted=1 floor_z=0.453 odometry_z=0.482 cells=145 inliers=116
+[terrainAnalysis-6] [INFO] [1794738142.163513455] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 1675 个点
+[component_container_mt-7] [INFO] [1794738144.093139991] [controller_server]: Reached the goal!
+[mission_state-12] [INFO] [1794738144.151965827] [mission_state]: Entry arrival check: 0.23 m from the entrance (tol 0.25), yaw error 5.6 deg (tol 5.7)
+[mission_state-12] [INFO] [1794738144.152013459] [mission_state]: STARTING: Waiting for a fresh exploration route
+[exploration_path_follower-10] [INFO] [1794738144.165720758] [exploration_path_follower]: Exploration enabled automatically
+[exploration_path_follower-10] [INFO] [1794738144.165777084] [exploration_path_follower]: Waiting for planner data: DISABLED
+[mission_state-12] [INFO] [1794738144.202971196] [mission_state]: EXPLORING: Exploring; camera target interrupt enabled
+[rover_explore_node-8] [INFO] [1794738144.261647595] [rover_explore]: Observed ground: fitted=1 floor_z=0.492 odometry_z=0.502 cells=139 inliers=111
+[terrainAnalysis-6] [INFO] [1794738144.262213935] [terrain_analysis]: 自车点云发布前过滤：删除 4 个点，剩余 1169 个点
+[exploration_path_follower-10] [INFO] [1794738146.112940987] [exploration_path_follower]: No fresh /explore/control_path; planner=WAITING_FOR_CENTER_PATH
+[rover_explore_node-8] [INFO] [1794738146.361706636] [rover_explore]: Observed ground: fitted=1 floor_z=0.470 odometry_z=0.503 cells=331 inliers=228
+[terrainAnalysis-6] [INFO] [1794738146.361919255] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 826 个点
+[exploration_nav2_planner-9] [INFO] [1794738147.105551464] [exploration_nav2_planner]: Nav2 planning request 1: goal=(6.71, -0.46) frame=map
+[exploration_path_follower-10] [INFO] [1794738147.115342564] [exploration_path_follower]: No fresh /explore/control_path; planner=RUNNING
+[exploration_nav2_planner-9] [INFO] [1794738147.121100112] [exploration_nav2_planner]: Nav2 path ready: 22 poses, target=(6.71, -0.46)
+[exploration_path_follower-10] [INFO] [1794738147.166738897] [exploration_path_follower]: Following TARE route
+[exploration_path_follower-10] [INFO] [1794738147.166858997] [exploration_path_follower]: Route started without cancel: request=1 points=22 end=(6.75, -0.45); retry=0/3
+[component_container_mt-7] [INFO] [1794738147.167062013] [controller_server]: Received a goal, begin computing control effort.
+[component_container_mt-7] [INFO] [1794738147.168312614] [controller_server]: Optimizer reset
+[exploration_path_follower-10] [INFO] [1794738147.177195630] [exploration_path_follower]: FollowPath request 1 accepted
+[exploration_path_follower-10] [INFO] [1794738147.182335846] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.048 m/s, remaining=2.10 m
+[exploration_nav2_planner-9] [INFO] [1794738148.106971085] [exploration_nav2_planner]: Nav2 planning request 2: goal=(6.71, -0.43) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738148.122303939] [exploration_nav2_planner]: Nav2 path ready: 21 poses, target=(6.71, -0.43)
+[rover_explore_node-8] [INFO] [1794738148.361838822] [rover_explore]: Observed ground: fitted=1 floor_z=0.471 odometry_z=0.502 cells=412 inliers=261
+[terrainAnalysis-6] [INFO] [1794738148.361931861] [terrain_analysis]: 自车点云发布前过滤：删除 17 个点，剩余 788 个点
+[exploration_nav2_planner-9] [INFO] [1794738149.155728355] [exploration_nav2_planner]: Nav2 planning request 3: goal=(6.71, -0.45) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738149.171123214] [exploration_nav2_planner]: Nav2 path ready: 20 poses, target=(6.71, -0.45)
+[exploration_path_follower-10] [INFO] [1794738149.228349431] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=1.92 m
+[exploration_nav2_planner-9] [INFO] [1794738150.158184887] [exploration_nav2_planner]: Nav2 planning request 4: goal=(6.71, -0.46) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738150.173666916] [exploration_nav2_planner]: Nav2 path ready: 19 poses, target=(6.71, -0.46)
+[rover_explore_node-8] [INFO] [1794738150.361888403] [rover_explore]: Observed ground: fitted=1 floor_z=0.486 odometry_z=0.518 cells=435 inliers=282
+[terrainAnalysis-6] [INFO] [1794738150.362042243] [terrain_analysis]: 自车点云发布前过滤：删除 100 个点，剩余 540 个点
+[exploration_nav2_planner-9] [INFO] [1794738151.206173867] [exploration_nav2_planner]: Nav2 planning request 5: goal=(6.71, -0.44) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738151.221476947] [exploration_nav2_planner]: Nav2 path ready: 18 poses, target=(6.71, -0.44)
+[exploration_path_follower-10] [INFO] [1794738151.230932502] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=1.72 m
+[exploration_nav2_planner-9] [INFO] [1794738152.207712038] [exploration_nav2_planner]: Nav2 planning request 6: goal=(6.71, -0.44) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738152.223141803] [exploration_nav2_planner]: Nav2 path ready: 17 poses, target=(6.71, -0.44)
+[rover_explore_node-8] [INFO] [1794738152.461090844] [rover_explore]: Observed ground: fitted=1 floor_z=0.521 odometry_z=0.555 cells=420 inliers=275
+[terrainAnalysis-6] [INFO] [1794738152.461283479] [terrain_analysis]: 自车点云发布前过滤：删除 75 个点，剩余 410 个点
+[exploration_path_follower-10] [INFO] [1794738153.231908317] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=1.52 m
+[exploration_nav2_planner-9] [INFO] [1794738153.256140743] [exploration_nav2_planner]: Nav2 planning request 7: goal=(6.71, -0.43) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738153.271607833] [exploration_nav2_planner]: Nav2 path ready: 16 poses, target=(6.71, -0.43)
+[exploration_nav2_planner-9] [INFO] [1794738154.258476414] [exploration_nav2_planner]: Nav2 planning request 8: goal=(6.71, -0.43) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738154.273812950] [exploration_nav2_planner]: Nav2 path ready: 14 poses, target=(6.71, -0.43)
+[rover_explore_node-8] [INFO] [1794738154.461467720] [rover_explore]: Observed ground: fitted=1 floor_z=0.580 odometry_z=0.591 cells=436 inliers=282
+[terrainAnalysis-6] [INFO] [1794738154.561350432] [terrain_analysis]: 自车点云发布前过滤：删除 45 个点，剩余 409 个点
+[exploration_path_follower-10] [INFO] [1794738155.232799709] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=1.22 m
+[exploration_nav2_planner-9] [INFO] [1794738155.258764314] [exploration_nav2_planner]: Nav2 planning request 9: goal=(6.71, -0.42) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738155.274120783] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(6.71, -0.42)
+[exploration_nav2_planner-9] [INFO] [1794738156.306124943] [exploration_nav2_planner]: Nav2 planning request 10: goal=(6.71, -0.44) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738156.321467239] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(6.71, -0.44)
+[rover_explore_node-8] [INFO] [1794738156.561375320] [rover_explore]: Observed ground: fitted=1 floor_z=0.612 odometry_z=0.621 cells=464 inliers=280
+[terrainAnalysis-6] [INFO] [1794738156.561534729] [terrain_analysis]: 自车点云发布前过滤：删除 25 个点，剩余 441 个点
+[exploration_path_follower-10] [INFO] [1794738157.279062413] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=1.02 m
+[exploration_nav2_planner-9] [INFO] [1794738157.307823973] [exploration_nav2_planner]: Nav2 planning request 11: goal=(6.71, -0.45) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738157.323184538] [exploration_nav2_planner]: Nav2 path ready: 11 poses, target=(6.71, -0.45)
+[exploration_nav2_planner-9] [INFO] [1794738158.308456899] [exploration_nav2_planner]: Nav2 planning request 12: goal=(6.71, -0.43) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738158.323781824] [exploration_nav2_planner]: Nav2 path ready: 10 poses, target=(6.71, -0.43)
+[terrainAnalysis-6] [INFO] [1794738158.561541377] [terrain_analysis]: 自车点云发布前过滤：删除 19 个点，剩余 421 个点
+[rover_explore_node-8] [INFO] [1794738158.661297197] [rover_explore]: Observed ground: fitted=1 floor_z=0.642 odometry_z=0.656 cells=442 inliers=273
+[exploration_path_follower-10] [INFO] [1794738159.281423872] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=0.82 m
+[exploration_nav2_planner-9] [INFO] [1794738159.308829196] [exploration_nav2_planner]: Nav2 planning request 13: goal=(6.71, -0.41) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738159.324195987] [exploration_nav2_planner]: Nav2 path ready: 9 poses, target=(6.71, -0.41)
+[exploration_nav2_planner-9] [INFO] [1794738160.356042091] [exploration_nav2_planner]: Nav2 planning request 14: goal=(6.71, -0.44) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738160.371415504] [exploration_nav2_planner]: Nav2 path ready: 8 poses, target=(6.71, -0.44)
+[terrainAnalysis-6] [INFO] [1794738160.561663507] [terrain_analysis]: 自车点云发布前过滤：删除 3 个点，剩余 465 个点
+[terrainAnalysis-6] [INFO] [1794738160.616278148] [terrain_analysis]: 已清理 3 个远离机器人的体素
+[rover_explore_node-8] [INFO] [1794738160.761277554] [rover_explore]: Observed ground: fitted=1 floor_z=0.654 odometry_z=0.659 cells=445 inliers=274
+[exploration_path_follower-10] [INFO] [1794738161.281491870] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=0.61 m
+[exploration_nav2_planner-9] [INFO] [1794738161.356995365] [exploration_nav2_planner]: Nav2 planning request 15: goal=(6.71, -0.42) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738161.372398307] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(6.71, -0.42)
+[exploration_nav2_planner-9] [INFO] [1794738162.357634947] [exploration_nav2_planner]: Nav2 planning request 16: goal=(6.71, -0.41) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738162.373020242] [exploration_nav2_planner]: Nav2 path ready: 6 poses, target=(6.71, -0.41)
+[terrainAnalysis-6] [INFO] [1794738162.661163278] [terrain_analysis]: 自车点云发布前过滤：删除 28 个点，剩余 469 个点
+[rover_explore_node-8] [INFO] [1794738162.761315528] [rover_explore]: Observed ground: fitted=1 floor_z=0.689 odometry_z=0.681 cells=443 inliers=287
+[exploration_path_follower-10] [INFO] [1794738163.330744975] [exploration_path_follower]: FollowPath request 1: commanded linear speed=0.150 m/s, remaining=0.41 m
+[exploration_nav2_planner-9] [INFO] [1794738163.358193959] [exploration_nav2_planner]: Nav2 planning request 17: goal=(6.71, -0.45) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738163.373502136] [exploration_nav2_planner]: Nav2 path ready: 5 poses, target=(6.71, -0.45)
+[exploration_nav2_planner-9] [INFO] [1794738164.405765574] [exploration_nav2_planner]: Nav2 planning request 18: goal=(6.72, -0.41) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738164.421109381] [exploration_nav2_planner]: Nav2 path ready: 4 poses, target=(6.72, -0.41)
+[terrainAnalysis-6] [INFO] [1794738164.661316661] [terrain_analysis]: 自车点云发布前过滤：删除 24 个点，剩余 602 个点
+[rover_explore_node-8] [INFO] [1794738164.761435211] [rover_explore]: Observed ground: fitted=1 floor_z=0.728 odometry_z=0.726 cells=444 inliers=280
+[exploration_path_follower-10] [INFO] [1794738164.966803106] [exploration_path_follower]: Near route endpoint; waiting for TARE to extend the route
+[component_container_mt-7] [INFO] [1794738164.978015429] [controller_server]: Reached the goal!
+[exploration_path_follower-10] [INFO] [1794738164.992546401] [exploration_path_follower]: FollowPath request 1 finished: code=4 replaced=false Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738164.992571182] [exploration_path_follower]: FollowPath completed; waiting for the next TARE route
+[exploration_path_follower-10] [INFO] [1794738165.013206135] [exploration_path_follower]: Near route endpoint; waiting for TARE to extend the route
+[exploration_nav2_planner-9] [INFO] [1794738165.108633199] [exploration_nav2_planner]: Nav2 planning request 19: goal=(7.96, -0.67) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738165.123937493] [exploration_nav2_planner]: Nav2 path ready: 15 poses, target=(7.96, -0.67)
+[exploration_path_follower-10] [INFO] [1794738165.162424708] [exploration_path_follower]: Following TARE route
+[exploration_path_follower-10] [INFO] [1794738165.162489031] [exploration_path_follower]: Route started without cancel: request=2 points=15 end=(7.95, -0.65); retry=0/3
+[component_container_mt-7] [INFO] [1794738165.162634523] [controller_server]: Received a goal, begin computing control effort.
+[component_container_mt-7] [INFO] [1794738165.163851226] [controller_server]: Optimizer reset
+[exploration_path_follower-10] [INFO] [1794738165.172776498] [exploration_path_follower]: FollowPath request 2 accepted
+[exploration_path_follower-10] [INFO] [1794738165.378047165] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.155 m/s, remaining=1.41 m
+[exploration_nav2_planner-9] [INFO] [1794738166.108694462] [exploration_nav2_planner]: Nav2 planning request 20: goal=(7.95, -0.70) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738166.124069090] [exploration_nav2_planner]: Nav2 path ready: 15 poses, target=(7.95, -0.70)
+[terrainAnalysis-6] [INFO] [1794738166.661867995] [terrain_analysis]: 自车点云发布前过滤：删除 31 个点，剩余 432 个点
+[rover_explore_node-8] [INFO] [1794738166.761522814] [rover_explore]: Observed ground: fitted=1 floor_z=0.740 odometry_z=0.757 cells=483 inliers=292
+[exploration_nav2_planner-9] [INFO] [1794738167.155605015] [exploration_nav2_planner]: Nav2 planning request 21: goal=(7.95, -0.70) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738167.170991507] [exploration_nav2_planner]: Nav2 path ready: 14 poses, target=(7.95, -0.70)
+[exploration_path_follower-10] [INFO] [1794738167.425758777] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.150 m/s, remaining=1.21 m
+[exploration_nav2_planner-9] [INFO] [1794738168.158027185] [exploration_nav2_planner]: Nav2 planning request 22: goal=(7.95, -0.69) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738168.173501534] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(7.95, -0.69)
+[terrainAnalysis-6] [INFO] [1794738168.662057082] [terrain_analysis]: 自车点云发布前过滤：删除 83 个点，剩余 408 个点
+[rover_explore_node-8] [INFO] [1794738168.761663604] [rover_explore]: Observed ground: fitted=1 floor_z=0.763 odometry_z=0.792 cells=514 inliers=297
+[exploration_nav2_planner-9] [INFO] [1794738169.205529279] [exploration_nav2_planner]: Nav2 planning request 23: goal=(7.95, -0.68) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738169.220870802] [exploration_nav2_planner]: Nav2 path ready: 11 poses, target=(7.95, -0.68)
+[exploration_path_follower-10] [INFO] [1794738169.476066945] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.150 m/s, remaining=1.01 m
+[exploration_nav2_planner-9] [INFO] [1794738170.206946061] [exploration_nav2_planner]: Nav2 planning request 24: goal=(7.95, -0.69) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738170.222257832] [exploration_nav2_planner]: Nav2 path ready: 10 poses, target=(7.95, -0.69)
+[terrainAnalysis-6] [INFO] [1794738170.662258742] [terrain_analysis]: 自车点云发布前过滤：删除 28 个点，剩余 464 个点
+[rover_explore_node-8] [INFO] [1794738170.861798068] [rover_explore]: Observed ground: fitted=1 floor_z=0.782 odometry_z=0.813 cells=572 inliers=324
+[exploration_nav2_planner-9] [INFO] [1794738171.207659093] [exploration_nav2_planner]: Nav2 planning request 25: goal=(7.95, -0.69) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738171.222999472] [exploration_nav2_planner]: Nav2 path ready: 9 poses, target=(7.95, -0.69)
+[exploration_path_follower-10] [INFO] [1794738171.477559804] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.150 m/s, remaining=0.70 m
+[exploration_nav2_planner-9] [INFO] [1794738172.208186518] [exploration_nav2_planner]: Nav2 planning request 26: goal=(7.95, -0.69) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738172.223464370] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(7.95, -0.69)
+[terrainAnalysis-6] [INFO] [1794738172.762085358] [terrain_analysis]: 自车点云发布前过滤：删除 38 个点，剩余 452 个点
+[rover_explore_node-8] [INFO] [1794738172.961496497] [rover_explore]: Observed ground: fitted=1 floor_z=0.813 odometry_z=0.851 cells=635 inliers=345
+[exploration_nav2_planner-9] [INFO] [1794738173.208251269] [exploration_nav2_planner]: Nav2 planning request 27: goal=(7.94, -0.71) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738173.223633399] [exploration_nav2_planner]: Nav2 path ready: 6 poses, target=(7.94, -0.71)
+[exploration_path_follower-10] [INFO] [1794738173.477649045] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.150 m/s, remaining=0.50 m
+[exploration_nav2_planner-9] [INFO] [1794738174.208912594] [exploration_nav2_planner]: Nav2 planning request 28: goal=(7.94, -0.69) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738174.224213330] [exploration_nav2_planner]: Nav2 path ready: 5 poses, target=(7.94, -0.69)
+[terrainAnalysis-6] [INFO] [1794738174.861654240] [terrain_analysis]: 自车点云发布前过滤：删除 34 个点，剩余 621 个点
+[rover_explore_node-8] [INFO] [1794738174.961654595] [rover_explore]: Observed ground: fitted=1 floor_z=0.847 odometry_z=0.892 cells=726 inliers=386
+[exploration_nav2_planner-9] [INFO] [1794738175.256976021] [exploration_nav2_planner]: Nav2 planning request 29: goal=(7.94, -0.74) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738175.272363813] [exploration_nav2_planner]: Nav2 path ready: 4 poses, target=(7.94, -0.74)
+[exploration_path_follower-10] [INFO] [1794738175.477752385] [exploration_path_follower]: FollowPath request 2: commanded linear speed=0.150 m/s, remaining=0.20 m
+[component_container_mt-7] [INFO] [1794738175.573381386] [controller_server]: Reached the goal!
+[exploration_path_follower-10] [INFO] [1794738175.585424491] [exploration_path_follower]: FollowPath request 2 finished: code=4 replaced=false Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738175.585449228] [exploration_path_follower]: FollowPath completed; waiting for the next TARE route
+[exploration_path_follower-10] [INFO] [1794738175.616258836] [exploration_path_follower]: Following TARE route
+[exploration_path_follower-10] [INFO] [1794738175.616310797] [exploration_path_follower]: Route started without cancel: request=3 points=4 end=(7.95, -0.75); retry=0/3
+[component_container_mt-7] [INFO] [1794738175.616512252] [controller_server]: Received a goal, begin computing control effort.
+[exploration_path_follower-10] [INFO] [1794738175.626551773] [exploration_path_follower]: FollowPath request 3 accepted
+[exploration_nav2_planner-9] [INFO] [1794738176.257717380] [exploration_nav2_planner]: Nav2 planning request 30: goal=(7.97, -0.87) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738176.273079402] [exploration_nav2_planner]: Nav2 path ready: 4 poses, target=(7.97, -0.87)
+[component_container_mt-7] [INFO] [1794738176.277103380] [controller_server]: Reached the goal!
+[exploration_path_follower-10] [INFO] [1794738176.288841015] [exploration_path_follower]: FollowPath request 3 finished: code=4 replaced=false Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738176.288865533] [exploration_path_follower]: FollowPath completed; waiting for the next TARE route
+[exploration_path_follower-10] [INFO] [1794738176.314548328] [exploration_path_follower]: Following TARE route
+[exploration_path_follower-10] [INFO] [1794738176.314591490] [exploration_path_follower]: Route started without cancel: request=4 points=4 end=(7.95, -0.85); retry=0/3
+[component_container_mt-7] [INFO] [1794738176.314731006] [controller_server]: Received a goal, begin computing control effort.
+[exploration_path_follower-10] [INFO] [1794738176.324801492] [exploration_path_follower]: FollowPath request 4 accepted
+[terrainAnalysis-6] [INFO] [1794738176.863871471] [terrain_analysis]: 自车点云发布前过滤：删除 10 个点，剩余 1144 个点
+[rover_explore_node-8] [INFO] [1794738176.962537144] [rover_explore]: Observed ground: fitted=1 floor_z=0.867 odometry_z=0.908 cells=786 inliers=439
+[exploration_nav2_planner-9] [INFO] [1794738177.104706860] [exploration_nav2_planner]: Nav2 planning request 31: goal=(9.48, -0.96) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738177.120076574] [exploration_nav2_planner]: Nav2 path ready: 17 poses, target=(9.48, -0.96)
+[exploration_path_follower-10] [INFO] [1794738177.165701468] [exploration_path_follower]: Route updated without cancel: request=5 points=17 end=(9.45, -0.95); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738177.181126522] [exploration_path_follower]: FollowPath request 5 accepted
+[component_container_mt-7] [INFO] [1794738177.214840167] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738177.222156036] [exploration_path_follower]: FollowPath request 4 finished: code=6 replaced=true Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738177.478547057] [exploration_path_follower]: FollowPath request 5: commanded linear speed=0.151 m/s, remaining=1.66 m
+[exploration_nav2_planner-9] [INFO] [1794738178.105753158] [exploration_nav2_planner]: Nav2 planning request 32: goal=(9.48, -0.93) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738178.121080137] [exploration_nav2_planner]: Nav2 path ready: 17 poses, target=(9.48, -0.93)
+[rover_explore_node-8] [INFO] [1794738178.963135203] [rover_explore]: Observed ground: fitted=1 floor_z=0.922 odometry_z=0.945 cells=848 inliers=444
+[terrainAnalysis-6] [INFO] [1794738178.964069671] [terrain_analysis]: 自车点云发布前过滤：删除 42 个点，剩余 1651 个点
+[exploration_nav2_planner-9] [INFO] [1794738179.108056189] [exploration_nav2_planner]: Nav2 planning request 33: goal=(9.49, -0.89) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738179.123490910] [exploration_nav2_planner]: Nav2 path ready: 15 poses, target=(9.49, -0.89)
+[exploration_path_follower-10] [INFO] [1794738179.527759278] [exploration_path_follower]: FollowPath request 5: commanded linear speed=0.150 m/s, remaining=1.46 m
+[exploration_nav2_planner-9] [INFO] [1794738180.155689104] [exploration_nav2_planner]: Nav2 planning request 34: goal=(9.49, -0.79) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738180.171116683] [exploration_nav2_planner]: Nav2 path ready: 14 poses, target=(9.49, -0.79)
+[exploration_path_follower-10] [INFO] [1794738180.216668828] [exploration_path_follower]: Route updated without cancel: request=6 points=14 end=(9.45, -0.75); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738180.232092704] [exploration_path_follower]: FollowPath request 6 accepted
+[component_container_mt-7] [INFO] [1794738180.264843802] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738180.273446752] [exploration_path_follower]: FollowPath request 5 finished: code=6 replaced=true Nav2 terminal result
+[rover_explore_node-8] [INFO] [1794738180.964386463] [rover_explore]: Observed ground: fitted=1 floor_z=0.978 odometry_z=0.962 cells=856 inliers=439
+[terrainAnalysis-6] [INFO] [1794738180.965031686] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2470 个点
+[exploration_nav2_planner-9] [INFO] [1794738181.106898884] [exploration_nav2_planner]: Nav2 planning request 35: goal=(9.41, -0.45) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738181.122314957] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(9.41, -0.45)
+[exploration_path_follower-10] [INFO] [1794738181.167028126] [exploration_path_follower]: Route updated without cancel: request=7 points=13 end=(9.45, -0.45); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738181.182455553] [exploration_path_follower]: FollowPath request 7 accepted
+[component_container_mt-7] [INFO] [1794738181.214839327] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738181.223474449] [exploration_path_follower]: FollowPath request 6 finished: code=6 replaced=true Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738181.577325561] [exploration_path_follower]: FollowPath request 7: commanded linear speed=0.150 m/s, remaining=1.22 m
+[exploration_nav2_planner-9] [INFO] [1794738182.155955707] [exploration_nav2_planner]: Nav2 planning request 36: goal=(9.41, -0.45) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738182.171329100] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(9.41, -0.45)
+[rover_explore_node-8] [INFO] [1794738182.966068105] [rover_explore]: Observed ground: fitted=1 floor_z=1.009 odometry_z=0.982 cells=878 inliers=415
+[terrainAnalysis-6] [INFO] [1794738182.967884659] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2895 个点
+[exploration_nav2_planner-9] [INFO] [1794738183.157298355] [exploration_nav2_planner]: Nav2 planning request 37: goal=(9.42, -0.49) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738183.172685088] [exploration_nav2_planner]: Nav2 path ready: 11 poses, target=(9.42, -0.49)
+[exploration_path_follower-10] [INFO] [1794738183.578765195] [exploration_path_follower]: FollowPath request 7: commanded linear speed=0.150 m/s, remaining=1.02 m
+[exploration_nav2_planner-9] [INFO] [1794738184.157820257] [exploration_nav2_planner]: Nav2 planning request 38: goal=(9.42, -0.48) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738184.173206411] [exploration_nav2_planner]: Nav2 path ready: 10 poses, target=(9.42, -0.48)
+[exploration_path_follower-10] [INFO] [1794738184.214780107] [exploration_path_follower]: Route updated without cancel: request=8 points=10 end=(9.45, -0.45); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738184.225043241] [exploration_path_follower]: FollowPath request 8 accepted
+[component_container_mt-7] [INFO] [1794738184.264848099] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738184.271480697] [exploration_path_follower]: FollowPath request 7 finished: code=6 replaced=true Nav2 terminal result
+[rover_explore_node-8] [INFO] [1794738184.966340485] [rover_explore]: Observed ground: fitted=1 floor_z=1.036 odometry_z=1.004 cells=876 inliers=404
+[terrainAnalysis-6] [INFO] [1794738184.968372889] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3091 个点
+[exploration_nav2_planner-9] [INFO] [1794738185.109289693] [exploration_nav2_planner]: Nav2 planning request 39: goal=(9.28, -0.93) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738185.124715034] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(9.28, -0.93)
+[exploration_path_follower-10] [INFO] [1794738185.167461012] [exploration_path_follower]: Route updated without cancel: request=9 points=7 end=(9.25, -0.95); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738185.182892977] [exploration_path_follower]: FollowPath request 9 accepted
+[component_container_mt-7] [INFO] [1794738185.214844882] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738185.223977272] [exploration_path_follower]: FollowPath request 8 finished: code=6 replaced=true Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738185.588542144] [exploration_path_follower]: FollowPath request 9: commanded linear speed=0.150 m/s, remaining=0.68 m
+[exploration_nav2_planner-9] [INFO] [1794738186.158999536] [exploration_nav2_planner]: Nav2 planning request 40: goal=(9.27, -0.80) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738186.174444577] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(9.27, -0.80)
+[exploration_path_follower-10] [INFO] [1794738186.216816754] [exploration_path_follower]: Route updated without cancel: request=10 points=7 end=(9.25, -0.75); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738186.232148979] [exploration_path_follower]: FollowPath request 10 accepted
+[component_container_mt-7] [INFO] [1794738186.264849040] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738186.273333459] [exploration_path_follower]: FollowPath request 9 finished: code=6 replaced=true Nav2 terminal result
+[terrainAnalysis-6] [INFO] [1794738187.065080636] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3217 个点
+[rover_explore_node-8] [INFO] [1794738187.091451133] [rover_explore]: Observed ground: fitted=1 floor_z=1.061 odometry_z=1.035 cells=982 inliers=390
+[exploration_nav2_planner-9] [INFO] [1794738187.207441285] [exploration_nav2_planner]: Nav2 planning request 41: goal=(9.27, -0.77) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738187.222806400] [exploration_nav2_planner]: Nav2 path ready: 5 poses, target=(9.27, -0.77)
+[exploration_path_follower-10] [INFO] [1794738187.627363658] [exploration_path_follower]: FollowPath request 10: commanded linear speed=0.150 m/s, remaining=0.40 m
+[exploration_nav2_planner-9] [INFO] [1794738188.207824230] [exploration_nav2_planner]: Nav2 planning request 42: goal=(9.26, -0.72) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738188.223147335] [exploration_nav2_planner]: Nav2 path ready: 5 poses, target=(9.26, -0.72)
+[terrainAnalysis-6] [INFO] [1794738189.066108020] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2906 个点
+[exploration_nav2_planner-9] [INFO] [1794738189.105698653] [exploration_nav2_planner]: Nav2 planning request 43: goal=(10.37, -0.47) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738189.121031573] [exploration_nav2_planner]: Nav2 path ready: 15 poses, target=(10.37, -0.47)
+[exploration_path_follower-10] [INFO] [1794738189.165475545] [exploration_path_follower]: Route updated without cancel: request=11 points=15 end=(10.35, -0.45); retry=0/3
+[rover_explore_node-8] [INFO] [1794738189.166149864] [rover_explore]: Observed ground: fitted=1 floor_z=1.095 odometry_z=1.075 cells=1006 inliers=405
+[exploration_path_follower-10] [INFO] [1794738189.175960972] [exploration_path_follower]: FollowPath request 11 accepted
+[component_container_mt-7] [INFO] [1794738189.214842466] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738189.222464065] [exploration_path_follower]: FollowPath request 10 finished: code=6 replaced=true Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738189.629122807] [exploration_path_follower]: FollowPath request 11: commanded linear speed=0.150 m/s, remaining=1.34 m
+[exploration_nav2_planner-9] [INFO] [1794738190.106420540] [exploration_nav2_planner]: Nav2 planning request 44: goal=(10.37, -0.46) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738190.121765819] [exploration_nav2_planner]: Nav2 path ready: 14 poses, target=(10.37, -0.46)
+[terrainAnalysis-6] [INFO] [1794738191.066403774] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3464 个点
+[exploration_nav2_planner-9] [INFO] [1794738191.107276169] [exploration_nav2_planner]: Nav2 planning request 45: goal=(10.37, -0.46) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738191.122712766] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.37, -0.46)
+[rover_explore_node-8] [INFO] [1794738191.264560587] [rover_explore]: Observed ground: fitted=1 floor_z=1.128 odometry_z=1.111 cells=1009 inliers=403
+[exploration_path_follower-10] [INFO] [1794738191.680128396] [exploration_path_follower]: FollowPath request 11: commanded linear speed=0.150 m/s, remaining=1.24 m
+[exploration_nav2_planner-9] [INFO] [1794738192.108743835] [exploration_nav2_planner]: Nav2 planning request 46: goal=(10.38, -0.49) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738192.124072672] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.38, -0.49)
+[terrainAnalysis-6] [INFO] [1794738193.067553765] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3546 个点
+[exploration_nav2_planner-9] [INFO] [1794738193.156397687] [exploration_nav2_planner]: Nav2 planning request 47: goal=(10.38, -0.51) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738193.171788425] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.38, -0.51)
+[rover_explore_node-8] [INFO] [1794738193.265229806] [rover_explore]: Observed ground: fitted=1 floor_z=1.146 odometry_z=1.132 cells=1017 inliers=403
+[exploration_path_follower-10] [INFO] [1794738193.728444756] [exploration_path_follower]: FollowPath request 11: commanded linear speed=0.150 m/s, remaining=1.04 m
+[exploration_nav2_planner-9] [INFO] [1794738194.157877288] [exploration_nav2_planner]: Nav2 planning request 48: goal=(10.38, -0.51) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738194.173299887] [exploration_nav2_planner]: Nav2 path ready: 11 poses, target=(10.38, -0.51)
+[exploration_path_follower-10] [INFO] [1794738194.215994155] [exploration_path_follower]: Route updated without cancel: request=12 points=11 end=(10.35, -0.55); retry=0/3
+[exploration_path_follower-10] [INFO] [1794738194.231364577] [exploration_path_follower]: FollowPath request 12 accepted
+[component_container_mt-7] [INFO] [1794738194.264846852] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738194.272650879] [exploration_path_follower]: FollowPath request 11 finished: code=6 replaced=true Nav2 terminal result
+[exploration_nav2_planner-9] [INFO] [1794738195.159172547] [exploration_nav2_planner]: Nav2 planning request 49: goal=(10.38, -0.50) frame=map
+[terrainAnalysis-6] [INFO] [1794738195.166767575] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3078 个点
+[exploration_nav2_planner-9] [INFO] [1794738195.174514321] [exploration_nav2_planner]: Nav2 path ready: 10 poses, target=(10.38, -0.50)
+[exploration_path_follower-10] [INFO] [1794738195.213337411] [exploration_path_follower]: Route updated without cancel: request=13 points=10 end=(10.35, -0.45); retry=0/3
+[component_container_mt-7] [INFO] [1794738195.214852422] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738195.223592672] [exploration_path_follower]: FollowPath request 13 accepted
+[exploration_path_follower-10] [INFO] [1794738195.233768193] [exploration_path_follower]: FollowPath request 12 finished: code=6 replaced=true Nav2 terminal result
+[rover_explore_node-8] [INFO] [1794738195.364119127] [rover_explore]: Observed ground: fitted=1 floor_z=1.170 odometry_z=1.172 cells=1051 inliers=380
+[exploration_path_follower-10] [INFO] [1794738195.777815001] [exploration_path_follower]: FollowPath request 13: commanded linear speed=0.150 m/s, remaining=0.92 m
+[exploration_nav2_planner-9] [INFO] [1794738196.206356505] [exploration_nav2_planner]: Nav2 planning request 50: goal=(10.38, -0.51) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738196.221685523] [exploration_nav2_planner]: Nav2 path ready: 9 poses, target=(10.38, -0.51)
+[exploration_nav2_planner-9] [INFO] [1794738197.208778350] [exploration_nav2_planner]: Nav2 planning request 51: goal=(10.38, -0.52) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738197.224203079] [exploration_nav2_planner]: Nav2 path ready: 8 poses, target=(10.38, -0.52)
+[terrainAnalysis-6] [INFO] [1794738197.266905369] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3238 个点
+[rover_explore_node-8] [INFO] [1794738197.364825241] [rover_explore]: Observed ground: fitted=1 floor_z=1.216 odometry_z=1.204 cells=1100 inliers=399
+[exploration_path_follower-10] [INFO] [1794738197.779875285] [exploration_path_follower]: FollowPath request 13: commanded linear speed=0.150 m/s, remaining=0.72 m
+[exploration_nav2_planner-9] [INFO] [1794738198.256595729] [exploration_nav2_planner]: Nav2 planning request 52: goal=(10.38, -0.52) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738198.271989977] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.52)
+[exploration_path_follower-10] [INFO] [1794738198.313906969] [exploration_path_follower]: Route updated without cancel: request=14 points=7 end=(10.35, -0.55); retry=0/3
+[component_container_mt-7] [INFO] [1794738198.314842272] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738198.324242828] [exploration_path_follower]: FollowPath request 14 accepted
+[exploration_path_follower-10] [INFO] [1794738198.334453679] [exploration_path_follower]: FollowPath request 13 finished: code=6 replaced=true Nav2 terminal result
+[exploration_nav2_planner-9] [INFO] [1794738199.257338032] [exploration_nav2_planner]: Nav2 planning request 53: goal=(10.38, -0.52) frame=map
+[terrainAnalysis-6] [INFO] [1794738199.267572783] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3361 个点
+[exploration_nav2_planner-9] [INFO] [1794738199.272728489] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.52)
+[rover_explore_node-8] [INFO] [1794738199.464188628] [rover_explore]: Observed ground: fitted=1 floor_z=1.218 odometry_z=1.217 cells=1116 inliers=417
+[exploration_path_follower-10] [INFO] [1794738199.780449050] [exploration_path_follower]: FollowPath request 14: commanded linear speed=0.150 m/s, remaining=0.63 m
+[exploration_nav2_planner-9] [INFO] [1794738200.258959387] [exploration_nav2_planner]: Nav2 planning request 54: goal=(10.40, -0.57) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738200.274376660] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.40, -0.57)
+[terrainAnalysis-6] [INFO] [1794738200.617377678] [terrain_analysis]: 已清理 7 个远离机器人的体素
+[exploration_nav2_planner-9] [INFO] [1794738201.307219229] [exploration_nav2_planner]: Nav2 planning request 55: goal=(10.39, -0.55) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738201.322564233] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.39, -0.55)
+[terrainAnalysis-6] [INFO] [1794738201.365892260] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3324 个点
+[rover_explore_node-8] [INFO] [1794738201.464471306] [rover_explore]: Observed ground: fitted=1 floor_z=1.209 odometry_z=1.214 cells=1052 inliers=408
+[exploration_path_follower-10] [INFO] [1794738201.829893284] [exploration_path_follower]: FollowPath request 14: commanded linear speed=0.150 m/s, remaining=0.63 m
+[exploration_nav2_planner-9] [INFO] [1794738202.307811281] [exploration_nav2_planner]: Nav2 planning request 56: goal=(10.38, -0.50) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738202.323146593] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.50)
+[exploration_path_follower-10] [INFO] [1794738202.363494744] [exploration_path_follower]: Route updated without cancel: request=15 points=7 end=(10.35, -0.45); retry=0/3
+[component_container_mt-7] [INFO] [1794738202.364860110] [controller_server]: Passing new path to controller.
+[exploration_path_follower-10] [INFO] [1794738202.373816474] [exploration_path_follower]: FollowPath request 15 accepted
+[exploration_path_follower-10] [INFO] [1794738202.384037563] [exploration_path_follower]: FollowPath request 14 finished: code=6 replaced=true Nav2 terminal result
+[exploration_nav2_planner-9] [INFO] [1794738203.308044783] [exploration_nav2_planner]: Nav2 planning request 57: goal=(10.38, -0.50) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738203.323379400] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.50)
+[terrainAnalysis-6] [INFO] [1794738203.367031752] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3171 个点
+[rover_explore_node-8] [INFO] [1794738203.465355809] [rover_explore]: Observed ground: fitted=1 floor_z=1.212 odometry_z=1.211 cells=1073 inliers=422
+[exploration_path_follower-10] [INFO] [1794738203.877789147] [exploration_path_follower]: FollowPath request 15: commanded linear speed=0.150 m/s, remaining=0.68 m
+[component_container_mt-7] [ERROR] [1794738203.964901072] [controller_server]: Failed to make progress
+[component_container_mt-7] [WARN] [1794738203.964966776] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+[exploration_path_follower-10] [INFO] [1794738203.970771403] [exploration_path_follower]: FollowPath request 15 finished: code=6 replaced=false Nav2 terminal result
+[exploration_path_follower-10] [WARN] [1794738203.970809746] [exploration_path_follower]: Controller failed; retry 1/3 after 1.0 s using a fresh route. No endpoint blacklist; see controller_server log for the underlying error
+[exploration_nav2_planner-9] [INFO] [1794738204.357085970] [exploration_nav2_planner]: Nav2 planning request 58: goal=(10.38, -0.50) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738204.372605105] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.50)
+[exploration_path_follower-10] [INFO] [1794738205.017672836] [exploration_path_follower]: Route started without cancel: request=16 points=7 end=(10.35, -0.55); retry=0/3
+[component_container_mt-7] [INFO] [1794738205.017899135] [controller_server]: Received a goal, begin computing control effort.
+[component_container_mt-7] [INFO] [1794738205.019123163] [controller_server]: Optimizer reset
+[exploration_path_follower-10] [INFO] [1794738205.028051634] [exploration_path_follower]: FollowPath request 16 accepted
+[exploration_nav2_planner-9] [INFO] [1794738205.359325046] [exploration_nav2_planner]: Nav2 planning request 59: goal=(10.38, -0.50) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738205.374688637] [exploration_nav2_planner]: Nav2 path ready: 7 poses, target=(10.38, -0.50)
+[terrainAnalysis-6] [INFO] [1794738205.465981563] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3170 个点
+[rover_explore_node-8] [INFO] [1794738205.564012594] [rover_explore]: Observed ground: fitted=1 floor_z=1.209 odometry_z=1.213 cells=1065 inliers=419
+[component_container_mt-7] [INFO] [1794738205.718022871] [controller_server]: Goal was canceled. Stopping the robot.
+[component_container_mt-7] [INFO] [1794738205.718056875] [controller_server]: [follow_path] [ActionServer] Client requested to cancel the goal. Cancelling.
+[exploration_path_follower-10] [INFO] [1794738205.727133400] [exploration_path_follower]: FollowPath request 16 finished: code=5 replaced=false Nav2 terminal result
+[exploration_path_follower-10] [INFO] [1794738205.768219299] [exploration_path_follower]: Stalled exploration: reverse 0.300 m at 0.10 m/s, attempt 1
+[component_container_mt-7] [INFO] [1794738205.768987203] [behavior_server]: Running backup
+[component_container_mt-7] [INFO] [1794738205.769144296] [behavior_server]: DriveOnHeading: no acceleration or deceleration limits set
+[exploration_nav2_planner-9] [INFO] [1794738206.108682181] [exploration_nav2_planner]: Nav2 planning request 60: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738206.124002189] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[exploration_nav2_planner-9] [INFO] [1794738207.109811660] [exploration_nav2_planner]: Nav2 planning request 61: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738207.125227902] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[terrainAnalysis-6] [INFO] [1794738207.466399152] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3066 个点
+[rover_explore_node-8] [INFO] [1794738207.564134492] [rover_explore]: Observed ground: fitted=1 floor_z=1.218 odometry_z=1.213 cells=1040 inliers=427
+[exploration_nav2_planner-9] [INFO] [1794738208.157168776] [exploration_nav2_planner]: Nav2 planning request 62: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738208.172534715] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[exploration_nav2_planner-9] [INFO] [1794738209.206291287] [exploration_nav2_planner]: Nav2 planning request 63: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738209.221735289] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[component_container_mt-7] [WARN] [1794738209.269155451] [behavior_server]: Exceeded time allowance before reaching the DriveOnHeading goal - Exiting DriveOnHeading
+[component_container_mt-7] [WARN] [1794738209.269196872] [behavior_server]: backup failed
+[component_container_mt-7] [WARN] [1794738209.269213814] [behavior_server]: [backup] [ActionServer] Aborting handle.
+[exploration_path_follower-10] [INFO] [1794738209.276739291] [exploration_path_follower]: Contact recovery: bounded reverse adjustment; occupied body fraction 0.000
+[terrainAnalysis-6] [INFO] [1794738209.564913148] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3417 个点
+[rover_explore_node-8] [INFO] [1794738209.664373965] [rover_explore]: Observed ground: fitted=1 floor_z=1.216 odometry_z=1.212 cells=1059 inliers=424
+[exploration_nav2_planner-9] [INFO] [1794738210.209341347] [exploration_nav2_planner]: Nav2 planning request 64: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738210.224658784] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[exploration_nav2_planner-9] [INFO] [1794738211.256076352] [exploration_nav2_planner]: Nav2 planning request 65: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738211.271474702] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[terrainAnalysis-6] [INFO] [1794738211.665173248] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2893 个点
+[rover_explore_node-8] [INFO] [1794738211.763754080] [rover_explore]: Observed ground: fitted=1 floor_z=1.216 odometry_z=1.213 cells=1046 inliers=411
+[exploration_nav2_planner-9] [INFO] [1794738212.258067860] [exploration_nav2_planner]: Nav2 planning request 66: goal=(10.90, -0.36) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738212.273570789] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[exploration_nav2_planner-9] [INFO] [1794738213.307259141] [exploration_nav2_planner]: Nav2 planning request 67: goal=(10.90, -0.37) frame=map
+[exploration_path_follower-10] [INFO] [1794738213.318235825] [exploration_path_follower]: Recovery reverse finished (code=0); replanning, task remains active
+[exploration_nav2_planner-9] [INFO] [1794738213.322554379] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.37)
+[terrainAnalysis-6] [INFO] [1794738213.666677913] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3198 个点
+[rover_explore_node-8] [INFO] [1794738213.763933287] [rover_explore]: Observed ground: fitted=1 floor_z=1.213 odometry_z=1.213 cells=1053 inliers=412
+[exploration_nav2_planner-9] [INFO] [1794738214.356170278] [exploration_nav2_planner]: Nav2 planning request 68: goal=(10.90, -0.36) frame=map
+[exploration_path_follower-10] [INFO] [1794738214.366546829] [exploration_path_follower]: Stalled exploration: reverse 0.300 m at 0.10 m/s, attempt 2
+[component_container_mt-7] [INFO] [1794738214.366830792] [behavior_server]: Running backup
+[exploration_nav2_planner-9] [INFO] [1794738214.371704353] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.36)
+[exploration_nav2_planner-9] [INFO] [1794738215.358166471] [exploration_nav2_planner]: Nav2 planning request 69: goal=(10.90, -0.35) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738215.373516589] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.35)
+[terrainAnalysis-6] [INFO] [1794738215.765068062] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3090 个点
+[rover_explore_node-8] [INFO] [1794738215.863966801] [rover_explore]: Observed ground: fitted=1 floor_z=1.212 odometry_z=1.213 cells=1034 inliers=434
+[exploration_nav2_planner-9] [INFO] [1794738216.358964884] [exploration_nav2_planner]: Nav2 planning request 70: goal=(10.90, -0.35) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738216.374427441] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.90, -0.35)
+[exploration_nav2_planner-9] [INFO] [1794738217.406869104] [exploration_nav2_planner]: Nav2 planning request 71: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738217.422227035] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[terrainAnalysis-6] [INFO] [1794738217.765255975] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3175 个点
+[rover_explore_node-8] [INFO] [1794738217.864201216] [rover_explore]: Observed ground: fitted=1 floor_z=1.215 odometry_z=1.212 cells=1020 inliers=418
+[component_container_mt-7] [WARN] [1794738217.866985216] [behavior_server]: Exceeded time allowance before reaching the DriveOnHeading goal - Exiting DriveOnHeading
+[component_container_mt-7] [WARN] [1794738217.867039298] [behavior_server]: backup failed
+[component_container_mt-7] [WARN] [1794738217.867053477] [behavior_server]: [backup] [ActionServer] Aborting handle.
+[exploration_path_follower-10] [INFO] [1794738217.877186583] [exploration_path_follower]: Contact recovery: bounded reverse adjustment; occupied body fraction 0.000
+[exploration_nav2_planner-9] [INFO] [1794738218.406936384] [exploration_nav2_planner]: Nav2 planning request 72: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738218.422254579] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[exploration_nav2_planner-9] [INFO] [1794738219.408599229] [exploration_nav2_planner]: Nav2 planning request 73: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738219.423944161] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[terrainAnalysis-6] [INFO] [1794738219.766736962] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3182 个点
+[rover_explore_node-8] [INFO] [1794738219.964198290] [rover_explore]: Observed ground: fitted=1 floor_z=1.204 odometry_z=1.212 cells=1060 inliers=414
+[exploration_nav2_planner-9] [INFO] [1794738220.408756768] [exploration_nav2_planner]: Nav2 planning request 74: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738220.424083194] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[terrainAnalysis-6] [INFO] [1794738220.617538355] [terrain_analysis]: 已清理 6 个远离机器人的体素
+[exploration_nav2_planner-9] [INFO] [1794738221.409131622] [exploration_nav2_planner]: Nav2 planning request 75: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738221.424491181] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[terrainAnalysis-6] [INFO] [1794738221.865621819] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3226 个点
+[exploration_path_follower-10] [INFO] [1794738221.917966080] [exploration_path_follower]: Recovery reverse finished (code=0); replanning, task remains active
+[rover_explore_node-8] [INFO] [1794738222.087608880] [rover_explore]: Observed ground: fitted=1 floor_z=1.206 odometry_z=1.212 cells=1065 inliers=400
+[exploration_nav2_planner-9] [INFO] [1794738222.456807582] [exploration_nav2_planner]: Nav2 planning request 76: goal=(10.90, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738222.472329232] [exploration_nav2_planner]: Nav2 path ready: 12 poses, target=(10.90, -0.34)
+[exploration_path_follower-10] [INFO] [1794738222.966867076] [exploration_path_follower]: Stalled exploration: reverse 0.300 m at 0.10 m/s, attempt 3
+[component_container_mt-7] [INFO] [1794738222.967119111] [behavior_server]: Running backup
+[exploration_nav2_planner-9] [INFO] [1794738223.459698188] [exploration_nav2_planner]: Nav2 planning request 77: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738223.475205687] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[terrainAnalysis-6] [INFO] [1794738223.965024296] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2877 个点
+[rover_explore_node-8] [INFO] [1794738224.096645981] [rover_explore]: Observed ground: fitted=1 floor_z=1.214 odometry_z=1.212 cells=1015 inliers=399
+[exploration_nav2_planner-9] [INFO] [1794738224.460045867] [exploration_nav2_planner]: Nav2 planning request 78: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738224.475388805] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[exploration_nav2_planner-9] [INFO] [1794738225.508217551] [exploration_nav2_planner]: Nav2 planning request 79: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738225.523648949] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[terrainAnalysis-6] [INFO] [1794738225.966203253] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2968 个点
+[rover_explore_node-8] [INFO] [1794738226.164174751] [rover_explore]: Observed ground: fitted=1 floor_z=1.209 odometry_z=1.213 cells=1072 inliers=423
+[component_container_mt-7] [WARN] [1794738226.467269547] [behavior_server]: Exceeded time allowance before reaching the DriveOnHeading goal - Exiting DriveOnHeading
+[component_container_mt-7] [WARN] [1794738226.467312259] [behavior_server]: backup failed
+[component_container_mt-7] [WARN] [1794738226.467321920] [behavior_server]: [backup] [ActionServer] Aborting handle.
+[exploration_path_follower-10] [INFO] [1794738226.476706521] [exploration_path_follower]: Contact recovery: bounded reverse adjustment; occupied body fraction 0.000
+[exploration_nav2_planner-9] [INFO] [1794738226.556686860] [exploration_nav2_planner]: Nav2 planning request 80: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738226.572068062] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[exploration_nav2_planner-9] [INFO] [1794738227.557671904] [exploration_nav2_planner]: Nav2 planning request 81: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738227.573067791] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[terrainAnalysis-6] [INFO] [1794738228.065383488] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3198 个点
+[rover_explore_node-8] [INFO] [1794738228.263996475] [rover_explore]: Observed ground: fitted=1 floor_z=1.217 odometry_z=1.215 cells=1016 inliers=403
+[exploration_nav2_planner-9] [INFO] [1794738228.559643583] [exploration_nav2_planner]: Nav2 planning request 82: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738228.575042210] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+[exploration_nav2_planner-9] [INFO] [1794738229.607890765] [exploration_nav2_planner]: Nav2 planning request 83: goal=(10.91, -0.34) frame=map
+[exploration_nav2_planner-9] [INFO] [1794738229.623291149] [exploration_nav2_planner]: Nav2 path ready: 13 poses, target=(10.91, -0.34)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

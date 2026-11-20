@@ -1,0 +1,182 @@
+Start testing: Nov 20 11:38 CST
+----------------------------------------------------------
+1/8 Testing: cave_turnaround
+1/8 Test: cave_turnaround
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_cave_turnaround"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"cave_turnaround" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+[INFO] [1795145925.343659821] [mission_state]: Observed closed corridor at (1.80, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.343731522] [mission_state]: TURNAROUND_HANDOFF: Corridor end wall confirmed continuously; stopping navigation before turnaround
+[INFO] [1795145925.343736889] [mission_state]: EXPLORING: fixture
+[INFO] [1795145925.343745627] [mission_state]: Observed closed corridor at (1.80, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.343750788] [mission_state]: CENTER_OBSERVING: grasp observation
+[INFO] [1795145925.343756040] [mission_state]: EXPLORING: resume after grasp
+[INFO] [1795145925.343766966] [mission_state]: Observed closed corridor at (1.80, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.343779253] [mission_state]: Observed closed corridor at (1.80, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.343790095] [mission_state]: Observed closed corridor at (2.50, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.343836177] [mission_state]: Observed closed corridor at (1.80, 0.00); holding for 10.0 s confirmation
+[INFO] [1795145925.344024727] [mission_state]: TURNAROUND_HANDOFF: fixture
+[INFO] [1795145925.344131973] [mission_state]: TURNING_AROUND: Navigation idle; rotating in place by 180 degrees
+[INFO] [1795145925.344178297] [mission_state]: PAUSED: pause after rotation
+[INFO] [1795145925.344181746] [mission_state]: TURNAROUND_HANDOFF: resume fixture
+[INFO] [1795145925.344187979] [mission_state]: TURNING_AROUND: Navigation idle; rotating in place by 180 degrees
+[INFO] [1795145925.349752824] [mission_state]: RESUMING: Turnaround complete; corridor direction reset, waiting for a fresh exploration path
+[INFO] [1795145925.349766419] [mission_state]: EXPLORING: return path
+[INFO] [1795145925.349777874] [mission_state]: TURNING_AROUND: drift fixture
+[INFO] [1795145925.349785134] [mission_state]: FAULT: Turnaround interrupted by navigation, map validity, collision or position drift
+PASS: 10 s source confirmation, grasp reset, stale observations, footprint sweep, yaw wrap, pause, reorientation, single turn and drift stop
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"cave_turnaround" end time: Nov 20 11:38 CST
+"cave_turnaround" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/8 Testing: mission_budget
+2/8 Test: mission_budget
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_mission_budget"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"mission_budget" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+PASS: 600 s cutoff, 10 successes, duplicate result, pause time, reset, 840 s total
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"mission_budget" end time: Nov 20 11:38 CST
+"mission_budget" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/8 Testing: mission_cutoff
+3/8 Test: mission_cutoff
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_mission_cutoff"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"mission_cutoff" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+[INFO] [1795145925.487543004] [mission_state]: Grasp phase closed: completed=0/10 elapsed=601.0 s cutoff=600.0 s; continue exploration to exit and destination
+[INFO] [1795145925.487608689] [mission_state]: CENTER_RETURN_WAIT: Grasp time/count limit reached; recovering arm and continuing to cave exit
+[INFO] [1795145925.487614027] [mission_state]: CENTER_RETURN_WAIT: Grasp time/count limit reached; recovering arm and continuing to cave exit
+[INFO] [1795145925.487618357] [mission_state]: CENTER_RETURN_WAIT: Grasp time/count limit reached; recovering arm and continuing to cave exit
+[INFO] [1795145925.487622861] [mission_state]: RECOVERING: Grasp time/count limit reached; recovering arm and continuing to cave exit
+[INFO] [1795145925.487655773] [mission_state]: [GRASP_STOP] forward=0.500 m lateral=0.000 m threshold=0.500 m; no braking-distance compensation
+[INFO] [1795145925.487661030] [mission_state]: CENTER_HANDOFF: Configured front-edge target distance reached; stopping exploration
+[INFO] [1795145925.487665438] [mission_state]: [GRASP_STOP] forward=0.400 m lateral=0.000 m threshold=0.500 m; no braking-distance compensation
+[INFO] [1795145925.487669237] [mission_state]: CENTER_HANDOFF: Configured front-edge target distance reached; stopping exploration
+PASS: live mission cutoff during grasp/tracking/settling, missing inputs, pause and 10 results
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"mission_cutoff" end time: Nov 20 11:38 CST
+"mission_cutoff" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/8 Testing: outdoor_navigation
+4/8 Test: outdoor_navigation
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_outdoor_navigation"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"outdoor_navigation" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+[INFO] [1795145925.623128381] [mission_state]: ENTRY_NAVIGATING: Navigating to the cave entrance; exploration remains disabled
+[INFO] [1795145925.649785425] [mission_state]: FINAL_NAVIGATING: Navigating to the configured final destination
+[INFO] [1795145925.675722057] [mission_state]: FINAL_NAVIGATING: Navigating to the configured final destination
+PASS: entry/destination share OutdoorPath, ignore grasp checker, preserve path and configured coordinates
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"outdoor_navigation" end time: Nov 20 11:38 CST
+"outdoor_navigation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/8 Testing: outdoor_profile
+5/8 Test: outdoor_profile
+Command: "/usr/bin/python3" "/home/tzb/nav_explore_ws/src/state/tests/test_outdoor_profile.py"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"outdoor_profile" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+PASS: both coordinate goals use configured tolerances; invalid values rejected
+PASS: cave speed follows YAML through controller/smoother without changing outdoor speed
+PASS: cave angular speed reaches controller/smoother; invalid values rejected
+<end of output>
+Test time =   0.18 sec
+----------------------------------------------------------
+Test Passed.
+"outdoor_profile" end time: Nov 20 11:38 CST
+"outdoor_profile" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/8 Testing: unload_zone
+6/8 Test: unload_zone
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_unload_zone"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"unload_zone" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+PASS: calibrated bin point, arbitrary heading, square margin, rotated zone and previous-run regression
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"unload_zone" end time: Nov 20 11:38 CST
+"unload_zone" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/8 Testing: unload_alignment
+7/8 Test: unload_alignment
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_unload_alignment"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"unload_alignment" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+[INFO] [1795145926.017310116] [mission_state]: UNLOAD_ALIGN_CHECK: test
+[INFO] [1795145926.017376061] [mission_state]: EXIT_HANDOFF: Bin centre outside unload zone; low-speed Nav2 position correction
+[INFO] [1795145926.017389013] [mission_state]: UNLOAD_ALIGN_CHECK: test
+[INFO] [1795145926.017392684] [mission_state]: UNLOAD_WAIT_STOP: Bin centre inside unload zone; no odometry standstill or heading requirement
+[INFO] [1795145926.017412786] [mission_state]: UNLOAD_OPENING: Opening collection bin for 5 seconds
+[INFO] [1795145926.017424048] [mission_state]: FAULT: Unloading interlock lost; actuator stopped, resume required
+[INFO] [1795145926.017433800] [mission_state]: FAULT: Unloading interlock lost; actuator stopped, resume required
+[INFO] [1795145926.017452793] [mission_state]: FAULT: Unload position correction limit reached; unloading blocked
+[INFO] [1795145926.017463657] [mission_state]: FAULT: Unload position feedback timed out; unloading blocked
+PASS: TF bin reference, position-only alignment/zero-command interlock, no heading constraint, stale input, drift interlock, retries/deadline
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"unload_alignment" end time: Nov 20 11:38 CST
+"unload_alignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/8 Testing: deadline_unload
+8/8 Test: deadline_unload
+Command: "/home/tzb/nav_explore_ws/build/rover_state/test_deadline_unload"
+Directory: /home/tzb/nav_explore_ws/build/rover_state
+"deadline_unload" start time: Nov 20 11:38 CST
+Output:
+----------------------------------------------------------
+[WARN] [1795145926.152184328] [mission_state]: Deadline unloading: 60.00 s remaining, bin 1.000 m from destination (limit 1.00 m); stopping before unloading
+[INFO] [1795145926.152254022] [mission_state]: UNLOAD_ALIGN_CHECK: Deadline fallback after confirmed cave exit: bin within destination radius; stop and unload without precision correction
+[INFO] [1795145926.152267597] [mission_state]: UNLOAD_WAIT_STOP: Deadline fallback position confirmed; unloading within 1 m
+[INFO] [1795145926.152292522] [mission_state]: UNLOAD_OPENING: Opening collection bin for 5 seconds
+[INFO] [1795145926.152306602] [mission_state]: FAULT: Unloading interlock lost; actuator stopped, resume required
+[WARN] [1795145926.152325718] [mission_state]: Deadline unloading: 10.00 s remaining, bin 0.600 m from destination (limit 1.00 m); stopping before unloading
+[INFO] [1795145926.152332791] [mission_state]: UNLOAD_ALIGN_CHECK: Deadline fallback after confirmed cave exit: bin within destination radius; stop and unload without precision correction
+[INFO] [1795145926.152337987] [mission_state]: Grasp phase closed: completed=0/10 elapsed=830.0 s cutoff=600.0 s; continue exploration to exit and destination
+[INFO] [1795145926.152345996] [mission_state]: UNLOAD_WAIT_STOP: Deadline fallback position confirmed; unloading within 1 m
+PASS: confirmed-exit 60 s/1 m fallback, pre-exit exclusions, circle boundary, stop/arm/freshness/ack interlocks and post-exit fault rescue
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"deadline_unload" end time: Nov 20 11:38 CST
+"deadline_unload" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 20 11:38 CST

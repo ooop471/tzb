@@ -1,0 +1,246 @@
+rover_explore:
+  ros__parameters:
+    input_timeout: 2.0
+    sync_tolerance: 0.15
+    # Enabled by the shared navigation launch assembly. Other callers retain their
+    # existing collision source unless they explicitly enable Nav2 alignment.
+    navigation_grid.enabled: false
+    navigation_grid.timeout: 2.0
+    navigation_grid.global_topic: /global_costmap/costmap
+    navigation_grid.local_topic: /local_costmap/costmap_raw
+    coverage_confirmation_time: 10.0
+    coverage_confirmation_cycles: 10
+    # Conservative world-horizontal prediction band. Calibrate for the tilted mount.
+    kViewpointVerticalHalfFovDeg: 12.0
+    # Match terrain_analysis_plus.yaml: radius exclusion OR measured fixed-return box.
+    self_filter.enabled: true
+    self_filter.radius: 0.6
+    self_filter.minimum: [0.20, -0.12, 0.05]
+    self_filter.maximum: [0.36, 0.08, 0.60]
+    sub_start_exploration_topic_ : /explore/enabled
+    sub_terrain_map_topic_ : /terrain_map
+    sub_terrain_map_ext_topic_ : /explore/unused_terrain_map_ext
+    sub_state_estimation_topic_ : /odometry
+    sub_registered_scan_topic_ : /cloud_registered
+    sub_coverage_boundary_topic_ : /sensor_coverage_planner/coverage_boundary
+    sub_viewpoint_boundary_topic_ : /navigation_boundary
+    sub_nogo_boundary_topic_ : /sensor_coverage_planner/nogo_boundary
+    sub_joystick_topic_ : /joy
+    sub_reset_waypoint_topic_ : /reset_waypoint
+    pub_exploration_finish_topic_ : /explore/coverage_complete
+    pub_runtime_breakdown_topic_ : runtime_breakdown
+    pub_runtime_topic_ : /runtime
+    pub_waypoint_topic_ : /explore/waypoint
+    pub_momentum_activation_count_topic_ : momentum_activation_count
+
+    kAutoStart : false
+    kRushHome : false
+    kUseTerrainHeight : false
+    kCheckTerrainCollision : true
+    kExtendWayPoint : false
+    kUseLineOfSightLookAheadPoint : true
+    kNoExplorationReturnHome : true
+    kExtendWayPointDistanceBig : 8.0
+    kExtendWayPointDistanceSmall : 3.5
+    kKeyposeCloudDwzFilterLeafSize : 0.2
+    kRushHomeDist : 5.0
+    kAtHomeDistThreshold : 0.5
+    # Relative terrain height; matches terrain_analysis minObstacleHeight.
+    kTerrainCollisionThreshold : 0.10
+    kLookAheadDistance : 2.0
+    kUseMomentum : true 
+    kDirectionChangeCounterThr : 6
+    kDirectionNoChangeCounterThr : 5
+    kResetWaypointJoystickAxesID : 2
+
+    # PlanningEnv
+    kUseFrontier : true
+    kFrontierClusterTolerance : 1.0
+    # Narrow tunnel mouths contain fewer 0.3 m frontier voxels than outdoor scenes.
+    kFrontierClusterMinSize : 8
+    kUseCoverageBoundaryOnFrontier : false 
+    kUseCoverageBoundaryOnObjectSurface : false
+
+    # Rolling occupancy grid
+    rolling_occupancy_grid/resolution_x : 0.3
+    rolling_occupancy_grid/resolution_y : 0.3
+    rolling_occupancy_grid/resolution_z : 0.3
+
+    kSurfaceCloudDwzLeafSize : 0.3
+    # Coverage approximation must use the actual surface voxel size, not default 1 m.
+    kCoveragePointCloudResolution : 0.3
+    kCollisionCloudDwzLeafSize : 0.1
+    kKeyposeCloudStackNum : 5
+    kPointCloudRowNum : 50
+    kPointCloudColNum : 50
+    kPointCloudLevelNum : 30
+    kMaxCellPointNum : 100000
+    kPointCloudCellSize : 12.0
+    kPointCloudCellHeight : 1.8
+    kPointCloudManagerNeighborCellNum : 3
+    kCoverCloudZSqueezeRatio : 2.0
+
+    # KeyposeGraph
+    keypose_graph/kAddNodeMinDist : 1.0
+    keypose_graph/kAddNonKeyposeNodeMinDist : 0.5
+    keypose_graph/kAddEdgeConnectDistThr : 3.0
+    keypose_graph/kAddEdgeToLastKeyposeDistThr : 3.0
+    keypose_graph/kAddEdgeVerticalThreshold : 1.0
+    keypose_graph/kAddEdgeCollisionCheckResolution : 0.1
+    keypose_graph/kAddEdgeCollisionCheckRadius : 0.4
+    keypose_graph/kAddEdgeCollisionCheckPointNumThr : 1
+
+    # New exploration goals: body-forward 4 m, lateral +/-4 m, intersected
+    # with the existing world-aligned rolling grid. Rear nodes remain for transit.
+    exploration_region.enabled: true
+    exploration_region.forward_distance: 4.0
+    exploration_region.half_width: 4.0
+    exploration_region.entry_margin: 0.05
+
+    # Dedicated cave goal policy; standalone launch enables it in unmanaged mode.
+    corridor.enabled: false
+    # Detect an observed end wall joining both side walls, in corridor coordinates.
+    # Mission state owns the continuous 10 s confirmation and the physical turn.
+    corridor.dead_end.enabled: true
+    corridor.dead_end.detection_distance: 2.0
+    corridor.nominal_width: 1.1
+    corridor.minimum_width: 0.70
+    # Width above this is an opening/transition hypothesis, not an invalid wall pair.
+    corridor.maximum_width: 1.55
+    corridor.transition_width: 2.4
+    corridor.wall_reference_height: 0.45
+    # Auxiliary observation cache only; leaves sensor/terrain/Nav2 filters intact.
+    # Compatibility value; floor Z is measured from registered points, not this height.
+    corridor.ground.sensor_height: 0.20
+    corridor.ground.height_tolerance: 0.15
+    corridor.ground.support_radius: 0.14
+    corridor.ground.max_age: 4.0
+    corridor.ground.fit_radius: 3.0
+    corridor.ground.fit_tolerance: 0.12
+    corridor.ground.max_slope_degrees: 20.0
+    corridor.ground.minimum_inliers: 12
+    corridor.section_step: 0.20
+    corridor.section_half_length: 0.22
+    corridor.horizon: 3.0
+    corridor.entry_lookahead: 0.8
+    corridor.lookahead: 1.2
+    corridor.target_min_distance: 0.2
+    corridor.target_max_distance: 2.0
+    corridor.center_band: 0.14
+    corridor.body_half_width: 0.32 # Nav2 footprint + padding; launch derives it automatically
+    corridor.side_margin: 0.03
+    corridor.handoff_distance: 0.35
+    corridor.hold_time: 1.5
+    corridor.center_smoothing_time: 0.8
+    corridor.center_max_update: 0.04
+    corridor.center_jump_threshold: 0.12
+    corridor.center_confirmation_cycles: 3
+    corridor.max_heading_degrees: 10.0
+    corridor.progress_timeout: 8.0
+    corridor.confirmation_cycles: 2
+    corridor.exit_enabled: true
+    # Measured base_frame -> front 0.30 m; 0.72 m body leaves 0.42 m rear.
+    corridor.body_front: 0.22
+    corridor.body_rear: 0.60
+    corridor.exit_margin: 0.05
+    corridor.exit_extension: 3.0
+    corridor.exit_lookahead: 0.8
+    # Raw Livox ceiling geometry; no side-point-count exit policy remains.
+    corridor.exit_forward_distance: 1.0
+    corridor.ceiling_exit.raw_topic: /livox/lidar
+    # Gravity-aligned vertical height above lidar, not floor or tilted raw Z.
+    # Only visible upper returns (>=30deg elevation, >=0.3m above lidar) count.
+    corridor.ceiling_exit.radius: 2.0
+    corridor.ceiling_exit.forward_min: -0.5
+    corridor.ceiling_exit.forward_max: 2.0
+    corridor.ceiling_exit.half_width: 1.0
+    corridor.ceiling_exit.cell_size: 0.25
+    corridor.ceiling_exit.minimum_relative_height: 0.3
+    corridor.ceiling_exit.height_threshold: 2.0
+    # Fraction of valid upper RETURN POINTS above 2m; equality at 2m counts low.
+    corridor.ceiling_exit.minimum_high_fraction: 0.30
+    corridor.ceiling_exit.max_height: 12.0
+    corridor.ceiling_exit.minimum_elevation_degrees: 30.0
+    corridor.ceiling_exit.confirm_time: 0.8
+    corridor.ceiling_exit.maximum_gap: 0.5
+    corridor.ceiling_exit.minimum_cloud_points: 100
+    corridor.ceiling_exit.minimum_upper_points: 20
+    corridor.ceiling_exit.minimum_upper_cells: 3
+    corridor.ceiling_exit.minimum_cell_points: 2
+
+
+    # Execute stable, gain-bearing goals; navigation anchors are transit nodes.
+    goal_selection.enabled: true
+    goal_selection.main_cone_degrees: 35.0
+    goal_selection.max_turn_degrees: 85.0
+    goal_selection.min_distance: 0.4
+    goal_selection.max_distance: 4.0
+    goal_selection.target_distance: 2.0
+    goal_selection.handoff_distance: 0.6
+    goal_selection.empty_cycles: 3
+    goal_selection.progress_distance: 0.15
+    goal_selection.progress_timeout: 8.0
+    goal_selection.retry_cooldown: 12.0
+    goal_selection.retry_radius: 0.6
+
+    # ViewPointManager: retain the 8 x 8 m connection grid and 0.1 m sampling.
+    # Legacy point-cloud margins below apply only with navigation_grid disabled.
+    # Nav2 mode uses the maps' existing inflation, without changing the footprint.
+    viewpoint_manager/number_x : 80
+    viewpoint_manager/number_y : 80
+    viewpoint_manager/number_z : 1
+    viewpoint_manager/resolution_x : 0.1
+    viewpoint_manager/resolution_y : 0.1
+    viewpoint_manager/resolution_z : 0.0
+    kConnectivityHeightDiffThr : 0.25
+    kGreedyViewPointSampleRange : 3
+    kLocalPathOptimizationItrMax : 10
+    kViewPointCollisionMargin : 0.4
+    kViewPointCollisionMarginZPlus : 0.5
+    kViewPointCollisionMarginZMinus : 0.5
+    kCollisionGridZScale : 1.0
+    kCollisionGridResolutionX : 0.05
+    kCollisionGridResolutionY : 0.05
+    kCollisionGridResolutionZ : 0.0
+    kCollisionPointThr : 1
+    kLineOfSightStopAtNearestObstacle : true
+    kViewPointHeightFromTerrain : 0.75
+    kViewPointHeightFromTerrainChangeThreshold : 0.6
+    kCheckDynamicObstacleCollision : true
+    kCollisionFrameCountMax : 3
+
+    kSensorRange : 7.5
+    # Visited-viewpoint suppression radius; 2 m would consume short visible bends.
+    kNeighborRange : 0.4
+    kCoverageOcclusionThr : 0.3
+    kCoverageDilationRadius : 0.5
+
+    # Grid World
+    kGridWorldXNum : 61
+    kGridWorldYNum : 61
+    kGridWorldZNum : 5
+    kGridWorldCellHeight : 3.0
+    kGridWorldNearbyGridNum : 5
+    kMinAddPointNumSmall : 12
+    kMinAddPointNumBig : 20
+    kMinAddFrontierPointNum : 6
+    kCellExploringToCoveredThr : 1
+    kCellCoveredToExploringThr: 3
+    kCellExploringToAlmostCoveredThr: 10
+    kCellAlmostCoveredToExploringThr: 20
+    kCellUnknownToExploringThr: 1
+
+    # Visualization
+    kExploringSubspaceMarkerColorGradientAlpha : true
+    kExploringSubspaceMarkerColorMaxAlpha : 0.8
+    kExploringSubspaceMarkerColorR : 0.0
+    kExploringSubspaceMarkerColorG : 1.0
+    kExploringSubspaceMarkerColorB : 0.0
+    kExploringSubspaceMarkerColorA : 1.0
+    # Gray box = internal connection grid; green points = front exploration goals.
+    kLocalPlanningHorizonMarkerColorR : 0.5
+    kLocalPlanningHorizonMarkerColorG : 0.5
+    kLocalPlanningHorizonMarkerColorB : 0.5
+    kLocalPlanningHorizonMarkerColorA : 1.0
+    kLocalPlanningHorizonMarkerWidth : 0.3
+    kLocalPlanningHorizonHeight : 3.0

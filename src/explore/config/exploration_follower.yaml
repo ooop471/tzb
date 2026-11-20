@@ -1,0 +1,20 @@
+exploration_path_follower:
+  ros__parameters:
+    # Automatically enables exploration once these inputs, TF and Nav2 are ready.
+    # No automatic reverse, spin, or contact-adjustment recovery.
+    input_timeout: 2.0
+    # Keep the accepted path through brief planning gaps. Stale input is never replayed indefinitely.
+    route_timeout: 8.0
+    update_interval: 0.5
+    update_distance: 0.15
+    handoff_distance: 0.8
+    start_tolerance: 0.8
+    goal_tolerance: 0.25
+    # Retry failed tracking with fresh paths; no recovery movement is issued.
+    retry_delay: 1.0
+    retry_limit: 3
+    cancel_timeout: 5.0
+    odom_frame: odom_init
+    tracking_frame: map
+    controller_id: FollowPath
+    goal_checker_id: general_goal_checker

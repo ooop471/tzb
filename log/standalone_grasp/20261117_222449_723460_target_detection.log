@@ -1,0 +1,41 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-22-24-49-589332-tzb-NUC14RVS-B-4212
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4214]
+[INFO] [far_target_locator-2]: process started with pid [4216]
+[python3-1] [INFO] [1794925491.165637869] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794925491.168183274] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794925491.169050763] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794925491.169445668] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794925491.173604448] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] [INFO] [1794925491.359156874] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> MODEL_FAILED
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 4216]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1062, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1046, in main
+[python3-1]     node = YoloDetectorNode()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 323, in __init__
+[python3-1]     self.model = self._load_model(model_path, device)
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 771, in _load_model
+[python3-1]     _ = loaded.predict(source=dummy, device=device, verbose=False)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/engine/model.py", line 548, in predict
+[python3-1]     self.predictor.setup_model(model=self.model, verbose=is_cli)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/torch_utils.py", line 101, in disable
+[python3-1]     return fn(*args, **kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/engine/predictor.py", line 460, in setup_model
+[python3-1]     self.model = AutoBackend(
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/torch_utils.py", line 101, in disable
+[python3-1]     return fn(*args, **kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/autobackend.py", line 249, in __init__
+[python3-1]     self.backend = self._BACKEND_MAP[format](model, **backend_kwargs)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/backends/base.py", line 105, in __init__
+[python3-1]     self.load_model(weight)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/nn/backends/openvino.py", line 40, in load_model
+[python3-1]     if isinstance(self.device, str) and self.device.startswith("intel"):
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 4214, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_fxkyj1ye'].

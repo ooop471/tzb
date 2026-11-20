@@ -1,0 +1,39 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-18-06-43-381747-tzb-NUC14RVS-B-12038
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [12043]
+[INFO] [far_target_locator-2]: process started with pid [12045]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1750, in <module>
+[python3-1]     from . import _meta_registrations
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_meta_registrations.py", line 8, in <module>
+[python3-1]     from torch._decomp import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 191, in <module>
+[python3-1]     import torch._refs
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_refs/__init__.py", line 733, in <module>
+[python3-1]     def lgamma(a):
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_refs/__init__.py", line 466, in inner
+[python3-1]     register_decomposition(aten_op)(_ref)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 133, in decomposition_decorator
+[python3-1]     tree_map(register, aten_op)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/utils/_pytree.py", line 283, in tree_map
+[python3-1]     return tree_unflatten([fn(i) for i in flat_args], spec)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/utils/_pytree.py", line 283, in <listcomp>
+[python3-1]     return tree_unflatten([fn(i) for i in flat_args], spec)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 130, in register
+[python3-1]     _add_op_to_registry(registry, op, fn)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_decomp/__init__.py", line 44, in _add_op_to_registry
+[python3-1]     overloads.append(getattr(op, ol))
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_ops.py", line 670, in __getattr__
+[python3-1]     op_, op_dk_, tags = torch._C._get_operation_overload(
+[python3-1] KeyboardInterrupt
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 12045]
+[ERROR] [python3-1]: process has died [pid 12043, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_2qocs_g_'].

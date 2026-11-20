@@ -1,0 +1,591 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-15-14-42-46-131326-tzb-NUC14RVS-B-12103
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [12227]
+[INFO] [far_target_locator-2]: process started with pid [12229]
+[INFO] [pose_estimation_node-3]: process started with pid [12231]
+[INFO] [planning_node-4]: process started with pid [12233]
+[INFO] [tzb_catch-5]: process started with pid [12235]
+[INFO] [static_transform_publisher-6]: process started with pid [12237]
+[INFO] [static_transform_publisher-7]: process started with pid [12239]
+[INFO] [imu_transform_node-8]: process started with pid [12241]
+[INFO] [imu_complementary_filter_node-9]: process started with pid [12243]
+[INFO] [fastlio_mapping-10]: process started with pid [12245]
+[INFO] [terrainAnalysis-11]: process started with pid [12282]
+[INFO] [component_container_mt-12]: process started with pid [12287]
+[INFO] [rover_explore_node-13]: process started with pid [12289]
+[INFO] [exploration_nav2_planner-14]: process started with pid [12292]
+[INFO] [exploration_path_follower-15]: process started with pid [12295]
+[INFO] [mission_motion_gate-16]: process started with pid [12297]
+[INFO] [mission_state-17]: process started with pid [12299]
+[INFO] [static_transform_publisher-18]: process started with pid [12301]
+[imu_complementary_filter_node-9] [INFO] [1794724967.472748408] [imu_complementary_filter]: Starting ComplementaryFilterROS
+[static_transform_publisher-6] [INFO] [1794724967.486530395] [exploration_map_to_odom]: Spinning until stopped - publishing transform
+[static_transform_publisher-6] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-6] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-6] from 'map' to 'odom_init'
+[terrainAnalysis-11] [INFO] [1794724967.497776700] [terrain_analysis]: Terrain obstacle height threshold: 0.100 m above local ground
+[terrainAnalysis-11] [INFO] [1794724967.501775440] [terrain_analysis]: TerrainAnalysisNode 初始化完成 - 动态体素版本
+[static_transform_publisher-18] [INFO] [1794724967.505271005] [mission_arm_mount]: Spinning until stopped - publishing transform
+[static_transform_publisher-18] translation: ('0.160000', '0.000000', '0.000000')
+[static_transform_publisher-18] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-18] from 'base_frame' to 'base_link'
+[rover_explore_node-13] finished constructor
+[fastlio_mapping-10] [INFO] [1794724967.508036335] [laser_mapping]: p_pre->lidar_type 1
+[fastlio_mapping-10] Multi thread started 
+[fastlio_mapping-10] ~~~~/home/tzb/nav_explore_ws/src/localization/fast_lio/ doesn't exist
+[rover_explore_node-13] parameter kAutoStart: 0
+[planning_node-4] [INFO] [1794724967.545287215] [planning_node]: Globally ignored robot collision links: 1
+[planning_node-4] [INFO] [1794724967.807588694] [planning_node]: Robot collision model initialized: geometries=20, active_collision_pairs=189
+[planning_node-4] [INFO] [1794724967.807662414] [planning_node]: Self-collision penetration allowance: 0.0000 m
+[exploration_nav2_planner-14] [INFO] [1794724967.826573576] [exploration_nav2_planner]: Exploration targets -> Nav2 GridBased -> /explore/control_path; no TARE-path fallback; target selection and navigation parameters unchanged
+[static_transform_publisher-7] [INFO] [1794724967.827148045] [exploration_base_to_livox]: Spinning until stopped - publishing transform
+[static_transform_publisher-7] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-7] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-7] from 'base_frame' to 'livox_frame'
+[tzb_catch-5] [INFO] [1794724967.829637054] [tzb_catch]: tzb_catch configured: arm_group=arm tcp_frame=tcp_link target_source=/pose_estimator/object_pose continuous_required=4.50s arm_state=/serial/arm_joint_state initial_wait=0.50s arrival_wait=20.00s navigation_status_listener=disabled sentry_mode=disabled force_rpy=(roll:true pitch:true yaw:false)
+[tzb_catch-5] [INFO] [1794724967.829960482] [tzb_catch]: [GRASP][class] default='blue block' profiles={"big rock":{"gripper_close_level":2},"blue block":{"gripper_close_level":1},"small rock":{"gripper_close_level":3}}
+[tzb_catch-5] [INFO] [1794724967.829997502] [tzb_catch]: Stage [configured_ini_joint_positions] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1794724967.830010641] [tzb_catch]: Stage [configured_pre_ini_joint_positions] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794724967.830020497] [tzb_catch]: Stage [configured_place_joint_positions] arm joints: J1_joint=3.13981 J2_joint=-0.112227 J3_joint=-1.07426 J4_joint=7.6e-05 J5_joint=1.54351 J6_joint=-0.000175
+[tzb_catch-5] [INFO] [1794724967.830028787] [tzb_catch]: Stage [configured_observe_joint_positions] arm joints: J1_joint=0 J2_joint=-0.192 J3_joint=-2 J4_joint=0 J5_joint=1.2184 J6_joint=0
+[planning_node-4] [INFO] [1794724967.832841223] [planning_node]: [SHUTDOWN][GATE] listening on /tzb_catch/shutdown_hold (grace=1.5s for a lease, fresh<=0.50s, max_hold=45.0s); SIGQUIT bypasses the hold
+[tzb_catch-5] [INFO] [1794724967.840491426] [tzb_catch]: [MISSION] /arm_task/execute action server ready (expected_center frame must be base_link); legacy /arm_task/command disabled
+[fastlio_mapping-10] [INFO] [1794724967.843087111] [laser_mapping]: Node init finished.
+[exploration_path_follower-15] [INFO] [1794724967.867910121] [exploration_path_follower]: Standalone TARE follower: automatic start, continuous FollowPath updates, no mission state machine, no displacement watchdog or endpoint blacklist
+[component_container_mt-12] [INFO] [1794724968.178254581] [nav2_container]: Load Library: /opt/ros/humble/lib/libcontroller_server_core.so
+[component_container_mt-12] [INFO] [1794724968.190051555] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[component_container_mt-12] [INFO] [1794724968.209962379] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+[fastlio_mapping-10] [WARN] [1794724968.354189449] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-10] 
+[fastlio_mapping-10] [WARN] [1794724968.365293847] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-10] 
+[fastlio_mapping-10] [WARN] [1794724968.374125573] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-10] 
+[component_container_mt-12] [INFO] [1794724968.390150634] [controller_server]: 
+[component_container_mt-12] 	controller_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724968.398519088] [controller_server]: Creating controller server
+[fastlio_mapping-10] IMU Initial Done
+[fastlio_mapping-10] [WARN] [1794724968.464189094] [laser_mapping]: No point, skip this scan!
+[fastlio_mapping-10] 
+[component_container_mt-12] [INFO] [1794724968.491681862] [local_costmap.local_costmap]: 
+[component_container_mt-12] 	local_costmap lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724968.493615485] [local_costmap.local_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/controller_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724968.495517462] [nav2_container]: Load Library: /opt/ros/humble/lib/libmap_server_core.so
+[component_container_mt-12] [INFO] [1794724968.505749266] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::CostmapFilterInfoServer>
+[component_container_mt-12] [INFO] [1794724968.525664119] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapSaver>
+[component_container_mt-12] [INFO] [1794724968.525709600] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[component_container_mt-12] [INFO] [1794724968.525756995] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+[rover_explore_node-13] [INFO] [1794724968.557422273] [rover_explore]: Exploration collision source: Nav2 global + local maps, with observed-free goals
+[fastlio_mapping-10] [INFO] [1794724968.565465849] [laser_mapping]: Initialize the map kdtree
+[rover_explore_node-13] [INFO] [1794724968.584993602] [rover_explore]: Rover exploration: 7.5 m sensor range, 2.0 m lookahead, 0.30 m surface/coverage voxel; fixed-return filter enabled
+[component_container_mt-12] [INFO] [1794724968.668992116] [map_server]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/map_server' in container '/nav2_container'
+[component_container_mt-12] 	map_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724968.669051533] [map_server]: Creating
+[component_container_mt-12] [INFO] [1794724968.669968659] [nav2_container]: Load Library: /opt/ros/humble/lib/libsmoother_server_core.so
+[terrainAnalysis-11] [INFO] [1794724968.671832587] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 49 个点
+[component_container_mt-12] [INFO] [1794724968.672876757] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[component_container_mt-12] [INFO] [1794724968.672931142] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+[python3-1] [INFO] [1794724968.755046696] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794724968.756713450] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794724968.757130294] [yolo_node]: Loading YOLO model from: 
+[python3-1] [INFO] [1794724968.757328148] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794724968.757753837] [yolo_node]: Trying OpenVINO model: .
+[python3-1] [WARN] [1794724968.784347372] [yolo_node]: Failed to load OpenVINO model from .: model='.' is not a supported model format. Ultralytics supports: ('PyTorch', 'TorchScript', 'ONNX', 'OpenVINO', 'TensorRT', 'CoreML', 'Core AI', 'TensorFlow SavedModel', 'TensorFlow GraphDef', 'TensorFlow Edge TPU', 'LiteRT', 'PaddlePaddle', 'MNN', 'NCNN', 'IMX', 'RKNN', 'ExecuTorch', 'Axelera AI', 'DEEPX', 'Qualcomm QNN', 'Hailo', 'Huawei Ascend')
+[python3-1] See https://docs.ultralytics.com/modes/predict for help.
+[python3-1] [INFO] [1794724968.785298810] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> MODEL_FAILED
+[rover_explore_node-13] [INFO] [1794724968.893526534] [rover_explore]: Observed ground: fitted=1 floor_z=0.045 odometry_z=-0.007 cells=115 inliers=98
+[component_container_mt-12] [INFO] [1794724969.062061761] [smoother_server]: 
+[component_container_mt-12] 	smoother_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724969.063889987] [smoother_server]: Creating smoother server
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/smoother_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724969.065464103] [nav2_container]: Load Library: /opt/ros/humble/lib/libnav2_lifecycle_manager_core.so
+[component_container_mt-12] [INFO] [1794724969.066937944] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794724969.066990515] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[pose_estimation_node-3] [INFO] [1794724969.187966116] [pose_estimation_node]: 加载模型: /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/half_block.pcd
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 976, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 960, in main
+[python3-1]     node = YoloDetectorNode()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 307, in __init__
+[python3-1]     self.model = self._load_model(model_path, device)
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 691, in _load_model
+[python3-1]     raise RuntimeError(
+[python3-1] RuntimeError: Unable to load OpenVINO model from .. Last error: model='.' is not a supported model format. Ultralytics supports: ('PyTorch', 'TorchScript', 'ONNX', 'OpenVINO', 'TensorRT', 'CoreML', 'Core AI', 'TensorFlow SavedModel', 'TensorFlow GraphDef', 'TensorFlow Edge TPU', 'LiteRT', 'PaddlePaddle', 'MNN', 'NCNN', 'IMX', 'RKNN', 'ExecuTorch', 'Axelera AI', 'DEEPX', 'Qualcomm QNN', 'Hailo', 'Huawei Ascend')
+[python3-1] See https://docs.ultralytics.com/modes/predict for help.
+[component_container_mt-12] [INFO] [1794724969.464880840] [lifecycle_manager_localization]: Creating
+[component_container_mt-12] [INFO] [1794724969.548335532] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_localization' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724969.553034005] [nav2_container]: Load Library: /opt/ros/humble/lib/libplanner_server_core.so
+[component_container_mt-12] [INFO] [1794724969.558367711] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[component_container_mt-12] [INFO] [1794724969.558821764] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+[pose_estimation_node-3] [INFO] [1794724969.600561854] [pose_estimation_node]: 模型加载完毕: raw=7500 used=7500 extent=[0.05 0.05 0.05] centroid=[0.008  0.0084 0.0083] unit_scale=0.001
+[pose_estimation_node-3] [INFO] [1794724969.671672567] [pose_estimation_node]: 类别位姿模型 big rock: /home/tzb/tzb_ws/src/pose_estimator/config/big_rock.pcd points=8000 extent=[0.0395 0.0331 0.0327]
+[pose_estimation_node-3] [INFO] [1794724969.724539225] [pose_estimation_node]: 类别位姿模型 small rock: /home/tzb/tzb_ws/src/pose_estimator/config/small_rock.pcd points=4000 extent=[0.0171 0.0213 0.019 ]
+[pose_estimation_node-3] [INFO] [1794724969.726677949] [pose_estimation_node]: 类别策略: priority=['blue block', 'big rock', 'small rock'] ignored=['d'] class_models=['big rock', 'small rock']
+[pose_estimation_node-3] [INFO] [1794724969.737480876] [pose_estimation_node]: 检测消息类型: yolo_node
+[pose_estimation_node-3] [INFO] [1794724969.903814026] [pose_estimation_node]: 节点已启动, 等待数据... 订阅点云: /camera/depth/color/points | 订阅检测: /yolo/detections | 订阅CamInfo: /camera/color/camera_info | 发布位姿: /pose_estimator/object_pose | 可视化发布: ROI=True Marker=True Coarse=True (every_n=3)
+[ERROR] [python3-1]: process has died [pid 12227, exit code 1, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_i4teb_c6'].
+[component_container_mt-12] [INFO] [1794724969.944220400] [lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-12] [INFO] [1794724969.944361439] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+[component_container_mt-12] [INFO] [1794724969.945009510] [map_server]: Configuring
+[component_container_mt-12] [INFO] [1794724969.945138145] [map_io]: Loading yaml file: /tmp/standalone_exploration_64bja5at/unknown.yaml
+[component_container_mt-12] [INFO] [1794724969.945352488] [map_io]: resolution: 0.1
+[component_container_mt-12] [INFO] [1794724969.945361055] [map_io]: origin[0]: -50
+[component_container_mt-12] [INFO] [1794724969.945363320] [map_io]: origin[1]: -50
+[component_container_mt-12] [INFO] [1794724969.945384258] [map_io]: origin[2]: 0
+[component_container_mt-12] [INFO] [1794724969.945387692] [map_io]: free_thresh: 0.25
+[component_container_mt-12] [INFO] [1794724969.945390403] [map_io]: occupied_thresh: 0.65
+[component_container_mt-12] [INFO] [1794724969.945393975] [map_io]: mode: trinary
+[component_container_mt-12] [INFO] [1794724969.945397705] [map_io]: negate: 0
+[component_container_mt-12] [INFO] [1794724969.947826084] [map_io]: Loading image_file: /tmp/standalone_exploration_64bja5at/unknown.pgm
+[pose_estimation_node-3] [INFO] [1794724970.000088673] [pose_estimation_node]: [GRASP][registration_gate] mission_state=IDLE
+[component_container_mt-12] [INFO] [1794724970.009350965] [map_io]: Read map /tmp/standalone_exploration_64bja5at/unknown.pgm: 1000 X 1000 map @ 0.1 m/cell
+[component_container_mt-12] [INFO] [1794724970.061455931] [lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+[component_container_mt-12] [INFO] [1794724970.061580554] [map_server]: Activating
+[component_container_mt-12] [INFO] [1794724970.062300604] [map_server]: Creating bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724970.101438334] [planner_server]: 
+[component_container_mt-12] 	planner_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724970.103154704] [planner_server]: Creating
+[component_container_mt-12] [INFO] [1794724970.197300307] [lifecycle_manager_localization]: Server map_server connected with bond.
+[component_container_mt-12] [INFO] [1794724970.212465919] [lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-12] [INFO] [1794724970.212638845] [lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+[pose_estimation_node-3] [INFO] [1794724970.368514520] [pose_estimation_node]: ✓ CameraInfo: 640×480, fx=366.6 fy=366.9 cx=318.7 cy=241.0, frame=camera_color_optical_frame
+[pose_estimation_node-3] [INFO] [1794724970.406750808] [pose_estimation_node]: ✓ 点云 frame='camera_color_optical_frame', size=640×480, point_step=20
+[pose_estimation_node-3] [WARN] [1794724970.407040052] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[component_container_mt-12] [INFO] [1794724970.491808572] [global_costmap.global_costmap]: 
+[component_container_mt-12] 	global_costmap lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724970.492471714] [global_costmap.global_costmap]: Creating Costmap
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/planner_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724970.515740263] [nav2_container]: Load Library: /opt/ros/humble/lib/libbehavior_server_core.so
+[component_container_mt-12] [INFO] [1794724970.521533403] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-12] [INFO] [1794724970.549864745] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+[component_container_mt-12] [INFO] [1794724970.639886519] [behavior_server]: 
+[component_container_mt-12] 	behavior_server lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/behavior_server' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724970.646818791] [nav2_container]: Load Library: /opt/ros/humble/lib/libbt_navigator_core.so
+[component_container_mt-12] [INFO] [1794724970.653268259] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[component_container_mt-12] [INFO] [1794724970.653413704] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+[terrainAnalysis-11] [INFO] [1794724970.672231046] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2731 个点
+[component_container_mt-12] [INFO] [1794724970.694801350] [bt_navigator]: 
+[component_container_mt-12] 	bt_navigator lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724970.694923162] [bt_navigator]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/bt_navigator' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724970.697628517] [nav2_container]: Load Library: /opt/ros/humble/lib/libwaypoint_follower_core.so
+[component_container_mt-12] [INFO] [1794724970.700497439] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-12] [INFO] [1794724970.700571877] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+[component_container_mt-12] [INFO] [1794724970.722076535] [waypoint_follower]: 
+[component_container_mt-12] 	waypoint_follower lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724970.724144948] [waypoint_follower]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/waypoint_follower' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724970.727233788] [nav2_container]: Load Library: /opt/ros/humble/lib/libvelocity_smoother_core.so
+[component_container_mt-12] [INFO] [1794724970.728606332] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-12] [INFO] [1794724970.728647135] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+[component_container_mt-12] [INFO] [1794724970.750333696] [velocity_smoother]: 
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/velocity_smoother' in container '/nav2_container'
+[component_container_mt-12] 	velocity_smoother lifecycle node launched. 
+[component_container_mt-12] 	Waiting on external lifecycle transitions to activate
+[component_container_mt-12] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[component_container_mt-12] [INFO] [1794724970.753055719] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794724970.753093838] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+[component_container_mt-12] [INFO] [1794724970.817702079] [lifecycle_manager_navigation]: Creating
+[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_navigation' in container '/nav2_container'
+[component_container_mt-12] [INFO] [1794724970.820998239] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+[component_container_mt-12] [INFO] [1794724970.850057694] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+[component_container_mt-12] [INFO] [1794724970.850130096] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794724970.850417153] [controller_server]: Configuring controller interface
+[component_container_mt-12] [INFO] [1794724970.850600197] [controller_server]: getting goal checker plugins..
+[component_container_mt-12] [INFO] [1794724970.850719920] [controller_server]: Controller frequency set to 20.0000Hz
+[component_container_mt-12] [INFO] [1794724970.850765008] [local_costmap.local_costmap]: Configuring
+[component_container_mt-12] [INFO] [1794724970.857794359] [local_costmap.local_costmap]: Using plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794724970.898280094] [local_costmap.local_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-12] [INFO] [1794724970.898376448] [local_costmap.local_costmap]: stvl_layer's global frame is map.
+[component_container_mt-12] [INFO] [1794724970.900125053] [local_costmap.local_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-12] [INFO] [1794724970.919616715] [local_costmap.local_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-12] [INFO] [1794724970.922321033] [local_costmap.local_costmap]: Voxel filter activated.
+[component_container_mt-12] [INFO] [1794724970.933105902] [local_costmap.local_costmap]: Passthough filter activated.
+[component_container_mt-12] [INFO] [1794724970.940796651] [local_costmap.local_costmap]: stvl_layer initialization complete!
+[component_container_mt-12] [INFO] [1794724970.940839891] [local_costmap.local_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794724970.940847953] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794724970.946407591] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794724970.946536124] [local_costmap.local_costmap]: Using plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794724970.947142062] [local_costmap.local_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-12] [ERROR] [1794724970.959717525] [local_costmap.local_costmap]: The configured inflation radius (0.120) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[rover_explore_node-13] [INFO] [1794724970.970209027] [rover_explore]: Observed ground: fitted=1 floor_z=0.026 odometry_z=-0.009 cells=331 inliers=237
+[component_container_mt-12] [INFO] [1794724970.973428128] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::PoseProgressChecker
+[component_container_mt-12] [INFO] [1794724970.974615329] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794724970.975092380] [controller_server]: Created goal checker : grasp_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794724970.975678098] [controller_server]: Created goal checker : hint_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794724970.976075272] [controller_server]: Created goal checker : entry_goal_checker of type nav2_controller::SimpleGoalChecker
+[component_container_mt-12] [INFO] [1794724970.976251872] [controller_server]: Controller Server has general_goal_checker grasp_goal_checker hint_goal_checker entry_goal_checker  goal checkers available.
+[component_container_mt-12] [INFO] [1794724970.978237615] [controller_server]: Created controller : FollowPath of type nav2_mppi_controller::MPPIController
+[component_container_mt-12] [INFO] [1794724970.981093656] [controller_server]: Controller period is equal to model dt. Control sequence shifting is ON
+[component_container_mt-12] [INFO] [1794724970.984051473] [controller_server]: ConstraintCritic instantiated with 1 power and 4.000000 weight.
+[component_container_mt-12] [INFO] [1794724970.984100037] [controller_server]: Critic loaded : mppi::critics::ConstraintCritic
+[component_container_mt-12] [INFO] [1794724970.985621861] [controller_server]: InflationCostCritic instantiated with 1 power and 253.000000 / 0.023622 weights. Critic will collision check based on footprint cost.
+[component_container_mt-12] [INFO] [1794724970.985668830] [controller_server]: Critic loaded : mppi::critics::CostCritic
+[component_container_mt-12] [INFO] [1794724970.986112522] [controller_server]: GoalCritic instantiated with 1 power and 5.000000 weight.
+[component_container_mt-12] [INFO] [1794724970.986138753] [controller_server]: Critic loaded : mppi::critics::GoalCritic
+[component_container_mt-12] [INFO] [1794724970.986631830] [controller_server]: GoalAngleCritic instantiated with 1 power, 3.000000 weight, and 0.500000 angular threshold.
+[component_container_mt-12] [INFO] [1794724970.986663745] [controller_server]: Critic loaded : mppi::critics::GoalAngleCritic
+[component_container_mt-12] [INFO] [1794724970.987317108] [controller_server]: ReferenceTrajectoryCritic instantiated with 1 power and 14.000000 weight
+[component_container_mt-12] [INFO] [1794724970.987343374] [controller_server]: Critic loaded : mppi::critics::PathAlignCritic
+[component_container_mt-12] [INFO] [1794724970.988116386] [controller_server]: Critic loaded : mppi::critics::PathFollowCritic
+[component_container_mt-12] [INFO] [1794724970.988917028] [controller_server]: PathAngleCritic instantiated with 1 power and 1.000000 weight. Reversing not allowed.
+[component_container_mt-12] [INFO] [1794724970.988944323] [controller_server]: Critic loaded : mppi::critics::PathAngleCritic
+[component_container_mt-12] [INFO] [1794724970.990782766] [controller_server]: Optimizer reset
+[component_container_mt-12] [INFO] [1794724971.002772723] [MPPIController]: Configured MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794724971.004286173] [controller_server]: Created controller : ApproachPath of type nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794724971.078021870] [controller_server]: Controller Server has FollowPath ApproachPath  controllers available.
+[component_container_mt-12] [INFO] [1794724971.117130221] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794724971.117427202] [smoother_server]: Configuring smoother server
+[component_container_mt-12] [INFO] [1794724971.130250092] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+[component_container_mt-12] [INFO] [1794724971.131137563] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+[component_container_mt-12] [INFO] [1794724971.153235981] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+[component_container_mt-12] [INFO] [1794724971.153378703] [planner_server]: Configuring
+[component_container_mt-12] [INFO] [1794724971.153420895] [global_costmap.global_costmap]: Configuring
+[component_container_mt-12] [INFO] [1794724971.175658446] [global_costmap.global_costmap]: Using plugin "static_layer"
+[component_container_mt-12] [INFO] [1794724971.177598521] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+[component_container_mt-12] [INFO] [1794724971.180083727] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+[component_container_mt-12] [INFO] [1794724971.180259835] [global_costmap.global_costmap]: Using plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794724971.180511522] [global_costmap.global_costmap]: stvl_layer being initialized as SpatioTemporalVoxelLayer!
+[component_container_mt-12] [INFO] [1794724971.180656098] [global_costmap.global_costmap]: stvl_layer's global frame is map.
+[component_container_mt-12] [INFO] [1794724971.183104539] [global_costmap.global_costmap]: stvl_layer loaded parameters from parameter server.
+[component_container_mt-12] [INFO] [1794724971.190184949] [global_costmap.global_costmap]: stvl_layer created underlying voxel grid.
+[component_container_mt-12] [INFO] [1794724971.193133449] [global_costmap.global_costmap]: Voxel filter activated.
+[component_container_mt-12] [INFO] [1794724971.206938029] [global_costmap.global_costmap]: Passthough filter activated.
+[component_container_mt-12] [INFO] [1794724971.247559001] [global_costmap.global_costmap]: stvl_layer initialization complete!
+[component_container_mt-12] [INFO] [1794724971.247605692] [global_costmap.global_costmap]: Initialized plugin "stvl_layer"
+[component_container_mt-12] [INFO] [1794724971.247616719] [global_costmap.global_costmap]: Using plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794724971.248030960] [global_costmap.global_costmap]: Initialized plugin "denoise_layer"
+[component_container_mt-12] [INFO] [1794724971.248056173] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+[component_container_mt-12] [INFO] [1794724971.248979461] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+[component_container_mt-12] [ERROR] [1794724971.276910305] [global_costmap.global_costmap]: The configured inflation radius (0.120) is smaller than the computed inscribed radius (0.220) of your footprint, it is highly recommended to set inflation radius to be at least as big as the inscribed radius to avoid collisions
+[component_container_mt-12] [INFO] [1794724971.308252558] [global_costmap.global_costmap]: StaticLayer: Resizing costmap to 1000 X 1000 at 0.100000 m/pix
+[component_container_mt-12] [INFO] [1794724971.314827915] [planner_server]: Created global planner plugin GridBased of type nav2_smac_planner/SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724971.314931223] [planner_server]: Configuring GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724971.346108345] [planner_server]: Configured plugin GridBased of type SmacPlanner2D with tolerance 0.50, maximum iterations 1000000, max on approach iterations 1000, and allowing unknown traversal.
+[component_container_mt-12] [INFO] [1794724971.346184516] [planner_server]: Planner Server has GridBased  planners available.
+[component_container_mt-12] [INFO] [1794724971.414671821] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794724971.414848895] [behavior_server]: Configuring
+[component_container_mt-12] [INFO] [1794724971.428720141] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors/Spin
+[mission_state-17] [INFO] [1794724971.430195685] [mission_state]: PREPARING: Automatic mission startup after valid inputs
+[tzb_catch-5] [INFO] [1794724971.430763885] [tzb_catch]: [MISSION][goal][ACCEPT] session=622254443421 task_id=1 command=prepare expected_center=(0.0000, 0.0000, 0.0000)
+[tzb_catch-5] [INFO] [1794724971.430990909] [tzb_catch]: [GRASP][service][WAIT] name=plan_arm_motion timeout=1.00s
+[component_container_mt-12] [INFO] [1794724971.431113018] [behavior_server]: Configuring spin
+[tzb_catch-5] [INFO] [1794724971.431395603] [tzb_catch]: [GRASP][service][READY] name=plan_arm_motion
+[tzb_catch-5] [INFO] [1794724971.431431005] [tzb_catch]: [GRASP][service][WAIT] name=add_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794724971.431569173] [tzb_catch]: [GRASP][service][READY] name=add_scene_object
+[tzb_catch-5] [INFO] [1794724971.431586530] [tzb_catch]: [GRASP][service][WAIT] name=remove_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794724971.431645707] [tzb_catch]: [GRASP][service][READY] name=remove_scene_object
+[tzb_catch-5] [INFO] [1794724971.431666784] [tzb_catch]: [GRASP][service][WAIT] name=set_scene_collision_allowance timeout=1.00s
+[tzb_catch-5] [INFO] [1794724971.431708905] [tzb_catch]: [GRASP][service][READY] name=set_scene_collision_allowance
+[tzb_catch-5] [INFO] [1794724971.431741138] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.0636383 J2_joint=1.07131 J3_joint=-2.61547 J4_joint=-0.0602386 J5_joint=1.39117 J6_joint=-0.209966
+[tzb_catch-5] [INFO] [1794724971.431771938] [tzb_catch]: [GRASP][plan][BEGIN] step=mission_prepare_exploration_pose goal=joint service=plan_arm_motion
+[pose_estimation_node-3] [INFO] [1794724971.432643930] [pose_estimation_node]: [GRASP][registration_gate] mission_state=PREPARING
+[planning_node-4] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-4] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-4] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-4] Info:    Solution found in 0.003310 seconds
+[tzb_catch-5] [INFO] [1794724971.449731303] [tzb_catch]: [GRASP][plan][OK] step=mission_prepare_exploration_pose points=2
+[tzb_catch-5] [INFO] [1794724971.449819108] [tzb_catch]: Stage [mission_prepare_exploration_pose_planned_final] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794724971.449848193] [tzb_catch]: [GRASP][command][BEGIN] step=mission_prepare_exploration_pose hz=100.00 speed_scale=1.000 duration=0.262s
+[component_container_mt-12] [INFO] [1794724971.456131427] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors/BackUp
+[component_container_mt-12] [INFO] [1794724971.457908043] [behavior_server]: Configuring backup
+[component_container_mt-12] [INFO] [1794724971.520856386] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors/DriveOnHeading
+[component_container_mt-12] [INFO] [1794724971.522914583] [behavior_server]: Configuring drive_on_heading
+[component_container_mt-12] [INFO] [1794724971.639683916] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors/Wait
+[component_container_mt-12] [INFO] [1794724971.642579285] [behavior_server]: Configuring wait
+[component_container_mt-12] [INFO] [1794724971.677664054] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+[component_container_mt-12] [INFO] [1794724971.678008953] [bt_navigator]: Configuring
+[tzb_catch-5] [INFO] [1794724971.814238005] [tzb_catch]: [GRASP][command][END] step=mission_prepare_exploration_pose status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794724971.814284571] [tzb_catch]: [GRASP][feedback][WAIT] step=mission_prepare_exploration_pose enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[component_container_mt-12] [INFO] [1794724972.050772797] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+[component_container_mt-12] [INFO] [1794724972.051144582] [waypoint_follower]: Configuring
+[component_container_mt-12] [INFO] [1794724972.120773188] [waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+[component_container_mt-12] [INFO] [1794724972.121269046] [waypoint_follower]: Waypoint pause duration is set to zero, disabling task executor plugin.
+[component_container_mt-12] [INFO] [1794724972.121861444] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+[component_container_mt-12] [INFO] [1794724972.122119554] [velocity_smoother]: Configuring velocity smoother
+[component_container_mt-12] [INFO] [1794724972.142802826] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794724972.143258237] [controller_server]: Activating
+[component_container_mt-12] [INFO] [1794724972.143319764] [local_costmap.local_costmap]: Activating
+[component_container_mt-12] [INFO] [1794724972.143336381] [local_costmap.local_costmap]: Checking transform
+[component_container_mt-12] [INFO] [1794724972.143453629] [local_costmap.local_costmap]: start
+[component_container_mt-12] [INFO] [1794724972.143561679] [local_costmap.local_costmap]: stvl_layer was activated.
+[component_container_mt-12] [INFO] [1794724972.205252914] [controller_server]: Activating controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [WARN] [1794724972.205331352] [controller_server]: Parameter controller_server.verbose not found
+[component_container_mt-12] [INFO] [1794724972.206290647] [controller_server]: Optimizer reset
+[component_container_mt-12] [INFO] [1794724972.206725731] [MPPIController]: Activated MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794724972.206759552] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724972.316640294] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+[component_container_mt-12] [INFO] [1794724972.316693818] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794724972.317178767] [smoother_server]: Activating
+[component_container_mt-12] [INFO] [1794724972.317261706] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724972.421832708] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+[component_container_mt-12] [INFO] [1794724972.421916280] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+[component_container_mt-12] [INFO] [1794724972.422447973] [planner_server]: Activating
+[component_container_mt-12] [INFO] [1794724972.422544202] [global_costmap.global_costmap]: Activating
+[component_container_mt-12] [INFO] [1794724972.422568878] [global_costmap.global_costmap]: Checking transform
+[component_container_mt-12] [INFO] [1794724972.422762129] [global_costmap.global_costmap]: start
+[component_container_mt-12] [INFO] [1794724972.422849636] [global_costmap.global_costmap]: stvl_layer was activated.
+[component_container_mt-12] [INFO] [1794724972.484535353] [planner_server]: Activating plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724972.496890825] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724972.610416633] [lifecycle_manager_navigation]: Server planner_server connected with bond.
+[component_container_mt-12] [INFO] [1794724972.610483444] [lifecycle_manager_navigation]: [34m[1mActivating behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794724972.610988196] [behavior_server]: Activating
+[component_container_mt-12] [INFO] [1794724972.611035898] [behavior_server]: Activating spin
+[component_container_mt-12] [INFO] [1794724972.611084379] [behavior_server]: Activating backup
+[component_container_mt-12] [INFO] [1794724972.611096679] [behavior_server]: Activating drive_on_heading
+[component_container_mt-12] [INFO] [1794724972.611107325] [behavior_server]: Activating wait
+[component_container_mt-12] [INFO] [1794724972.611121667] [behavior_server]: Creating bond (behavior_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724972.724658879] [lifecycle_manager_navigation]: Server behavior_server connected with bond.
+[component_container_mt-12] [INFO] [1794724972.724717458] [lifecycle_manager_navigation]: [34m[1mActivating bt_navigator[0m[0m
+[component_container_mt-12] [INFO] [1794724972.725255705] [bt_navigator]: Activating
+[terrainAnalysis-11] [INFO] [1794724972.771404802] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 3031 个点
+[component_container_mt-12] [INFO] [1794724972.992687543] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[rover_explore_node-13] [INFO] [1794724973.069538799] [rover_explore]: Observed ground: fitted=1 floor_z=0.048 odometry_z=-0.011 cells=368 inliers=272
+[component_container_mt-12] [INFO] [1794724973.102353853] [lifecycle_manager_navigation]: Server bt_navigator connected with bond.
+[component_container_mt-12] [INFO] [1794724973.102475800] [lifecycle_manager_navigation]: [34m[1mActivating waypoint_follower[0m[0m
+[component_container_mt-12] [INFO] [1794724973.103102650] [waypoint_follower]: Activating
+[component_container_mt-12] [INFO] [1794724973.103245312] [waypoint_follower]: Creating bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724973.220835464] [lifecycle_manager_navigation]: Server waypoint_follower connected with bond.
+[component_container_mt-12] [INFO] [1794724973.220926233] [lifecycle_manager_navigation]: [34m[1mActivating velocity_smoother[0m[0m
+[component_container_mt-12] [INFO] [1794724973.221536573] [velocity_smoother]: Activating
+[component_container_mt-12] [INFO] [1794724973.221643136] [velocity_smoother]: Creating bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724973.334921069] [lifecycle_manager_navigation]: Server velocity_smoother connected with bond.
+[component_container_mt-12] [INFO] [1794724973.335002398] [lifecycle_manager_navigation]: [34m[1mManaged nodes are active[0m[0m
+[component_container_mt-12] [INFO] [1794724973.335026648] [lifecycle_manager_navigation]: [34m[1mCreating bond timer...[0m[0m
+[tzb_catch-5] [WARN] [1794724973.453625385] [tzb_catch]: [GRASP][feedback][NO_MOTION][EARLY] step=mission_prepare_exploration_pose no joint has moved 2.0s after the command (commanded travel up to 0.436 rad on J1_joint); check the remote controller (遥控器) / arm enable / arm power; still waiting up to 20.0s for arrival
+[terrainAnalysis-11] [INFO] [1794724974.772302678] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2730 个点
+[pose_estimation_node-3] [INFO] [1794724974.906566545] [pose_estimation_node]: 
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   ★ 启动诊断 (5秒内接收统计)
+[pose_estimation_node-3] =======================================================
+[pose_estimation_node-3]   点云   [/camera/depth/color/points]: ✓ 89 帧
+[pose_estimation_node-3]   检测   [/yolo/detections]: ✗ 未收到!
+[pose_estimation_node-3]   CamInfo [/camera/color/camera_info]: ✓ 138 帧
+[pose_estimation_node-3]   内参:   ✓ 已获取
+[pose_estimation_node-3] =======================================================
+[rover_explore_node-13] [INFO] [1794724975.070275049] [rover_explore]: Observed ground: fitted=1 floor_z=0.027 odometry_z=-0.010 cells=408 inliers=303
+[pose_estimation_node-3] [WARN] [1794724975.408416435] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[terrainAnalysis-11] [INFO] [1794724977.024863273] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2658 个点
+[rover_explore_node-13] [INFO] [1794724977.094275949] [rover_explore]: Observed ground: fitted=1 floor_z=0.038 odometry_z=-0.011 cells=375 inliers=275
+[terrainAnalysis-11] [INFO] [1794724977.503032680] [terrain_analysis]: 已清理 1 个远离机器人的体素
+[rover_explore_node-13] [INFO] [1794724979.195659981] [rover_explore]: Observed ground: fitted=1 floor_z=0.030 odometry_z=-0.011 cells=265 inliers=200
+[terrainAnalysis-11] [INFO] [1794724979.196363158] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2608 个点
+[pose_estimation_node-3] [WARN] [1794724980.415055552] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[rover_explore_node-13] [INFO] [1794724981.275183184] [rover_explore]: Observed ground: fitted=1 floor_z=0.046 odometry_z=-0.010 cells=361 inliers=287
+[terrainAnalysis-11] [INFO] [1794724981.277152348] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2604 个点
+[rover_explore_node-13] [INFO] [1794724983.360745961] [rover_explore]: Observed ground: fitted=1 floor_z=0.037 odometry_z=-0.011 cells=405 inliers=307
+[terrainAnalysis-11] [INFO] [1794724983.361428684] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 2446 个点
+[rover_explore_node-13] [INFO] [1794724985.407695423] [rover_explore]: Observed ground: fitted=1 floor_z=0.035 odometry_z=-0.011 cells=440 inliers=325
+[terrainAnalysis-11] [INFO] [1794724985.408397796] [terrain_analysis]: 自车点云发布前过滤：删除 0 个点，剩余 1924 个点
+[pose_estimation_node-3] [WARN] [1794724985.420997181] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[fastlio_mapping-10] catch sig %d2
+[INFO] [imu_transform_node-8]: process has finished cleanly [pid 12241]
+[INFO] [static_transform_publisher-18]: process has finished cleanly [pid 12301]
+[INFO] [terrainAnalysis-11]: process has finished cleanly [pid 12282]
+[INFO] [static_transform_publisher-7]: process has finished cleanly [pid 12239]
+[INFO] [mission_motion_gate-16]: process has finished cleanly [pid 12297]
+[INFO] [imu_complementary_filter_node-9]: process has finished cleanly [pid 12243]
+[INFO] [static_transform_publisher-6]: process has finished cleanly [pid 12237]
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 12229]
+[INFO] [exploration_nav2_planner-14]: process has finished cleanly [pid 12292]
+[INFO] [exploration_path_follower-15]: process has finished cleanly [pid 12295]
+[ERROR] [fastlio_mapping-10]: process has died [pid 12245, exit code -11, cmd '/home/tzb/nav_explore_ws/install/fast_lio/lib/fast_lio/fastlio_mapping --ros-args --params-file /home/tzb/nav_explore_ws/install/fast_lio/share/fast_lio/config/mid360.yaml --params-file /tmp/launch_params_djpwbcxd --params-file /tmp/launch_params_4oiqaq8a'].
+[INFO] [rover_explore_node-13]: process has finished cleanly [pid 12289]
+[INFO] [mission_state-17]: process has finished cleanly [pid 12299]
+[ERROR] [pose_estimation_node-3]: process has died [pid 12231, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node --ros-args -r __node:=pose_estimation_node --params-file /tmp/grasp_arm_l1qaf4oh/vision.yaml'].
+[imu_complementary_filter_node-9] [INFO] [1794724985.851268170] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[imu_complementary_filter_node-9] [INFO] [1794724985.851471356] [imu_complementary_filter]: Destroying ComplementaryFilterROS
+[terrainAnalysis-11] [INFO] [1794724985.851267137] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[rover_explore_node-13] [INFO] [1794724985.851280856] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-6] [INFO] [1794724985.851280416] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[mission_motion_gate-16] [INFO] [1794724985.851265423] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[INFO] [component_container_mt-12]: sending signal 'SIGINT' to process[component_container_mt-12]
+[INFO] [tzb_catch-5]: sending signal 'SIGINT' to process[tzb_catch-5]
+[INFO] [planning_node-4]: sending signal 'SIGINT' to process[planning_node-4]
+[static_transform_publisher-7] [INFO] [1794724985.851300365] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[static_transform_publisher-18] [INFO] [1794724985.851359559] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[tzb_catch-5] [WARN] [1794724985.851351081] [tzb_catch]: [SHUTDOWN][BEGIN] signal=2 phase=prepare hint="press Ctrl+C again after 2 s or Ctrl+\ to stop the arm where it is"
+[component_container_mt-12] [INFO] [1794724985.851469300] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-12] [INFO] [1794724985.851572482] [velocity_smoother]: Running Nav2 LifecycleNode rcl preshutdown (velocity_smoother)
+[component_container_mt-12] [INFO] [1794724985.852372684] [velocity_smoother]: Deactivating
+[component_container_mt-12] [INFO] [1794724985.852438480] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[imu_transform_node-8] [INFO] [1794724985.851464854] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[tzb_catch-5] [INFO] [1794724985.852716966] [tzb_catch]: [SHUTDOWN] task worker stopped after 0.00s; phase=prepare
+[tzb_catch-5] [INFO] [1794724985.853405285] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.0636383 J2_joint=1.07131 J3_joint=-2.61547 J4_joint=-0.0602386 J5_joint=1.39117 J6_joint=-0.209966
+[tzb_catch-5] [INFO] [1794724985.853560119] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home goal=joint service=plan_arm_motion
+[tzb_catch-5] [WARN] [1794724985.866373340] [tzb_catch]: [MISSION][cancel] task_id=1 operation=prepare arm_phase=home executing=false: will recover to pre_ini
+[tzb_catch-5] [INFO] [1794724985.869172237] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home points=2
+[tzb_catch-5] [INFO] [1794724985.869324817] [tzb_catch]: Stage [shutdown_home_planned_final] arm joints: J1_joint=0.5 J2_joint=1 J3_joint=-2.61 J4_joint=0 J5_joint=1.3 J6_joint=0
+[tzb_catch-5] [INFO] [1794724985.869366700] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home hz=100.00 speed_scale=1.000 duration=0.262s
+[tzb_catch-5] [INFO] [1794724986.231101110] [tzb_catch]: [GRASP][command][END] step=shutdown_home status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794724986.231147979] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-4] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-4] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-4] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[planning_node-4] Info:    Solution found in 0.003292 seconds
+[mission_state-17] [INFO] [1794724985.860618511] [mission_state]: PAUSED: Shutting down
+[component_container_mt-12] [INFO] [1794724985.862945658] [velocity_smoother]: Cleaning up
+[component_container_mt-12] [INFO] [1794724985.863029436] [velocity_smoother]: Destroying bond (velocity_smoother) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724985.863047442] [waypoint_follower]: Running Nav2 LifecycleNode rcl preshutdown (waypoint_follower)
+[component_container_mt-12] [INFO] [1794724985.863065205] [waypoint_follower]: Deactivating
+[component_container_mt-12] [INFO] [1794724985.863081746] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724985.936286733] [lifecycle_manager_navigation]: [34m[1mHave not received a heartbeat from velocity_smoother.[0m[0m
+[component_container_mt-12] [ERROR] [1794724985.950692285] [lifecycle_manager_navigation]: CRITICAL FAILURE: SERVER velocity_smoother IS DOWN after not receiving a heartbeat for 4000 ms. Shutting down related nodes.
+[component_container_mt-12] [INFO] [1794724985.951415106] [lifecycle_manager_navigation]: [34m[1mTerminating bond timer...[0m[0m
+[component_container_mt-12] [INFO] [1794724985.951607324] [lifecycle_manager_navigation]: [34m[1mResetting managed nodes...[0m[0m
+[component_container_mt-12] [INFO] [1794724985.951936671] [lifecycle_manager_navigation]: [34m[1mDeactivating velocity_smoother[0m[0m
+[component_container_mt-12] [INFO] [1794724985.963263181] [waypoint_follower]: Cleaning up
+[component_container_mt-12] [INFO] [1794724986.092085452] [waypoint_follower]: Destroying bond (waypoint_follower) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.092206916] [bt_navigator]: Running Nav2 LifecycleNode rcl preshutdown (bt_navigator)
+[component_container_mt-12] [INFO] [1794724986.092236115] [bt_navigator]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.092252487] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[component_container_mt-12] [WARN] [1794724986.120864884] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724986.120885370] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724986.120892688] [velocity_smoother]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794724986.121443602] [lifecycle_manager_navigation]: Failed to change state for node: velocity_smoother
+[component_container_mt-12] [INFO] [1794724986.121482149] [lifecycle_manager_navigation]: [34m[1mDeactivating waypoint_follower[0m[0m
+[component_container_mt-12] [WARN] [1794724986.121735916] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724986.121744499] [rcl_lifecycle]: No transition matching 4 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724986.121747617] [waypoint_follower]: Unable to start transition 4 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794724986.122117269] [lifecycle_manager_navigation]: Failed to change state for node: waypoint_follower
+[component_container_mt-12] [INFO] [1794724986.122135673] [lifecycle_manager_navigation]: [34m[1mDeactivating bt_navigator[0m[0m
+[component_container_mt-12] [WARN] [1794724986.122514457] [rcl_lifecycle]: No transition matching 4 found for current state deactivating
+[component_container_mt-12] [WARN] [1794724986.122528220] [rcl_lifecycle]: No transition matching 4 found for current state deactivating
+[component_container_mt-12] [ERROR] [1794724986.122530778] [bt_navigator]: Unable to start transition 4 from current state deactivating: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [ERROR] [1794724986.122837487] [lifecycle_manager_navigation]: Failed to change state for node: bt_navigator
+[component_container_mt-12] [INFO] [1794724986.122854468] [lifecycle_manager_navigation]: [34m[1mDeactivating behavior_server[0m[0m
+[component_container_mt-12] [INFO] [1794724986.123231914] [behavior_server]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.123292766] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.132425004] [bt_navigator]: Cleaning up
+[component_container_mt-12] [INFO] [1794724986.285119566] [lifecycle_manager_navigation]: [34m[1mDeactivating planner_server[0m[0m
+[component_container_mt-12] [INFO] [1794724986.305942239] [planner_server]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.306056585] [global_costmap.global_costmap]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.306104377] [global_costmap.global_costmap]: stvl_layer was deactivated.
+[component_container_mt-12] [INFO] [1794724986.322937524] [planner_server]: Deactivating plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724986.322999339] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.469320045] [lifecycle_manager_navigation]: [34m[1mDeactivating smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794724986.647073343] [smoother_server]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.647146630] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.790330336] [lifecycle_manager_navigation]: [34m[1mDeactivating controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794724986.815367290] [controller_server]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.815956313] [controller_server]: Deactivating controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794724986.816016296] [MPPIController]: Deactivated MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794724986.816033697] [local_costmap.local_costmap]: Deactivating
+[component_container_mt-12] [INFO] [1794724986.816074443] [local_costmap.local_costmap]: stvl_layer was deactivated.
+[planning_node-4] [WARN] [1794724985.871380352] [planning_node]: [SHUTDOWN][HOLD] waiting for tzb_catch homing (signal=2, max 45.0s)
+[pose_estimation_node-3] [ModelData] points=7500 centroid=[0.00804956 0.00843504 0.00834317]
+[pose_estimation_node-3]   raw=7500 extent=[0.05       0.05       0.04998446] min=[0. 0. 0.] max=[0.05       0.05       0.04998446]
+[pose_estimation_node-3]   unit_scale=0.001 extent_before_scale=[50.         50.         49.98445892]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] [ModelData] points=8000 centroid=[-0.00022057  0.00060295  0.00725396]
+[pose_estimation_node-3]   raw=8000 extent=[0.03949388 0.03313522 0.03271301] min=[-0.01980828 -0.01599649 -0.01168051] max=[0.0196856  0.01713873 0.02103251]
+[pose_estimation_node-3]   unit_scale=1.0 extent_before_scale=[0.03949388 0.03313522 0.03271301]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] [ModelData] points=4000 centroid=[ 4.91108538e-05  2.34505438e-04 -7.69939746e-04]
+[pose_estimation_node-3]   raw=4000 extent=[0.0170862  0.0213377  0.01897023] min=[-0.00829844 -0.01084567 -0.01030486] max=[0.00878776 0.01049204 0.00866537]
+[pose_estimation_node-3]   unit_scale=1.0 extent_before_scale=[0.0170862  0.0213377  0.01897023]
+[pose_estimation_node-3]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-3] Traceback (most recent call last):
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node", line 33, in <module>
+[pose_estimation_node-3]     sys.exit(load_entry_point('pose-estimator', 'console_scripts', 'pose_estimation_node')())
+[pose_estimation_node-3]   File "/home/tzb/tzb_ws/build/pose_estimator/pose_estimator/pose_estimation_node.py", line 1809, in main
+[pose_estimation_node-3]     rclpy.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[pose_estimation_node-3]     _shutdown(context=context)
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[pose_estimation_node-3]     return context.shutdown()
+[pose_estimation_node-3]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[pose_estimation_node-3]     self.__context.shutdown()
+[pose_estimation_node-3] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[tzb_catch-5] [WARN] [1794724986.851275257] [tzb_catch]: [SHUTDOWN][SIGNAL][IGNORED] signal=2 repeated 1.00s after the first (< 2.0s); shutdown motion continues; press Ctrl+C again after 2 s or Ctrl+\ to stop the arm where it is
+[planning_node-4] [WARN] [1794724986.854526512] [planning_node]: [SHUTDOWN][SIGNAL][IGNORED] signal=2 repeated while waiting for tzb_catch homing
+[component_container_mt-12] [INFO] [1794724986.857436307] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.888077134] [bt_navigator]: Completed Cleaning up
+[component_container_mt-12] [INFO] [1794724986.888124094] [bt_navigator]: Destroying bond (bt_navigator) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.888133648] [behavior_server]: Running Nav2 LifecycleNode rcl preshutdown (behavior_server)
+[component_container_mt-12] [INFO] [1794724986.888149673] [behavior_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794724986.966964804] [behavior_server]: Destroying bond (behavior_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724986.967020660] [lifecycle_manager_localization]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_localization)
+[component_container_mt-12] [INFO] [1794724986.967053371] [lifecycle_manager_localization]: [34m[1mTerminating bond timer...[0m[0m
+[component_container_mt-12] [INFO] [1794724987.092989839] [lifecycle_manager_navigation]: Running Nav2 LifecycleManager rcl preshutdown (lifecycle_manager_navigation)
+[component_container_mt-12] [INFO] [1794724987.239313011] [lifecycle_manager_navigation]: [34m[1mCleaning up velocity_smoother[0m[0m
+[component_container_mt-12] [WARN] [1794724987.247599318] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724987.247613140] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724987.247616508] [velocity_smoother]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794724987.247809804] [lifecycle_manager_navigation]: [34m[1mCleaning up waypoint_follower[0m[0m
+[component_container_mt-12] [WARN] [1794724987.247911823] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724987.247924593] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724987.247929832] [waypoint_follower]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794724987.248121422] [lifecycle_manager_navigation]: [34m[1mCleaning up bt_navigator[0m[0m
+[component_container_mt-12] [WARN] [1794724987.248222451] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724987.248234814] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724987.248240044] [bt_navigator]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794724987.248384735] [lifecycle_manager_navigation]: [34m[1mCleaning up behavior_server[0m[0m
+[component_container_mt-12] [WARN] [1794724987.248446445] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [WARN] [1794724987.248452012] [rcl_lifecycle]: No transition matching 2 found for current state unconfigured
+[component_container_mt-12] [ERROR] [1794724987.248454528] [behavior_server]: Unable to start transition 2 from current state unconfigured: Transition is not registered., at ./src/rcl_lifecycle.c:355
+[component_container_mt-12] [INFO] [1794724987.248656993] [lifecycle_manager_navigation]: [34m[1mCleaning up planner_server[0m[0m
+[component_container_mt-12] [INFO] [1794724987.248735392] [planner_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.328055990] [global_costmap.global_costmap]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.388610756] [planner_server]: Cleaning up plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724987.389496512] [planner_server]: Destroying plugin GridBased of type SmacPlanner2D
+[component_container_mt-12] [INFO] [1794724987.508947243] [lifecycle_manager_navigation]: [34m[1mCleaning up smoother_server[0m[0m
+[component_container_mt-12] [INFO] [1794724987.509080014] [smoother_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.611482936] [lifecycle_manager_navigation]: [34m[1mCleaning up controller_server[0m[0m
+[component_container_mt-12] [INFO] [1794724987.611623167] [controller_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.611648605] [controller_server]: Cleaning up controller: ApproachPath of type regulated_pure_pursuit_controller::RegulatedPurePursuitController
+[component_container_mt-12] [INFO] [1794724987.616157815] [MPPIController]: Cleaned up MPPI Controller: FollowPath
+[component_container_mt-12] [INFO] [1794724987.616811502] [local_costmap.local_costmap]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.769499033] [lifecycle_manager_navigation]: [34m[1mManaged nodes have been reset[0m[0m
+[tzb_catch-5] [WARN] [1794724987.874957618] [tzb_catch]: [GRASP][feedback][NO_MOTION][EARLY] step=shutdown_home no joint has moved 2.0s after the command (commanded travel up to 0.436 rad on J1_joint); check the remote controller (遥控器) / arm enable / arm power; still waiting up to 20.0s for arrival
+[component_container_mt-12] [INFO] [1794724987.900008701] [map_server]: Running Nav2 LifecycleNode rcl preshutdown (map_server)
+[component_container_mt-12] [INFO] [1794724987.900079604] [map_server]: Deactivating
+[component_container_mt-12] [INFO] [1794724987.900111934] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724987.910232020] [map_server]: Cleaning up
+[component_container_mt-12] [INFO] [1794724987.913606332] [map_server]: Destroying bond (map_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724987.913627205] [planner_server]: Running Nav2 LifecycleNode rcl preshutdown (planner_server)
+[component_container_mt-12] [INFO] [1794724987.913646227] [planner_server]: Destroying bond (planner_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724987.913708004] [smoother_server]: Running Nav2 LifecycleNode rcl preshutdown (smoother_server)
+[component_container_mt-12] [INFO] [1794724987.913731856] [smoother_server]: Destroying bond (smoother_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724987.913756017] [controller_server]: Running Nav2 LifecycleNode rcl preshutdown (controller_server)
+[component_container_mt-12] [INFO] [1794724987.913798319] [controller_server]: Destroying bond (controller_server) to lifecycle manager.
+[component_container_mt-12] [INFO] [1794724987.997694865] [lifecycle_manager_navigation]: Destroying lifecycle_manager_navigation
+[component_container_mt-12] [INFO] [1794724988.022512744] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[component_container_mt-12] [INFO] [1794724988.052087604] [velocity_smoother]: Destroying
+[component_container_mt-12] [INFO] [1794724988.110966287] [waypoint_follower]: Destroying
+[component_container_mt-12] [INFO] [1794724988.185205551] [bt_navigator]: Destroying
+[component_container_mt-12] [INFO] [1794724988.242710289] [behavior_server]: Destroying
+[component_container_mt-12] Magick: abort due to signal 11 (SIGSEGV) "Segmentation Fault"...
+[ERROR] [component_container_mt-12]: process has died [pid 12287, exit code -6, cmd '/opt/ros/humble/lib/rclcpp_components/component_container_mt --ros-args --log-level info --ros-args -r __node:=nav2_container --params-file /tmp/tmpoyby86_e --params-file /tmp/launch_params_dmk5hbs8 -r /tf:=tf -r /tf_static:=tf_static'].
+[planning_node-4] [INFO] [1794724990.264446676] [planning_node]: [SHUTDOWN][RELEASE] reason=hold_stale waited=4.41s
+[INFO] [planning_node-4]: process has finished cleanly [pid 12233]
+[tzb_catch-5] [ERROR] [1794725006.231245579] [tzb_catch]: Stage [shutdown_home] did not receive physical-arrival confirmation within 20.00 s (last max error 0.43636 rad); joint_errors: J1_joint{target=0.5, measured=0.0636383, error=-0.436362, raw_error=-0.436362, abs=0.436362, BAD} J2_joint{target=1, measured=1.07131, error=0.0713131, raw_error=0.0713131, abs=0.0713131, ok} J3_joint{target=-2.61, measured=-2.61547, error=-0.00547112, raw_error=-0.00547112, abs=0.00547112, ok} J4_joint{target=0, measured=-0.0602386, error=-0.0602386, raw_error=-0.0602386, abs=0.0602386, ok} J5_joint{target=1.3, measured=1.39117, error=0.09117, raw_error=0.09117, abs=0.09117, ok} J6_joint{target=0, measured=-0.209966, error=-0.209966, raw_error=-0.209966, abs=0.209966, ok}; aborting before the next subtask.
+[tzb_catch-5] [ERROR] [1794725006.231328055] [tzb_catch]: [GRASP][feedback][FEEDBACK_STALE] step=shutdown_home last feedback sample is 3.64s old (max 0.50s); joint motion cannot be classified.
+[tzb_catch-5] [ERROR] [1794725006.231423342] [tzb_catch]: [SHUTDOWN][HOME][FAIL] reason=feedback_stale max_error=0.43636 object_in_gripper=false elapsed=20.38s joint_errors: J1_joint{target=0.5, measured=0.0636383, error=-0.436362, raw_error=-0.436362, abs=0.436362, BAD} J2_joint{target=1, measured=1.07131, error=0.0713131, raw_error=0.0713131, abs=0.0713131, ok} J3_joint{target=-2.61, measured=-2.61547, error=-0.00547112, raw_error=-0.00547112, abs=0.00547112, ok} J4_joint{target=0, measured=-0.0602386, error=-0.0602386, raw_error=-0.0602386, abs=0.0602386, ok} J5_joint{target=1.3, measured=1.39117, error=0.09117, raw_error=0.09117, abs=0.09117, ok} J6_joint{target=0, measured=-0.209966, error=-0.209966, raw_error=-0.209966, abs=0.209966, ok}
+[tzb_catch-5] [WARN] [1794725006.231483321] [tzb_catch]: [MISSION][result] task_id=1 aborted by shutdown phase=ERROR safe_to_drive=false
+[tzb_catch-5] [ERROR] [1794725006.231503804] [tzb_catch]: [SHUTDOWN][END] exit_code=2
+[ERROR] [tzb_catch-5]: process has died [pid 12235, exit code 2, cmd '/home/tzb/tzb_ws/install/lite_motion_planner/lib/lite_motion_planner/tzb_catch --ros-args -r __node:=tzb_catch --params-file /tmp/grasp_arm_l1qaf4oh/planner.yaml'].

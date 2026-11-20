@@ -1,0 +1,37 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-00-55-55-239239-tzb-NUC14RVS-B-6234
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6241]
+[INFO] [far_target_locator-2]: process started with pid [6243]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1504, in <module>
+[python3-1]     from . import masked
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/__init__.py", line 3, in <module>
+[python3-1]     from ._ops import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/_ops.py", line 11, in <module>
+[python3-1]     from torch._prims_common import corresponding_real_dtype
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_prims_common/__init__.py", line 23, in <module>
+[python3-1]     import sympy
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/__init__.py", line 22, in <module>
+[python3-1]     import mpmath
+[python3-1]   File "/usr/lib/python3/dist-packages/mpmath/__init__.py", line 11, in <module>
+[python3-1]     iv = MPIntervalContext()
+[python3-1]   File "/usr/lib/python3/dist-packages/mpmath/ctx_iv.py", line 316, in __init__
+[python3-1]     StandardBaseContext.__init__(ctx)
+[python3-1]   File "/usr/lib/python3/dist-packages/mpmath/ctx_base.py", line 45, in __init__
+[python3-1]     SpecialFunctions.__init__(ctx)
+[python3-1]   File "/usr/lib/python3/dist-packages/mpmath/functions/functions.py", line 58, in __init__
+[python3-1]     self.zetazero_memoized = self.memoize(self.zetazero)
+[python3-1]   File "/usr/lib/python3/dist-packages/mpmath/ctx_base.py", line 458, in memoize
+[python3-1]     def memoize(ctx, f):
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 6241, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_s7tuk3qs'].
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 6243]

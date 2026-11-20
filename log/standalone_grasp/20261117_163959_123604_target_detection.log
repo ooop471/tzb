@@ -1,0 +1,26 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-16-39-59-706736-tzb-NUC14RVS-B-34202
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [34234]
+[INFO] [far_target_locator-2]: process started with pid [34236]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 175, in __init__
+[python3-1]     self.__node = _rclpy.Node(
+[python3-1] rclpy._rclpy_pybind11.RCLError: error creating node: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/guard_condition.c:67
+[python3-1] 
+[python3-1] During handling of the above exception, another exception occurred:
+[python3-1] 
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1062, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1046, in main
+[python3-1]     node = YoloDetectorNode()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 192, in __init__
+[python3-1]     super().__init__('yolo_node')
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 175, in __init__
+[python3-1]     self.__node = _rclpy.Node(
+[python3-1] KeyboardInterrupt
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 34236]
+[ERROR] [python3-1]: process has died [pid 34234, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_i12atqam'].

@@ -1,0 +1,50 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-16-49-02-560279-tzb-NUC14RVS-B-4419
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4423]
+[INFO] [far_target_locator-2]: process started with pid [4426]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "<frozen importlib._bootstrap>", line 1075, in _handle_fromlist
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 42, in __getattr__
+[python3-1]     return getattr(importlib.import_module("ultralytics.models"), name)
+[python3-1]   File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+[python3-1]     return _bootstrap._gcd_import(name[level:], package, level)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/__init__.py", line 3, in <module>
+[python3-1]     from .fastsam import FastSAM
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/fastsam/__init__.py", line 3, in <module>
+[python3-1]     from .model import FastSAM
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/fastsam/model.py", line 10, in <module>
+[python3-1]     from .predict import FastSAMPredictor
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/fastsam/predict.py", line 10, in <module>
+[python3-1]     from ultralytics.models.yolo.segment import SegmentationPredictor
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/yolo/__init__.py", line 3, in <module>
+[python3-1]     from ultralytics.models.yolo import classify, depth, detect, obb, pose, segment, semantic, world, yoloe
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/yolo/classify/__init__.py", line 3, in <module>
+[python3-1]     from ultralytics.models.yolo.classify.predict import ClassificationPredictor
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/models/yolo/classify/predict.py", line 10, in <module>
+[python3-1]     from ultralytics.data.augment import classify_transforms
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/data/__init__.py", line 4, in <module>
+[python3-1]     from .build import build_dataloader, build_grounding, build_yolo_dataset, load_inference_source
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/data/build.py", line 20, in <module>
+[python3-1]     from ultralytics.data.dataset import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/data/dataset.py", line 35, in <module>
+[python3-1]     from .converter import merge_multi_segment
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/data/converter.py", line 18, in <module>
+[python3-1]     from filelock import AsyncFileLock, Timeout
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/filelock/__init__.py", line 29, in <module>
+[python3-1]     from ._async_read_write import AsyncAcquireReadWriteReturnProxy, AsyncReadWriteLock
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/filelock/_async_read_write.py", line 28, in <module>
+[python3-1]     from ._read_write import ReadWriteLock
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 879, in exec_module
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 975, in get_code
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 1074, in get_data
+[python3-1] KeyboardInterrupt
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 4426]
+[ERROR] [python3-1]: process has died [pid 4423, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_ayuohltk'].

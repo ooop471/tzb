@@ -1,0 +1,71 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-18-21-12-19-804962-tzb-NUC14RVS-B-4316
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4324]
+[INFO] [far_target_locator-2]: process started with pid [4326]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 128, in <module>
+[python3-1]     _disable_openvino_telemetry()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 109, in _disable_openvino_telemetry
+[python3-1]     _TELEMETRY_PATCH = _logic.disable_openvino_telemetry()
+[python3-1]   File "/home/tzb/tzb_ws/src/yolo_node/yolo_node/yolo_logic.py", line 181, in disable_openvino_telemetry
+[python3-1]     mod = load_backend()
+[python3-1]   File "/home/tzb/tzb_ws/src/yolo_node/yolo_node/yolo_logic.py", line 180, in <lambda>
+[python3-1]     load_backend = lambda: importlib.import_module('openvino_telemetry.backend.backend_ga4')
+[python3-1]   File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+[python3-1]     return _bootstrap._gcd_import(name[level:], package, level)
+[python3-1]   File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+[python3-1]   File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+[python3-1]   File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+[python3-1]   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino_telemetry/__init__.py", line 8, in <module>
+[python3-1]     from .main import Telemetry
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino_telemetry/main.py", line 9, in <module>
+[python3-1]     from .backend.backend import BackendRegistry
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino_telemetry/backend/__init__.py", line 4, in <module>
+[python3-1]     from .backend_ga import *
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino_telemetry/backend/backend_ga.py", line 9, in <module>
+[python3-1]     from ..utils.cid import get_or_generate_cid, remove_cid_file
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/openvino_telemetry/utils/cid.py", line 7, in <module>
+[python3-1]     from .opt_in_checker import OptInChecker
+[python3-1]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[python3-1]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 879, in exec_module
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 975, in get_code
+[python3-1]   File "<frozen importlib._bootstrap_external>", line 1074, in get_data
+[python3-1] KeyboardInterrupt
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 25, in importlib_load_entry_point
+[far_target_locator-2]     return next(matches).load()
+[far_target_locator-2]   File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 171, in load
+[far_target_locator-2]     module = import_module(match.group('module'))
+[far_target_locator-2]   File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+[far_target_locator-2]     return _bootstrap._gcd_import(name[level:], package, level)
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+[far_target_locator-2]   File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+[far_target_locator-2]   File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 29, in <module>
+[far_target_locator-2]     import pinocchio as pin
+[far_target_locator-2]   File "/opt/ros/humble/lib/python3.10/site-packages/pinocchio/__init__.py", line 19, in <module>
+[far_target_locator-2]     from .pinocchio_pywrap_default import *
+[far_target_locator-2] SystemError: initialization of pinocchio_pywrap_default raised unreported exception
+[ERROR] [python3-1]: process has died [pid 4324, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_cgnjw_1f'].
+[ERROR] [far_target_locator-2]: process has died [pid 4326, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_6t7yq9yb'].

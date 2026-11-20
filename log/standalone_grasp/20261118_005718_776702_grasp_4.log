@@ -1,0 +1,352 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-18-00-57-19-028001-tzb-NUC14RVS-B-6981
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6983]
+[python3-1] [INFO] [1794934641.016970438] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794934641.019615018] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794934641.020072008] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794934641.020269264] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794934641.022537817] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[INFO] [launch.user]: 
+============================================
+  pose_estimator 已启动
+  相机选择配置: /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/camera_switch.yaml
+============================================
+
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[INFO] [pose_estimation_node-2]: process started with pid [7049]
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794934641.575756688] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794934641.576000119] [yolo_node]: target class priority matched in model: ['blue block', 'big rock'] | ignored: ['d']
+[python3-1] [INFO] [1794934641.579182118] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794934641.580837521] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794934641.581776183] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794934641.582036347] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794934641.582282107] [yolo_node]: target selection: priority=['blue block', 'big rock'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794934641.582514180] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794934641.582906093] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[INFO] [launch.user]: lite_motion_planner robot_model=tzb_description; loading planner parameters from /home/tzb/nav_explore_ws/log/standalone_grasp/precise_position_planner.yaml
+[python3-1] [INFO] [1794934642.046500887] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.928
+[python3-1] [INFO] [1794934642.046724753] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794934642.070170359] [yolo_node]: [GRASP][detection][STATUS] total=43ms | queue=0 convert=1 infer=19 post=1ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1794934642.070642913] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[INFO] [planning_node-3]: process started with pid [7159]
+[INFO] [robot_state_publisher-4]: process started with pid [7161]
+[INFO] [tzb_catch-5]: process started with pid [7163]
+[robot_state_publisher-4] [WARN] [1794934642.178803868] [kdl_parser]: The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+[robot_state_publisher-4] [INFO] [1794934642.178989078] [robot_state_publisher]: got segment Claw_left_Link
+[robot_state_publisher-4] [INFO] [1794934642.179064873] [robot_state_publisher]: got segment J1_link
+[robot_state_publisher-4] [INFO] [1794934642.179073850] [robot_state_publisher]: got segment J2_link
+[robot_state_publisher-4] [INFO] [1794934642.179080017] [robot_state_publisher]: got segment J3_link
+[robot_state_publisher-4] [INFO] [1794934642.179085753] [robot_state_publisher]: got segment J4_link
+[robot_state_publisher-4] [INFO] [1794934642.179091292] [robot_state_publisher]: got segment J5_link
+[robot_state_publisher-4] [INFO] [1794934642.179096838] [robot_state_publisher]: got segment J6_link
+[robot_state_publisher-4] [INFO] [1794934642.179102828] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-4] [INFO] [1794934642.179108507] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-4] [INFO] [1794934642.179114119] [robot_state_publisher]: got segment claw_right_Link
+[robot_state_publisher-4] [INFO] [1794934642.179119977] [robot_state_publisher]: got segment left_chaiss_Link
+[robot_state_publisher-4] [INFO] [1794934642.179125428] [robot_state_publisher]: got segment left_wheel_b_Link
+[robot_state_publisher-4] [INFO] [1794934642.179130933] [robot_state_publisher]: got segment left_wheel_f_Link
+[robot_state_publisher-4] [INFO] [1794934642.179136266] [robot_state_publisher]: got segment left_wheel_m_Link
+[robot_state_publisher-4] [INFO] [1794934642.179141473] [robot_state_publisher]: got segment left_zchaissis_Link
+[robot_state_publisher-4] [INFO] [1794934642.179146935] [robot_state_publisher]: got segment right_chaiss_Link_
+[robot_state_publisher-4] [INFO] [1794934642.179152437] [robot_state_publisher]: got segment right_wheel_b_Link
+[robot_state_publisher-4] [INFO] [1794934642.179157884] [robot_state_publisher]: got segment right_wheel_f_Link
+[robot_state_publisher-4] [INFO] [1794934642.179163458] [robot_state_publisher]: got segment right_wheel_m_Link
+[robot_state_publisher-4] [INFO] [1794934642.179169039] [robot_state_publisher]: got segment right_zchaissis_Link
+[robot_state_publisher-4] [INFO] [1794934642.179174775] [robot_state_publisher]: got segment tcp_link
+[tzb_catch-5] [INFO] [1794934642.210333805] [tzb_catch]: tzb_catch configured: arm_group=arm tcp_frame=tcp_link target_source=/pose_estimator/object_pose continuous_required=1.00s arm_state=/serial/arm_joint_state initial_wait=0.50s arrival_wait=20.00s navigation_status_listener=disabled sentry_mode=disabled force_rpy=(roll:true pitch:true yaw:false)
+[tzb_catch-5] [INFO] [1794934642.210571364] [tzb_catch]: [GRASP][class] default='blue block' profiles={"big rock":{"gripper_close_level":2},"blue block":{"gripper_close_level":1}}
+[tzb_catch-5] [INFO] [1794934642.210596939] [tzb_catch]: Stage [configured_ini_joint_positions] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1794934642.210605733] [tzb_catch]: Stage [configured_pre_ini_joint_positions] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=1.4 J6_joint=0
+[tzb_catch-5] [INFO] [1794934642.210613318] [tzb_catch]: Stage [configured_place_joint_positions] arm joints: J1_joint=3.13981 J2_joint=-0.112227 J3_joint=-1.07426 J4_joint=7.6e-05 J5_joint=1.54351 J6_joint=-0.000175
+[tzb_catch-5] [INFO] [1794934642.210619369] [tzb_catch]: Stage [configured_observe_joint_positions] arm joints: J1_joint=0 J2_joint=-0.192 J3_joint=-2 J4_joint=0 J5_joint=1.2184 J6_joint=0
+[planning_node-3] [INFO] [1794934642.231885815] [planning_node]: Globally ignored robot collision links: 1
+[planning_node-3] [INFO] [1794934642.232080957] [planning_node]: Robot collision model initialized: geometries=20, active_collision_pairs=189
+[planning_node-3] [INFO] [1794934642.232101420] [planning_node]: Self-collision penetration allowance: 0.0500 m
+[planning_node-3] [INFO] [1794934642.246653485] [planning_node]: Collision marker publisher active: topic=/lite_motion_planner/collision_markers republish_hz=2.00
+[planning_node-3] [INFO] [1794934642.252753027] [planning_node]: [SHUTDOWN][GATE] listening on /tzb_catch/shutdown_hold (grace=1.5s for a lease, fresh<=0.50s, max_hold=45.0s); SIGQUIT bypasses the hold
+[pose_estimation_node-2] [INFO] [1794934642.647262833] [pose_estimation_node]: 加载模型: /home/tzb/tzb_ws/src/pose_estimator/config/half_block.pcd
+[tzb_catch-5] [INFO] [1794934642.715127697] [tzb_catch]: [GRASP][service][WAIT] name=plan_arm_motion timeout=1.00s
+[tzb_catch-5] [INFO] [1794934642.716660487] [tzb_catch]: [GRASP][service][READY] name=plan_arm_motion
+[tzb_catch-5] [INFO] [1794934642.716735309] [tzb_catch]: [GRASP][service][WAIT] name=add_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794934642.716833027] [tzb_catch]: [GRASP][service][READY] name=add_scene_object
+[tzb_catch-5] [INFO] [1794934642.716850008] [tzb_catch]: [GRASP][service][WAIT] name=remove_scene_object timeout=1.00s
+[tzb_catch-5] [INFO] [1794934642.716897612] [tzb_catch]: [GRASP][service][READY] name=remove_scene_object
+[tzb_catch-5] [INFO] [1794934642.716912254] [tzb_catch]: [GRASP][service][WAIT] name=set_scene_collision_allowance timeout=1.00s
+[tzb_catch-5] [INFO] [1794934642.716971314] [tzb_catch]: [GRASP][service][READY] name=set_scene_collision_allowance
+[tzb_catch-5] [INFO] [1794934642.716987346] [tzb_catch]: [GRASP][trigger][ACCEPTED] start_gate=disabled
+[tzb_catch-5] [INFO] [1794934642.717010063] [tzb_catch]: [GRASP][class] applied 'blue block' profile: grasp_ground_z=-0.1400 pos_only=0 place_joints=6 close_level=1
+[tzb_catch-5] [INFO] [1794934642.717039489] [tzb_catch]: [GRASP][task][BEGIN] target_source=/pose_estimator/object_pose arm_command=enabled
+[tzb_catch-5] [INFO] [1794934642.721787141] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.0159302 J2_joint=0.84188 J3_joint=-2.56756 J4_joint=-0.0027616 J5_joint=1.39753 J6_joint=-0.00241151
+[tzb_catch-5] [INFO] [1794934642.725676634] [tzb_catch]: [GRASP][plan][BEGIN] step=move_arm_to_ini_joint_positions goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[pose_estimation_node-2] [ModelData] points=7500 centroid=[0.00804956 0.00843504 0.00834317]
+[pose_estimation_node-2]   raw=7500 extent=[0.05       0.05       0.04998446] min=[0. 0. 0.] max=[0.05       0.05       0.04998446]
+[pose_estimation_node-2]   unit_scale=0.001 extent_before_scale=[50.         50.         49.98445892]
+[pose_estimation_node-2]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-2] [INFO] [1794934642.733542525] [pose_estimation_node]: 模型加载完毕: raw=7500 used=7500 extent=[0.05 0.05 0.05] centroid=[0.008  0.0084 0.0083] unit_scale=0.001
+[pose_estimation_node-2] [INFO] [1794934642.734021575] [pose_estimation_node]: 类别策略: priority=['blue block'] ignored=['d'] class_models=[]
+[planning_node-3] Info:    Solution found in 0.006382 seconds
+[tzb_catch-5] [INFO] [1794934642.745980201] [tzb_catch]: [GRASP][plan][OK] step=move_arm_to_ini_joint_positions points=2
+[tzb_catch-5] [INFO] [1794934642.746194914] [tzb_catch]: Stage [move_arm_to_ini_joint_positions_planned_final] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1794934642.746210218] [tzb_catch]: [GRASP][command][BEGIN] step=move_arm_to_ini_joint_positions hz=100.00 speed_scale=1.000 duration=0.699s
+[pose_estimation_node-2] [INFO] [1794934642.746196474] [pose_estimation_node]: 检测消息类型: yolo_node
+[pose_estimation_node-2] [INFO] [1794934642.759008903] [pose_estimation_node]: 节点已启动, 等待数据... 订阅点云: /camera/depth/color/points | 订阅检测: /yolo/detections | 订阅CamInfo: /camera/color/camera_info | 发布位姿: /pose_estimator/object_pose | 可视化发布: ROI=True Marker=True Coarse=True (every_n=3)
+[tzb_catch-5] [INFO] [1794934643.523283224] [tzb_catch]: [GRASP][command][END] step=move_arm_to_ini_joint_positions status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934643.523321021] [tzb_catch]: [GRASP][feedback][WAIT] step=move_arm_to_ini_joint_positions enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1794934643.746032898] [planning_node]: Playback finished at final joint state for group [arm]
+[python3-1] [INFO] [1794934643.815973592] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794934643.816210067] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[python3-1] [WARN] [1794934643.848872127] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=216 mean=1344 jump=0.84
+[python3-1] [INFO] [1794934643.875750545] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[python3-1] [INFO] [1794934643.893455135] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[python3-1] [INFO] [1794934643.976174139] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1794934644.042428195] [pose_estimation_node]: ✓ 点云 frame='camera_color_optical_frame', size=640×480, point_step=20
+[pose_estimation_node-2] [WARN] [1794934644.042680950] [pose_estimation_node]: 等待 CameraInfo ...
+[pose_estimation_node-2] [INFO] [1794934644.079901855] [pose_estimation_node]: ✓ CameraInfo: 640×480, fx=366.6 fy=366.9 cx=318.7 cy=241.0, frame=camera_color_optical_frame
+[pose_estimation_node-2] [INFO] [1794934644.114189199] [pose_estimation_node]: 
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2]   ★ 首帧诊断
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2]   点云: 640×480 = 307200 点
+[pose_estimation_node-2]   点云 frame: 'camera_color_optical_frame'
+[pose_estimation_node-2]   YOLO 图像: 640×480
+[pose_estimation_node-2]   彩色内参: fx=366.6 fy=366.9 cx=318.7 cy=241.0
+[pose_estimation_node-2]   YOLO bbox: (274,309)-(306,347)
+[pose_estimation_node-2]   粗裁剪: 307200 → 13216 点
+[pose_estimation_node-2]   精裁剪: 13216 → 111 点
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2] [INFO] [1794934644.115852904] [pose_estimation_node]: [ROI FILTER][plane] removed_support_plane stage=1 kept=71 plane=0.36 z_in=4.320 z_other=4.248 s2_ratio=nan s2_z_in=nan s2_z_other=nan
+[pose_estimation_node-2] [WARN] [1794934644.117502715] [pose_estimation_node]: ROI 点数 71 不足 (需 250), 跳过
+[pose_estimation_node-2] [WARN] [1794934644.187535928] [pose_estimation_node]: 粗配准未通过场景侧覆盖率验收: coverage=0.000/0.230 median=4.3898/0.0150m
+[tzb_catch-5] [INFO] [1794934644.327654327] [tzb_catch]: [GRASP][feedback][REACHED] step=move_arm_to_ini_joint_positions max_error=0.01612rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934644.327976880] [tzb_catch]: [GRASP][plan][BEGIN] step=move_arm_to_observe_before_perception goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-3] Info:    Solution found in 0.005408 seconds
+[tzb_catch-5] [INFO] [1794934644.379011209] [tzb_catch]: [GRASP][plan][OK] step=move_arm_to_observe_before_perception points=2
+[tzb_catch-5] [INFO] [1794934644.379197228] [tzb_catch]: Stage [move_arm_to_observe_before_perception_planned_final] arm joints: J1_joint=0 J2_joint=-0.192 J3_joint=-2 J4_joint=0 J5_joint=1.2184 J6_joint=0
+[tzb_catch-5] [INFO] [1794934644.383479065] [tzb_catch]: [GRASP][command][BEGIN] step=move_arm_to_observe_before_perception hz=100.00 speed_scale=1.000 duration=0.946s
+[pose_estimation_node-2] [INFO] [1794934644.852581971] [pose_estimation_node]: [GRASP][registration_gate] mission_state=GRASPING
+[python3-1] [INFO] [1794934644.866192781] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[pose_estimation_node-2] [INFO] [1794934644.896745556] [pose_estimation_node]: [ROI FILTER][foreground] in=604 out=326 reason=accepted
+[pose_estimation_node-2] [WARN] [1794934644.897412940] [pose_estimation_node]: 预处理后点数 130 不足, 跳过
+[python3-1] [WARN] [1794934644.973982959] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=264 mean=1229 jump=0.78
+[python3-1] [INFO] [1794934644.998755269] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1794934645.271719401] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(-0.0473,0.2154,0.6245) roi_median=(-0.0546,0.2222,0.6350) model_center=(-0.0525,0.2021,0.6233) d_center_minus_median_mm=23.4
+[pose_estimation_node-2] [INFO] [1794934645.277226856] [pose_estimation_node]: [GRASP][perception][PUBLISHED] topic=/pose_estimator/object_pose frame=camera_color_optical_frame xyz=(-0.0525,0.2021,0.6233) stamp=1794934645.077978000
+[tzb_catch-5] [INFO] [1794934645.331759626] [tzb_catch]: [GRASP][command][END] step=move_arm_to_observe_before_perception status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934645.335301922] [tzb_catch]: [GRASP][feedback][WAIT] step=move_arm_to_observe_before_perception enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[pose_estimation_node-2] [WARN] [1794934645.503128085] [pose_estimation_node]: ICP 回退粗姿态/上一帧姿态: trust region; delta=31mm/88.8deg, coverage=0.143->0.748, median=0.0235->0.0017m
+[pose_estimation_node-2] [WARN] [1794934645.503657419] [pose_estimation_node]: 追踪验收失败 (coverage=0.143/0.350 median=0.0235/0.0060m)，重新执行全局配准
+[planning_node-3] [INFO] [1794934645.739394114] [planning_node]: Playback finished at final joint state for group [arm]
+[pose_estimation_node-2] [WARN] [1794934646.051618686] [pose_estimation_node]: ICP 回退粗姿态/上一帧姿态: trust region; delta=13mm/27.1deg, coverage=0.182->0.367, median=0.0131->0.0042m
+[tzb_catch-5] [INFO] [1794934646.227767844] [tzb_catch]: [GRASP][feedback][REACHED] step=move_arm_to_observe_before_perception max_error=0.03429rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934646.228667443] [tzb_catch]: [GRASP][gripper][SENT] step=open_gripper_at_observe_joint_positions serial_int8=-1 (open); physical_confirmation=unavailable.
+[tzb_catch-5] [INFO] [1794934646.228897174] [tzb_catch]: Pose estimator reference frame [camera_link] frozen from the measured arm state.
+[tzb_catch-5] [INFO] [1794934646.228907504] [tzb_catch]: [GRASP][target][WAIT] topic=/pose_estimator/object_pose timeout=15.00s continuous_required=1.00s (timeout<=0 means indefinite).
+[tzb_catch-5] [INFO] [1794934646.323933955] [tzb_catch]: [GRASP][target][WAIT_CONTINUITY] stream started/restarted; required=1.00s (repeated starts indicate gaps).
+[python3-1] [INFO] [1794934647.081276650] [yolo_node]: [GRASP][detection][STATUS] total=89ms | queue=24 convert=1 infer=68 post=0ms | det=1 max_conf=0.90 publish=True
+[pose_estimation_node-2] [INFO] [1794934647.350828625] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(-0.0489,0.0819,0.4954) roi_median=(-0.0591,0.0842,0.4790) model_center=(-0.0573,0.0910,0.5026) d_center_minus_median_mm=24.6
+[tzb_catch-5] [INFO] [1794934647.351142572] [tzb_catch]: [GRASP][target][CONSENSUS] samples=10 inliers=10 max_inlier_deviation=0.0172m
+[tzb_catch-5] [INFO] [1794934647.351194008] [tzb_catch]: [GRASP][target][LOCKED] continuous=1.027s; later poses ignored until next acquisition.
+[tzb_catch-5] [INFO] [1794934647.351279581] [tzb_catch]: [GRASP][target][LOCKED] measured joints (latest of 0 samples) J1..J6=(0.0134, -0.1968, -2.0165, -0.0028, 1.2160, -0.0023); camera_link FK delta vs frozen reference=-1.0 mm; APPLIED as the frozen reference (tzb.camera_frame_from_measured_joints=true)
+[tzb_catch-5] [INFO] [1794934647.351354937] [tzb_catch]: [GRASP][transform][OK] source_frame=camera_color_optical_frame source_xyz=(-0.0579, 0.0977, 0.5049) -> reference_frame=camera_link -> base_link_xyz=(0.4554, 0.0972, -0.1021).
+[tzb_catch-5] [INFO] [1794934647.351382657] [tzb_catch]: [GRASP][target][GROUND_Z] visual z=-0.1021 -> ground-resting z=-0.1400 (delta -0.038 m)
+[tzb_catch-5] [INFO] [1794934647.351404209] [tzb_catch]: [GRASP][target][YAW] zyx_yaw=81.5deg -> face_yaw=171.4deg (symmetry 90deg, reference radial 12.0deg + offset 180.0deg - grasp_yaw_offset 0.0deg)
+[tzb_catch-5] [INFO] [1794934647.351412430] [tzb_catch]: [GRASP][target][READY] TCP frame=base_link xyz=(0.4554, 0.0972, -0.1400) quat_xyzw=(-0.07537, -0.99716, 0.00079, 0.00006).
+[tzb_catch-5] [INFO] [1794934647.352748705] [tzb_catch]: [GRASP][scene][BEGIN] service=add_scene_object object=E3
+[tzb_catch-5] [INFO] [1794934647.474086124] [tzb_catch]: [GRASP][scene][READY] step=ignore_e3_collision_with_both_gripper_links objects=1 links=4 allowed_penetration=-1.0000m
+[tzb_catch-5] [INFO] [1794934647.534271723] [tzb_catch]: [GRASP][hover][BEGIN] height=0.080m hover_xyz=(0.4554, 0.0972, -0.0600) grasp_xyz=(0.4554, 0.0972, -0.1400)
+[tzb_catch-5] [INFO] [1794934647.534361460] [tzb_catch]: [GRASP][plan][BEGIN] step=move_tcp_to_hover goal=pose service=plan_arm_motion response_timeout=15.00s
+[planning_node-3] [INFO] [1794934647.545753237] [planning_node]: IK selected collision-free candidate, distance to start = 0.8780 among 22 candidate(s)
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[planning_node-3] Info:    Solution found in 0.003236 seconds
+[tzb_catch-5] [INFO] [1794934647.574138098] [tzb_catch]: [GRASP][plan][OK] step=move_tcp_to_hover points=2
+[tzb_catch-5] [INFO] [1794934647.574321917] [tzb_catch]: Stage [move_tcp_to_hover_planned_final] arm joints: J1_joint=0.209879 J2_joint=-0.680296 J3_joint=-1.52003 J4_joint=-0.00580633 J5_joint=0.934359 J6_joint=0.361756
+[tzb_catch-5] [INFO] [1794934647.574336277] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_hover hz=100.00 speed_scale=1.000 duration=0.830s
+[pose_estimation_node-2] [INFO] [1794934647.761488565] [pose_estimation_node]: 
+[pose_estimation_node-2] =======================================================
+[pose_estimation_node-2]   ★ 启动诊断 (5秒内接收统计)
+[pose_estimation_node-2] =======================================================
+[pose_estimation_node-2]   点云   [/camera/depth/color/points]: ✓ 41 帧
+[pose_estimation_node-2]   检测   [/yolo/detections]: ✓ 67 帧
+[pose_estimation_node-2]   CamInfo [/camera/color/camera_info]: ✓ 115 帧
+[pose_estimation_node-2]   内参:   ✓ 已获取
+[pose_estimation_node-2] =======================================================
+[pose_estimation_node-2] [WARN] [1794934648.181808925] [pose_estimation_node]: 追踪验收失败 (coverage=0.000/0.350 median=0.0152/0.0060m)，重新执行全局配准
+[pose_estimation_node-2] [WARN] [1794934648.298171330] [pose_estimation_node]: ICP 回退粗姿态/上一帧姿态: trust region; delta=4mm/40.4deg, coverage=0.304->0.808, median=0.0054->0.0017m
+[pose_estimation_node-2] [WARN] [1794934648.298581530] [pose_estimation_node]: 精配准未通过场景侧覆盖率验收: coverage=0.304/0.450 median=0.0054/0.0050m
+[tzb_catch-5] [INFO] [1794934648.407169153] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_hover status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934648.407272727] [tzb_catch]: [GRASP][feedback][WAIT] step=move_tcp_to_hover enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[python3-1] [INFO] [1794934648.429866418] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> CLASS_FILTERED
+[python3-1] [INFO] [1794934648.455786583] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934648.568272234] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934648.593067153] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934648.628155489] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[planning_node-3] [INFO] [1794934648.765438636] [planning_node]: Playback finished at final joint state for group [arm]
+[tzb_catch-5] [INFO] [1794934648.768036321] [tzb_catch]: [GRASP][feedback][REACHED] step=move_tcp_to_hover max_error=0.06566rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934648.768087423] [tzb_catch]: [GRASP][arrival][BEGIN] step=move_tcp_to_hover tolerance=0.0150rad(J6 0.0900) stable=0.50s max_speed=0.0200rad/s timeout=8.0s gain=1.00 clamp=0.100rad iterations=3
+[python3-1] [INFO] [1794934648.959834757] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934648.992058263] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934649.042291257] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1794934649.126829010] [pose_estimation_node]: [ROI FILTER][plane] plane_is_object stage=1 kept=2525 plane=0.93 z_in=nan z_other=nan s2_ratio=nan s2_z_in=nan s2_z_other=nan
+[python3-1] [INFO] [1794934649.208139158] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934649.230916899] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1794934649.405868764] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(-0.0234,0.1601,0.4405) roi_median=(-0.0297,0.1526,0.4275) model_center=(-0.0311,0.1549,0.4514) d_center_minus_median_mm=24.0
+[tzb_catch-5] [INFO] [1794934649.473064011] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_hover iter=0 max_err=0.0653rad(J1_joint) OUTSIDE stopped(max_speed=0.0175rad/s over 0.50s) moved_since_prev=0.0000rad elapsed=0.70s per-joint: J1_joint{target=0.209879, measured=0.144601, residual=0.0652777, tol=0.015, BAD} J2_joint{target=-0.680296, measured=-0.67679, residual=-0.00350602, tol=0.015, ok} J3_joint{target=-1.52003, measured=-1.53268, residual=0.0126485, tol=0.015, ok} J4_joint{target=-0.00580633, measured=-0.00582838, residual=2.20548e-05, tol=0.015, ok} J5_joint{target=0.934359, measured=0.934647, residual=-0.000288506, tol=0.015, ok} J6_joint{target=0.361756, measured=0.350401, residual=0.0113548, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934649.473116364] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_hover iter=1 max_step=0.0147rad: J1_joint{cmd=0.209879->0.224601, residual=0.0652777, CLAMPED} J2_joint{keep -0.680296} J3_joint{keep -1.52003} J4_joint{keep -0.00580633} J5_joint{keep 0.934359} J6_joint{keep 0.361756}
+[tzb_catch-5] [INFO] [1794934649.473127921] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_hover_residual1 hz=100.00 speed_scale=1.000 duration=0.100s
+[tzb_catch-5] [INFO] [1794934649.577344026] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_hover_residual1 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[python3-1] [INFO] [1794934649.782247891] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934649.859583514] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[pose_estimation_node-2] [WARN] [1794934649.947099101] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=True stale=True timeout=1.50s
+[pose_estimation_node-2] [WARN] [1794934649.947509860] [pose_estimation_node]: YOLO ROI 超时 1.588s > 1.500s，已丢弃追踪位姿；下次有效 ROI 重新粗定位
+[python3-1] [INFO] [1794934650.020199836] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934650.053581246] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934650.088718402] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[tzb_catch-5] [INFO] [1794934650.137995094] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_hover iter=1 max_err=0.0438rad(J1_joint) OUTSIDE stopped(max_speed=0.0128rad/s over 0.51s) moved_since_prev=0.0215rad elapsed=1.37s per-joint: J1_joint{target=0.209879, measured=0.166077, residual=0.0438016, tol=0.015, BAD} J2_joint{target=-0.680296, measured=-0.6789, residual=-0.00139602, tol=0.015, ok} J3_joint{target=-1.52003, measured=-1.52942, residual=0.0093877, tol=0.015, ok} J4_joint{target=-0.00580633, measured=-0.00467777, residual=-0.00112855, tol=0.015, ok} J5_joint{target=0.934359, measured=0.933497, residual=0.000861387, tol=0.015, ok} J6_joint{target=0.361756, measured=0.353468, residual=0.00828779, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934650.138070258] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_hover iter=2 max_step=0.0215rad: J1_joint{cmd=0.224601->0.246077, residual=0.0438016, CLAMPED} J2_joint{keep -0.680296} J3_joint{keep -1.52003} J4_joint{keep -0.00580633} J5_joint{keep 0.934359} J6_joint{keep 0.361756}
+[tzb_catch-5] [INFO] [1794934650.138090750] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_hover_residual2 hz=100.00 speed_scale=1.000 duration=0.100s
+[tzb_catch-5] [INFO] [1794934650.239007527] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_hover_residual2 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[python3-1] [INFO] [1794934650.389821114] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934650.419737822] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934650.555930245] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934650.723943763] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934650.756262173] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[tzb_catch-5] [INFO] [1794934650.808092461] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_hover iter=2 max_err=0.0223rad(J1_joint) OUTSIDE stopped(max_speed=0.0188rad/s over 0.50s) moved_since_prev=0.0215rad elapsed=2.04s per-joint: J1_joint{target=0.209879, measured=0.187555, residual=0.0223244, tol=0.015, BAD} J2_joint{target=-0.680296, measured=-0.684654, residual=0.00435845, tol=0.015, ok} J3_joint{target=-1.52003, measured=-1.52903, residual=0.00900408, tol=0.015, ok} J4_joint{target=-0.00580633, measured=-0.00640345, residual=0.00059712, tol=0.015, ok} J5_joint{target=0.934359, measured=0.93388, residual=0.000478487, tol=0.015, ok} J6_joint{target=0.361756, measured=0.353851, residual=0.00790441, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934650.808156573] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_hover iter=3 max_step=0.0215rad: J1_joint{cmd=0.246077->0.267555, residual=0.0223244, CLAMPED} J2_joint{keep -0.680296} J3_joint{keep -1.52003} J4_joint{keep -0.00580633} J5_joint{keep 0.934359} J6_joint{keep 0.361756}
+[tzb_catch-5] [INFO] [1794934650.808175826] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_hover_residual3 hz=100.00 speed_scale=1.000 duration=0.100s
+[python3-1] [INFO] [1794934650.820392895] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934650.856907966] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934650.889455999] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[tzb_catch-5] [INFO] [1794934650.909656696] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_hover_residual3 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[python3-1] [INFO] [1794934650.922766508] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934650.988334203] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934651.060512804] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934651.190941905] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934651.222586539] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934651.257128008] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794934651.291564908] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[python3-1] [INFO] [1794934651.321774019] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[tzb_catch-5] [INFO] [1794934651.428012031] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_hover iter=3 max_err=0.0090rad(J3_joint) WITHIN stopped(max_speed=0.0150rad/s over 0.51s) moved_since_prev=0.0176rad elapsed=2.66s per-joint: J1_joint{target=0.209879, measured=0.205197, residual=0.00468167, tol=0.015, ok} J2_joint{target=-0.680296, measured=-0.684654, residual=0.00435845, tol=0.015, ok} J3_joint{target=-1.52003, measured=-1.52903, residual=0.00900408, tol=0.015, ok} J4_joint{target=-0.00580633, measured=-0.00640297, residual=0.000596644, tol=0.015, ok} J5_joint{target=0.934359, measured=0.933879, residual=0.000479441, tol=0.015, ok} J6_joint{target=0.361756, measured=0.353851, residual=0.00790441, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934651.428071407] [tzb_catch]: [GRASP][arrival][OK] step=move_tcp_to_hover iter=3 max_err=0.0090rad(J3_joint) command_offset_max=0.0577rad elapsed=2.66s: arm stopped inside the precise band; the gripper may close
+[tzb_catch-5] [INFO] [1794934651.428128677] [tzb_catch]: [GRASP][hover][OK] descending to the grasp pose
+[tzb_catch-5] [INFO] [1794934651.428139396] [tzb_catch]: [GRASP][plan][BEGIN] step=move_tcp_to_target goal=pose service=plan_arm_motion response_timeout=15.00s
+[planning_node-3] [INFO] [1794934651.431909679] [planning_node]: IK selected collision-free candidate, distance to start = 0.2341 among 20 candidate(s)
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[planning_node-3] Info:    Solution found in 0.002255 seconds
+[tzb_catch-5] [INFO] [1794934651.454523717] [tzb_catch]: [GRASP][plan][OK] step=move_tcp_to_target points=2
+[tzb_catch-5] [INFO] [1794934651.454756862] [tzb_catch]: Stage [move_tcp_to_target_planned_final] arm joints: J1_joint=0.210979 J2_joint=-0.848816 J3_joint=-1.5262 J4_joint=-0.00209952 J5_joint=0.767286 J6_joint=0.347092
+[tzb_catch-5] [INFO] [1794934651.454779619] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_target hz=100.00 speed_scale=1.000 duration=0.099s
+[tzb_catch-5] [INFO] [1794934651.596290102] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_target status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934651.596333778] [tzb_catch]: [GRASP][feedback][WAIT] step=move_tcp_to_target enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1794934651.605826536] [planning_node]: Playback finished at final joint state for group [arm]
+[python3-1] [INFO] [1794934651.688678819] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> NO_DETECTION
+[tzb_catch-5] [INFO] [1794934651.948094445] [tzb_catch]: [GRASP][feedback][REACHED] step=move_tcp_to_target max_error=0.05064rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934651.948158903] [tzb_catch]: [GRASP][arrival][BEGIN] step=move_tcp_to_target tolerance=0.0150rad(J6 0.0900) stable=0.50s max_speed=0.0200rad/s timeout=8.0s gain=1.00 clamp=0.100rad iterations=3
+[python3-1] [INFO] [1794934652.088792414] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=16 post=0ms | det=0 max_conf=0.00 publish=False
+[tzb_catch-5] [INFO] [1794934652.458100535] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_target iter=0 max_err=0.0456rad(J2_joint) OUTSIDE stopped(max_speed=0.0161rad/s over 0.50s) moved_since_prev=0.0000rad elapsed=0.51s per-joint: J1_joint{target=0.210979, measured=0.193883, residual=0.0170957, tol=0.015, BAD} J2_joint{target=-0.848816, measured=-0.803166, residual=-0.0456499, tol=0.015, BAD} J3_joint{target=-1.5262, measured=-1.50659, residual=-0.0196079, tol=0.015, BAD} J4_joint{target=-0.00209952, measured=-0.00832009, residual=0.00622058, tol=0.015, ok} J5_joint{target=0.767286, measured=0.762646, residual=0.00464003, tol=0.015, ok} J6_joint{target=0.347092, measured=0.348291, residual=-0.00119891, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934652.458153926] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_target iter=1 max_step=0.0344rad: J1_joint{cmd=0.210979->0.228074, residual=0.0170957} J2_joint{cmd=-0.848816->-0.883166, residual=-0.0456499, CLAMPED} J3_joint{cmd=-1.5262->-1.54581, residual=-0.0196079} J4_joint{keep -0.00209952} J5_joint{keep 0.767286} J6_joint{keep 0.347092}
+[tzb_catch-5] [INFO] [1794934652.458166234] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_target_residual1 hz=100.00 speed_scale=1.000 duration=0.137s
+[tzb_catch-5] [INFO] [1794934652.599465092] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_target_residual1 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934653.118348299] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_target iter=1 max_err=0.0347rad(J2_joint) OUTSIDE stopped(max_speed=0.0111rad/s over 0.50s) moved_since_prev=0.0109rad elapsed=1.17s per-joint: J1_joint{target=0.210979, measured=0.199635, residual=0.011344, tol=0.015, ok} J2_joint{target=-0.848816, measured=-0.814099, residual=-0.034717, tol=0.015, BAD} J3_joint{target=-1.5262, measured=-1.50966, residual=-0.0165389, tol=0.015, BAD} J4_joint{target=-0.00209952, measured=-0.0182891, residual=0.0161896, tol=0.015, BAD} J5_joint{target=0.767286, measured=0.763796, residual=0.0034899, tol=0.015, ok} J6_joint{target=0.347092, measured=0.347908, residual=-0.000815533, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934653.118416234] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_target iter=2 max_step=0.0165rad: J1_joint{keep 0.228074} J2_joint{cmd=-0.883166->-0.894099, residual=-0.034717, CLAMPED} J3_joint{cmd=-1.54581->-1.56235, residual=-0.0165389} J4_joint{cmd=-0.00209952->0.0140901, residual=0.0161896} J5_joint{keep 0.767286} J6_joint{keep 0.347092}
+[tzb_catch-5] [INFO] [1794934653.118430710] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_target_residual2 hz=100.00 speed_scale=1.000 duration=0.100s
+[tzb_catch-5] [INFO] [1794934653.219303578] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_target_residual2 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934653.738131735] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_target iter=2 max_err=0.0316rad(J2_joint) OUTSIDE stopped(max_speed=0.0053rad/s over 0.51s) moved_since_prev=0.0048rad elapsed=1.79s per-joint: J1_joint{target=0.210979, measured=0.199635, residual=0.011344, tol=0.015, ok} J2_joint{target=-0.848816, measured=-0.817168, residual=-0.0316478, tol=0.015, BAD} J3_joint{target=-1.5262, measured=-1.5135, residual=-0.0127025, tol=0.015, ok} J4_joint{target=-0.00209952, measured=-0.0134969, residual=0.0113974, tol=0.015, ok} J5_joint{target=0.767286, measured=0.760921, residual=0.00636523, tol=0.015, ok} J6_joint{target=0.347092, measured=0.345703, residual=0.00138889, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934653.738177272] [tzb_catch]: [GRASP][arrival][COMPENSATE] step=move_tcp_to_target iter=3 max_step=0.0031rad: J1_joint{STALLED hold measured 0.199635} J2_joint{cmd=-0.894099->-0.897168, residual=-0.0316478, CLAMPED} J3_joint{keep -1.56235} J4_joint{keep 0.0140901} J5_joint{keep 0.767286} J6_joint{keep 0.347092}
+[tzb_catch-5] [INFO] [1794934653.738186346] [tzb_catch]: [GRASP][command][BEGIN] step=move_tcp_to_target_residual3 hz=100.00 speed_scale=1.000 duration=0.100s
+[tzb_catch-5] [INFO] [1794934653.839060404] [tzb_catch]: [GRASP][command][END] step=move_tcp_to_target_residual3 status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934654.448229407] [tzb_catch]: [GRASP][arrival][PRECISE] step=move_tcp_to_target iter=3 max_err=0.0257rad(J2_joint) OUTSIDE stopped(max_speed=0.0154rad/s over 0.51s) moved_since_prev=0.0059rad elapsed=2.50s per-joint: J1_joint{target=0.210979, measured=0.198295, residual=0.012684, tol=0.015, ok} J2_joint{target=-0.848816, measured=-0.823114, residual=-0.0257021, tol=0.015, BAD} J3_joint{target=-1.5262, measured=-1.51426, residual=-0.0119353, tol=0.015, ok} J4_joint{target=-0.00209952, measured=-0.00947165, residual=0.00737214, tol=0.015, ok} J5_joint{target=0.767286, measured=0.757086, residual=0.0101997, tol=0.015, ok} J6_joint{target=0.347092, measured=0.341966, residual=0.00512681, tol=0.09, ok}
+[tzb_catch-5] [INFO] [1794934654.448355264] [tzb_catch]: [GRASP][arrival][CONTACT_CHECK] step=move_tcp_to_target iter=3 lateral_ok=true tcp_dxy=0.0154m tcp_dz=+0.0150m: not accepted
+[tzb_catch-5] [ERROR] [1794934654.448369309] [tzb_catch]: [GRASP][arrival][FAIL] step=move_tcp_to_target reason=residual_not_converged(iter=3 max_err=0.0257rad on J2_joint) elapsed=2.50s residuals: J1_joint{target=0.210979, measured=0.198295, residual=0.012684, tol=0.015, ok} J2_joint{target=-0.848816, measured=-0.823114, residual=-0.0257021, tol=0.015, BAD} J3_joint{target=-1.5262, measured=-1.51426, residual=-0.0119353, tol=0.015, ok} J4_joint{target=-0.00209952, measured=-0.00947165, residual=0.00737214, tol=0.015, ok} J5_joint{target=0.767286, measured=0.757086, residual=0.0101997, tol=0.015, ok} J6_joint{target=0.347092, measured=0.341966, residual=0.00512681, tol=0.09, ok}; the gripper is NOT closed
+[tzb_catch-5] [ERROR] [1794934654.448396387] [tzb_catch]: [GRASP][task][ABORT] step=move_tcp_to_target precise arrival failed: residual_not_converged(iter=3 max_err=0.0257rad on J2_joint); gripper not closed, aborting this grasp attempt
+[tzb_catch-5] [ERROR] [1794934654.448548071] [tzb_catch]: [GRASP][task][END] result=FAIL result_publisher=enabled
+[tzb_catch-5] [INFO] [1794934654.448569585] [tzb_catch]: Published task result -1 on [/tzb_catch/result].
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [tzb_catch-5]: sending signal 'SIGINT' to process[tzb_catch-5]
+[INFO] [robot_state_publisher-4]: sending signal 'SIGINT' to process[robot_state_publisher-4]
+[INFO] [planning_node-3]: sending signal 'SIGINT' to process[planning_node-3]
+[INFO] [pose_estimation_node-2]: sending signal 'SIGINT' to process[pose_estimation_node-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[tzb_catch-5] [WARN] [1794934654.494376863] [tzb_catch]: [SHUTDOWN][BEGIN] signal=2 phase=waiting hint="press Ctrl+C again after 2 s or Ctrl+\ to stop the arm where it is"
+[tzb_catch-5] [INFO] [1794934654.494502613] [tzb_catch]: [SHUTDOWN] task worker stopped after 0.00s; phase=waiting
+[tzb_catch-5] [INFO] [1794934654.494926983] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.198295 J2_joint=-0.82369 J3_joint=-1.51426 J4_joint=-0.00947165 J5_joint=0.757086 J6_joint=0.341966
+[tzb_catch-5] [INFO] [1794934654.494951272] [tzb_catch]: [GRASP][retract][STAGED] step=shutdown_home yaw_delta=0.198rad from=0.198 to=0.000; tuck -> rotate_folded -> land_offset -> rotate_low
+[tzb_catch-5] [INFO] [1794934654.494964027] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home_tuck goal=joint service=plan_arm_motion
+[robot_state_publisher-4] [INFO] [1794934654.495070912] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planning_node-3] [WARN] [1794934654.495292421] [planning_node]: [SHUTDOWN][HOLD] waiting for tzb_catch homing (signal=2, max 45.0s)
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-3] Info:    Solution found in 0.003286 seconds
+[tzb_catch-5] [INFO] [1794934654.517956485] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home_tuck points=2
+[tzb_catch-5] [INFO] [1794934654.518019908] [tzb_catch]: Stage [shutdown_home_tuck_planned_final] arm joints: J1_joint=0.198295 J2_joint=0.35 J3_joint=-1.38 J4_joint=0 J5_joint=1.55 J6_joint=0
+[tzb_catch-5] [INFO] [1794934654.518042854] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home_tuck hz=100.00 speed_scale=1.000 duration=0.704s
+[pose_estimation_node-2] Traceback (most recent call last):
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node", line 33, in <module>
+[pose_estimation_node-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'pose_estimation_node')())
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1836, in main
+[pose_estimation_node-2]     rclpy.shutdown()
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[pose_estimation_node-2]     _shutdown(context=context)
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[pose_estimation_node-2]     return context.shutdown()
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[pose_estimation_node-2]     self.__context.shutdown()
+[pose_estimation_node-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[INFO] [robot_state_publisher-4]: process has finished cleanly [pid 7161]
+[ERROR] [pose_estimation_node-2]: process has died [pid 7049, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node --ros-args -r __node:=pose_estimation_node --params-file /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/params.yaml'].
+[INFO] [python3-1]: process has finished cleanly [pid 6983]
+[tzb_catch-5] [INFO] [1794934655.496561700] [tzb_catch]: [GRASP][command][END] step=shutdown_home_tuck status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934655.496599662] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home_tuck enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1794934655.529408506] [planning_node]: Playback finished at final joint state for group [arm]
+[tzb_catch-5] [INFO] [1794934656.878335090] [tzb_catch]: [GRASP][feedback][REACHED] step=shutdown_home_tuck max_error=0.04642rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934656.878457971] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home_rotate_folded goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[planning_node-3] Info:    Solution found in 0.002122 seconds
+[tzb_catch-5] [INFO] [1794934656.889773349] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home_rotate_folded points=2
+[tzb_catch-5] [INFO] [1794934656.889822830] [tzb_catch]: Stage [shutdown_home_rotate_folded_planned_final] arm joints: J1_joint=0.6 J2_joint=0.35 J3_joint=-1.38 J4_joint=0 J5_joint=1.55 J6_joint=0
+[tzb_catch-5] [INFO] [1794934656.889837798] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home_rotate_folded hz=100.00 speed_scale=1.000 duration=0.244s
+[tzb_catch-5] [INFO] [1794934657.232569830] [tzb_catch]: [GRASP][command][END] step=shutdown_home_rotate_folded status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934657.232617890] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home_rotate_folded enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1794934657.240811255] [planning_node]: Playback finished at final joint state for group [arm]
+[tzb_catch-5] [INFO] [1794934657.758432559] [tzb_catch]: [GRASP][feedback][REACHED] step=shutdown_home_rotate_folded max_error=0.06153rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934657.758542476] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home_land_offset goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-3] Info:    Solution found in 0.002167 seconds
+[tzb_catch-5] [INFO] [1794934657.773115194] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home_land_offset points=2
+[tzb_catch-5] [INFO] [1794934657.773165621] [tzb_catch]: Stage [shutdown_home_land_offset_planned_final] arm joints: J1_joint=0.6 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=1.4 J6_joint=0
+[tzb_catch-5] [INFO] [1794934657.773182633] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home_land_offset hz=100.00 speed_scale=1.000 duration=1.939s
+[tzb_catch-5] [INFO] [1794934659.718349460] [tzb_catch]: [GRASP][command][END] step=shutdown_home_land_offset status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934659.718379979] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home_land_offset enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[tzb_catch-5] [INFO] [1794934659.958674567] [tzb_catch]: [GRASP][feedback][REACHED] step=shutdown_home_land_offset max_error=0.03613rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934659.958764819] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home_rotate_low goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[planning_node-3] Info:    Solution found in 0.003228 seconds
+[tzb_catch-5] [INFO] [1794934659.973438986] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home_rotate_low points=2
+[tzb_catch-5] [INFO] [1794934659.973478403] [tzb_catch]: Stage [shutdown_home_rotate_low_planned_final] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=1.4 J6_joint=0
+[tzb_catch-5] [INFO] [1794934659.973487057] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home_rotate_low hz=100.00 speed_scale=1.000 duration=0.341s
+[tzb_catch-5] [INFO] [1794934660.446603148] [tzb_catch]: [GRASP][command][END] step=shutdown_home_rotate_low status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1794934660.446637955] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home_rotate_low enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1794934660.464469923] [planning_node]: Playback finished at final joint state for group [arm]
+[tzb_catch-5] [INFO] [1794934660.958709937] [tzb_catch]: [GRASP][feedback][REACHED] step=shutdown_home_rotate_low max_error=0.04929rad stable=0.25s.
+[tzb_catch-5] [INFO] [1794934660.958964487] [tzb_catch]: [SHUTDOWN][HOME][OK] max_error=0.04929 object_placed=false elapsed=6.46s
+[tzb_catch-5] [INFO] [1794934660.959004662] [tzb_catch]: [SHUTDOWN][END] exit_code=0
+[planning_node-3] [INFO] [1794934660.973873979] [planning_node]: [SHUTDOWN][RELEASE] reason=hold_released waited=6.48s
+[INFO] [planning_node-3]: process has finished cleanly [pid 7159]
+[INFO] [tzb_catch-5]: process has finished cleanly [pid 7163]

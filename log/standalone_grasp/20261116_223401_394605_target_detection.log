@@ -1,0 +1,35 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-16-22-34-01-802341-tzb-NUC14RVS-B-72604
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [72605]
+[INFO] [far_target_locator-2]: process started with pid [72607]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 80, in __init__
+[far_target_locator-2]     raw_classes = self.declare_parameter(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 367, in declare_parameter
+[far_target_locator-2]     return self.declare_parameters('', [args], ignore_override)[0]
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 493, in declare_parameters
+[far_target_locator-2]     self._set_parameters(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 738, in _set_parameters
+[far_target_locator-2]     raise InvalidParameterTypeException(
+[far_target_locator-2] rclpy.exceptions.InvalidParameterTypeException: Trying to set parameter 'target_classes' to 'blue_block' of type 'STRING', expecting type 'STRING_ARRAY'
+[ERROR] [far_target_locator-2]: process has died [pid 72607, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_17n_h7pd'].
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1429, in <module>
+[python3-1]     from torch import optim as optim
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/optim/__init__.py", line 22, in <module>
+[python3-1]     from . import lr_scheduler
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/optim/lr_scheduler.py", line 712, in <module>
+[python3-1]     class PolynomialLR(LRScheduler):
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 72605, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_8drarq27'].

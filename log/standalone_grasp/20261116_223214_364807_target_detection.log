@@ -1,0 +1,77 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-16-22-32-14-699958-tzb-NUC14RVS-B-70051
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [70052]
+[INFO] [far_target_locator-2]: process started with pid [70054]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 80, in __init__
+[far_target_locator-2]     raw_classes = self.declare_parameter(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 367, in declare_parameter
+[far_target_locator-2]     return self.declare_parameters('', [args], ignore_override)[0]
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 493, in declare_parameters
+[far_target_locator-2]     self._set_parameters(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 738, in _set_parameters
+[far_target_locator-2]     raise InvalidParameterTypeException(
+[far_target_locator-2] rclpy.exceptions.InvalidParameterTypeException: Trying to set parameter 'target_classes' to 'blue_block' of type 'STRING', expecting type 'STRING_ARRAY'
+[ERROR] [far_target_locator-2]: process has died [pid 70054, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_92gmo5do'].
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1382, in <module>
+[python3-1]     from .functional import *  # noqa: F403
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/functional.py", line 7, in <module>
+[python3-1]     import torch.nn.functional as F
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/nn/__init__.py", line 1, in <module>
+[python3-1]     from .modules import *  # noqa: F403
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/nn/modules/__init__.py", line 2, in <module>
+[python3-1]     from .linear import Identity, Linear, Bilinear, LazyLinear
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 7, in <module>
+[python3-1]     from .. import functional as F
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/nn/functional.py", line 3703, in <module>
+[python3-1]     def upsample(input: Tensor, size: Optional[int] = None, scale_factor: Optional[float] = None, mode: str = "nearest", align_corners: Optional[bool] = None) -> Tensor:  # noqa: F811,B950
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_jit_internal.py", line 880, in _overload
+[python3-1]     _check_overload_body(func)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_jit_internal.py", line 853, in _check_overload_body
+[python3-1]     parsed_def = parse_def(func)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_sources.py", line 120, in parse_def
+[python3-1]     sourcelines, file_lineno, filename = get_source_lines_and_file(
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_sources.py", line 23, in get_source_lines_and_file
+[python3-1]     sourcelines, file_lineno = inspect.getsourcelines(obj)
+[python3-1]   File "/usr/lib/python3.10/inspect.py", line 1131, in getsourcelines
+[python3-1]     return getblock(lines[lnum:]), lnum + 1
+[python3-1]   File "/usr/lib/python3.10/inspect.py", line 1106, in getblock
+[python3-1]     for _token in tokens:
+[python3-1]   File "/usr/lib/python3.10/tokenize.py", line 527, in _tokenize
+[python3-1]     pseudomatch = _compile(PseudoToken).match(line, pos)
+[python3-1]   File "/usr/lib/python3.10/tokenize.py", line 101, in _compile
+[python3-1]     return re.compile(expr, re.UNICODE)
+[python3-1]   File "/usr/lib/python3.10/re.py", line 251, in compile
+[python3-1]     return _compile(pattern, flags)
+[python3-1]   File "/usr/lib/python3.10/re.py", line 303, in _compile
+[python3-1]     p = sre_compile.compile(pattern, flags)
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 792, in compile
+[python3-1]     code = _code(p, flags)
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 631, in _code
+[python3-1]     _compile(code, p.data, flags)
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 184, in _compile
+[python3-1]     _compile(code, p, _combine_flags(flags, add_flags, del_flags))
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 225, in _compile
+[python3-1]     _compile(code, av, flags)
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 184, in _compile
+[python3-1]     _compile(code, p, _combine_flags(flags, add_flags, del_flags))
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 225, in _compile
+[python3-1]     _compile(code, av, flags)
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 184, in _compile
+[python3-1]     _compile(code, p, _combine_flags(flags, add_flags, del_flags))
+[python3-1]   File "/usr/lib/python3.10/sre_compile.py", line 223, in _compile
+[python3-1]     skip = _len(code); emit(0)
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 70052, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_en7aoenv'].

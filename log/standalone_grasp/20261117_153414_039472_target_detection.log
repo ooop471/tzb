@@ -1,0 +1,43 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-15-34-14-995119-tzb-NUC14RVS-B-42870
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [42872]
+[INFO] [far_target_locator-2]: process started with pid [42874]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1504, in <module>
+[python3-1]     from . import masked
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/__init__.py", line 3, in <module>
+[python3-1]     from ._ops import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/masked/_ops.py", line 11, in <module>
+[python3-1]     from torch._prims_common import corresponding_real_dtype
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_prims_common/__init__.py", line 23, in <module>
+[python3-1]     import sympy
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/__init__.py", line 51, in <module>
+[python3-1]     from .core import (sympify, SympifyError, cacheit, Basic, Atom,
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/__init__.py", line 4, in <module>
+[python3-1]     from .sympify import sympify, SympifyError
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/sympify.py", line 613, in <module>
+[python3-1]     from .basic import Basic
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/basic.py", line 6, in <module>
+[python3-1]     from .assumptions import BasicMeta, ManagedProperties
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/assumptions.py", line 203, in <module>
+[python3-1]     _assume_rules = FactRules([
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/facts.py", line 442, in __init__
+[python3-1]     impl_ab = apply_beta_to_alpha_route(impl_a, P.rules_beta)
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/facts.py", line 204, in apply_beta_to_alpha_route
+[python3-1]     if any(Not(xi) in bargs or Not(xi) == bimpl for xi in x_all):
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/facts.py", line 204, in <genexpr>
+[python3-1]     if any(Not(xi) in bargs or Not(xi) == bimpl for xi in x_all):
+[python3-1]   File "/usr/lib/python3/dist-packages/sympy/core/logic.py", line 408, in __new__
+[python3-1]     elif isinstance(arg, bool):
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 42872, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_y9e4l4uy'].
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 42874]

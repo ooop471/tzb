@@ -1,0 +1,678 @@
+[0.000000] (-) TimerEvent: {}
+[0.000210] (-) JobUnselected: {'identifier': 'bringup'}
+[0.000246] (-) JobUnselected: {'identifier': 'fast_lio'}
+[0.000256] (-) JobUnselected: {'identifier': 'imu_tools'}
+[0.000263] (-) JobUnselected: {'identifier': 'livox_ros_driver2'}
+[0.000270] (-) JobUnselected: {'identifier': 'pointcloud_tools'}
+[0.000277] (-) JobUnselected: {'identifier': 'rm_navigation'}
+[0.000284] (-) JobUnselected: {'identifier': 'rover_state'}
+[0.000291] (-) JobUnselected: {'identifier': 'terrain_analysis'}
+[0.000299] (rover_explore) JobQueued: {'identifier': 'rover_explore', 'dependencies': OrderedDict([('imu_tools', '/home/tzb/nav_explore_ws/install/imu_tools'), ('livox_ros_driver2', '/home/tzb/nav_explore_ws/install/livox_ros_driver2'), ('terrain_analysis', '/home/tzb/nav_explore_ws/install/terrain_analysis'), ('fast_lio', '/home/tzb/nav_explore_ws/install/fast_lio')])}
+[0.000604] (rover_explore) JobStarted: {'identifier': 'rover_explore'}
+[0.012582] (rover_explore) JobProgress: {'identifier': 'rover_explore', 'progress': 'cmake'}
+[0.013049] (rover_explore) JobProgress: {'identifier': 'rover_explore', 'progress': 'build'}
+[0.013460] (rover_explore) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/tzb/nav_explore_ws/build/rover_explore'], 'cwd': '/home/tzb/nav_explore_ws/build/rover_explore', 'env': OrderedDict([('CMAKE_BUILD_PARALLEL_LEVEL', '2'), ('NAV_MISSION_ROOT', '/home/tzb/nav_explore_ws'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'tzb'), ('SSH_CLIENT', '192.168.110.148 44484 22'), ('LC_TIME', 'zh_CN.UTF-8'), ('XDG_SESSION_TYPE', 'tty'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:/home/tzb/nav_explore_ws/install/rover_explore/lib:/home/tzb/nav_explore_ws/install/pointcloud_tools/lib:/home/tzb/nav_explore_ws/.deps/livox-sdk2/lib:/home/tzb/tzb_ws/install/yolo_node/lib:/home/tzb/tzb_ws/install/tzb_target_bridge/lib:/home/tzb/tzb_ws/install/rm_serial_driver/lib:/home/tzb/tzb_ws/install/rm_serial_msgs/lib:/home/tzb/tzb_ws/install/orbbec_camera/lib:/home/tzb/tzb_ws/install/orbbec_camera_msgs/lib:/home/tzb/tzb_ws/install/lite_motion_msgs/lib:/home/tzb/tzb_ws/install/arm_task_interfaces/lib:/home/tzb/tzb_ws/install/arm2nav_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/opt/openvdb_vendor/lib:/opt/ros/humble/lib'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/tzb'), ('OLDPWD', '/home/tzb/nav_explore_ws'), ('ROS_PYTHON_VERSION', '3'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('LC_CTYPE', 'C.UTF-8'), ('MAKEFLAGS', '-j2'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLCON_PREFIX_PATH', '/home/tzb/nav_explore_ws/install:/home/tzb/tzb_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'tzb'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('XDG_SESSION_ID', '25'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('LANG', 'zh_CN.UTF-8'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('AMENT_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/tzb_ws/install/arm2nav:/home/tzb/tzb_ws/install/yolo_node:/home/tzb/tzb_ws/install/arm_task_bridge:/home/tzb/tzb_ws/install/tzb_target_bridge:/home/tzb/tzb_ws/install/tzb_gripper_test:/home/tzb/tzb_ws/install/tzb_description:/home/tzb/tzb_ws/install/lite_motion_planner:/home/tzb/tzb_ws/install/rm_serial_driver:/home/tzb/tzb_ws/install/rm_serial_msgs:/home/tzb/tzb_ws/install/pose_estimator:/home/tzb/tzb_ws/install/orbbec_description:/home/tzb/tzb_ws/install/orbbec_camera:/home/tzb/tzb_ws/install/orbbec_camera_msgs:/home/tzb/tzb_ws/install/nav2arm:/home/tzb/tzb_ws/install/lite_motion_msgs:/home/tzb/tzb_ws/install/hand_eye_calib:/home/tzb/tzb_ws/install/engineer_0520_description:/home/tzb/tzb_ws/install/arm_task_interfaces:/home/tzb/tzb_ws/install/arm2nav_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'zh_CN.UTF-8'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('PWD', '/home/tzb/nav_explore_ws/build/rover_explore'), ('LC_ALL', 'C.UTF-8'), ('SSH_CONNECTION', '192.168.110.148 44484 192.168.110.172 22'), ('PYTHONPATH', '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/build/arm2nav:/home/tzb/tzb_ws/install/arm2nav/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/yolo_node/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/arm_task_bridge/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/tzb_target_bridge/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/tzb_gripper_test/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/rm_serial_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/orbbec_camera_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/nav2arm/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/lite_motion_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/build/hand_eye_calib:/home/tzb/tzb_ws/install/hand_eye_calib/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/arm_task_interfaces/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/arm2nav_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('LC_PAPER', 'zh_CN.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/.deps/livox-sdk2:/home/tzb/tzb_ws/install/yolo_node:/home/tzb/tzb_ws/install/tzb_target_bridge:/home/tzb/tzb_ws/install/tzb_description:/home/tzb/tzb_ws/install/lite_motion_planner:/home/tzb/tzb_ws/install/rm_serial_driver:/home/tzb/tzb_ws/install/rm_serial_msgs:/home/tzb/tzb_ws/install/orbbec_description:/home/tzb/tzb_ws/install/orbbec_camera:/home/tzb/tzb_ws/install/orbbec_camera_msgs:/home/tzb/tzb_ws/install/lite_motion_msgs:/home/tzb/tzb_ws/install/engineer_0520_description:/home/tzb/tzb_ws/install/arm_task_interfaces:/home/tzb/tzb_ws/install/arm2nav_msgs:/home/tzb/tzb_ws/install/arm2nav:/home/tzb/tzb_ws/install/arm_task_bridge:/home/tzb/tzb_ws/install/tzb_gripper_test:/home/tzb/tzb_ws/install/pose_estimator:/home/tzb/tzb_ws/install/nav2arm:/home/tzb/tzb_ws/install/hand_eye_calib:/opt/ros/humble')]), 'shell': False}
+[0.059196] (rover_explore) StdoutLine: {'line': b'[  0%] Built target ament_cmake_python_copy_rover_explore_launch\n'}
+[0.071676] (rover_explore) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target exploration_follower_core\n'}
+[0.081281] (rover_explore) StdoutLine: {'line': b'[  6%] Built target exploration_follower_core\n'}
+[0.100004] (-) TimerEvent: {}
+[0.102891] (rover_explore) StdoutLine: {'line': b'[ 12%] Built target exploration_planner_core\n'}
+[0.111605] (rover_explore) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target rover_tare_core\n'}
+[0.123147] (rover_explore) StdoutLine: {'line': b'[ 19%] Built target rover_corridor_critic\n'}
+[0.138172] (rover_explore) StdoutLine: {'line': b'[ 22%] Building CXX object CMakeFiles/rover_tare_core.dir/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp.o\n'}
+[0.200096] (-) TimerEvent: {}
+[0.269913] (rover_explore) StdoutLine: {'line': b'running egg_info\n'}
+[0.270218] (rover_explore) StdoutLine: {'line': b'writing rover_explore_launch.egg-info/PKG-INFO\n'}
+[0.270446] (rover_explore) StdoutLine: {'line': b'writing dependency_links to rover_explore_launch.egg-info/dependency_links.txt\n'}
+[0.270507] (rover_explore) StdoutLine: {'line': b'writing top-level names to rover_explore_launch.egg-info/top_level.txt\n'}
+[0.271458] (rover_explore) StdoutLine: {'line': b"reading manifest file 'rover_explore_launch.egg-info/SOURCES.txt'\n"}
+[0.272118] (rover_explore) StdoutLine: {'line': b"writing manifest file 'rover_explore_launch.egg-info/SOURCES.txt'\n"}
+[0.289969] (rover_explore) StdoutLine: {'line': b'[ 22%] Built target ament_cmake_python_build_rover_explore_launch_egg\n'}
+[0.300165] (-) TimerEvent: {}
+[0.303684] (rover_explore) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target exploration_path_follower\n'}
+[0.314972] (rover_explore) StdoutLine: {'line': b'[ 29%] Built target exploration_path_follower\n'}
+[0.334709] (rover_explore) StdoutLine: {'line': b'[ 35%] Built target exploration_nav2_planner\n'}
+[0.400240] (-) TimerEvent: {}
+[0.500336] (-) TimerEvent: {}
+[0.600437] (-) TimerEvent: {}
+[0.700536] (-) TimerEvent: {}
+[0.800615] (-) TimerEvent: {}
+[0.900722] (-) TimerEvent: {}
+[1.000838] (-) TimerEvent: {}
+[1.100930] (-) TimerEvent: {}
+[1.201026] (-) TimerEvent: {}
+[1.301133] (-) TimerEvent: {}
+[1.401251] (-) TimerEvent: {}
+[1.501378] (-) TimerEvent: {}
+[1.601515] (-) TimerEvent: {}
+[1.701660] (-) TimerEvent: {}
+[1.801782] (-) TimerEvent: {}
+[1.901893] (-) TimerEvent: {}
+[2.002030] (-) TimerEvent: {}
+[2.102172] (-) TimerEvent: {}
+[2.202313] (-) TimerEvent: {}
+[2.302472] (-) TimerEvent: {}
+[2.402636] (-) TimerEvent: {}
+[2.502798] (-) TimerEvent: {}
+[2.602951] (-) TimerEvent: {}
+[2.703082] (-) TimerEvent: {}
+[2.803201] (-) TimerEvent: {}
+[2.903326] (-) TimerEvent: {}
+[3.003462] (-) TimerEvent: {}
+[3.103603] (-) TimerEvent: {}
+[3.203724] (-) TimerEvent: {}
+[3.303878] (-) TimerEvent: {}
+[3.404040] (-) TimerEvent: {}
+[3.504195] (-) TimerEvent: {}
+[3.520029] (rover_explore) StderrLine: {'line': b'In file included from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:56,\n'}
+[3.520178] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp:13:\n'}
+[3.520209] (rover_explore) StderrLine: {'line': b'/home/tzb/nav_explore_ws/src/explore/include/utils/misc_utils.h:69:85: warning: \xe2\x80\x98nav_msgs::msg::Odometry_<std::allocator<void> >::ConstPtr\xe2\x80\x99 is deprecated [-Wdeprecated-declarations]\n'}
+[3.520236] (rover_explore) StderrLine: {'line': b'   69 | void KeyposeToMap(CloudType& cloud, const nav_msgs::msg::Odometry::ConstPtr& keypose);\n'}
+[3.520260] (rover_explore) StderrLine: {'line': b'      |                                                                                     ^\n'}
+[3.520289] (rover_explore) StderrLine: {'line': b'In file included from /opt/ros/humble/include/nav_msgs/nav_msgs/msg/odometry.hpp:7,\n'}
+[3.520315] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:34,\n'}
+[3.520336] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp:13:\n'}
+[3.520359] (rover_explore) StderrLine: {'line': b'/opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__struct.hpp:147:5: note: declared here\n'}
+[3.520382] (rover_explore) StderrLine: {'line': b'  147 |     ConstPtr;\n'}
+[3.520410] (rover_explore) StderrLine: {'line': b'      |     ^~~~~~~~\n'}
+[3.604348] (-) TimerEvent: {}
+[3.704512] (-) TimerEvent: {}
+[3.804689] (-) TimerEvent: {}
+[3.904849] (-) TimerEvent: {}
+[4.005021] (-) TimerEvent: {}
+[4.105187] (-) TimerEvent: {}
+[4.205357] (-) TimerEvent: {}
+[4.305524] (-) TimerEvent: {}
+[4.405690] (-) TimerEvent: {}
+[4.505866] (-) TimerEvent: {}
+[4.606042] (-) TimerEvent: {}
+[4.706223] (-) TimerEvent: {}
+[4.806398] (-) TimerEvent: {}
+[4.906562] (-) TimerEvent: {}
+[5.006739] (-) TimerEvent: {}
+[5.106913] (-) TimerEvent: {}
+[5.207073] (-) TimerEvent: {}
+[5.307204] (-) TimerEvent: {}
+[5.407321] (-) TimerEvent: {}
+[5.507467] (-) TimerEvent: {}
+[5.607612] (-) TimerEvent: {}
+[5.707718] (-) TimerEvent: {}
+[5.807860] (-) TimerEvent: {}
+[5.908015] (-) TimerEvent: {}
+[6.008175] (-) TimerEvent: {}
+[6.108365] (-) TimerEvent: {}
+[6.208527] (-) TimerEvent: {}
+[6.308687] (-) TimerEvent: {}
+[6.408829] (-) TimerEvent: {}
+[6.508982] (-) TimerEvent: {}
+[6.609142] (-) TimerEvent: {}
+[6.709302] (-) TimerEvent: {}
+[6.809463] (-) TimerEvent: {}
+[6.909624] (-) TimerEvent: {}
+[7.009794] (-) TimerEvent: {}
+[7.109954] (-) TimerEvent: {}
+[7.210110] (-) TimerEvent: {}
+[7.310276] (-) TimerEvent: {}
+[7.410441] (-) TimerEvent: {}
+[7.510600] (-) TimerEvent: {}
+[7.610751] (-) TimerEvent: {}
+[7.710911] (-) TimerEvent: {}
+[7.811068] (-) TimerEvent: {}
+[7.911230] (-) TimerEvent: {}
+[8.011392] (-) TimerEvent: {}
+[8.111551] (-) TimerEvent: {}
+[8.211710] (-) TimerEvent: {}
+[8.311874] (-) TimerEvent: {}
+[8.412042] (-) TimerEvent: {}
+[8.512198] (-) TimerEvent: {}
+[8.612350] (-) TimerEvent: {}
+[8.712506] (-) TimerEvent: {}
+[8.812663] (-) TimerEvent: {}
+[8.912827] (-) TimerEvent: {}
+[9.012988] (-) TimerEvent: {}
+[9.113133] (-) TimerEvent: {}
+[9.213263] (-) TimerEvent: {}
+[9.313408] (-) TimerEvent: {}
+[9.413565] (-) TimerEvent: {}
+[9.513725] (-) TimerEvent: {}
+[9.613890] (-) TimerEvent: {}
+[9.714064] (-) TimerEvent: {}
+[9.814230] (-) TimerEvent: {}
+[9.914392] (-) TimerEvent: {}
+[10.014563] (-) TimerEvent: {}
+[10.114732] (-) TimerEvent: {}
+[10.214897] (-) TimerEvent: {}
+[10.315053] (-) TimerEvent: {}
+[10.415210] (-) TimerEvent: {}
+[10.515375] (-) TimerEvent: {}
+[10.615541] (-) TimerEvent: {}
+[10.715706] (-) TimerEvent: {}
+[10.815879] (-) TimerEvent: {}
+[10.916054] (-) TimerEvent: {}
+[11.016217] (-) TimerEvent: {}
+[11.116386] (-) TimerEvent: {}
+[11.216547] (-) TimerEvent: {}
+[11.316756] (-) TimerEvent: {}
+[11.416920] (-) TimerEvent: {}
+[11.517121] (-) TimerEvent: {}
+[11.617295] (-) TimerEvent: {}
+[11.717468] (-) TimerEvent: {}
+[11.817662] (-) TimerEvent: {}
+[11.917835] (-) TimerEvent: {}
+[12.017997] (-) TimerEvent: {}
+[12.118155] (-) TimerEvent: {}
+[12.218321] (-) TimerEvent: {}
+[12.318497] (-) TimerEvent: {}
+[12.418671] (-) TimerEvent: {}
+[12.518843] (-) TimerEvent: {}
+[12.619004] (-) TimerEvent: {}
+[12.719168] (-) TimerEvent: {}
+[12.819297] (-) TimerEvent: {}
+[12.919436] (-) TimerEvent: {}
+[13.019613] (-) TimerEvent: {}
+[13.119784] (-) TimerEvent: {}
+[13.219969] (-) TimerEvent: {}
+[13.320148] (-) TimerEvent: {}
+[13.420318] (-) TimerEvent: {}
+[13.520481] (-) TimerEvent: {}
+[13.620643] (-) TimerEvent: {}
+[13.720813] (-) TimerEvent: {}
+[13.820974] (-) TimerEvent: {}
+[13.921139] (-) TimerEvent: {}
+[14.021301] (-) TimerEvent: {}
+[14.121463] (-) TimerEvent: {}
+[14.221619] (-) TimerEvent: {}
+[14.321763] (-) TimerEvent: {}
+[14.421900] (-) TimerEvent: {}
+[14.522040] (-) TimerEvent: {}
+[14.622159] (-) TimerEvent: {}
+[14.722275] (-) TimerEvent: {}
+[14.822422] (-) TimerEvent: {}
+[14.924002] (-) TimerEvent: {}
+[15.024164] (-) TimerEvent: {}
+[15.124323] (-) TimerEvent: {}
+[15.224673] (-) TimerEvent: {}
+[15.325154] (-) TimerEvent: {}
+[15.425399] (-) TimerEvent: {}
+[15.525664] (-) TimerEvent: {}
+[15.626084] (-) TimerEvent: {}
+[15.726234] (-) TimerEvent: {}
+[15.826378] (-) TimerEvent: {}
+[15.926515] (-) TimerEvent: {}
+[16.026655] (-) TimerEvent: {}
+[16.126799] (-) TimerEvent: {}
+[16.226920] (-) TimerEvent: {}
+[16.327037] (-) TimerEvent: {}
+[16.427164] (-) TimerEvent: {}
+[16.527284] (-) TimerEvent: {}
+[16.627397] (-) TimerEvent: {}
+[16.727552] (-) TimerEvent: {}
+[16.827747] (-) TimerEvent: {}
+[16.927942] (-) TimerEvent: {}
+[17.028125] (-) TimerEvent: {}
+[17.128310] (-) TimerEvent: {}
+[17.228487] (-) TimerEvent: {}
+[17.328659] (-) TimerEvent: {}
+[17.428851] (-) TimerEvent: {}
+[17.529027] (-) TimerEvent: {}
+[17.629214] (-) TimerEvent: {}
+[17.729403] (-) TimerEvent: {}
+[17.829582] (-) TimerEvent: {}
+[17.929733] (-) TimerEvent: {}
+[18.029912] (-) TimerEvent: {}
+[18.130105] (-) TimerEvent: {}
+[18.230281] (-) TimerEvent: {}
+[18.330458] (-) TimerEvent: {}
+[18.430642] (-) TimerEvent: {}
+[18.530965] (-) TimerEvent: {}
+[18.631147] (-) TimerEvent: {}
+[18.731333] (-) TimerEvent: {}
+[18.831521] (-) TimerEvent: {}
+[18.931738] (-) TimerEvent: {}
+[19.031918] (-) TimerEvent: {}
+[19.132097] (-) TimerEvent: {}
+[19.232277] (-) TimerEvent: {}
+[19.332517] (-) TimerEvent: {}
+[19.432710] (-) TimerEvent: {}
+[19.532911] (-) TimerEvent: {}
+[19.633105] (-) TimerEvent: {}
+[19.733295] (-) TimerEvent: {}
+[19.833482] (-) TimerEvent: {}
+[19.933702] (-) TimerEvent: {}
+[20.033923] (-) TimerEvent: {}
+[20.134108] (-) TimerEvent: {}
+[20.234295] (-) TimerEvent: {}
+[20.334484] (-) TimerEvent: {}
+[20.434672] (-) TimerEvent: {}
+[20.534867] (-) TimerEvent: {}
+[20.635058] (-) TimerEvent: {}
+[20.735237] (-) TimerEvent: {}
+[20.835414] (-) TimerEvent: {}
+[20.935597] (-) TimerEvent: {}
+[21.035776] (-) TimerEvent: {}
+[21.135950] (-) TimerEvent: {}
+[21.236140] (-) TimerEvent: {}
+[21.336321] (-) TimerEvent: {}
+[21.436510] (-) TimerEvent: {}
+[21.536706] (-) TimerEvent: {}
+[21.636898] (-) TimerEvent: {}
+[21.737087] (-) TimerEvent: {}
+[21.837269] (-) TimerEvent: {}
+[21.937450] (-) TimerEvent: {}
+[22.037673] (-) TimerEvent: {}
+[22.137899] (-) TimerEvent: {}
+[22.238082] (-) TimerEvent: {}
+[22.338268] (-) TimerEvent: {}
+[22.438452] (-) TimerEvent: {}
+[22.538636] (-) TimerEvent: {}
+[22.638813] (-) TimerEvent: {}
+[22.738982] (-) TimerEvent: {}
+[22.839167] (-) TimerEvent: {}
+[22.939354] (-) TimerEvent: {}
+[23.039529] (-) TimerEvent: {}
+[23.139719] (-) TimerEvent: {}
+[23.239883] (-) TimerEvent: {}
+[23.340049] (-) TimerEvent: {}
+[23.440217] (-) TimerEvent: {}
+[23.540365] (-) TimerEvent: {}
+[23.640514] (-) TimerEvent: {}
+[23.740666] (-) TimerEvent: {}
+[23.840820] (-) TimerEvent: {}
+[23.940978] (-) TimerEvent: {}
+[24.041138] (-) TimerEvent: {}
+[24.141292] (-) TimerEvent: {}
+[24.241449] (-) TimerEvent: {}
+[24.341606] (-) TimerEvent: {}
+[24.441722] (-) TimerEvent: {}
+[24.541882] (-) TimerEvent: {}
+[24.642036] (-) TimerEvent: {}
+[24.742191] (-) TimerEvent: {}
+[24.842350] (-) TimerEvent: {}
+[24.942511] (-) TimerEvent: {}
+[25.042669] (-) TimerEvent: {}
+[25.142828] (-) TimerEvent: {}
+[25.242980] (-) TimerEvent: {}
+[25.343135] (-) TimerEvent: {}
+[25.443286] (-) TimerEvent: {}
+[25.543437] (-) TimerEvent: {}
+[25.643590] (-) TimerEvent: {}
+[25.743744] (-) TimerEvent: {}
+[25.843895] (-) TimerEvent: {}
+[25.944043] (-) TimerEvent: {}
+[26.044194] (-) TimerEvent: {}
+[26.144353] (-) TimerEvent: {}
+[26.244506] (-) TimerEvent: {}
+[26.344661] (-) TimerEvent: {}
+[26.444823] (-) TimerEvent: {}
+[26.544985] (-) TimerEvent: {}
+[26.645130] (-) TimerEvent: {}
+[26.745282] (-) TimerEvent: {}
+[26.845430] (-) TimerEvent: {}
+[26.945572] (-) TimerEvent: {}
+[27.045719] (-) TimerEvent: {}
+[27.145843] (-) TimerEvent: {}
+[27.245945] (-) TimerEvent: {}
+[27.346074] (-) TimerEvent: {}
+[27.446226] (-) TimerEvent: {}
+[27.546379] (-) TimerEvent: {}
+[27.646530] (-) TimerEvent: {}
+[27.746752] (-) TimerEvent: {}
+[27.846926] (-) TimerEvent: {}
+[27.947098] (-) TimerEvent: {}
+[28.047273] (-) TimerEvent: {}
+[28.147455] (-) TimerEvent: {}
+[28.247671] (-) TimerEvent: {}
+[28.347859] (-) TimerEvent: {}
+[28.448054] (-) TimerEvent: {}
+[28.548280] (-) TimerEvent: {}
+[28.648471] (-) TimerEvent: {}
+[28.748803] (-) TimerEvent: {}
+[28.848980] (-) TimerEvent: {}
+[28.949154] (-) TimerEvent: {}
+[29.049330] (-) TimerEvent: {}
+[29.149510] (-) TimerEvent: {}
+[29.249694] (-) TimerEvent: {}
+[29.349869] (-) TimerEvent: {}
+[29.450045] (-) TimerEvent: {}
+[29.550214] (-) TimerEvent: {}
+[29.650382] (-) TimerEvent: {}
+[29.750565] (-) TimerEvent: {}
+[29.850737] (-) TimerEvent: {}
+[29.950944] (-) TimerEvent: {}
+[30.051205] (-) TimerEvent: {}
+[30.151453] (-) TimerEvent: {}
+[30.251747] (-) TimerEvent: {}
+[30.351922] (-) TimerEvent: {}
+[30.452104] (-) TimerEvent: {}
+[30.552287] (-) TimerEvent: {}
+[30.652462] (-) TimerEvent: {}
+[30.752627] (-) TimerEvent: {}
+[30.852804] (-) TimerEvent: {}
+[30.953015] (-) TimerEvent: {}
+[31.053193] (-) TimerEvent: {}
+[31.153373] (-) TimerEvent: {}
+[31.253554] (-) TimerEvent: {}
+[31.353735] (-) TimerEvent: {}
+[31.453915] (-) TimerEvent: {}
+[31.554098] (-) TimerEvent: {}
+[31.654278] (-) TimerEvent: {}
+[31.754469] (-) TimerEvent: {}
+[31.854655] (-) TimerEvent: {}
+[31.954853] (-) TimerEvent: {}
+[32.055061] (-) TimerEvent: {}
+[32.155235] (-) TimerEvent: {}
+[32.255420] (-) TimerEvent: {}
+[32.355605] (-) TimerEvent: {}
+[32.455800] (-) TimerEvent: {}
+[32.555979] (-) TimerEvent: {}
+[32.656171] (-) TimerEvent: {}
+[32.756347] (-) TimerEvent: {}
+[32.856517] (-) TimerEvent: {}
+[32.956752] (-) TimerEvent: {}
+[33.056952] (-) TimerEvent: {}
+[33.157124] (-) TimerEvent: {}
+[33.257291] (-) TimerEvent: {}
+[33.357453] (-) TimerEvent: {}
+[33.457622] (-) TimerEvent: {}
+[33.557805] (-) TimerEvent: {}
+[33.657981] (-) TimerEvent: {}
+[33.758173] (-) TimerEvent: {}
+[33.858353] (-) TimerEvent: {}
+[33.958527] (-) TimerEvent: {}
+[34.058707] (-) TimerEvent: {}
+[34.158888] (-) TimerEvent: {}
+[34.259061] (-) TimerEvent: {}
+[34.359235] (-) TimerEvent: {}
+[34.459417] (-) TimerEvent: {}
+[34.559604] (-) TimerEvent: {}
+[34.659819] (-) TimerEvent: {}
+[34.760075] (-) TimerEvent: {}
+[34.860361] (-) TimerEvent: {}
+[34.960626] (-) TimerEvent: {}
+[35.060811] (-) TimerEvent: {}
+[35.161020] (-) TimerEvent: {}
+[35.261261] (-) TimerEvent: {}
+[35.361525] (-) TimerEvent: {}
+[35.461761] (-) TimerEvent: {}
+[35.561937] (-) TimerEvent: {}
+[35.662164] (-) TimerEvent: {}
+[35.762347] (-) TimerEvent: {}
+[35.862540] (-) TimerEvent: {}
+[35.962730] (-) TimerEvent: {}
+[36.062909] (-) TimerEvent: {}
+[36.163075] (-) TimerEvent: {}
+[36.263234] (-) TimerEvent: {}
+[36.363427] (-) TimerEvent: {}
+[36.463643] (-) TimerEvent: {}
+[36.563836] (-) TimerEvent: {}
+[36.664006] (-) TimerEvent: {}
+[36.764166] (-) TimerEvent: {}
+[36.864350] (-) TimerEvent: {}
+[36.964525] (-) TimerEvent: {}
+[37.064704] (-) TimerEvent: {}
+[37.164883] (-) TimerEvent: {}
+[37.265064] (-) TimerEvent: {}
+[37.365248] (-) TimerEvent: {}
+[37.465420] (-) TimerEvent: {}
+[37.565598] (-) TimerEvent: {}
+[37.665781] (-) TimerEvent: {}
+[37.765960] (-) TimerEvent: {}
+[37.866193] (-) TimerEvent: {}
+[37.966426] (-) TimerEvent: {}
+[38.066711] (-) TimerEvent: {}
+[38.166892] (-) TimerEvent: {}
+[38.267048] (-) TimerEvent: {}
+[38.367196] (-) TimerEvent: {}
+[38.467352] (-) TimerEvent: {}
+[38.567509] (-) TimerEvent: {}
+[38.667662] (-) TimerEvent: {}
+[38.767823] (-) TimerEvent: {}
+[38.867977] (-) TimerEvent: {}
+[38.968132] (-) TimerEvent: {}
+[39.068286] (-) TimerEvent: {}
+[39.168435] (-) TimerEvent: {}
+[39.268589] (-) TimerEvent: {}
+[39.368730] (-) TimerEvent: {}
+[39.468887] (-) TimerEvent: {}
+[39.569062] (-) TimerEvent: {}
+[39.669220] (-) TimerEvent: {}
+[39.769373] (-) TimerEvent: {}
+[39.869605] (-) TimerEvent: {}
+[39.969725] (-) TimerEvent: {}
+[40.069873] (-) TimerEvent: {}
+[40.170023] (-) TimerEvent: {}
+[40.270179] (-) TimerEvent: {}
+[40.370327] (-) TimerEvent: {}
+[40.470465] (-) TimerEvent: {}
+[40.570600] (-) TimerEvent: {}
+[40.670712] (-) TimerEvent: {}
+[40.770835] (-) TimerEvent: {}
+[40.870970] (-) TimerEvent: {}
+[40.971099] (-) TimerEvent: {}
+[41.071231] (-) TimerEvent: {}
+[41.171377] (-) TimerEvent: {}
+[41.271505] (-) TimerEvent: {}
+[41.371648] (-) TimerEvent: {}
+[41.471806] (-) TimerEvent: {}
+[41.571986] (-) TimerEvent: {}
+[41.672414] (-) TimerEvent: {}
+[41.772657] (-) TimerEvent: {}
+[41.872856] (-) TimerEvent: {}
+[41.973054] (-) TimerEvent: {}
+[42.073261] (-) TimerEvent: {}
+[42.173452] (-) TimerEvent: {}
+[42.273649] (-) TimerEvent: {}
+[42.373831] (-) TimerEvent: {}
+[42.474006] (-) TimerEvent: {}
+[42.574192] (-) TimerEvent: {}
+[42.674383] (-) TimerEvent: {}
+[42.774592] (-) TimerEvent: {}
+[42.874795] (-) TimerEvent: {}
+[42.974985] (-) TimerEvent: {}
+[43.075173] (-) TimerEvent: {}
+[43.175368] (-) TimerEvent: {}
+[43.275632] (-) TimerEvent: {}
+[43.376134] (-) TimerEvent: {}
+[43.476383] (-) TimerEvent: {}
+[43.576625] (-) TimerEvent: {}
+[43.676823] (-) TimerEvent: {}
+[43.777014] (-) TimerEvent: {}
+[43.877161] (-) TimerEvent: {}
+[43.977339] (-) TimerEvent: {}
+[44.077517] (-) TimerEvent: {}
+[44.177708] (-) TimerEvent: {}
+[44.277884] (-) TimerEvent: {}
+[44.378061] (-) TimerEvent: {}
+[44.478259] (-) TimerEvent: {}
+[44.578472] (-) TimerEvent: {}
+[44.678625] (-) TimerEvent: {}
+[44.778789] (-) TimerEvent: {}
+[44.878956] (-) TimerEvent: {}
+[44.979140] (-) TimerEvent: {}
+[45.079345] (-) TimerEvent: {}
+[45.179540] (-) TimerEvent: {}
+[45.279745] (-) TimerEvent: {}
+[45.379936] (-) TimerEvent: {}
+[45.480115] (-) TimerEvent: {}
+[45.580295] (-) TimerEvent: {}
+[45.680480] (-) TimerEvent: {}
+[45.780659] (-) TimerEvent: {}
+[45.880853] (-) TimerEvent: {}
+[45.981049] (-) TimerEvent: {}
+[46.081228] (-) TimerEvent: {}
+[46.088451] (rover_explore) StdoutLine: {'line': b'[ 38%] Linking CXX static library librover_tare_core.a\n'}
+[46.181334] (-) TimerEvent: {}
+[46.219233] (rover_explore) StdoutLine: {'line': b'[ 93%] Built target rover_tare_core\n'}
+[46.238415] (rover_explore) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target rover_explore_node\n'}
+[46.259611] (rover_explore) StdoutLine: {'line': b'[ 96%] Building CXX object CMakeFiles/rover_explore_node.dir/src/tare_planner_node/tare_planner_node.cpp.o\n'}
+[46.281405] (-) TimerEvent: {}
+[46.381578] (-) TimerEvent: {}
+[46.481811] (-) TimerEvent: {}
+[46.581983] (-) TimerEvent: {}
+[46.682139] (-) TimerEvent: {}
+[46.782303] (-) TimerEvent: {}
+[46.882475] (-) TimerEvent: {}
+[46.982646] (-) TimerEvent: {}
+[47.082891] (-) TimerEvent: {}
+[47.183088] (-) TimerEvent: {}
+[47.283268] (-) TimerEvent: {}
+[47.383520] (-) TimerEvent: {}
+[47.483715] (-) TimerEvent: {}
+[47.583895] (-) TimerEvent: {}
+[47.684075] (-) TimerEvent: {}
+[47.784244] (-) TimerEvent: {}
+[47.884402] (-) TimerEvent: {}
+[47.984562] (-) TimerEvent: {}
+[48.084726] (-) TimerEvent: {}
+[48.184876] (-) TimerEvent: {}
+[48.285029] (-) TimerEvent: {}
+[48.385162] (-) TimerEvent: {}
+[48.485293] (-) TimerEvent: {}
+[48.585445] (-) TimerEvent: {}
+[48.685609] (-) TimerEvent: {}
+[48.785783] (-) TimerEvent: {}
+[48.885939] (-) TimerEvent: {}
+[48.986066] (-) TimerEvent: {}
+[49.086268] (-) TimerEvent: {}
+[49.186507] (-) TimerEvent: {}
+[49.286695] (-) TimerEvent: {}
+[49.387394] (-) TimerEvent: {}
+[49.487585] (-) TimerEvent: {}
+[49.587748] (-) TimerEvent: {}
+[49.687945] (-) TimerEvent: {}
+[49.788329] (-) TimerEvent: {}
+[49.888723] (-) TimerEvent: {}
+[49.988926] (-) TimerEvent: {}
+[50.089110] (-) TimerEvent: {}
+[50.189297] (-) TimerEvent: {}
+[50.255902] (rover_explore) StderrLine: {'line': b'In file included from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:56,\n'}
+[50.256072] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/src/tare_planner_node/tare_planner_node.cpp:4:\n'}
+[50.256120] (rover_explore) StderrLine: {'line': b'/home/tzb/nav_explore_ws/src/explore/include/utils/misc_utils.h:69:85: warning: \xe2\x80\x98nav_msgs::msg::Odometry_<std::allocator<void> >::ConstPtr\xe2\x80\x99 is deprecated [-Wdeprecated-declarations]\n'}
+[50.256163] (rover_explore) StderrLine: {'line': b'   69 | void KeyposeToMap(CloudType& cloud, const nav_msgs::msg::Odometry::ConstPtr& keypose);\n'}
+[50.256202] (rover_explore) StderrLine: {'line': b'      |                                                                                     ^\n'}
+[50.256239] (rover_explore) StderrLine: {'line': b'In file included from /opt/ros/humble/include/nav_msgs/nav_msgs/msg/odometry.hpp:7,\n'}
+[50.256277] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:34,\n'}
+[50.256314] (rover_explore) StderrLine: {'line': b'                 from /home/tzb/nav_explore_ws/src/explore/src/tare_planner_node/tare_planner_node.cpp:4:\n'}
+[50.256351] (rover_explore) StderrLine: {'line': b'/opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__struct.hpp:147:5: note: declared here\n'}
+[50.256388] (rover_explore) StderrLine: {'line': b'  147 |     ConstPtr;\n'}
+[50.256435] (rover_explore) StderrLine: {'line': b'      |     ^~~~~~~~\n'}
+[50.289394] (-) TimerEvent: {}
+[50.389560] (-) TimerEvent: {}
+[50.489737] (-) TimerEvent: {}
+[50.589938] (-) TimerEvent: {}
+[50.690114] (-) TimerEvent: {}
+[50.790291] (-) TimerEvent: {}
+[50.890475] (-) TimerEvent: {}
+[50.990653] (-) TimerEvent: {}
+[51.090840] (-) TimerEvent: {}
+[51.191134] (-) TimerEvent: {}
+[51.291333] (-) TimerEvent: {}
+[51.391529] (-) TimerEvent: {}
+[51.491714] (-) TimerEvent: {}
+[51.592282] (-) TimerEvent: {}
+[51.692464] (-) TimerEvent: {}
+[51.792622] (-) TimerEvent: {}
+[51.892876] (-) TimerEvent: {}
+[51.993058] (-) TimerEvent: {}
+[52.093241] (-) TimerEvent: {}
+[52.193430] (-) TimerEvent: {}
+[52.293612] (-) TimerEvent: {}
+[52.393800] (-) TimerEvent: {}
+[52.493978] (-) TimerEvent: {}
+[52.594157] (-) TimerEvent: {}
+[52.694311] (-) TimerEvent: {}
+[52.794466] (-) TimerEvent: {}
+[52.894626] (-) TimerEvent: {}
+[52.994782] (-) TimerEvent: {}
+[53.094933] (-) TimerEvent: {}
+[53.195095] (-) TimerEvent: {}
+[53.295264] (-) TimerEvent: {}
+[53.395416] (-) TimerEvent: {}
+[53.495588] (-) TimerEvent: {}
+[53.595729] (-) TimerEvent: {}
+[53.695883] (-) TimerEvent: {}
+[53.796010] (-) TimerEvent: {}
+[53.896159] (-) TimerEvent: {}
+[53.996304] (-) TimerEvent: {}
+[54.096458] (-) TimerEvent: {}
+[54.196609] (-) TimerEvent: {}
+[54.296719] (-) TimerEvent: {}
+[54.396868] (-) TimerEvent: {}
+[54.497018] (-) TimerEvent: {}
+[54.597170] (-) TimerEvent: {}
+[54.697322] (-) TimerEvent: {}
+[54.797468] (-) TimerEvent: {}
+[54.897618] (-) TimerEvent: {}
+[54.997774] (-) TimerEvent: {}
+[55.097928] (-) TimerEvent: {}
+[55.198084] (-) TimerEvent: {}
+[55.298238] (-) TimerEvent: {}
+[55.398389] (-) TimerEvent: {}
+[55.498549] (-) TimerEvent: {}
+[55.598727] (-) TimerEvent: {}
+[55.698896] (-) TimerEvent: {}
+[55.799050] (-) TimerEvent: {}
+[55.899185] (-) TimerEvent: {}
+[55.999297] (-) TimerEvent: {}
+[56.011325] (rover_explore) StdoutLine: {'line': b'[100%] Linking CXX executable rover_explore_node\n'}
+[56.099393] (-) TimerEvent: {}
+[56.199544] (-) TimerEvent: {}
+[56.299793] (-) TimerEvent: {}
+[56.399948] (-) TimerEvent: {}
+[56.500117] (-) TimerEvent: {}
+[56.600393] (-) TimerEvent: {}
+[56.700559] (-) TimerEvent: {}
+[56.800732] (-) TimerEvent: {}
+[56.900891] (-) TimerEvent: {}
+[56.936066] (rover_explore) StdoutLine: {'line': b'[100%] Built target rover_explore_node\n'}
+[56.944641] (rover_explore) CommandEnded: {'returncode': 0}
+[56.945205] (rover_explore) JobProgress: {'identifier': 'rover_explore', 'progress': 'install'}
+[56.950756] (rover_explore) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/tzb/nav_explore_ws/build/rover_explore'], 'cwd': '/home/tzb/nav_explore_ws/build/rover_explore', 'env': OrderedDict([('CMAKE_BUILD_PARALLEL_LEVEL', '2'), ('NAV_MISSION_ROOT', '/home/tzb/nav_explore_ws'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'tzb'), ('SSH_CLIENT', '192.168.110.148 44484 22'), ('LC_TIME', 'zh_CN.UTF-8'), ('XDG_SESSION_TYPE', 'tty'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:/home/tzb/nav_explore_ws/install/rover_explore/lib:/home/tzb/nav_explore_ws/install/pointcloud_tools/lib:/home/tzb/nav_explore_ws/.deps/livox-sdk2/lib:/home/tzb/tzb_ws/install/yolo_node/lib:/home/tzb/tzb_ws/install/tzb_target_bridge/lib:/home/tzb/tzb_ws/install/rm_serial_driver/lib:/home/tzb/tzb_ws/install/rm_serial_msgs/lib:/home/tzb/tzb_ws/install/orbbec_camera/lib:/home/tzb/tzb_ws/install/orbbec_camera_msgs/lib:/home/tzb/tzb_ws/install/lite_motion_msgs/lib:/home/tzb/tzb_ws/install/arm_task_interfaces/lib:/home/tzb/tzb_ws/install/arm2nav_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/opt/openvdb_vendor/lib:/opt/ros/humble/lib'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/tzb'), ('OLDPWD', '/home/tzb/nav_explore_ws'), ('ROS_PYTHON_VERSION', '3'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('LC_CTYPE', 'C.UTF-8'), ('MAKEFLAGS', '-j2'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLCON_PREFIX_PATH', '/home/tzb/nav_explore_ws/install:/home/tzb/tzb_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'tzb'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('XDG_SESSION_ID', '25'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('LANG', 'zh_CN.UTF-8'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('AMENT_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/tzb_ws/install/arm2nav:/home/tzb/tzb_ws/install/yolo_node:/home/tzb/tzb_ws/install/arm_task_bridge:/home/tzb/tzb_ws/install/tzb_target_bridge:/home/tzb/tzb_ws/install/tzb_gripper_test:/home/tzb/tzb_ws/install/tzb_description:/home/tzb/tzb_ws/install/lite_motion_planner:/home/tzb/tzb_ws/install/rm_serial_driver:/home/tzb/tzb_ws/install/rm_serial_msgs:/home/tzb/tzb_ws/install/pose_estimator:/home/tzb/tzb_ws/install/orbbec_description:/home/tzb/tzb_ws/install/orbbec_camera:/home/tzb/tzb_ws/install/orbbec_camera_msgs:/home/tzb/tzb_ws/install/nav2arm:/home/tzb/tzb_ws/install/lite_motion_msgs:/home/tzb/tzb_ws/install/hand_eye_calib:/home/tzb/tzb_ws/install/engineer_0520_description:/home/tzb/tzb_ws/install/arm_task_interfaces:/home/tzb/tzb_ws/install/arm2nav_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'zh_CN.UTF-8'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('PWD', '/home/tzb/nav_explore_ws/build/rover_explore'), ('LC_ALL', 'C.UTF-8'), ('SSH_CONNECTION', '192.168.110.148 44484 192.168.110.172 22'), ('PYTHONPATH', '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/build/arm2nav:/home/tzb/tzb_ws/install/arm2nav/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/yolo_node/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/arm_task_bridge/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/tzb_target_bridge/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/tzb_gripper_test/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/rm_serial_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/orbbec_camera_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/nav2arm/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/lite_motion_msgs/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/build/hand_eye_calib:/home/tzb/tzb_ws/install/hand_eye_calib/lib/python3.10/site-packages:/home/tzb/tzb_ws/install/arm_task_interfaces/local/lib/python3.10/dist-packages:/home/tzb/tzb_ws/install/arm2nav_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('LC_PAPER', 'zh_CN.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/.deps/livox-sdk2:/home/tzb/tzb_ws/install/yolo_node:/home/tzb/tzb_ws/install/tzb_target_bridge:/home/tzb/tzb_ws/install/tzb_description:/home/tzb/tzb_ws/install/lite_motion_planner:/home/tzb/tzb_ws/install/rm_serial_driver:/home/tzb/tzb_ws/install/rm_serial_msgs:/home/tzb/tzb_ws/install/orbbec_description:/home/tzb/tzb_ws/install/orbbec_camera:/home/tzb/tzb_ws/install/orbbec_camera_msgs:/home/tzb/tzb_ws/install/lite_motion_msgs:/home/tzb/tzb_ws/install/engineer_0520_description:/home/tzb/tzb_ws/install/arm_task_interfaces:/home/tzb/tzb_ws/install/arm2nav_msgs:/home/tzb/tzb_ws/install/arm2nav:/home/tzb/tzb_ws/install/arm_task_bridge:/home/tzb/tzb_ws/install/tzb_gripper_test:/home/tzb/tzb_ws/install/pose_estimator:/home/tzb/tzb_ws/install/nav2arm:/home/tzb/tzb_ws/install/hand_eye_calib:/opt/ros/humble')]), 'shell': False}
+[56.959477] (rover_explore) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[56.959639] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/pythonpath.sh\n'}
+[56.959712] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/pythonpath.dsv\n'}
+[56.959740] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info\n'}
+[56.959775] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/dependency_links.txt\n'}
+[56.959867] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/PKG-INFO\n'}
+[56.959911] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/SOURCES.txt\n'}
+[56.959944] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/top_level.txt\n'}
+[56.960011] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch\n'}
+[56.960040] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch/__init__.py\n'}
+[56.960076] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch/navigation.py\n'}
+[56.990714] (rover_explore) StdoutLine: {'line': b"Listing '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch'...\n"}
+[56.993245] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/rover_explore_node\n'}
+[56.997095] (rover_explore) StdoutLine: {'line': b'-- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/rover_explore_node" to "$ORIGIN/.."\n'}
+[56.997164] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib\n'}
+[56.997197] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so.9.8.3296\n'}
+[56.997224] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so\n'}
+[56.997249] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so.9\n'}
+[56.997274] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/corridor_critic.xml\n'}
+[56.997466] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/librover_corridor_critic.so\n'}
+[56.997525] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_path_follower\n'}
+[56.997598] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_nav2_planner\n'}
+[56.997755] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config\n'}
+[56.998045] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/exploration_follower.yaml\n'}
+[56.998123] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/rover.yaml\n'}
+[56.998155] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/exploration_planner.yaml\n'}
+[56.998178] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/launch\n'}
+[56.998202] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/launch/explore.launch.py\n'}
+[56.998226] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/package_run_dependencies/rover_explore\n'}
+[56.998250] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/parent_prefix_path/rover_explore\n'}
+[56.998274] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/ament_prefix_path.sh\n'}
+[56.998298] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/ament_prefix_path.dsv\n'}
+[56.998321] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/path.sh\n'}
+[56.998344] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/path.dsv\n'}
+[56.998368] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.bash\n'}
+[56.998392] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.sh\n'}
+[56.998416] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.zsh\n'}
+[56.998439] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.dsv\n'}
+[56.998462] (rover_explore) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/package.dsv\n'}
+[56.998519] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/packages/rover_explore\n'}
+[56.998544] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/nav2_mppi_controller__pluginlib__plugin/rover_explore\n'}
+[56.998567] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/cmake/rover_exploreConfig.cmake\n'}
+[56.998591] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/cmake/rover_exploreConfig-version.cmake\n'}
+[56.998612] (rover_explore) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/package.xml\n'}
+[57.000025] (rover_explore) CommandEnded: {'returncode': 0}
+[57.000953] (-) TimerEvent: {}
+[57.010925] (rover_explore) JobEnded: {'identifier': 'rover_explore', 'rc': 0}
+[57.011169] (-) EventReactorShutdown: {}

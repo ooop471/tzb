@@ -1,0 +1,488 @@
+Panels:
+- Class: rviz_common/Displays
+  Name: Displays
+  Property Tree Widget:
+    Expanded:
+    - /Global Options1
+    - /02 Corridor Target Selection1
+    - /03 Nav2 Paths and Measured Motion1
+    - /07 Mission and Science Targets1
+    Splitter Ratio: 0.55
+- Class: rviz_common/Views
+  Name: Views
+Visualization Manager:
+  Class: ''
+  Name: root
+  Enabled: true
+  Global Options:
+    Fixed Frame: odom_init
+    Background Color: 25; 28; 34
+    Frame Rate: 30
+  Displays:
+  - Class: rviz_default_plugins/Marker
+    Name: Grasp Sector 13-40cm 70deg
+    Enabled: true
+    Value: true
+    Topic:
+      Value: /visualization/grasp_region
+      Depth: 1
+      Reliability Policy: Reliable
+      Durability Policy: Transient Local
+  - Class: rviz_default_plugins/Grid
+    Name: Grid 1m
+    Enabled: true
+    Value: true
+    Cell Size: 1
+    Plane Cell Count: 60
+    Color: 65; 65; 65
+    Alpha: 0.4
+  - Class: rviz_common/Group
+    Name: 01 Sensor Inputs and Robot Pose
+    Enabled: true
+    Displays:
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Registered Cloud - gray
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /cloud_registered
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Filter size: 20
+      Position Transformer: XYZ
+      Color Transformer: FlatColor
+      Color: 170; 180; 190
+      Alpha: 0.45
+      Style: Flat Squares
+      Size (m): 0.04
+      Size (Pixels): 3
+      Decay Time: 1
+      Selectable: true
+      Use Fixed Frame: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Terrain Obstacles - orange
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /terrain_map
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Filter size: 20
+      Position Transformer: XYZ
+      Color Transformer: FlatColor
+      Color: 255; 125; 30
+      Alpha: 1
+      Style: Flat Squares
+      Size (m): 0.07
+      Size (Pixels): 3
+      Decay Time: 0
+      Selectable: true
+      Use Fixed Frame: true
+    - Angle Tolerance: 0.005
+      Class: rviz_default_plugins/Odometry
+      Covariance:
+        Value: false
+      Enabled: true
+      Keep: 1
+      Name: Current Robot Pose
+      Position Tolerance: 0.005
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.10000000149011612
+        Color: 255; 255; 255
+        Head Length: 0.15
+        Head Radius: 0.07
+        Shaft Length: 0.35
+        Shaft Radius: 0.03
+        Value: Arrow
+      Topic:
+        Value: /odometry
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Durability Policy: Volatile
+        Filter size: 20
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF Frames
+      Enabled: false
+      Value: false
+      Show Names: false
+      Show Axes: true
+      Show Arrows: false
+      Marker Scale: 0.3
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+  - Class: rviz_common/Group
+    Name: 02 Corridor Target Selection
+    Enabled: true
+    Displays:
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Center samples - green / endpoint - magenta
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/corridor_geometry
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+    - Class: rviz_default_plugins/Polygon
+      Name: Measured passage boundary - white
+      Enabled: true
+      Topic:
+        Value: /explore/corridor_boundary
+        Depth: 1
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Color: 255; 255; 255
+      Alpha: 0.7
+    - Class: rviz_default_plugins/Path
+      Name: Center reference - green (soft guidance)
+      Enabled: true
+      Topic:
+        Value: /explore/reference_path
+        Depth: 1
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Color: 0; 255; 120
+      Alpha: 1
+      Line Style: Billboards
+      Line Width: 0.06
+      Pose Style: None
+      Buffer Length: 1
+    - Class: rviz_default_plugins/Path
+      Name: Estimated corridor centerline - yellow
+      Enabled: true
+      Topic:
+        Value: /explore/corridor_centerline
+        Depth: 1
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Color: 255; 210; 0
+      Alpha: 1
+      Line Style: Billboards
+      Line Width: 0.035
+      Pose Style: None
+      Buffer Length: 1
+  - Class: rviz_common/Group
+    Name: 03 Nav2 Paths and Measured Motion
+    Enabled: true
+    Displays:
+    - Class: rviz_default_plugins/Path
+      Name: Nav2 Planned Path - cyan
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/nav2_plan
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Alpha: 1
+      Buffer Length: 1
+      Color: 0; 220; 255
+      Line Style: Billboards
+      Line Width: 0.055
+      Pose Style: None
+    - Class: rviz_default_plugins/Path
+      Name: Controller FollowPath - red
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/controller_path
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Alpha: 1
+      Buffer Length: 1
+      Color: 255; 50; 40
+      Line Style: Billboards
+      Line Width: 0.085
+      Pose Style: None
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+    - Class: rviz_default_plugins/Path
+      Name: MPPI Local Predicted Trajectory - purple
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/local_trajectory
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Alpha: 1
+      Buffer Length: 1
+      Color: 210; 70; 255
+      Line Style: Billboards
+      Line Width: 0.07
+      Pose Style: None
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+    - Class: rviz_default_plugins/Path
+      Name: Measured Fast-LIO Trajectory - orange
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /path
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Filter size: 20
+      Alpha: 1
+      Buffer Length: 1
+      Color: 255; 170; 60
+      Line Style: Billboards
+      Line Width: 0.025
+      Pose Style: None
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0.06
+    - Class: rviz_default_plugins/Marker
+      Name: Configured Robot Footprint
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/robot_body
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Color: 255; 255; 255
+      Alpha: 1
+  - Class: rviz_common/Group
+    Name: 04 Navigation Maps
+    Enabled: true
+    Displays:
+    - Class: rviz_default_plugins/Marker
+      Name: Historical 2D Obstacle Grid - green
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /visualization/obstacle_history_cells
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+    - Class: rviz_default_plugins/Map
+      Name: Nav2 Local Costmap
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /local_costmap/costmap
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Update Topic:
+        Value: /local_costmap/costmap_updates
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Filter size: 20
+      Color Scheme: costmap
+      Alpha: 0.25
+      Draw Behind: true
+      Use Timestamp: false
+    - Class: rviz_default_plugins/Map
+      Name: Nav2 Global Costmap
+      Enabled: false
+      Value: false
+      Topic:
+        Value: /global_costmap/costmap
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Update Topic:
+        Value: /global_costmap/costmap_updates
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+        Filter size: 20
+      Color Scheme: costmap
+      Alpha: 0.25
+      Draw Behind: true
+      Use Timestamp: false
+    - Class: rviz_default_plugins/Map
+      Name: Initial Map - unknown prior
+      Enabled: false
+      Value: false
+      Topic:
+        Value: /map
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        Filter size: 20
+      Color Scheme: map
+      Alpha: 0.2
+      Draw Behind: true
+      Use Timestamp: false
+  - Class: rviz_common/Group
+    Name: 07 Mission and Science Targets
+    Enabled: true
+    Displays:
+    - Class: rviz_default_plugins/Pose
+      Name: Entrance - blue
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/entry_goal
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Shape: Arrow
+      Color: 70; 150; 255
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+    - Class: rviz_default_plugins/Pose
+      Name: Cave exit - yellow
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/exit_position
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Shape: Arrow
+      Color: 255; 230; 30
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+    - Class: rviz_default_plugins/Pose
+      Name: Final destination - green
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/destination
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Shape: Arrow
+      Color: 50; 255; 130
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+    - Class: rviz_default_plugins/Pose
+      Name: Science target hint - purple
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/target_hint
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Shape: Arrow
+      Color: 210; 80; 255
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+    - Class: rviz_default_plugins/Pose
+      Name: Precise science target - red
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/target_center
+        Depth: 5
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Volatile
+      Shape: Arrow
+      Color: 255; 50; 50
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+    - Class: rviz_default_plugins/Pose
+      Name: Current entry / approach / destination goal - white
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /mission/approach_goal
+        Depth: 1
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+      Shape: Arrow
+      Color: 255; 255; 255
+      Alpha: 1
+      Axes Length: 0.3
+      Axes Radius: 0.02
+      Head Length: 0.15
+      Head Radius: 0.07
+      Shaft Length: 0.3
+      Shaft Radius: 0.025
+  Tools:
+  - Class: rviz_default_plugins/Interact
+  - Class: rviz_default_plugins/MoveCamera
+  - Class: rviz_default_plugins/Select
+  - Class: rviz_default_plugins/FocusCamera
+  - Class: rviz_default_plugins/Measure
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Target Frame: <Fixed Frame>
+      Distance: 18
+      Pitch: 0.85
+      Yaw: 0.8
+      Near Clip Distance: 0.01
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+    Saved: []
+Window Geometry:
+  Width: 1500
+  Height: 950
+  Hide Left Dock: false
+  Hide Right Dock: false

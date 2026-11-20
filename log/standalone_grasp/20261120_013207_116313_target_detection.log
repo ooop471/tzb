@@ -1,0 +1,65 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-20-01-32-07-567291-tzb-NUC14RVS-B-3775
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [3791]
+[INFO] [far_target_locator-2]: process started with pid [3793]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1474, in <module>
+[python3-1]     from torch import quantization as quantization
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/quantization/__init__.py", line 1, in <module>
+[python3-1]     from .quantize import *  # noqa: F403
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/quantization/quantize.py", line 10, in <module>
+[python3-1]     from torch.ao.quantization.quantize import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/__init__.py", line 3, in <module>
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[python3-1]     from .fake_quantize import *  # noqa: F403
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/fake_quantize.py", line 8, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[python3-1]     from torch.ao.quantization.observer import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/observer.py", line 15, in <module>
+[python3-1]     from torch.ao.quantization.utils import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/utils.py", line 12, in <module>
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 48, in __init__
+[far_target_locator-2]     super().__init__("far_target_locator")
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 228, in __init__
+[python3-1]     from torch.fx import Node
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/fx/__init__.py", line 83, in <module>
+[far_target_locator-2]     self._parameter_service = ParameterService(self)
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/parameter_service.py", line 61, in __init__
+[far_target_locator-2]     node.create_service(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1468, in create_service
+[python3-1]     from .graph_module import GraphModule
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/fx/graph_module.py", line 8, in <module>
+[far_target_locator-2]     service_impl = _rclpy.Service(
+[far_target_locator-2] KeyboardInterrupt
+[python3-1]     from .graph import Graph, _PyTreeCodeGen, _is_from_torch, _custom_builtins, PythonCode
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/fx/graph.py", line 2, in <module>
+[python3-1]     from .node import Node, Argument, Target, map_arg, _type_repr, _get_qualified_name
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/fx/node.py", line 9, in <module>
+[python3-1]     from torch.fx.operator_schemas import normalize_function, normalize_module, ArgsKwargsPair
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/fx/operator_schemas.py", line 27, in <module>
+[python3-1]     _manual_overrides : Dict[Callable, List[inspect.Signature]] = {}
+[python3-1]   File "/usr/lib/python3.10/typing.py", line 309, in inner
+[python3-1]     return cached(*args, **kwds)
+[python3-1]   File "/usr/lib/python3.10/typing.py", line 1143, in __getitem__
+[python3-1]     params = tuple(_type_check(p, msg) for p in params)
+[python3-1]   File "/usr/lib/python3.10/typing.py", line 1143, in <genexpr>
+[python3-1]     params = tuple(_type_check(p, msg) for p in params)
+[python3-1]   File "/usr/lib/python3.10/typing.py", line 164, in _type_check
+[python3-1]     arg = _type_convert(arg, module=module, allow_special_forms=allow_special_forms)
+[python3-1]   File "/usr/lib/python3.10/typing.py", line 137, in _type_convert
+[python3-1]     def _type_convert(arg, module=None, *, allow_special_forms=False):
+[python3-1] KeyboardInterrupt
+[ERROR] [far_target_locator-2]: process has died [pid 3793, exit code -2, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_yihrt9fy'].
+[ERROR] [python3-1]: process has died [pid 3791, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_rzggg4ni'].

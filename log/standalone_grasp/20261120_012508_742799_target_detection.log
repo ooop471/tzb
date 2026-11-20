@@ -1,0 +1,29 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-20-01-25-08-955526-tzb-NUC14RVS-B-4098
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4102]
+[INFO] [far_target_locator-2]: process started with pid [4104]
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1474, in <module>
+[python3-1]     from torch import quantization as quantization
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/quantization/__init__.py", line 1, in <module>
+[python3-1]     from .quantize import *  # noqa: F403
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/quantization/quantize.py", line 10, in <module>
+[python3-1]     from torch.ao.quantization.quantize import (
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/__init__.py", line 11, in <module>
+[python3-1]     from .quantization_mappings import *  # type: ignore[no-redef]
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/ao/quantization/quantization_mappings.py", line 188, in <module>
+[python3-1]     F.dropout: torch.ops.quantized.dropout,
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/_ops.py", line 769, in __getattr__
+[python3-1]     opoverloadpacket = OpOverloadPacket(
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 4102, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_4k_le0no'].
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 4104]

@@ -1,0 +1,387 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-20-08-49-41-293890-tzb-NUC14RVS-B-6028
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6030]
+[python3-1] [INFO] [1795135783.287025307] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1795135783.288850387] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1795135783.289516171] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1795135783.289825336] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1795135783.291742874] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[INFO] [launch.user]: 
+============================================
+  pose_estimator 已启动
+  相机选择配置: /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/camera_switch.yaml
+============================================
+
+[INFO] [pose_estimation_node-2]: process started with pid [6094]
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1795135783.842007327] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1795135783.842265935] [yolo_node]: target class priority matched in model: ['blue block', 'big rock'] | ignored: ['d']
+[python3-1] [INFO] [1795135783.845015713] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1795135783.846374530] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1795135783.846920176] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1795135783.847123193] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1795135783.847292278] [yolo_node]: target selection: priority=['blue block', 'big rock'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1795135783.847439011] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1795135783.847826075] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[INFO] [launch.user]: lite_motion_planner robot_model=tzb_description; loading planner parameters from /home/tzb/nav_explore_ws/log/standalone_grasp/precise_position_planner.yaml
+[python3-1] [INFO] [1795135784.325723971] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.693
+[python3-1] [INFO] [1795135784.325932064] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795135784.326174735] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=1 infer=21 post=1ms | det=1 max_conf=0.69 publish=True
+[python3-1] [INFO] [1795135784.326361808] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[python3-1] [INFO] [1795135784.354511576] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795135784.354732932] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135784.389825894] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[INFO] [planning_node-3]: process started with pid [6205]
+[INFO] [robot_state_publisher-4]: process started with pid [6207]
+[INFO] [tzb_catch-5]: process started with pid [6209]
+[robot_state_publisher-4] [WARN] [1795135784.438355993] [kdl_parser]: The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+[robot_state_publisher-4] [INFO] [1795135784.439017586] [robot_state_publisher]: got segment Claw_left_Link
+[robot_state_publisher-4] [INFO] [1795135784.439101722] [robot_state_publisher]: got segment J1_link
+[robot_state_publisher-4] [INFO] [1795135784.439112789] [robot_state_publisher]: got segment J2_link
+[robot_state_publisher-4] [INFO] [1795135784.439119076] [robot_state_publisher]: got segment J3_link
+[robot_state_publisher-4] [INFO] [1795135784.439124896] [robot_state_publisher]: got segment J4_link
+[robot_state_publisher-4] [INFO] [1795135784.439130612] [robot_state_publisher]: got segment J5_link
+[robot_state_publisher-4] [INFO] [1795135784.439136297] [robot_state_publisher]: got segment J6_link
+[robot_state_publisher-4] [INFO] [1795135784.439142064] [robot_state_publisher]: got segment base_link
+[robot_state_publisher-4] [INFO] [1795135784.439147571] [robot_state_publisher]: got segment camera_link
+[robot_state_publisher-4] [INFO] [1795135784.439153325] [robot_state_publisher]: got segment claw_right_Link
+[robot_state_publisher-4] [INFO] [1795135784.439159139] [robot_state_publisher]: got segment left_chaiss_Link
+[robot_state_publisher-4] [INFO] [1795135784.439164726] [robot_state_publisher]: got segment left_wheel_b_Link
+[robot_state_publisher-4] [INFO] [1795135784.439170404] [robot_state_publisher]: got segment left_wheel_f_Link
+[robot_state_publisher-4] [INFO] [1795135784.439175858] [robot_state_publisher]: got segment left_wheel_m_Link
+[robot_state_publisher-4] [INFO] [1795135784.439181378] [robot_state_publisher]: got segment left_zchaissis_Link
+[robot_state_publisher-4] [INFO] [1795135784.439186872] [robot_state_publisher]: got segment right_chaiss_Link_
+[robot_state_publisher-4] [INFO] [1795135784.439192473] [robot_state_publisher]: got segment right_wheel_b_Link
+[robot_state_publisher-4] [INFO] [1795135784.439198007] [robot_state_publisher]: got segment right_wheel_f_Link
+[robot_state_publisher-4] [INFO] [1795135784.439203508] [robot_state_publisher]: got segment right_wheel_m_Link
+[robot_state_publisher-4] [INFO] [1795135784.439208847] [robot_state_publisher]: got segment right_zchaissis_Link
+[robot_state_publisher-4] [INFO] [1795135784.439214526] [robot_state_publisher]: got segment tcp_link
+[planning_node-3] [INFO] [1795135784.465249757] [planning_node]: Globally ignored robot collision links: 1
+[planning_node-3] [INFO] [1795135784.465377553] [planning_node]: Robot collision model initialized: geometries=20, active_collision_pairs=189
+[planning_node-3] [INFO] [1795135784.465390655] [planning_node]: Self-collision penetration allowance: 0.0500 m
+[planning_node-3] [INFO] [1795135784.472437944] [planning_node]: Collision marker publisher active: topic=/lite_motion_planner/collision_markers republish_hz=2.00
+[planning_node-3] [INFO] [1795135784.475334230] [planning_node]: [SHUTDOWN][GATE] listening on /tzb_catch/shutdown_hold (grace=1.5s for a lease, fresh<=0.50s, max_hold=45.0s); SIGQUIT bypasses the hold
+[tzb_catch-5] [INFO] [1795135784.480040329] [tzb_catch]: tzb_catch configured: arm_group=arm tcp_frame=tcp_link target_source=/pose_estimator/object_pose continuous_required=1.00s arm_state=/serial/arm_joint_state initial_wait=5.00s arrival_wait=20.00s navigation_status_listener=disabled sentry_mode=disabled force_rpy=(roll:true pitch:true yaw:false)
+[tzb_catch-5] [INFO] [1795135784.481468464] [tzb_catch]: [GRASP][class] default='blue block' profiles={"big rock":{"gripper_close_level":2},"blue block":{"gripper_close_level":1}}
+[tzb_catch-5] [INFO] [1795135784.481505354] [tzb_catch]: Stage [configured_ini_joint_positions] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1795135784.481513894] [tzb_catch]: Stage [configured_pre_ini_joint_positions] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=1.4 J6_joint=0
+[tzb_catch-5] [INFO] [1795135784.481521238] [tzb_catch]: Stage [configured_place_joint_positions] arm joints: J1_joint=3.13981 J2_joint=-0.112227 J3_joint=-1.07426 J4_joint=7.6e-05 J5_joint=1.54351 J6_joint=-0.000175
+[tzb_catch-5] [INFO] [1795135784.481527614] [tzb_catch]: Stage [configured_observe_joint_positions] arm joints: J1_joint=0 J2_joint=-0.192 J3_joint=-2 J4_joint=0 J5_joint=1.2184 J6_joint=0
+[python3-1] [INFO] [1795135784.569926745] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135784.630531321] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135784.663988068] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135784.687417664] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135784.759804464] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135784.788633099] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[tzb_catch-5] [INFO] [1795135784.986305054] [tzb_catch]: [GRASP][service][WAIT] name=plan_arm_motion timeout=5.00s
+[tzb_catch-5] [INFO] [1795135784.986659022] [tzb_catch]: [GRASP][service][READY] name=plan_arm_motion
+[tzb_catch-5] [INFO] [1795135784.986675618] [tzb_catch]: [GRASP][service][WAIT] name=add_scene_object timeout=5.00s
+[tzb_catch-5] [INFO] [1795135784.986716314] [tzb_catch]: [GRASP][service][READY] name=add_scene_object
+[tzb_catch-5] [INFO] [1795135784.986724040] [tzb_catch]: [GRASP][service][WAIT] name=remove_scene_object timeout=5.00s
+[tzb_catch-5] [INFO] [1795135784.986751587] [tzb_catch]: [GRASP][service][READY] name=remove_scene_object
+[tzb_catch-5] [INFO] [1795135784.986757271] [tzb_catch]: [GRASP][service][WAIT] name=set_scene_collision_allowance timeout=5.00s
+[tzb_catch-5] [INFO] [1795135784.986786023] [tzb_catch]: [GRASP][service][READY] name=set_scene_collision_allowance
+[tzb_catch-5] [INFO] [1795135784.986792125] [tzb_catch]: [GRASP][trigger][ACCEPTED] start_gate=disabled
+[tzb_catch-5] [INFO] [1795135784.986802685] [tzb_catch]: [GRASP][class] applied 'blue block' profile: grasp_ground_z=-0.2300 pos_only=0 place_joints=6 close_level=1
+[tzb_catch-5] [INFO] [1795135784.986813652] [tzb_catch]: [GRASP][task][BEGIN] target_source=/pose_estimator/object_pose arm_command=enabled
+[python3-1] [INFO] [1795135784.987085183] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135784.993995539] [pose_estimation_node]: 加载模型: /home/tzb/tzb_ws/src/pose_estimator/config/half_block.pcd
+[python3-1] [INFO] [1795135785.017792863] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [ModelData] points=7500 centroid=[0.00804956 0.00843504 0.00834317]
+[pose_estimation_node-2]   raw=7500 extent=[0.05       0.05       0.04998446] min=[0. 0. 0.] max=[0.05       0.05       0.04998446]
+[pose_estimation_node-2]   unit_scale=0.001 extent_before_scale=[50.         50.         49.98445892]
+[pose_estimation_node-2]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-2] [INFO] [1795135785.070121080] [pose_estimation_node]: 模型加载完毕: raw=7500 used=7500 extent=[0.05 0.05 0.05] centroid=[0.008  0.0084 0.0083] unit_scale=0.001
+[pose_estimation_node-2] [ModelData] points=8000 centroid=[-0.00022057  0.00060295  0.00725396]
+[pose_estimation_node-2]   raw=8000 extent=[0.03949388 0.03313522 0.03271301] min=[-0.01980828 -0.01599649 -0.01168051] max=[0.0196856  0.01713873 0.02103251]
+[pose_estimation_node-2]   unit_scale=1.0 extent_before_scale=[0.03949388 0.03313522 0.03271301]
+[pose_estimation_node-2]   FPFH: radius=0.015m max_nn=100
+[pose_estimation_node-2] [INFO] [1795135785.148368910] [pose_estimation_node]: 类别位姿模型 big rock: /home/tzb/tzb_ws/src/pose_estimator/config/big_rock.pcd points=8000 extent=[0.0395 0.0331 0.0327]
+[pose_estimation_node-2] [INFO] [1795135785.148773622] [pose_estimation_node]: 类别策略: priority=['blue block', 'big rock'] ignored=['d'] class_models=['big rock']
+[python3-1] [INFO] [1795135785.157098969] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.180512594] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.201583245] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[tzb_catch-5] [INFO] [1795135785.241934597] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.00245505 J2_joint=0.847381 J3_joint=-2.57295 J4_joint=-0.00236225 J5_joint=1.49681 J6_joint=-0.00566998
+[tzb_catch-5] [INFO] [1795135785.242363658] [tzb_catch]: [GRASP][plan][BEGIN] step=move_arm_to_ini_joint_positions goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 4 states (2 start + 2 goal)
+[planning_node-3] Info:    Solution found in 0.004311 seconds
+[tzb_catch-5] [INFO] [1795135785.264354766] [tzb_catch]: [GRASP][plan][OK] step=move_arm_to_ini_joint_positions points=2
+[tzb_catch-5] [INFO] [1795135785.264539241] [tzb_catch]: Stage [move_arm_to_ini_joint_positions_planned_final] arm joints: J1_joint=0 J2_joint=0.85 J3_joint=-2.56 J4_joint=0 J5_joint=0 J6_joint=0
+[tzb_catch-5] [INFO] [1795135785.264552518] [tzb_catch]: [GRASP][command][BEGIN] step=move_arm_to_ini_joint_positions hz=100.00 speed_scale=1.000 duration=0.748s
+[pose_estimation_node-2] [INFO] [1795135785.267631861] [pose_estimation_node]: 检测消息类型: yolo_node
+[pose_estimation_node-2] [INFO] [1795135785.290172343] [pose_estimation_node]: 节点已启动, 等待数据... 订阅点云: /camera/depth/color/points | 订阅检测: /yolo/detections | 订阅CamInfo: /camera/color/camera_info | 发布位姿: /pose_estimator/object_pose | 可视化发布: ROI=True Marker=True Coarse=True (every_n=3)
+[pose_estimation_node-2] [INFO] [1795135785.296995597] [pose_estimation_node]: ✓ CameraInfo: 640×480, fx=366.6 fy=366.9 cx=318.7 cy=241.0, frame=camera_color_optical_frame
+[python3-1] [INFO] [1795135785.318449599] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135785.328922825] [pose_estimation_node]: ✓ 点云 frame='camera_color_optical_frame', size=640×480, point_step=20
+[pose_estimation_node-2] [WARN] [1795135785.329526046] [pose_estimation_node]: [GRASP][detection][WAIT] topic=/yolo/detections bbox_present=False stale=True timeout=1.50s
+[python3-1] [INFO] [1795135785.343455830] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.366062014] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.394184209] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.433921462] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.498639105] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.528691888] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.694472118] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.726195685] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.794667344] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.827380576] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135785.847231667] [pose_estimation_node]: [GRASP][registration_gate] mission_state=GRASPING
+[python3-1] [INFO] [1795135785.861057185] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135785.932558059] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135785.994819231] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.029285486] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135786.063307053] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.092930550] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[tzb_catch-5] [INFO] [1795135786.094858643] [tzb_catch]: [GRASP][command][END] step=move_arm_to_ini_joint_positions status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1795135786.094897589] [tzb_catch]: [GRASP][feedback][WAIT] step=move_arm_to_ini_joint_positions enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[python3-1] [INFO] [1795135786.188593518] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.228800323] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135786.257736791] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.291607830] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[planning_node-3] [INFO] [1795135786.333978976] [planning_node]: Playback finished at final joint state for group [arm]
+[python3-1] [INFO] [1795135786.457751977] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.557880553] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135786.725100013] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.791355987] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135786.862295676] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135786.928952014] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135787.249301992] [pose_estimation_node]: 
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2]   ★ 首帧诊断
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2]   点云: 640×480 = 307200 点
+[pose_estimation_node-2]   点云 frame: 'camera_color_optical_frame'
+[pose_estimation_node-2]   YOLO 图像: 640×480
+[pose_estimation_node-2]   彩色内参: fx=366.6 fy=366.9 cx=318.7 cy=241.0
+[pose_estimation_node-2]   YOLO bbox: (353,263)-(374,289)
+[pose_estimation_node-2]   粗裁剪: 307200 → 10706 点
+[pose_estimation_node-2]   精裁剪: 10706 → 969 点
+[pose_estimation_node-2] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[pose_estimation_node-2] [INFO] [1795135787.268503679] [pose_estimation_node]: [ROI FILTER][plane] plane_in_front stage=1 kept=969 plane=0.49 z_in=0.897 z_other=0.908 s2_ratio=0.55 s2_z_in=0.909 s2_z_other=0.908
+[tzb_catch-5] [WARN] [1795135787.269035417] [tzb_catch]: [GRASP][feedback][NO_MOTION][EARLY] step=move_arm_to_ini_joint_positions no joint has moved 2.0s after the command (commanded travel up to 1.497 rad on J5_joint); check the remote controller (遥控器) / arm enable / arm power; still waiting up to 20.0s for arrival
+[pose_estimation_node-2] [INFO] [1795135787.283737056] [pose_estimation_node]: [ROI FILTER][foreground] in=969 out=830 reason=accepted
+[pose_estimation_node-2] [INFO] [1795135787.398285224] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1180,0.0865,0.9007) roi_median=(0.1111,0.0971,0.8985) model_center=(0.1139,0.0873,0.9144) d_center_minus_median_mm=18.8
+[pose_estimation_node-2] [INFO] [1795135787.398697166] [pose_estimation_node]: [GRASP][perception][PUBLISHED] topic=/pose_estimator/object_pose frame=camera_color_optical_frame xyz=(0.1139,0.0873,0.9144) stamp=1795135787.222202000
+[python3-1] [INFO] [1795135787.550443452] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135787.619775048] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135787.666929799] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135787.745512772] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135787.764187944] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135787.896112351] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135788.202439715] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135788.275143791] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135788.431028795] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135788.675910768] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135788.694959050] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135788.822032138] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135788.867241830] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135788.969499861] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135789.275927584] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135789.320432062] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135789.381123073] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795135789.381707082] [yolo_node]: [GRASP][detection][STATUS] total=61ms | queue=10 convert=0 infer=58 post=3ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1795135789.382214157] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135789.532726055] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1183,0.0872,0.9007) roi_median=(0.1117,0.0938,0.9000) model_center=(0.1144,0.0880,0.9145) d_center_minus_median_mm=15.8
+[python3-1] [INFO] [1795135789.651000609] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.664
+[python3-1] [INFO] [1795135789.651233310] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795135789.651530246] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135789.683080200] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135789.846208057] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135789.877347270] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135790.293858257] [pose_estimation_node]: 
+[pose_estimation_node-2] =======================================================
+[pose_estimation_node-2]   ★ 启动诊断 (5秒内接收统计)
+[pose_estimation_node-2] =======================================================
+[pose_estimation_node-2]   点云   [/camera/depth/color/points]: ✓ 74 帧
+[pose_estimation_node-2]   检测   [/yolo/detections]: ✓ 26 帧
+[pose_estimation_node-2]   CamInfo [/camera/color/camera_info]: ✓ 144 帧
+[pose_estimation_node-2]   内参:   ✓ 已获取
+[pose_estimation_node-2] =======================================================
+[python3-1] [INFO] [1795135790.509494821] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135790.640587193] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135790.864937264] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135791.110018313] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135791.316092468] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135791.334429666] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135791.557985208] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1182,0.0877,0.9009) roi_median=(0.1118,0.0959,0.9000) model_center=(0.1145,0.0885,0.9147) d_center_minus_median_mm=16.7
+[python3-1] [INFO] [1795135791.800855470] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135791.817277520] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135791.949956613] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135792.114299222] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135792.209746387] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135792.271775834] [pose_estimation_node]: [ROI FILTER][plane] removed_support_plane stage=1 kept=525 plane=0.50 z_in=0.913 z_other=0.896 s2_ratio=nan s2_z_in=nan s2_z_other=nan
+[pose_estimation_node-2] [INFO] [1795135792.277394732] [pose_estimation_node]: [ROI FILTER][foreground] in=525 out=519 reason=accepted
+[python3-1] [INFO] [1795135792.295608017] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135792.369050286] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135792.473749799] [pose_estimation_node]: [GRASP][perception][PUBLISHED] topic=/pose_estimator/object_pose frame=camera_color_optical_frame xyz=(0.1144,0.0887,0.9143) stamp=1795135792.361423000
+[python3-1] [INFO] [1795135792.499073262] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135792.569260368] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135792.735675817] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135793.298602482] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135793.334910852] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135793.515465028] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135793.598465590] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135793.608821083] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1176,0.0875,0.9003) roi_median=(0.1123,0.0955,0.9000) model_center=(0.1142,0.0883,0.9142) d_center_minus_median_mm=16.1
+[python3-1] [INFO] [1795135793.849815583] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135793.995144829] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135794.071417820] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135794.092743018] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135794.253972223] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135794.370080737] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135794.456816932] [yolo_node]: [GRASP][detection][STATUS] total=86ms | queue=18 convert=0 infer=86 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1795135794.558054770] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135794.685820384] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795135794.686149115] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135794.973911515] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.647
+[python3-1] [INFO] [1795135794.976668257] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795135794.977670072] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135795.210255539] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135795.406597773] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135795.473557690] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135795.656112999] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1177,0.0875,0.9003) roi_median=(0.1115,0.0959,0.9000) model_center=(0.1143,0.0884,0.9142) d_center_minus_median_mm=16.3
+[python3-1] [INFO] [1795135795.756001279] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135797.039600413] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135797.235040206] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135797.280659348] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135797.306457265] [pose_estimation_node]: [ROI FILTER][plane] plane_in_front stage=1 kept=1021 plane=0.47 z_in=0.896 z_other=0.914 s2_ratio=0.55 s2_z_in=0.976 s2_z_other=0.905
+[pose_estimation_node-2] [INFO] [1795135797.310571438] [pose_estimation_node]: [ROI FILTER][foreground] in=1021 out=838 reason=accepted
+[python3-1] [INFO] [1795135797.385146260] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135797.533295045] [pose_estimation_node]: [GRASP][perception][PUBLISHED] topic=/pose_estimator/object_pose frame=camera_color_optical_frame xyz=(0.1138,0.0882,0.9144) stamp=1795135797.467393000
+[pose_estimation_node-2] [WARN] [1795135797.606384656] [pose_estimation_node]: ICP 回退粗姿态/上一帧姿态: scene coverage/median or camera-facing consistency degraded; delta=0mm/0.7deg, coverage=0.815->0.794, median=0.0018->0.0018m
+[pose_estimation_node-2] [INFO] [1795135797.737713322] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1176,0.0877,0.9007) roi_median=(0.1115,0.0968,0.9000) model_center=(0.1140,0.0885,0.9145) d_center_minus_median_mm=16.9
+[python3-1] [INFO] [1795135797.904175161] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135797.944531415] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135798.318644704] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135798.412567152] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135798.607157091] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135798.693647401] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135798.714092310] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135798.873437634] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135798.909370024] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135798.997388552] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135799.023566872] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135799.251205162] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135799.353164670] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135799.424354525] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135799.498681017] [yolo_node]: [GRASP][detection][STATUS] total=74ms | queue=1 convert=0 infer=73 post=0ms | det=1 max_conf=0.74 publish=True
+[python3-1] [INFO] [1795135799.516552247] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135799.561136823] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135799.632555831] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135799.674662840] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135799.770450675] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1174,0.0875,0.9002) roi_median=(0.1119,0.0956,0.9000) model_center=(0.1141,0.0884,0.9142) d_center_minus_median_mm=16.0
+[python3-1] [INFO] [1795135800.270594447] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795135800.270868743] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135800.380976294] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.816
+[python3-1] [INFO] [1795135800.381201467] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795135800.381526218] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135800.531289495] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135800.581661321] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135800.640822908] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135800.756256824] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135800.776746890] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135800.793666238] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135800.834388741] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135800.899025739] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135801.607751425] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135801.676298495] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135801.815336090] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1175,0.0877,0.9009) roi_median=(0.1108,0.0839,0.8950) model_center=(0.1136,0.0879,0.9146) d_center_minus_median_mm=20.2
+[python3-1] [INFO] [1795135801.880793784] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135801.998925669] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135802.337901339] [pose_estimation_node]: [ROI FILTER][plane] plane_in_front stage=1 kept=998 plane=0.51 z_in=0.897 z_other=0.913 s2_ratio=0.54 s2_z_in=0.911 s2_z_other=0.914
+[pose_estimation_node-2] [INFO] [1795135802.342735936] [pose_estimation_node]: [ROI FILTER][foreground] in=998 out=854 reason=accepted
+[python3-1] [INFO] [1795135802.387007769] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135802.556779089] [pose_estimation_node]: [GRASP][perception][PUBLISHED] topic=/pose_estimator/object_pose frame=camera_color_optical_frame xyz=(0.1142,0.0883,0.9140) stamp=1795135802.439803000
+[python3-1] [INFO] [1795135802.839364192] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135802.965202769] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135803.076791073] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135803.270499767] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135803.357183419] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135803.444506456] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135803.555604454] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135803.633563967] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135803.697940834] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135803.833139707] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[pose_estimation_node-2] [INFO] [1795135803.884516651] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1179,0.0873,0.9007) roi_median=(0.1122,0.0954,0.9000) model_center=(0.1146,0.0884,0.9146) d_center_minus_median_mm=16.3
+[python3-1] [INFO] [1795135803.904845108] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135803.921968959] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135803.955137545] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135804.518100930] [yolo_node]: [GRASP][detection][STATUS] total=83ms | queue=6 convert=4 infer=78 post=0ms | det=0 max_conf=0.00 publish=False
+[python3-1] [INFO] [1795135804.518452958] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135804.979221981] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135805.047504815] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135805.210691264] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135805.574014296] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795135805.574263027] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135805.591111034] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.672
+[python3-1] [INFO] [1795135805.591362406] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795135805.591733474] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795135805.776608122] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135805.892148109] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[pose_estimation_node-2] [INFO] [1795135805.944211739] [pose_estimation_node]: [GRASP][perception][POSITION] source=model_center icp=(0.1174,0.0876,0.9008) roi_median=(0.1117,0.0964,0.9000) model_center=(0.1136,0.0881,0.9146) d_center_minus_median_mm=16.9
+[python3-1] [INFO] [1795135805.948683467] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795135806.053189878] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[tzb_catch-5] [ERROR] [1795135806.095034569] [tzb_catch]: Stage [move_arm_to_ini_joint_positions] did not receive physical-arrival confirmation within 20.00 s (last max error 1.49681 rad); joint_errors: J1_joint{target=0, measured=0.00245505, error=0.00245505, raw_error=0.00245505, abs=0.00245505, ok} J2_joint{target=0.85, measured=0.847189, error=-0.00281105, raw_error=-0.00281105, abs=0.00281105, ok} J3_joint{target=-2.56, measured=-2.57314, error=-0.013139, raw_error=-0.013139, abs=0.013139, ok} J4_joint{target=0, measured=-0.00255394, error=-0.00255394, raw_error=-0.00255394, abs=0.00255394, ok} J5_joint{target=0, measured=1.49681, error=1.49681, raw_error=1.49681, abs=1.49681, BAD} J6_joint{target=0, measured=-0.00576583, error=-0.00576583, raw_error=-0.00576583, abs=0.00576583, ok}; aborting before the next subtask.
+[tzb_catch-5] [ERROR] [1795135806.095157719] [tzb_catch]: [GRASP][feedback][NO_MOTION] step=move_arm_to_ini_joint_positions lower controller did not execute any joint command (commanded travel up to 1.497 rad on J5_joint; largest measured change 0.0002 rad < 0.002); check the remote controller (遥控器) / arm enable / arm power
+[tzb_catch-5] [ERROR] [1795135806.095226592] [tzb_catch]: [GRASP][task][END] result=FAIL reason=no_motion(check_remote_or_power) result_publisher=enabled
+[tzb_catch-5] [INFO] [1795135806.095278565] [tzb_catch]: Published task result -1 on [/tzb_catch/result].
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [tzb_catch-5]: sending signal 'SIGINT' to process[tzb_catch-5]
+[INFO] [robot_state_publisher-4]: sending signal 'SIGINT' to process[robot_state_publisher-4]
+[INFO] [planning_node-3]: sending signal 'SIGINT' to process[planning_node-3]
+[INFO] [pose_estimation_node-2]: sending signal 'SIGINT' to process[pose_estimation_node-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[tzb_catch-5] [WARN] [1795135806.132839206] [tzb_catch]: [SHUTDOWN][BEGIN] signal=2 phase=waiting hint="press Ctrl+C again after 2 s or Ctrl+\ to stop the arm where it is"
+[tzb_catch-5] [INFO] [1795135806.133185530] [tzb_catch]: [SHUTDOWN] task worker stopped after 0.00s; phase=waiting
+[tzb_catch-5] [INFO] [1795135806.134216005] [tzb_catch]: Stage [serial_initial_state] arm joints: J1_joint=0.00245505 J2_joint=0.847189 J3_joint=-2.57314 J4_joint=-0.00255394 J5_joint=1.49681 J6_joint=-0.00576583
+[tzb_catch-5] [INFO] [1795135806.134255769] [tzb_catch]: [GRASP][retract][STAGED] step=shutdown_home yaw_delta=0.002rad from=0.002 to=0.000; tuck -> rotate_folded -> land_offset -> rotate_low
+[tzb_catch-5] [INFO] [1795135806.134265428] [tzb_catch]: [GRASP][plan][BEGIN] step=shutdown_home_tuck goal=joint service=plan_arm_motion
+[planning_node-3] Debug:   RRTConnect: Planner range detected to be 2.387855
+[planning_node-3] Info:    RRTConnect: Starting planning with 1 states already in datastructure
+[planning_node-3] Info:    RRTConnect: Created 5 states (2 start + 3 goal)
+[robot_state_publisher-4] [INFO] [1795135806.136427228] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[planning_node-3] [WARN] [1795135806.136567418] [planning_node]: [SHUTDOWN][HOLD] waiting for tzb_catch homing (signal=2, max 45.0s)
+[planning_node-3] Info:    Solution found in 0.005779 seconds
+[tzb_catch-5] [INFO] [1795135806.177960484] [tzb_catch]: [GRASP][plan][OK] step=shutdown_home_tuck points=2
+[tzb_catch-5] [INFO] [1795135806.178029687] [tzb_catch]: Stage [shutdown_home_tuck_planned_final] arm joints: J1_joint=0.00245505 J2_joint=0.35 J3_joint=-1.38 J4_joint=0 J5_joint=1.55 J6_joint=0
+[tzb_catch-5] [INFO] [1795135806.178049780] [tzb_catch]: [GRASP][command][BEGIN] step=shutdown_home_tuck hz=100.00 speed_scale=1.000 duration=1.989s
+[pose_estimation_node-2] [ERROR] [1795135806.189940767] [pose_estimation_node]: 处理异常: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[pose_estimation_node-2] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[pose_estimation_node-2] Traceback (most recent call last):
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 993, in _process_latest_cloud
+[pose_estimation_node-2]     self._process(msg, bbox, det_score=det_score, det_stamp_sec=det_stamp_sec,
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1335, in _process
+[pose_estimation_node-2]     self._publish_pose(msg.header, trans, publish_quat, frame_id)
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1736, in _publish_pose
+[pose_estimation_node-2]     self._publish_pose_msg(header, trans, quat, frame_id, self.pub_pose)
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1733, in _publish_pose_msg
+[pose_estimation_node-2]     publisher.publish(msg)
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+[pose_estimation_node-2]     self.__publisher.publish(msg)
+[pose_estimation_node-2] rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[pose_estimation_node-2] Traceback (most recent call last):
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node", line 33, in <module>
+[pose_estimation_node-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'pose_estimation_node')())
+[pose_estimation_node-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/pose_estimation_node.py", line 1860, in main
+[pose_estimation_node-2]     rclpy.shutdown()
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/__init__.py", line 130, in shutdown
+[pose_estimation_node-2]     _shutdown(context=context)
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/utilities.py", line 58, in shutdown
+[pose_estimation_node-2]     return context.shutdown()
+[pose_estimation_node-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/context.py", line 102, in shutdown
+[pose_estimation_node-2]     self.__context.shutdown()
+[pose_estimation_node-2] rclpy._rclpy_pybind11.RCLError: failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:241
+[INFO] [robot_state_publisher-4]: process has finished cleanly [pid 6207]
+[ERROR] [pose_estimation_node-2]: process has died [pid 6094, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/pose_estimation_node --ros-args -r __node:=pose_estimation_node --params-file /home/tzb/tzb_ws/install/pose_estimator/share/pose_estimator/config/params.yaml'].
+[INFO] [python3-1]: process has finished cleanly [pid 6030]
+[tzb_catch-5] [INFO] [1795135808.173453830] [tzb_catch]: [GRASP][command][END] step=shutdown_home_tuck status=SENT subscribers=2 (publish is not hardware acknowledgement)
+[tzb_catch-5] [INFO] [1795135808.173503727] [tzb_catch]: [GRASP][feedback][WAIT] step=shutdown_home_tuck enabled=true topic=/serial/arm_joint_state timeout=20.00s tolerance=0.1000rad stable=0.25s
+[planning_node-3] [INFO] [1795135809.027689092] [planning_node]: Playback finished at final joint state for group [arm]
+[tzb_catch-5] [ERROR] [1795135828.173609794] [tzb_catch]: Stage [shutdown_home_tuck] did not receive physical-arrival confirmation within 20.00 s (last max error 0.19035 rad); joint_errors: J1_joint{target=0.00245505, measured=0.00245505, error=0, raw_error=0, abs=0, ok} J2_joint{target=0.35, measured=0.35128, error=0.00127974, raw_error=0.00127974, abs=0.00127974, ok} J3_joint{target=-1.38, measured=-1.39638, error=-0.0163814, raw_error=-0.0163814, abs=0.0163814, ok} J4_joint{target=0, measured=-0.00255394, error=-0.00255394, raw_error=-0.00255394, abs=0.00255394, ok} J5_joint{target=1.55, measured=1.74035, error=0.190353, raw_error=0.190353, abs=0.190353, BAD} J6_joint{target=0, measured=-0.00586167, error=-0.00586167, raw_error=-0.00586167, abs=0.00586167, ok}; aborting before the next subtask.
+[tzb_catch-5] [ERROR] [1795135828.173678047] [tzb_catch]: [GRASP][retract][NO_FALLBACK] step=shutdown_home stage=tuck failed; direct joint sweep disabled during shutdown/cancel recovery.
+[tzb_catch-5] [ERROR] [1795135828.173850837] [tzb_catch]: [SHUTDOWN][HOME][FAIL] reason=execute_failed max_error=1.16362 object_in_gripper=false elapsed=22.04s joint_errors: J1_joint{target=0, measured=0.00245505, error=0.00245505, raw_error=0.00245505, abs=0.00245505, ok} J2_joint{target=0.85, measured=0.35128, error=-0.49872, raw_error=-0.49872, abs=0.49872, BAD} J3_joint{target=-2.56, measured=-1.39638, error=1.16362, raw_error=1.16362, abs=1.16362, BAD} J4_joint{target=0, measured=-0.00255394, error=-0.00255394, raw_error=-0.00255394, abs=0.00255394, ok} J5_joint{target=1.4, measured=1.74035, error=0.340353, raw_error=0.340353, abs=0.340353, BAD} J6_joint{target=0, measured=-0.00586167, error=-0.00586167, raw_error=-0.00586167, abs=0.00586167, ok}
+[tzb_catch-5] [ERROR] [1795135828.173905197] [tzb_catch]: [SHUTDOWN][END] exit_code=2
+[planning_node-3] [INFO] [1795135828.183025059] [planning_node]: [SHUTDOWN][RELEASE] reason=hold_released waited=22.05s
+[INFO] [planning_node-3]: process has finished cleanly [pid 6205]
+[ERROR] [tzb_catch-5]: process has died [pid 6209, exit code 2, cmd '/home/tzb/tzb_ws/install/lite_motion_planner/lib/lite_motion_planner/tzb_catch --ros-args -r __node:=tzb_catch --params-file /home/tzb/nav_explore_ws/log/standalone_grasp/precise_position_planner.yaml --params-file /tmp/launch_params_pg15_qc0 --params-file /tmp/launch_params_feu31esx'].

@@ -1,0 +1,40 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-19-39-37-154613-tzb-NUC14RVS-B-6309
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6310]
+[INFO] [far_target_locator-2]: process started with pid [6312]
+[python3-1] [INFO] [1794915578.217639802] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794915578.219031109] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794915578.219437010] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794915578.219604063] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794915578.221428720] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794915578.769210330] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794915578.769488013] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794915578.773462788] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794915578.775326910] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794915578.776146907] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794915578.776405076] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794915578.776652483] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794915578.776875357] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794915578.777273272] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794915578.856970426] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.923
+[python3-1] [INFO] [1794915578.857246857] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794915578.857645462] [yolo_node]: [GRASP][detection][STATUS] total=25ms | queue=0 convert=1 infer=22 post=1ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1794915578.857947494] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[far_target_locator-2] [INFO] [1794915578.912435406] [far_target_locator]: Target class frozen for this attempt: blue block
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] [ERROR] [1794915580.558979690] [yolo_node]: Error processing image: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] [ERROR] [1794915580.559378542] [yolo_node]: Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 966, in _process_image
+[python3-1]     self.detection_publisher.publish(detection_array_msg)
+[python3-1]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 70, in publish
+[python3-1]     self.__publisher.publish(msg)
+[python3-1] rclpy._rclpy_pybind11.RCLError: Failed to publish: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[python3-1] 
+[python3-1] Failed to publish log message to rosout: publisher's context is invalid, at ./src/rcl/publisher.c:389
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 6312]
+[INFO] [python3-1]: process has finished cleanly [pid 6310]

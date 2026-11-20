@@ -1,0 +1,23 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-16-22-31-53-700203-tzb-NUC14RVS-B-69555
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [69556]
+[INFO] [far_target_locator-2]: process started with pid [69558]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 80, in __init__
+[far_target_locator-2]     raw_classes = self.declare_parameter(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 367, in declare_parameter
+[far_target_locator-2]     return self.declare_parameters('', [args], ignore_override)[0]
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 493, in declare_parameters
+[far_target_locator-2]     self._set_parameters(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 738, in _set_parameters
+[far_target_locator-2]     raise InvalidParameterTypeException(
+[far_target_locator-2] rclpy.exceptions.InvalidParameterTypeException: Trying to set parameter 'target_classes' to 'blue_block' of type 'STRING', expecting type 'STRING_ARRAY'
+[ERROR] [far_target_locator-2]: process has died [pid 69558, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_g7i25wdq'].
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] terminate called after throwing an instance of 'pybind11::error_already_set'
+[python3-1]   what():  KeyboardInterrupt: <EMPTY MESSAGE>
+[ERROR] [python3-1]: process has died [pid 69556, exit code -6, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_jbixmqdd'].

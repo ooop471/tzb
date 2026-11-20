@@ -1,0 +1,51 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-16-22-31-17-708602-tzb-NUC14RVS-B-68757
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [68758]
+[INFO] [far_target_locator-2]: process started with pid [68760]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 359, in main
+[far_target_locator-2]     rclpy.init(); n = Locator(a.standoff, a.period)
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 80, in __init__
+[far_target_locator-2]     raw_classes = self.declare_parameter(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 367, in declare_parameter
+[far_target_locator-2]     return self.declare_parameters('', [args], ignore_override)[0]
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 493, in declare_parameters
+[far_target_locator-2]     self._set_parameters(
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 738, in _set_parameters
+[far_target_locator-2]     raise InvalidParameterTypeException(
+[far_target_locator-2] rclpy.exceptions.InvalidParameterTypeException: Trying to set parameter 'target_classes' to 'blue_block' of type 'STRING', expecting type 'STRING_ARRAY'
+[ERROR] [far_target_locator-2]: process has died [pid 68760, exit code 1, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_sqe7ruyd'].
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 131, in <module>
+[python3-1]     from ultralytics import YOLO
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/__init__.py", line 14, in <module>
+[python3-1]     from ultralytics.utils import ASSETS, SETTINGS
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/ultralytics/utils/__init__.py", line 26, in <module>
+[python3-1]     import torch
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/__init__.py", line 1332, in <module>
+[python3-1]     _C._initExtension(manager_path())
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/cuda/__init__.py", line 244, in <module>
+[python3-1]     _lazy_call(_check_capability)
+[python3-1]   File "/home/tzb/.local/lib/python3.10/site-packages/torch/cuda/__init__.py", line 241, in _lazy_call
+[python3-1]     _queued_calls.append((callable, traceback.format_stack()))
+[python3-1]   File "/usr/lib/python3.10/traceback.py", line 213, in format_stack
+[python3-1]     return format_list(extract_stack(f, limit=limit))
+[python3-1]   File "/usr/lib/python3.10/traceback.py", line 227, in extract_stack
+[python3-1]     stack = StackSummary.extract(walk_stack(f), limit=limit)
+[python3-1]   File "/usr/lib/python3.10/traceback.py", line 383, in extract
+[python3-1]     f.line
+[python3-1]   File "/usr/lib/python3.10/traceback.py", line 306, in line
+[python3-1]     self._line = linecache.getline(self.filename, self.lineno)
+[python3-1]   File "/usr/lib/python3.10/linecache.py", line 30, in getline
+[python3-1]     lines = getlines(filename, module_globals)
+[python3-1]   File "/usr/lib/python3.10/linecache.py", line 46, in getlines
+[python3-1]     return updatecache(filename, module_globals)
+[python3-1]   File "/usr/lib/python3.10/linecache.py", line 137, in updatecache
+[python3-1]     lines = fp.readlines()
+[python3-1]   File "/usr/lib/python3.10/codecs.py", line 319, in decode
+[python3-1]     def decode(self, input, final=False):
+[python3-1] KeyboardInterrupt
+[ERROR] [python3-1]: process has died [pid 68758, exit code -2, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_rvdo0irg'].

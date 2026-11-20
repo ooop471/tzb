@@ -1,0 +1,109 @@
+[0.011s] Invoking command in '/home/tzb/nav_explore_ws/build/rover_explore': AMENT_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble LD_LIBRARY_PATH=/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/tzb/nav_explore_ws/build/rover_explore -- -j22 -l22
+[0.049s] Consolidate compiler generated dependencies of target exploration_planner_core
+[0.049s] Consolidate compiler generated dependencies of target rover_corridor_critic
+[0.051s] Consolidate compiler generated dependencies of target exploration_follower_core
+[0.056s] [  3%] Building CXX object CMakeFiles/exploration_planner_core.dir/src/exploration_nav2_planner.cpp.o
+[0.059s] [  3%] Built target ament_cmake_python_copy_rover_explore_launch
+[0.059s] [  6%] Building CXX object CMakeFiles/rover_corridor_critic.dir/src/corridor_critic.cpp.o
+[0.063s] [  9%] Building CXX object CMakeFiles/exploration_follower_core.dir/src/exploration_path_follower.cpp.o
+[0.099s] Consolidate compiler generated dependencies of target rover_tare_core
+[0.131s] [ 12%] Building CXX object CMakeFiles/rover_tare_core.dir/src/rover_configuration.cpp.o
+[0.133s] [ 16%] Building CXX object CMakeFiles/rover_tare_core.dir/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp.o
+[0.195s] running egg_info
+[0.196s] writing rover_explore_launch.egg-info/PKG-INFO
+[0.196s] writing dependency_links to rover_explore_launch.egg-info/dependency_links.txt
+[0.196s] writing top-level names to rover_explore_launch.egg-info/top_level.txt
+[0.197s] reading manifest file 'rover_explore_launch.egg-info/SOURCES.txt'
+[0.198s] writing manifest file 'rover_explore_launch.egg-info/SOURCES.txt'
+[0.217s] [ 16%] Built target ament_cmake_python_build_rover_explore_launch_egg
+[4.242s] In file included from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:54,
+[4.242s]                  from /home/tzb/nav_explore_ws/src/explore/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp:12:
+[4.242s] /home/tzb/nav_explore_ws/src/explore/include/utils/misc_utils.h:69:85: warning: ‘nav_msgs::msg::Odometry_<std::allocator<void> >::ConstPtr’ is deprecated [-Wdeprecated-declarations]
+[4.242s]    69 | void KeyposeToMap(CloudType& cloud, const nav_msgs::msg::Odometry::ConstPtr& keypose);
+[4.242s]       |                                                                                     ^
+[4.242s] In file included from /opt/ros/humble/include/nav_msgs/nav_msgs/msg/odometry.hpp:7,
+[4.242s]                  from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:33,
+[4.242s]                  from /home/tzb/nav_explore_ws/src/explore/src/sensor_coverage_planner/sensor_coverage_planner_ground.cpp:12:
+[4.242s] /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__struct.hpp:147:5: note: declared here
+[4.242s]   147 |     ConstPtr;
+[4.242s]       |     ^~~~~~~~
+[12.080s] [ 19%] Linking CXX shared library librover_corridor_critic.so
+[12.331s] [ 19%] Built target rover_corridor_critic
+[16.518s] [ 22%] Linking CXX static library libexploration_planner_core.a
+[16.571s] [ 22%] Built target exploration_planner_core
+[16.588s] Consolidate compiler generated dependencies of target exploration_nav2_planner
+[16.597s] [ 25%] Linking CXX executable exploration_nav2_planner
+[16.763s] [ 29%] Built target exploration_nav2_planner
+[26.130s] [ 32%] Linking CXX static library libexploration_follower_core.a
+[26.200s] [ 32%] Built target exploration_follower_core
+[26.217s] Consolidate compiler generated dependencies of target exploration_path_follower
+[26.227s] [ 35%] Building CXX object CMakeFiles/exploration_path_follower.dir/src/exploration_path_follower_main.cpp.o
+[28.272s] [ 38%] Linking CXX executable exploration_path_follower
+[28.497s] [ 38%] Built target exploration_path_follower
+[40.888s] [ 41%] Linking CXX static library librover_tare_core.a
+[40.993s] [ 93%] Built target rover_tare_core
+[41.011s] Consolidate compiler generated dependencies of target rover_explore_node
+[41.022s] [ 96%] Building CXX object CMakeFiles/rover_explore_node.dir/src/tare_planner_node/tare_planner_node.cpp.o
+[44.319s] In file included from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:54,
+[44.319s]                  from /home/tzb/nav_explore_ws/src/explore/src/tare_planner_node/tare_planner_node.cpp:4:
+[44.319s] /home/tzb/nav_explore_ws/src/explore/include/utils/misc_utils.h:69:85: warning: ‘nav_msgs::msg::Odometry_<std::allocator<void> >::ConstPtr’ is deprecated [-Wdeprecated-declarations]
+[44.319s]    69 | void KeyposeToMap(CloudType& cloud, const nav_msgs::msg::Odometry::ConstPtr& keypose);
+[44.319s]       |                                                                                     ^
+[44.319s] In file included from /opt/ros/humble/include/nav_msgs/nav_msgs/msg/odometry.hpp:7,
+[44.319s]                  from /home/tzb/nav_explore_ws/src/explore/include/sensor_coverage_planner/sensor_coverage_planner_ground.h:33,
+[44.319s]                  from /home/tzb/nav_explore_ws/src/explore/src/tare_planner_node/tare_planner_node.cpp:4:
+[44.319s] /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__struct.hpp:147:5: note: declared here
+[44.319s]   147 |     ConstPtr;
+[44.319s]       |     ^~~~~~~~
+[49.390s] [100%] Linking CXX executable rover_explore_node
+[50.263s] [100%] Built target rover_explore_node
+[50.271s] Invoked command in '/home/tzb/nav_explore_ws/build/rover_explore' returned '0': AMENT_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble LD_LIBRARY_PATH=/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/tzb/nav_explore_ws/build/rover_explore -- -j22 -l22
+[50.279s] Invoking command in '/home/tzb/nav_explore_ws/build/rover_explore': AMENT_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble LD_LIBRARY_PATH=/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/tzb/nav_explore_ws/build/rover_explore
+[50.285s] -- Install configuration: "Release"
+[50.285s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/pythonpath.sh
+[50.286s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/pythonpath.dsv
+[50.286s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info
+[50.286s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/dependency_links.txt
+[50.286s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/PKG-INFO
+[50.286s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/SOURCES.txt
+[50.286s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch-0.1.0-py3.10.egg-info/top_level.txt
+[50.286s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch
+[50.286s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch/__init__.py
+[50.286s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch/navigation.py
+[50.304s] Listing '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages/rover_explore_launch'...
+[50.307s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/rover_explore_node
+[50.309s] -- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/rover_explore_node" to "$ORIGIN/.."
+[50.309s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib
+[50.310s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so.9.8.3296
+[50.310s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so
+[50.310s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/lib/libortools.so.9
+[50.310s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/corridor_critic.xml
+[50.310s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/lib/librover_corridor_critic.so
+[50.310s] -- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_explore/lib/librover_corridor_critic.so" to ""
+[50.310s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_path_follower
+[50.312s] -- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_path_follower" to ""
+[50.313s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_nav2_planner
+[50.314s] -- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_explore/lib/rover_explore/exploration_nav2_planner" to ""
+[50.314s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config
+[50.314s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/exploration_follower.yaml
+[50.314s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/rover.yaml
+[50.314s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/config/exploration_planner.yaml
+[50.314s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/launch
+[50.314s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/launch/explore.launch.py
+[50.315s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/package_run_dependencies/rover_explore
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/parent_prefix_path/rover_explore
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/ament_prefix_path.sh
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/ament_prefix_path.dsv
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/path.sh
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/environment/path.dsv
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.bash
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.sh
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.zsh
+[50.316s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/local_setup.dsv
+[50.316s] -- Installing: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/package.dsv
+[50.317s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/packages/rover_explore
+[50.317s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/ament_index/resource_index/nav2_mppi_controller__pluginlib__plugin/rover_explore
+[50.317s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/cmake/rover_exploreConfig.cmake
+[50.317s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/cmake/rover_exploreConfig-version.cmake
+[50.317s] -- Up-to-date: /home/tzb/nav_explore_ws/install/rover_explore/share/rover_explore/package.xml
+[50.318s] Invoked command in '/home/tzb/nav_explore_ws/build/rover_explore' returned '0': AMENT_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble LD_LIBRARY_PATH=/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/tzb/nav_explore_ws/build/rover_explore

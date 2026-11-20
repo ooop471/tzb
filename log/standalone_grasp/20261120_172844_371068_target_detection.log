@@ -1,0 +1,96 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-20-17-28-44-179012-tzb-NUC14RVS-B-4540
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [4542]
+[INFO] [far_target_locator-2]: process started with pid [4544]
+[python3-1] [INFO] [1795166925.192617790] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1795166925.194716136] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1795166925.195318363] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1795166925.195641300] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1795166925.198545346] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1795166925.683812725] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1795166925.684033604] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1795166925.686467329] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1795166925.687503203] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1795166925.687908531] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1795166925.688062811] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1795166925.688200183] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1795166925.688339410] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1795166925.688711306] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1795166925.851029699] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.928
+[python3-1] [INFO] [1795166925.851230152] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795166925.851506583] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=1 infer=21 post=1ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795166925.851700188] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[python3-1] [INFO] [1795166930.853595885] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795166935.857848599] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795166940.867757411] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=23 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795166945.902595089] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795166950.908044228] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.88 publish=True
+[python3-1] [INFO] [1795166955.980470971] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.90 publish=True
+[python3-1] [INFO] [1795166960.992195451] [yolo_node]: [GRASP][detection][STATUS] total=24ms | queue=0 convert=0 infer=24 post=0ms | det=1 max_conf=0.91 publish=True
+[python3-1] [INFO] [1795166966.029505531] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.91 publish=True
+[python3-1] [INFO] [1795166971.063941879] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=1 max_conf=0.91 publish=True
+[python3-1] [INFO] [1795166975.168415015] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1795166975.168720054] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1795166975.203904821] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.804
+[python3-1] [INFO] [1795166975.204171147] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1795166975.204563296] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> PUBLISHING
+[python3-1] [INFO] [1795166976.071843614] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.90 publish=True
+[python3-1] [INFO] [1795166981.143601885] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.87 publish=True
+[python3-1] [INFO] [1795166986.152498475] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795166991.188723710] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795166996.197521134] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167001.200707031] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167006.207198220] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167011.215213365] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167016.222117060] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167021.321980789] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=17 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167026.367066681] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=23 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167031.372032942] [yolo_node]: [GRASP][detection][STATUS] total=20ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167036.408374347] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167041.417267180] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167050.980756455] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167055.987485272] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167061.023509823] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167066.033278349] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167071.136615777] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167076.140404963] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167081.147402025] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=19 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167086.554258550] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167091.558091407] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167096.634546618] [yolo_node]: [GRASP][detection][STATUS] total=22ms | queue=0 convert=0 infer=21 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167101.636220333] [yolo_node]: [GRASP][detection][STATUS] total=18ms | queue=0 convert=0 infer=17 post=0ms | det=1 max_conf=0.93 publish=True
+[python3-1] [INFO] [1795167106.642379092] [yolo_node]: [GRASP][detection][STATUS] total=19ms | queue=0 convert=0 infer=18 post=0ms | det=1 max_conf=0.92 publish=True
+[python3-1] [INFO] [1795167111.784288702] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=0 infer=20 post=0ms | det=1 max_conf=0.92 publish=True
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[far_target_locator-2] Traceback (most recent call last):
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator", line 33, in <module>
+[far_target_locator-2]     sys.exit(load_entry_point('pose-estimator==1.0.0', 'console_scripts', 'far_target_locator')())
+[far_target_locator-2]   File "/home/tzb/tzb_ws/install/pose_estimator/lib/python3.10/site-packages/pose_estimator/far_target_locator.py", line 363, in main
+[far_target_locator-2]     n.destroy_node()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1685, in destroy_node
+[far_target_locator-2]     self.destroy_publisher(self._publishers[0])
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/node.py", line 1565, in destroy_publisher
+[far_target_locator-2]     publisher.destroy()
+[far_target_locator-2]   File "/opt/ros/humble/local/lib/python3.10/dist-packages/rclpy/publisher.py", line 99, in destroy
+[far_target_locator-2]     self.__publisher.destroy_when_not_in_use()
+[far_target_locator-2] KeyboardInterrupt
+[python3-1] Traceback (most recent call last):
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1062, in <module>
+[python3-1]     main()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1053, in main
+[python3-1]     node.destroy_node()
+[python3-1]   File "/home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py", line 1039, in destroy_node
+[python3-1]     self._worker_thread.join(timeout=1.0)
+[python3-1]   File "/usr/lib/python3.10/threading.py", line 1100, in join
+[python3-1]     self._wait_for_tstate_lock(timeout=max(timeout, 0))
+[python3-1]   File "/usr/lib/python3.10/threading.py", line 1116, in _wait_for_tstate_lock
+[python3-1]     if lock.acquire(block, timeout):
+[python3-1] KeyboardInterrupt
+[python3-1] terminate called without an active exception
+[ERROR] [far_target_locator-2]: process has died [pid 4544, exit code -2, cmd '/home/tzb/tzb_ws/install/pose_estimator/lib/pose_estimator/far_target_locator --ros-args -r __node:=far_target_locator --params-file /tmp/launch_params_k7h44fvj'].
+[ERROR] [python3-1]: process has died [pid 4542, exit code -6, cmd '/usr/bin/python3 /home/tzb/tzb_ws/install/yolo_node/lib/yolo_node/yolo_detector.py --ros-args -r __node:=yolo_node --params-file /tmp/launch_params_k8ev_htj'].

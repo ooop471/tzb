@@ -1,0 +1,47 @@
+[INFO] [launch]: All log files can be found below /home/tzb/.ros/log/2026-11-17-20-10-38-141015-tzb-NUC14RVS-B-6017
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [python3-1]: process started with pid [6021]
+[INFO] [far_target_locator-2]: process started with pid [6023]
+[python3-1] [INFO] [1794917439.322018881] [yolo_node]: YOLO compute profile: 机械革命蛟龙16Q 8C/16T, OpenVINO/OMP threads≈4
+[python3-1] [INFO] [1794917439.324161756] [yolo_node]: [GRASP][detection][STATE] None -> LOADING_MODEL
+[python3-1] [INFO] [1794917439.324814695] [yolo_node]: Loading YOLO model from: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] [INFO] [1794917439.325133202] [yolo_node]: Ultralytics version: 8.4.164
+[python3-1] [INFO] [1794917439.327908225] [yolo_node]: Trying OpenVINO model: /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model
+[python3-1] Loading /home/tzb/tzb_ws/src/best_openvino_model/blue_block_v1_640_openvino_model for OpenVINO inference...
+[python3-1] Using OpenVINO LATENCY mode for batch=1 inference on CPU...
+[python3-1] [INFO] [1794917439.857623121] [yolo_node]: YOLO model loaded successfully!
+[python3-1] [INFO] [1794917439.857867901] [yolo_node]: target class priority matched in model: ['blue block'] | ignored: ['d']
+[python3-1] [INFO] [1794917439.860992131] [yolo_node]: Subscribed to: /camera/color/image_raw (KEEP_LAST=2, latest-frame only)
+[python3-1] [INFO] [1794917439.862382410] [yolo_node]: Publishing detections to: yolo/detections
+[python3-1] [INFO] [1794917439.863037244] [yolo_node]: Publishing annotated images to: yolo/annotated_image
+[python3-1] [INFO] [1794917439.863219931] [yolo_node]: Publish gating enabled: conf>0.6 for 0.00s before publishing
+[python3-1] [INFO] [1794917439.863374988] [yolo_node]: target selection: priority=['blue block'] ignored=['d'] left_or_right=1 (0=left, 1=right) multi_target_selection=confidence
+[python3-1] [INFO] [1794917439.863524500] [yolo_node]: YOLO Detector Node initialized successfully!
+[python3-1] [INFO] [1794917439.863902335] [yolo_node]: [GRASP][detection][STATE] LOADING_MODEL -> WAITING_IMAGE
+[python3-1] [INFO] [1794917439.901290088] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.912
+[python3-1] [INFO] [1794917439.901505049] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794917439.901766309] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=1 infer=21 post=1ms | det=1 max_conf=0.91 publish=True
+[python3-1] [INFO] [1794917439.901965218] [yolo_node]: [GRASP][detection][STATE] WAITING_IMAGE -> PUBLISHING
+[python3-1] [INFO] [1794917444.906677848] [yolo_node]: [GRASP][detection][STATUS] total=23ms | queue=0 convert=0 infer=22 post=0ms | det=1 max_conf=0.88 publish=True
+[python3-1] [INFO] [1794917445.138766252] [yolo_node]: Publish gate reset (max_conf=0.000 <= 0.6). Publishing paused.
+[python3-1] [INFO] [1794917445.139030810] [yolo_node]: [GRASP][detection][STATE] PUBLISHING -> NO_DETECTION
+[python3-1] [INFO] [1794917445.170633699] [yolo_node]: [GRASP][detection][STATE] NO_DETECTION -> CLASS_FILTERED
+[python3-1] [INFO] [1794917446.108650017] [yolo_node]: [GRASP][detection][WAIT_HOLD] max_conf=0.910
+[python3-1] [INFO] [1794917446.108906256] [yolo_node]: Publish gate opened: confidence>0.6 held for 0.000s. Publishing enabled.
+[python3-1] [INFO] [1794917446.109240150] [yolo_node]: [GRASP][detection][STATE] CLASS_FILTERED -> PUBLISHING
+[python3-1] [WARN] [1794917446.142625613] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=374 mean=1407 jump=0.73
+[far_target_locator-2] [INFO] [1794917446.692711102] [far_target_locator]: Target class frozen for this attempt: blue block
+[python3-1] [WARN] [1794917446.975778234] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=405 mean=1407 jump=0.71
+[python3-1] [WARN] [1794917447.807127448] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=396 mean=1407 jump=0.72
+[python3-1] [WARN] [1794917448.705163757] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=388 mean=1407 jump=0.72
+[python3-1] [WARN] [1794917449.510094257] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=433 mean=1407 jump=0.69
+[python3-1] [INFO] [1794917449.910627640] [yolo_node]: [GRASP][detection][STATUS] total=21ms | queue=0 convert=1 infer=20 post=0ms | det=1 max_conf=0.90 publish=True
+[python3-1] [WARN] [1794917450.311393411] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=498 mean=1407 jump=0.65
+[python3-1] [WARN] [1794917451.111532503] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=548 mean=1407 jump=0.61
+[python3-1] [WARN] [1794917451.911985618] [yolo_node]: haomu bbox area spike suppressed: slot=0 area=599 mean=1407 jump=0.57
+[python3-1] [INFO] [1794917454.914906705] [yolo_node]: [GRASP][detection][STATUS] total=17ms | queue=0 convert=0 infer=16 post=0ms | det=1 max_conf=0.92 publish=True
+[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+[INFO] [far_target_locator-2]: sending signal 'SIGINT' to process[far_target_locator-2]
+[INFO] [python3-1]: sending signal 'SIGINT' to process[python3-1]
+[INFO] [far_target_locator-2]: process has finished cleanly [pid 6023]
+[INFO] [python3-1]: process has finished cleanly [pid 6021]

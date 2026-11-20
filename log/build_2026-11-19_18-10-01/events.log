@@ -1,0 +1,456 @@
+[0.000000] (-) TimerEvent: {}
+[0.000159] (-) JobUnselected: {'identifier': 'bringup'}
+[0.000300] (-) JobUnselected: {'identifier': 'fast_lio'}
+[0.000395] (-) JobUnselected: {'identifier': 'imu_tools'}
+[0.000436] (-) JobUnselected: {'identifier': 'livox_ros_driver2'}
+[0.000489] (-) JobUnselected: {'identifier': 'pointcloud_tools'}
+[0.000519] (-) JobUnselected: {'identifier': 'rm_navigation'}
+[0.000534] (-) JobUnselected: {'identifier': 'rover_explore'}
+[0.000547] (-) JobUnselected: {'identifier': 'terrain_analysis'}
+[0.000563] (rover_state) JobQueued: {'identifier': 'rover_state', 'dependencies': OrderedDict([('imu_tools', '/home/tzb/nav_explore_ws/install/imu_tools'), ('livox_ros_driver2', '/home/tzb/nav_explore_ws/install/livox_ros_driver2'), ('terrain_analysis', '/home/tzb/nav_explore_ws/install/terrain_analysis'), ('fast_lio', '/home/tzb/nav_explore_ws/install/fast_lio'), ('rover_explore', '/home/tzb/nav_explore_ws/install/rover_explore')])}
+[0.000587] (rover_state) JobStarted: {'identifier': 'rover_state'}
+[0.017137] (rover_state) JobProgress: {'identifier': 'rover_state', 'progress': 'cmake'}
+[0.017774] (rover_state) Command: {'cmd': ['/usr/bin/cmake', '/home/tzb/nav_explore_ws/src/state', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_INSTALL_PREFIX=/home/tzb/nav_explore_ws/install/rover_state'], 'cwd': '/home/tzb/nav_explore_ws/build/rover_state', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/tzb'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'tzb'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"zh-cn","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","languagePack":{"translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","messagesFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6/nls.messages.json","corruptMarkerFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"},"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"75539731208fa508a5b042c8fe051beb.zh-cn","_languagePackSupport":true,"_translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","_cacheRoot":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn","_resolvedLanguagePackCoreLocation":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6","_corruptedFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', 'release'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/tzb/nav_explore_ws/install/rover_explore/lib:/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:/home/tzb/nav_explore_ws/install/pointcloud_tools/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/opt/openvdb_vendor/lib:/opt/ros/humble/lib'), ('HOME', '/home/tzb'), ('CHROME_DESKTOP', 'com.microsoft.VSCode.desktop'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-81704711-1.13-main.sock'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('PAGER', 'cat'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('LC_CTYPE', 'C.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1737'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('COLORTERM', 'truecolor'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('COLCON_PREFIX_PATH', '/home/tzb/nav_explore_ws/install'), ('CODEX_PERMISSION_PROFILE', ':danger-full-access'), ('CODEX_TOOL_CALL_ID', 'exec-00c4d174-97d1-41d8-bf89-4b2d3c5fda70'), ('APPLICATION_INSIGHTS_NO_STATSBEAT', 'true'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'tzb'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS', '1'), ('RUST_LOG', 'warn'), ('USERNAME', 'tzb'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/tzb/.local/bin:/home/tzb/.codex/tmp/arg0-linux/codex-arg015XQkq:/opt/ros/humble/bin:/home/tzb/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/tzb/.vscode/extensions/openai.chatgpt-26.1021.22027-linux-x64/bin/linux-x86_64'), ('SESSION_MANAGER', 'local/tzb-NUC14RVS-B:@/tmp/.ICE-unix/1737,unix/tzb-NUC14RVS-B:/tmp/.ICE-unix/1737'), ('CODEX_VERSION', '0.164.0-alpha.11.1'), ('CODEX_SESSION_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/747ee3ea_a2a7_4670_b133_3e011dd05e90'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.206'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'zh_CN.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/tzb/nav_explore_ws/build/rover_state'), ('VSCODE_CLI', '1'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/tzb/.config/Code/CachedData/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('LC_PAPER', 'zh_CN.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('ELECTRON_NO_ATTACH_CONSOLE', '1'), ('CMAKE_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/opt/ros/humble'), ('VSCODE_PID', '33241')]), 'shell': False}
+[0.038226] (rover_state) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.099830] (-) TimerEvent: {}
+[0.122533] (rover_state) StdoutLine: {'line': b'-- Found arm_task_interfaces: 0.1.0 (/home/tzb/tzb_ws/install/arm_task_interfaces/share/arm_task_interfaces/cmake)\n'}
+[0.142602] (rover_state) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.9 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.144467] (rover_state) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.9 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.149225] (rover_state) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.9 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.156308] (rover_state) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.164904] (rover_state) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.199924] (-) TimerEvent: {}
+[0.213782] (rover_state) StdoutLine: {'line': b'-- Found rcl_interfaces: 1.2.3 (/opt/ros/humble/share/rcl_interfaces/cmake)\n'}
+[0.222490] (rover_state) StdoutLine: {'line': b'-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.234375] (rover_state) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.3 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.235625] (rover_state) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.298278] (rover_state) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.299985] (-) TimerEvent: {}
+[0.327510] (rover_state) StdoutLine: {'line': b'-- Found rclcpp_action: 16.0.19 (/opt/ros/humble/share/rclcpp_action/cmake)\n'}
+[0.334732] (rover_state) StdoutLine: {'line': b'-- Found nav2_msgs: 1.1.20 (/opt/ros/humble/share/nav2_msgs/cmake)\n'}
+[0.362506] (rover_state) StdoutLine: {'line': b'-- Found std_srvs: 4.9.2 (/opt/ros/humble/share/std_srvs/cmake)\n'}
+[0.369749] (rover_state) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.22 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[0.400065] (-) TimerEvent: {}
+[0.404792] (rover_state) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.22 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[0.407526] (rover_state) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[0.408429] (rover_state) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[0.454196] (rover_state) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.479714] (rover_state) StdoutLine: {'line': b'-- Generating done\n'}
+[0.488194] (rover_state) StdoutLine: {'line': b'-- Build files have been written to: /home/tzb/nav_explore_ws/build/rover_state\n'}
+[0.493709] (rover_state) CommandEnded: {'returncode': 0}
+[0.494122] (rover_state) JobProgress: {'identifier': 'rover_state', 'progress': 'build'}
+[0.494514] (rover_state) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/tzb/nav_explore_ws/build/rover_state', '--', '-j22', '-l22'], 'cwd': '/home/tzb/nav_explore_ws/build/rover_state', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/tzb'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'tzb'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"zh-cn","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","languagePack":{"translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","messagesFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6/nls.messages.json","corruptMarkerFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"},"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"75539731208fa508a5b042c8fe051beb.zh-cn","_languagePackSupport":true,"_translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","_cacheRoot":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn","_resolvedLanguagePackCoreLocation":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6","_corruptedFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', 'release'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/tzb/nav_explore_ws/install/rover_explore/lib:/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:/home/tzb/nav_explore_ws/install/pointcloud_tools/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/opt/openvdb_vendor/lib:/opt/ros/humble/lib'), ('HOME', '/home/tzb'), ('CHROME_DESKTOP', 'com.microsoft.VSCode.desktop'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-81704711-1.13-main.sock'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('PAGER', 'cat'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('LC_CTYPE', 'C.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1737'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('COLORTERM', 'truecolor'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('COLCON_PREFIX_PATH', '/home/tzb/nav_explore_ws/install'), ('CODEX_PERMISSION_PROFILE', ':danger-full-access'), ('CODEX_TOOL_CALL_ID', 'exec-00c4d174-97d1-41d8-bf89-4b2d3c5fda70'), ('APPLICATION_INSIGHTS_NO_STATSBEAT', 'true'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'tzb'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS', '1'), ('RUST_LOG', 'warn'), ('USERNAME', 'tzb'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/tzb/.local/bin:/home/tzb/.codex/tmp/arg0-linux/codex-arg015XQkq:/opt/ros/humble/bin:/home/tzb/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/tzb/.vscode/extensions/openai.chatgpt-26.1021.22027-linux-x64/bin/linux-x86_64'), ('SESSION_MANAGER', 'local/tzb-NUC14RVS-B:@/tmp/.ICE-unix/1737,unix/tzb-NUC14RVS-B:/tmp/.ICE-unix/1737'), ('CODEX_VERSION', '0.164.0-alpha.11.1'), ('CODEX_SESSION_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/747ee3ea_a2a7_4670_b133_3e011dd05e90'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.206'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'zh_CN.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/tzb/nav_explore_ws/build/rover_state'), ('VSCODE_CLI', '1'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/tzb/.config/Code/CachedData/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('LC_PAPER', 'zh_CN.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('ELECTRON_NO_ATTACH_CONSOLE', '1'), ('CMAKE_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/opt/ros/humble'), ('VSCODE_PID', '33241')]), 'shell': False}
+[0.500130] (-) TimerEvent: {}
+[0.523144] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_mission_budget\n'}
+[0.523392] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_unload_zone\n'}
+[0.524715] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target mission_motion_gate\n'}
+[0.527375] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target mission_core\n'}
+[0.531703] (rover_state) StdoutLine: {'line': b'[ 10%] Built target test_mission_budget\n'}
+[0.531835] (rover_state) StdoutLine: {'line': b'[ 21%] Built target test_unload_zone\n'}
+[0.539411] (rover_state) StdoutLine: {'line': b'[ 31%] Built target mission_motion_gate\n'}
+[0.543567] (rover_state) StdoutLine: {'line': b'[ 36%] Building CXX object CMakeFiles/mission_core.dir/src/mission_node.cpp.o\n'}
+[0.544393] (rover_state) StdoutLine: {'line': b'[ 42%] Building CXX object CMakeFiles/mission_core.dir/src/centered_grasp.cpp.o\n'}
+[0.600242] (-) TimerEvent: {}
+[0.700434] (-) TimerEvent: {}
+[0.800620] (-) TimerEvent: {}
+[0.900804] (-) TimerEvent: {}
+[1.000985] (-) TimerEvent: {}
+[1.101148] (-) TimerEvent: {}
+[1.201335] (-) TimerEvent: {}
+[1.301566] (-) TimerEvent: {}
+[1.401763] (-) TimerEvent: {}
+[1.502047] (-) TimerEvent: {}
+[1.602247] (-) TimerEvent: {}
+[1.702465] (-) TimerEvent: {}
+[1.802665] (-) TimerEvent: {}
+[1.902868] (-) TimerEvent: {}
+[2.003083] (-) TimerEvent: {}
+[2.103265] (-) TimerEvent: {}
+[2.203436] (-) TimerEvent: {}
+[2.303612] (-) TimerEvent: {}
+[2.403790] (-) TimerEvent: {}
+[2.503958] (-) TimerEvent: {}
+[2.604128] (-) TimerEvent: {}
+[2.704307] (-) TimerEvent: {}
+[2.804479] (-) TimerEvent: {}
+[2.904655] (-) TimerEvent: {}
+[3.004825] (-) TimerEvent: {}
+[3.104994] (-) TimerEvent: {}
+[3.205166] (-) TimerEvent: {}
+[3.305308] (-) TimerEvent: {}
+[3.405480] (-) TimerEvent: {}
+[3.505649] (-) TimerEvent: {}
+[3.605822] (-) TimerEvent: {}
+[3.705991] (-) TimerEvent: {}
+[3.806166] (-) TimerEvent: {}
+[3.906307] (-) TimerEvent: {}
+[4.006480] (-) TimerEvent: {}
+[4.106649] (-) TimerEvent: {}
+[4.206820] (-) TimerEvent: {}
+[4.306998] (-) TimerEvent: {}
+[4.407164] (-) TimerEvent: {}
+[4.507328] (-) TimerEvent: {}
+[4.607494] (-) TimerEvent: {}
+[4.707657] (-) TimerEvent: {}
+[4.807823] (-) TimerEvent: {}
+[4.907991] (-) TimerEvent: {}
+[5.008160] (-) TimerEvent: {}
+[5.108294] (-) TimerEvent: {}
+[5.208465] (-) TimerEvent: {}
+[5.308635] (-) TimerEvent: {}
+[5.408804] (-) TimerEvent: {}
+[5.508982] (-) TimerEvent: {}
+[5.609156] (-) TimerEvent: {}
+[5.709332] (-) TimerEvent: {}
+[5.809507] (-) TimerEvent: {}
+[5.909687] (-) TimerEvent: {}
+[6.009866] (-) TimerEvent: {}
+[6.110053] (-) TimerEvent: {}
+[6.210228] (-) TimerEvent: {}
+[6.310411] (-) TimerEvent: {}
+[6.410596] (-) TimerEvent: {}
+[6.510780] (-) TimerEvent: {}
+[6.610954] (-) TimerEvent: {}
+[6.711123] (-) TimerEvent: {}
+[6.811304] (-) TimerEvent: {}
+[6.911486] (-) TimerEvent: {}
+[7.011669] (-) TimerEvent: {}
+[7.111841] (-) TimerEvent: {}
+[7.212008] (-) TimerEvent: {}
+[7.312176] (-) TimerEvent: {}
+[7.412370] (-) TimerEvent: {}
+[7.512567] (-) TimerEvent: {}
+[7.612763] (-) TimerEvent: {}
+[7.712942] (-) TimerEvent: {}
+[7.813114] (-) TimerEvent: {}
+[7.913293] (-) TimerEvent: {}
+[8.013519] (-) TimerEvent: {}
+[8.113710] (-) TimerEvent: {}
+[8.213935] (-) TimerEvent: {}
+[8.314110] (-) TimerEvent: {}
+[8.414374] (-) TimerEvent: {}
+[8.514548] (-) TimerEvent: {}
+[8.614737] (-) TimerEvent: {}
+[8.714911] (-) TimerEvent: {}
+[8.815082] (-) TimerEvent: {}
+[8.915246] (-) TimerEvent: {}
+[9.015418] (-) TimerEvent: {}
+[9.115592] (-) TimerEvent: {}
+[9.215767] (-) TimerEvent: {}
+[9.315974] (-) TimerEvent: {}
+[9.416178] (-) TimerEvent: {}
+[9.516311] (-) TimerEvent: {}
+[9.616495] (-) TimerEvent: {}
+[9.716684] (-) TimerEvent: {}
+[9.816864] (-) TimerEvent: {}
+[9.917028] (-) TimerEvent: {}
+[10.017201] (-) TimerEvent: {}
+[10.117388] (-) TimerEvent: {}
+[10.217567] (-) TimerEvent: {}
+[10.317766] (-) TimerEvent: {}
+[10.417944] (-) TimerEvent: {}
+[10.518113] (-) TimerEvent: {}
+[10.618301] (-) TimerEvent: {}
+[10.718536] (-) TimerEvent: {}
+[10.818716] (-) TimerEvent: {}
+[10.918896] (-) TimerEvent: {}
+[11.019072] (-) TimerEvent: {}
+[11.119258] (-) TimerEvent: {}
+[11.219434] (-) TimerEvent: {}
+[11.319609] (-) TimerEvent: {}
+[11.419787] (-) TimerEvent: {}
+[11.519963] (-) TimerEvent: {}
+[11.620142] (-) TimerEvent: {}
+[11.720317] (-) TimerEvent: {}
+[11.820486] (-) TimerEvent: {}
+[11.920664] (-) TimerEvent: {}
+[12.020840] (-) TimerEvent: {}
+[12.121010] (-) TimerEvent: {}
+[12.221179] (-) TimerEvent: {}
+[12.321310] (-) TimerEvent: {}
+[12.421483] (-) TimerEvent: {}
+[12.521656] (-) TimerEvent: {}
+[12.621826] (-) TimerEvent: {}
+[12.722001] (-) TimerEvent: {}
+[12.822163] (-) TimerEvent: {}
+[12.922365] (-) TimerEvent: {}
+[13.022553] (-) TimerEvent: {}
+[13.122719] (-) TimerEvent: {}
+[13.222886] (-) TimerEvent: {}
+[13.323054] (-) TimerEvent: {}
+[13.423225] (-) TimerEvent: {}
+[13.523437] (-) TimerEvent: {}
+[13.623624] (-) TimerEvent: {}
+[13.723792] (-) TimerEvent: {}
+[13.823958] (-) TimerEvent: {}
+[13.924126] (-) TimerEvent: {}
+[14.024300] (-) TimerEvent: {}
+[14.124467] (-) TimerEvent: {}
+[14.224642] (-) TimerEvent: {}
+[14.324814] (-) TimerEvent: {}
+[14.424983] (-) TimerEvent: {}
+[14.525140] (-) TimerEvent: {}
+[14.625308] (-) TimerEvent: {}
+[14.725470] (-) TimerEvent: {}
+[14.825643] (-) TimerEvent: {}
+[14.925818] (-) TimerEvent: {}
+[15.025993] (-) TimerEvent: {}
+[15.126162] (-) TimerEvent: {}
+[15.226335] (-) TimerEvent: {}
+[15.326521] (-) TimerEvent: {}
+[15.426700] (-) TimerEvent: {}
+[15.526875] (-) TimerEvent: {}
+[15.627055] (-) TimerEvent: {}
+[15.727225] (-) TimerEvent: {}
+[15.827392] (-) TimerEvent: {}
+[15.927547] (-) TimerEvent: {}
+[16.027718] (-) TimerEvent: {}
+[16.127880] (-) TimerEvent: {}
+[16.228038] (-) TimerEvent: {}
+[16.328194] (-) TimerEvent: {}
+[16.428360] (-) TimerEvent: {}
+[16.528521] (-) TimerEvent: {}
+[16.628679] (-) TimerEvent: {}
+[16.728850] (-) TimerEvent: {}
+[16.829027] (-) TimerEvent: {}
+[16.929199] (-) TimerEvent: {}
+[17.029466] (-) TimerEvent: {}
+[17.129649] (-) TimerEvent: {}
+[17.229828] (-) TimerEvent: {}
+[17.330005] (-) TimerEvent: {}
+[17.430177] (-) TimerEvent: {}
+[17.530303] (-) TimerEvent: {}
+[17.630469] (-) TimerEvent: {}
+[17.730635] (-) TimerEvent: {}
+[17.830800] (-) TimerEvent: {}
+[17.930963] (-) TimerEvent: {}
+[18.031124] (-) TimerEvent: {}
+[18.131293] (-) TimerEvent: {}
+[18.231464] (-) TimerEvent: {}
+[18.331637] (-) TimerEvent: {}
+[18.431810] (-) TimerEvent: {}
+[18.531977] (-) TimerEvent: {}
+[18.632142] (-) TimerEvent: {}
+[18.732304] (-) TimerEvent: {}
+[18.832466] (-) TimerEvent: {}
+[18.932628] (-) TimerEvent: {}
+[19.032788] (-) TimerEvent: {}
+[19.132949] (-) TimerEvent: {}
+[19.233114] (-) TimerEvent: {}
+[19.333282] (-) TimerEvent: {}
+[19.433441] (-) TimerEvent: {}
+[19.533602] (-) TimerEvent: {}
+[19.633765] (-) TimerEvent: {}
+[19.733927] (-) TimerEvent: {}
+[19.834084] (-) TimerEvent: {}
+[19.934256] (-) TimerEvent: {}
+[20.034417] (-) TimerEvent: {}
+[20.134577] (-) TimerEvent: {}
+[20.234737] (-) TimerEvent: {}
+[20.334898] (-) TimerEvent: {}
+[20.435061] (-) TimerEvent: {}
+[20.535221] (-) TimerEvent: {}
+[20.635392] (-) TimerEvent: {}
+[20.735558] (-) TimerEvent: {}
+[20.835718] (-) TimerEvent: {}
+[20.935880] (-) TimerEvent: {}
+[21.036043] (-) TimerEvent: {}
+[21.136206] (-) TimerEvent: {}
+[21.236375] (-) TimerEvent: {}
+[21.336536] (-) TimerEvent: {}
+[21.436699] (-) TimerEvent: {}
+[21.536867] (-) TimerEvent: {}
+[21.637029] (-) TimerEvent: {}
+[21.737188] (-) TimerEvent: {}
+[21.837308] (-) TimerEvent: {}
+[21.937476] (-) TimerEvent: {}
+[22.037640] (-) TimerEvent: {}
+[22.137804] (-) TimerEvent: {}
+[22.237964] (-) TimerEvent: {}
+[22.338099] (-) TimerEvent: {}
+[22.438274] (-) TimerEvent: {}
+[22.538433] (-) TimerEvent: {}
+[22.638600] (-) TimerEvent: {}
+[22.738774] (-) TimerEvent: {}
+[22.838941] (-) TimerEvent: {}
+[22.939107] (-) TimerEvent: {}
+[23.039275] (-) TimerEvent: {}
+[23.139450] (-) TimerEvent: {}
+[23.239635] (-) TimerEvent: {}
+[23.339817] (-) TimerEvent: {}
+[23.439996] (-) TimerEvent: {}
+[23.540164] (-) TimerEvent: {}
+[23.640323] (-) TimerEvent: {}
+[23.740484] (-) TimerEvent: {}
+[23.840655] (-) TimerEvent: {}
+[23.940827] (-) TimerEvent: {}
+[24.040996] (-) TimerEvent: {}
+[24.141160] (-) TimerEvent: {}
+[24.241303] (-) TimerEvent: {}
+[24.341467] (-) TimerEvent: {}
+[24.441639] (-) TimerEvent: {}
+[24.541799] (-) TimerEvent: {}
+[24.641960] (-) TimerEvent: {}
+[24.742124] (-) TimerEvent: {}
+[24.842301] (-) TimerEvent: {}
+[24.942467] (-) TimerEvent: {}
+[25.042644] (-) TimerEvent: {}
+[25.142820] (-) TimerEvent: {}
+[25.242992] (-) TimerEvent: {}
+[25.343164] (-) TimerEvent: {}
+[25.443314] (-) TimerEvent: {}
+[25.543484] (-) TimerEvent: {}
+[25.643656] (-) TimerEvent: {}
+[25.743821] (-) TimerEvent: {}
+[25.843991] (-) TimerEvent: {}
+[25.944167] (-) TimerEvent: {}
+[26.044335] (-) TimerEvent: {}
+[26.144509] (-) TimerEvent: {}
+[26.244676] (-) TimerEvent: {}
+[26.344842] (-) TimerEvent: {}
+[26.445011] (-) TimerEvent: {}
+[26.545178] (-) TimerEvent: {}
+[26.645305] (-) TimerEvent: {}
+[26.745477] (-) TimerEvent: {}
+[26.845660] (-) TimerEvent: {}
+[26.945844] (-) TimerEvent: {}
+[27.046012] (-) TimerEvent: {}
+[27.146180] (-) TimerEvent: {}
+[27.246352] (-) TimerEvent: {}
+[27.346527] (-) TimerEvent: {}
+[27.446699] (-) TimerEvent: {}
+[27.546871] (-) TimerEvent: {}
+[27.647044] (-) TimerEvent: {}
+[27.747220] (-) TimerEvent: {}
+[27.847438] (-) TimerEvent: {}
+[27.947633] (-) TimerEvent: {}
+[28.047804] (-) TimerEvent: {}
+[28.147978] (-) TimerEvent: {}
+[28.248155] (-) TimerEvent: {}
+[28.348319] (-) TimerEvent: {}
+[28.448499] (-) TimerEvent: {}
+[28.548675] (-) TimerEvent: {}
+[28.648848] (-) TimerEvent: {}
+[28.749018] (-) TimerEvent: {}
+[28.849184] (-) TimerEvent: {}
+[28.949299] (-) TimerEvent: {}
+[29.049468] (-) TimerEvent: {}
+[29.149638] (-) TimerEvent: {}
+[29.249803] (-) TimerEvent: {}
+[29.350007] (-) TimerEvent: {}
+[29.450194] (-) TimerEvent: {}
+[29.550364] (-) TimerEvent: {}
+[29.650523] (-) TimerEvent: {}
+[29.750685] (-) TimerEvent: {}
+[29.850850] (-) TimerEvent: {}
+[29.951024] (-) TimerEvent: {}
+[30.051190] (-) TimerEvent: {}
+[30.151310] (-) TimerEvent: {}
+[30.251477] (-) TimerEvent: {}
+[30.351640] (-) TimerEvent: {}
+[30.451846] (-) TimerEvent: {}
+[30.552043] (-) TimerEvent: {}
+[30.652210] (-) TimerEvent: {}
+[30.752387] (-) TimerEvent: {}
+[30.852561] (-) TimerEvent: {}
+[30.888035] (rover_state) StdoutLine: {'line': b'[ 47%] Linking CXX static library libmission_core.a\n'}
+[30.953119] (-) TimerEvent: {}
+[30.973408] (rover_state) StdoutLine: {'line': b'[ 47%] Built target mission_core\n'}
+[30.986938] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_deadline_unload\n'}
+[30.987044] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_unload_alignment\n'}
+[30.987138] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_outdoor_navigation\n'}
+[30.987185] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target mission_state\n'}
+[30.987774] (rover_state) StdoutLine: {'line': b'Consolidate compiler generated dependencies of target test_mission_cutoff\n'}
+[30.997322] (rover_state) StdoutLine: {'line': b'[ 63%] Building CXX object CMakeFiles/test_mission_cutoff.dir/tests/test_mission_cutoff.cpp.o\n'}
+[30.997569] (rover_state) StdoutLine: {'line': b'[ 63%] Building CXX object CMakeFiles/test_deadline_unload.dir/tests/test_deadline_unload.cpp.o\n'}
+[30.997649] (rover_state) StdoutLine: {'line': b'[ 63%] Building CXX object CMakeFiles/test_unload_alignment.dir/tests/test_unload_alignment.cpp.o\n'}
+[30.999958] (rover_state) StdoutLine: {'line': b'[ 73%] Building CXX object CMakeFiles/mission_state.dir/src/main.cpp.o\n'}
+[31.000153] (rover_state) StdoutLine: {'line': b'[ 73%] Building CXX object CMakeFiles/test_outdoor_navigation.dir/tests/test_outdoor_navigation.cpp.o\n'}
+[31.053252] (-) TimerEvent: {}
+[31.153462] (-) TimerEvent: {}
+[31.253673] (-) TimerEvent: {}
+[31.353886] (-) TimerEvent: {}
+[31.454097] (-) TimerEvent: {}
+[31.554316] (-) TimerEvent: {}
+[31.654545] (-) TimerEvent: {}
+[31.754769] (-) TimerEvent: {}
+[31.854995] (-) TimerEvent: {}
+[31.955208] (-) TimerEvent: {}
+[32.055425] (-) TimerEvent: {}
+[32.155641] (-) TimerEvent: {}
+[32.256203] (-) TimerEvent: {}
+[32.356442] (-) TimerEvent: {}
+[32.456659] (-) TimerEvent: {}
+[32.557095] (-) TimerEvent: {}
+[32.657321] (-) TimerEvent: {}
+[32.757539] (-) TimerEvent: {}
+[32.857753] (-) TimerEvent: {}
+[32.957997] (-) TimerEvent: {}
+[33.058207] (-) TimerEvent: {}
+[33.158425] (-) TimerEvent: {}
+[33.258657] (-) TimerEvent: {}
+[33.358869] (-) TimerEvent: {}
+[33.459082] (-) TimerEvent: {}
+[33.559302] (-) TimerEvent: {}
+[33.659529] (-) TimerEvent: {}
+[33.759756] (-) TimerEvent: {}
+[33.859981] (-) TimerEvent: {}
+[33.960194] (-) TimerEvent: {}
+[34.060443] (-) TimerEvent: {}
+[34.160635] (-) TimerEvent: {}
+[34.260824] (-) TimerEvent: {}
+[34.361009] (-) TimerEvent: {}
+[34.393651] (rover_state) StdoutLine: {'line': b'[ 78%] Linking CXX executable mission_state\n'}
+[34.461137] (-) TimerEvent: {}
+[34.561328] (-) TimerEvent: {}
+[34.661560] (-) TimerEvent: {}
+[34.678992] (rover_state) StdoutLine: {'line': b'[ 78%] Built target mission_state\n'}
+[34.761669] (-) TimerEvent: {}
+[34.861864] (-) TimerEvent: {}
+[34.898270] (rover_state) StdoutLine: {'line': b'[ 84%] Linking CXX executable test_unload_alignment\n'}
+[34.943018] (rover_state) StdoutLine: {'line': b'[ 89%] Linking CXX executable test_mission_cutoff\n'}
+[34.961981] (-) TimerEvent: {}
+[35.062204] (-) TimerEvent: {}
+[35.063713] (rover_state) StdoutLine: {'line': b'[ 94%] Linking CXX executable test_deadline_unload\n'}
+[35.151782] (rover_state) StdoutLine: {'line': b'[ 94%] Built target test_unload_alignment\n'}
+[35.162309] (-) TimerEvent: {}
+[35.217114] (rover_state) StdoutLine: {'line': b'[ 94%] Built target test_mission_cutoff\n'}
+[35.248070] (rover_state) StdoutLine: {'line': b'[100%] Linking CXX executable test_outdoor_navigation\n'}
+[35.262426] (-) TimerEvent: {}
+[35.301770] (rover_state) StdoutLine: {'line': b'[100%] Built target test_deadline_unload\n'}
+[35.362541] (-) TimerEvent: {}
+[35.462751] (-) TimerEvent: {}
+[35.485416] (rover_state) StdoutLine: {'line': b'[100%] Built target test_outdoor_navigation\n'}
+[35.493458] (rover_state) CommandEnded: {'returncode': 0}
+[35.494150] (rover_state) JobProgress: {'identifier': 'rover_state', 'progress': 'install'}
+[35.498439] (rover_state) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/tzb/nav_explore_ws/build/rover_state'], 'cwd': '/home/tzb/nav_explore_ws/build/rover_state', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('VSCODE_CWD', '/home/tzb'), ('VSCODE_ESM_ENTRYPOINT', 'vs/workbench/api/node/extensionHostProcess'), ('CODEX_CI', '1'), ('LANGUAGE', 'zh_CN:zh:en_US:en'), ('USER', 'tzb'), ('LC_TIME', 'zh_CN.UTF-8'), ('CODEX_INTERNAL_ORIGINATOR_OVERRIDE', 'codex_vscode'), ('VSCODE_NLS_CONFIG', '{"userLocale":"zh-cn","osLocale":"zh-cn","resolvedLanguage":"zh-cn","defaultMessagesFile":"/usr/share/code/resources/app/out/nls.messages.json","languagePack":{"translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","messagesFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6/nls.messages.json","corruptMarkerFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"},"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"75539731208fa508a5b042c8fe051beb.zh-cn","_languagePackSupport":true,"_translationsConfigFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/tcf.json","_cacheRoot":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn","_resolvedLanguagePackCoreLocation":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/2fd9e65a46cb7373cada4da44d961a2e658be0f2404ac5b30c0fea30dfe56de6","_corruptedFile":"/home/tzb/.config/Code/clp/75539731208fa508a5b042c8fe051beb.zh-cn/corrupted.info"}'), ('VSCODE_HANDLES_UNCAUGHT_ERRORS', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('DEBUG', 'release'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/tzb/nav_explore_ws/install/rover_explore/lib:/home/tzb/nav_explore_ws/install/fast_lio/lib:/home/tzb/nav_explore_ws/install/livox_ros_driver2/lib:/home/tzb/nav_explore_ws/install/imu_tools/lib:/home/tzb/nav_explore_ws/install/pointcloud_tools/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/opt/openvdb_vendor/lib:/opt/ros/humble/lib'), ('HOME', '/home/tzb'), ('CHROME_DESKTOP', 'com.microsoft.VSCode.desktop'), ('DESKTOP_SESSION', 'ubuntu'), ('VSCODE_IPC_HOOK', '/run/user/1000/vscode-81704711-1.13-main.sock'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('PAGER', 'cat'), ('LC_MONETARY', 'zh_CN.UTF-8'), ('LC_CTYPE', 'C.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1737'), ('NO_COLOR', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('COLORTERM', 'truecolor'), ('VSCODE_CRASH_REPORTER_PROCESS_TYPE', 'extensionHost'), ('COLCON_PREFIX_PATH', '/home/tzb/nav_explore_ws/install'), ('CODEX_PERMISSION_PROFILE', ':danger-full-access'), ('CODEX_TOOL_CALL_ID', 'exec-00c4d174-97d1-41d8-bf89-4b2d3c5fda70'), ('APPLICATION_INSIGHTS_NO_STATSBEAT', 'true'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'tzb'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS', '1'), ('RUST_LOG', 'warn'), ('USERNAME', 'tzb'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('FC_FONTATIONS', '1'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/tzb/.local/bin:/home/tzb/.codex/tmp/arg0-linux/codex-arg015XQkq:/opt/ros/humble/bin:/home/tzb/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/tzb/.vscode/extensions/openai.chatgpt-26.1021.22027-linux-x64/bin/linux-x86_64'), ('SESSION_MANAGER', 'local/tzb-NUC14RVS-B:@/tmp/.ICE-unix/1737,unix/tzb-NUC14RVS-B:/tmp/.ICE-unix/1737'), ('CODEX_VERSION', '0.164.0-alpha.11.1'), ('CODEX_SESSION_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'zh_CN.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/747ee3ea_a2a7_4670_b133_3e011dd05e90'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'zh_CN.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('GH_PAGER', 'cat'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.206'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'zh_CN.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('ELECTRON_RUN_AS_NODE', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CODEX_THREAD_ID', '01a1f33d-a8b9-7d12-98d8-838f6372e7c3'), ('LC_MEASUREMENT', 'zh_CN.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'zh_CN.UTF-8'), ('GIT_PAGER', 'cat'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/tzb/nav_explore_ws/build/rover_state'), ('VSCODE_CLI', '1'), ('LC_ALL', 'C.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('VSCODE_CODE_CACHE_PATH', '/home/tzb/.config/Code/CachedData/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=71e9dcaba01c56c4726e127e6afebd1a'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/tzb/nav_explore_ws/install/rover_explore/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/fast_lio/local/lib/python3.10/dist-packages:/home/tzb/nav_explore_ws/install/livox_ros_driver2/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'zh_CN.UTF-8'), ('LC_PAPER', 'zh_CN.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('ELECTRON_NO_ATTACH_CONSOLE', '1'), ('CMAKE_PREFIX_PATH', '/home/tzb/nav_explore_ws/install/rover_explore:/home/tzb/nav_explore_ws/install/fast_lio:/home/tzb/nav_explore_ws/install/terrain_analysis:/home/tzb/nav_explore_ws/install/livox_ros_driver2:/home/tzb/nav_explore_ws/install/imu_tools:/home/tzb/nav_explore_ws/install/bringup:/home/tzb/nav_explore_ws/install/rover_state:/home/tzb/nav_explore_ws/install/rm_navigation:/home/tzb/nav_explore_ws/install/pointcloud_tools:/opt/ros/humble'), ('VSCODE_PID', '33241')]), 'shell': False}
+[35.503463] (rover_state) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[35.504915] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/lib/rover_state/mission_state\n'}
+[35.507531] (rover_state) StdoutLine: {'line': b'-- Set runtime path of "/home/tzb/nav_explore_ws/install/rover_state/lib/rover_state/mission_state" to ""\n'}
+[35.508464] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/lib/rover_state/mission_motion_gate\n'}
+[35.508536] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/lib/rover_state/standalone_grasp_executor.py\n'}
+[35.508952] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/config\n'}
+[35.509012] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/config/mission.yaml\n'}
+[35.509276] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/launch\n'}
+[35.509309] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/launch/state.launch\n'}
+[35.509706] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/launch/target_detection.launch.py\n'}
+[35.509735] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/launch/__pycache__\n'}
+[35.510153] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/launch/__pycache__/state.cpython-310.pyc\n'}
+[35.510553] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/ament_index/resource_index/package_run_dependencies/rover_state\n'}
+[35.510603] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/ament_index/resource_index/parent_prefix_path/rover_state\n'}
+[35.510669] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/environment/ament_prefix_path.sh\n'}
+[35.510696] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/environment/ament_prefix_path.dsv\n'}
+[35.510743] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/environment/path.sh\n'}
+[35.510787] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/environment/path.dsv\n'}
+[35.510870] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/local_setup.bash\n'}
+[35.510894] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/local_setup.sh\n'}
+[35.510920] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/local_setup.zsh\n'}
+[35.510946] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/local_setup.dsv\n'}
+[35.511024] (rover_state) StdoutLine: {'line': b'-- Installing: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/package.dsv\n'}
+[35.511052] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/ament_index/resource_index/packages/rover_state\n'}
+[35.511078] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/cmake/rover_stateConfig.cmake\n'}
+[35.511103] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/cmake/rover_stateConfig-version.cmake\n'}
+[35.511128] (rover_state) StdoutLine: {'line': b'-- Up-to-date: /home/tzb/nav_explore_ws/install/rover_state/share/rover_state/package.xml\n'}
+[35.511809] (rover_state) CommandEnded: {'returncode': 0}
+[35.534415] (rover_state) JobEnded: {'identifier': 'rover_state', 'rc': 0}
+[35.534726] (-) EventReactorShutdown: {}
